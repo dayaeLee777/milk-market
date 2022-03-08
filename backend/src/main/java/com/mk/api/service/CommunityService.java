@@ -14,5 +14,8 @@ public interface CommunityService {
 	
 	CommunityGetListResponseDto getCommunityList(int pageNumber);
 	
-	Community updateCommunity(CommunityUpdateRequestDto communityUpdateRequestDto);
+	Community modifyCommunity(CommunityUpdateRequestDto communityUpdateRequestDto);
+
+	Community deleteCommunity(String communityId);
+	
 }

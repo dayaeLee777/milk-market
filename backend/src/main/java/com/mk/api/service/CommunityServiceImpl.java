@@ -77,7 +77,7 @@ public class CommunityServiceImpl implements CommunityService {
 		List<CommunityGetResponseDto> communityGetResponselist = new ArrayList<CommunityGetResponseDto>();
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		
-		Page<Community> communiyPages = communityRepository.findAll(PageRequest.of(pageNumber-1, 10, Sort.Direction.DESC, "regTime" ));
+		Page<Community> communiyPages = communityRepository.findByDelYn(false, PageRequest.of(pageNumber-1, 10, Sort.Direction.DESC, "regTime" ));
 		communiyPages.forEach(community -> {
 			CommunityGetResponseDto communityGetResponseDto = CommunityGetResponseDto.builder()
 					.communityId(community.getId())
@@ -99,7 +99,7 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public Community updateCommunity(CommunityUpdateRequestDto communityUpdateRequestDto) {
+	public Community modifyCommunity(CommunityUpdateRequestDto communityUpdateRequestDto) {
 		Community community = communityRepository.findById(communityUpdateRequestDto.getCommunityId()).orElse(null);
 		
 		if(community == null)
@@ -108,6 +108,18 @@ public class CommunityServiceImpl implements CommunityService {
 		community.modifyCommunity(
 				communityUpdateRequestDto.getTitle(), 
 				communityUpdateRequestDto.getContent());
+		
+		return communityRepository.save(community);
+	}
+
+	@Override
+	public Community deleteCommunity(String communityId) {
+		Community community = communityRepository.findById(communityId).orElse(null);
+		
+		if(community == null)
+			return null;
+		
+		community.deleteCommunity();
 		
 		return communityRepository.save(community);
 	}

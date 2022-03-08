@@ -34,12 +34,13 @@ public class Community extends BaseEntity  {
 //	private User user;
 	
 	@Builder
-	public Community(String title, String content, int hit, LocalDateTime regTime) {
+	public Community(String title, String content, int hit, LocalDateTime regTime, boolean delYn) {
 		super();
 		this.title = title;
 		this.content = content;
 		this.hit = hit;
 		this.regTime = regTime;
+		this.delYn = delYn;
 	}
 	
 	public void plusCommunityHit() {
@@ -51,6 +52,8 @@ public class Community extends BaseEntity  {
 		this.content = content;
 	}
 	
-
+	public void deleteCommunity() {
+		this.delYn = true;
+	}
 	
 }

@@ -87,7 +87,21 @@ public class CommunityController {
 	})
 	public ResponseEntity<? extends BaseResponseDto> modify(
 			@RequestBody @ApiParam(value = "등록할 커뮤니티", required = true) CommunityUpdateRequestDto CommunityUpdateRequestDto){
-		if(communityService.updateCommunity(CommunityUpdateRequestDto) != null)
+		if(communityService.modifyCommunity(CommunityUpdateRequestDto) != null)
+			return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Success"));
+		return ResponseEntity.status(409).body(BaseResponseDto.of(409, "Fail"));
+	}
+	
+	@PutMapping("/delete/{communityId}")
+	@ApiOperation(value = "커뮤니티 삭제하기", notes="<strong>작성한 커뮤니티를 삭제한다.</strong>")
+	@ApiResponses({
+		@ApiResponse(code=201, message="커뮤니티가 정상적으로 삭제되었습니다."),
+		@ApiResponse(code=401, message="인증되지 않은 사용자입니다."),
+		@ApiResponse(code=409, message="커뮤니티 삭제를 실패했습니다.")
+	})
+	public ResponseEntity<? extends BaseResponseDto> delete(
+			@PathVariable("communityId") @RequestBody @ApiParam(value = "삭제할 커뮤니티ID ", required = true) String communityId){
+		if(communityService.deleteCommunity(communityId) != null)
 			return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Success"));
 		return ResponseEntity.status(409).body(BaseResponseDto.of(409, "Fail"));
 	}
