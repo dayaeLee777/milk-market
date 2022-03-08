@@ -21,12 +21,9 @@ public class Community extends BaseEntity  {
 	
 	private String content;
 	
-	@Column(name="hit", columnDefinition="INT DEFAULT 0")
 	private int hit;
 	
 	private LocalDateTime regTime;
-
-
 	
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name = "user_id")
