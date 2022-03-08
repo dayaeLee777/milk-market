@@ -11,8 +11,9 @@ import org.hibernate.annotations.GenericGenerator;
 public class BaseEntity {
 	
     @Id
-    @GeneratedValue(generator = "uuid2")
+    @GeneratedValue(generator = "uuid2") // uuid2 => uuid로 생성 자동으로,
     @GenericGenerator(name = "uuid2" , strategy = "uuid2")
-    @Column(length = 36)
+    @Column(length = 36) // 길이, binary
     private String uid;
+
 }

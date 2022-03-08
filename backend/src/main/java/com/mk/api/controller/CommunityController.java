@@ -1,8 +1,6 @@
 package com.mk.api.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.mk.api.service.CommunityService;
 
@@ -16,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/community")
 public class CommunityController {
 	
-	private final CommunityService communityService;
-	
+//	private final CommunityService communityService;
+
+
+
 }

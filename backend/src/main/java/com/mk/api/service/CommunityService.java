@@ -1,5 +1,7 @@
 package com.mk.api.service;
 
-public interface CommunityService {
 
+
+public interface CommunityService {
+    String test();
 }
