@@ -16,4 +16,7 @@ public class BaseEntity {
     @Column(length = 36)
     private String id;
     
+	public String getId() {
+		return id;
+	}
 }

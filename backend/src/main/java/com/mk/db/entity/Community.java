@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 public class Community extends BaseEntity  {
 	
 	private String title;
@@ -24,6 +23,19 @@ public class Community extends BaseEntity  {
 	private int hit;
 	
 	private LocalDateTime regTime;
+
+	@Builder
+	public Community(String title, String content, int hit, LocalDateTime regTime) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.hit = hit;
+		this.regTime = regTime;
+	}
+	
+	public void plusCommunityHit() {
+		this.hit += 1;
+	}
 	
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name = "user_id")
