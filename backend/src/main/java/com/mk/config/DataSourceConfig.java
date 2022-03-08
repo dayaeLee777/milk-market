@@ -1,4 +1,4 @@
-package com.ecommerce;
+package com.mk.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
