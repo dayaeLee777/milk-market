@@ -1,5 +1,6 @@
 package com.mk.api.controller;
 
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Api(value = "커뮤니티 API", tags = { "Community" })
 @RestController
@@ -39,5 +41,6 @@ public class CommunityController {
 		if(communityService.registerCommunity(communityRegisterRequestDto) != null)
 			return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Success"));
 		return ResponseEntity.status(409).body(BaseResponseDto.of(409, "Fail"));
+
 	}
 }
