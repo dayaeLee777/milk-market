@@ -62,6 +62,11 @@
                     </textarea>
                   </td>
                 </tr>
+                <tr>
+                  <th>지갑 생성</th>
+                  <input v-model="tx.password">
+                  <button @click="makeWallet">Click</button>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -73,14 +78,21 @@
 
 <script>
 import { createWeb3 } from "@/utils/itemInventory.js";
+import Web3 from "web3";
+
 
 export default {
   data() {
     return {
       isValid: true,
+      web3: "",
       tx: {
         hash: "-",
-        timestamp: "-"
+        timestamp: "-",
+        step: 0,
+        privateKey: "",
+        walletAdress: "",
+        password: "",
       }
     };
   },
@@ -89,6 +101,10 @@ export default {
      * 1. 특정 블록의 정보을 블록체인으로부터 직접 가져옵니다. 
      * 2. 특정 블록의 정보을 서버로부터 요청하여 가져옵니다. 
      */    
+    const ENDPOINT = 'http://localhost:8545';
+    const Web3 = require('web3');
+    this.web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT));
+
     var scope = this;
     var hash = this.$route.params.hash;
     const web3 = createWeb3();
@@ -110,8 +126,32 @@ export default {
     } else {
       this.isValid = false;
     }
+  },
+  methods: {
+    makeWallet() {
+      const pw = this.tx.password;
+      // web3.eth.personal.newAccounts() 지갑생성하는 게스 명령어
+      this.web3.eth.personal.newAccount(pw).then(address => {
+        console.log(address);
+        this.tx.walletAdress;
+      })
+    }
   }
 };
+/**
+ * 
+ * 
+ * 아래와 같이 그냥 web3 선언해놓고 필요한거 쓰면 geth는 끝이다!
+ web3.eth.net.getId()
+.then(id => console.log("Network Id: ", id));
+web3.eth.net.getPeerCount()
+.then(peerCount => console.log("No. of Peers: ", peerCount));
+
+web3.eth.getBlockNumber()
+.then(blockNo => console.log("Latest Block Number: ", blockNo));
+
+ * 
+ */
 </script>
 
 <style></style>
