@@ -26,6 +26,13 @@ public class Community extends BaseEntity  {
 	
 	private LocalDateTime regTime;
 
+	@Column(name="del_yn", columnDefinition="BOOLEAN DEFAULT false")
+	private boolean delYn;
+	
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "user_id")
+//	private User user;
+	
 	@Builder
 	public Community(String title, String content, int hit, LocalDateTime regTime) {
 		super();
@@ -39,8 +46,11 @@ public class Community extends BaseEntity  {
 		this.hit += 1;
 	}
 	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "user_id")
-//	private User user;
+	public void modifyCommunity(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
+	
+
 	
 }
