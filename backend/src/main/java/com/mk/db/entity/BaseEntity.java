@@ -14,5 +14,9 @@ public class BaseEntity {
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2" , strategy = "uuid2")
     @Column(length = 36)
-    private String uid;
+    private String id;
+    
+	public String getId() {
+		return id;
+	}
 }
