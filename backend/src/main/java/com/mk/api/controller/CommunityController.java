@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mk.api.dto.request.CommunityRegisterRequestDto;
 import com.mk.api.dto.response.BaseResponseDto;
+import com.mk.api.dto.response.CommunityGetListResponseDto;
 import com.mk.api.dto.response.CommunityGetResponseDto;
 import com.mk.api.service.CommunityService;
 
@@ -57,5 +58,17 @@ public class CommunityController {
 	public ResponseEntity<CommunityGetResponseDto> getCommunity(
 			@PathVariable("communityId") @RequestBody @ApiParam(value = "조회할 커뮤니티 ID", required = true) String communityId){
 		return ResponseEntity.status(200).body(communityService.getCommunity(communityId));
+	}
+	
+	@GetMapping("/list/{pageNumber}")
+	@ApiOperation(value = "커뮤니티 목록 불러오기", notes="<strong>커뮤니티 목록을 불러온다.</strong>")
+	@ApiResponses({
+		@ApiResponse(code=201, message="커뮤니티 목록을 정상적으로 조회하였습니다."),
+		@ApiResponse(code=401, message="인증되지 않은 사용자입니다."),
+		@ApiResponse(code=409, message="커뮤니티 목록 조회를 실패했습니다.")
+	})
+	public ResponseEntity<CommunityGetListResponseDto> getCommunityList(
+			@PathVariable("pageNumber") int pageNumber) {
+		return ResponseEntity.status(200).body(communityService.getCommunityList(pageNumber));
 	}
 }

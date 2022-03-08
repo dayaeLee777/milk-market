@@ -2,12 +2,18 @@ package com.mk.api.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mk.api.dto.request.CommunityRegisterRequestDto;
+import com.mk.api.dto.response.CommunityGetListResponseDto;
 import com.mk.api.dto.response.CommunityGetResponseDto;
 import com.mk.db.entity.Community;
 import com.mk.db.repository.CommunityRepository;
@@ -63,6 +69,32 @@ public class CommunityServiceImpl implements CommunityService {
 		
 		return communityGetResponseDto;
 		
+	}
+
+	@Override
+	public CommunityGetListResponseDto getCommunityList(int pageNumber) {
+		List<CommunityGetResponseDto> communityGetResponselist = new ArrayList<CommunityGetResponseDto>();
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		
+		Page<Community> communiyPages = communityRepository.findAll(PageRequest.of(pageNumber-1, 10, Sort.Direction.DESC, "regTime" ));
+		communiyPages.forEach(community -> {
+			CommunityGetResponseDto communityGetResponseDto = CommunityGetResponseDto.builder()
+					.communityId(community.getId())
+//					.userNickname()
+					.title(community.getTitle())
+					.hit(community.getHit())
+					.regTime(community.getRegTime().format(dateTimeFormatter))
+					.build();
+			
+			communityGetResponselist.add(communityGetResponseDto);
+		});
+		
+		CommunityGetListResponseDto communityGetListResponseDto = CommunityGetListResponseDto.builder()
+				.communityGetResponselist(communityGetResponselist)
+				.totalPage(communiyPages.getTotalPages())
+				.build();
+		
+		return communityGetListResponseDto;
 	}
 
 }

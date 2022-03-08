@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CommunityRegisterRequestDto {
 	
-	@ApiModelProperty(name="회원PK", example="00000000-0000-0000-0000-00000000")
+	@ApiModelProperty(name="회원 ID(pk)", example="00000000-0000-0000-0000-00000000")
 	private String userId;
 	
 	@ApiModelProperty(name="제목", example="커뮤니티 제목이에요")
