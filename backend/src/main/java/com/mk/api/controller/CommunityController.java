@@ -1,6 +1,8 @@
 package com.mk.api.controller;
 
 
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -37,7 +39,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequiredArgsConstructor
 @RequestMapping("/api/community")
 public class CommunityController {
-	
+
 	private final CommunityService communityService;
 	
 	@PostMapping
@@ -105,4 +107,5 @@ public class CommunityController {
 			return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Success"));
 		return ResponseEntity.status(409).body(BaseResponseDto.of(409, "Fail"));
 	}
+
 }

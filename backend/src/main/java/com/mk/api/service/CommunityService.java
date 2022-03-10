@@ -1,5 +1,6 @@
 package com.mk.api.service;
 
+
 import com.mk.api.dto.request.CommunityRegisterRequestDto;
 import com.mk.api.dto.request.CommunityUpdateRequestDto;
 import com.mk.api.dto.response.CommunityGetListResponseDto;
@@ -18,4 +19,5 @@ public interface CommunityService {
 
 	Community deleteCommunity(String communityId);
 	
+
 }
