@@ -34,17 +34,11 @@ public class User implements UserDetails {
 	@Column(unique = true)
 	private String email;
 	
-	@Column
-	private int gender;
-	
-	@Column
-	private Date age;
-	
-	@Column(name = "host_point")
-	private int hostPoint;
-	
-	@Column(name = "guest_point")
-	private int guestPoint;
+//	@Column
+//	private int gender;
+//
+//	@Column
+//	private Date age;
 	
 	@Column(name = "profile_image")
 	private String profileImage;
@@ -100,10 +94,6 @@ public class User implements UserDetails {
 				", password='" + password + '\'' +
 				", nickname='" + nickname + '\'' +
 				", email='" + email + '\'' +
-				", gender=" + gender +
-				", age=" + age +
-				", hostPoint=" + hostPoint +
-				", guestPoint=" + guestPoint +
 				", profileImage='" + profileImage + '\'' +
 				", profileDescription='" + profileDescription + '\'' +
 				", roles=" + roles +
