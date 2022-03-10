@@ -8182,10 +8182,61 @@
   },
   "networks": {
     "3": {
-      "events": {},
+      "events": {
+        "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "spender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Approval",
+          "type": "event"
+        },
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event"
+        }
+      },
       "links": {},
-      "address": "0xb3112448189B3d4737DABD06Ed2e574Ed51A9174",
-      "transactionHash": "0x409951cc779f2aa57eb74312af34885e09f1b093d8c0c0612b944c899548e8b8"
+      "address": "0x06217C96a8104A886941f1eB3576fc7A6b820cCF",
+      "transactionHash": "0x60c67cce90464378930fccc4aeb4a4f686e18c33cdc59a9de11f4c36fca1ddb8"
     },
     "1646713765793": {
       "events": {
@@ -8298,12 +8349,18 @@
         }
       },
       "links": {},
-      "address": "0x7d0739e97F3d722b36468cbC3c89220Ab05024D8",
-      "transactionHash": "0x2c8efc245461be58523980bb546f306c56f620224b2a45bb718dced34ac154ad"
+      "address": "0x2297Bedb04723cc0693A61Cd4094ea9e1075476E",
+      "transactionHash": "0xad328f65fddcfb78a6c38760f53bb11abb3d4539a3fda57f356a06d7917fdab5"
+    },
+    "1646722760495": {
+      "events": {},
+      "links": {},
+      "address": "0xb8152Fb98E6F94EC3cCEaDb976C0Bb0eF8fe07Be",
+      "transactionHash": "0xa11fec770b71b3e4c5946dbaddc10a679bb4b36a4c90870739f5bff9af25c07d"
     }
   },
   "schemaVersion": "3.4.5",
-  "updatedAt": "2022-03-08T05:36:13.889Z",
+  "updatedAt": "2022-03-08T07:49:04.578Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
