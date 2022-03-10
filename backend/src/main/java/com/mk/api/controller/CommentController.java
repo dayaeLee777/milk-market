@@ -1,6 +1,7 @@
 package com.mk.api.controller;
 
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,7 +45,7 @@ public class CommentController {
 	public ResponseEntity<? extends BaseResponseDto> regist(
 		@RequestBody @ApiParam(value = "등록할 댓글", required = true) CommentRegisterRequestDto commentRegisterRequestDto) {
 		if(commentService.registerComment(commentRegisterRequestDto) != null)
-			return ResponseEntity.status(200).body(BaseResponseDto.of(200, "Success"));
+			return ResponseEntity.status(200).body(BaseResponseDto.of(HttpStatus.CREATED.value(), "Success"));
 		return ResponseEntity.status(409).body(BaseResponseDto.of(409, "Fail"));
 	}
 	
