@@ -11,9 +11,7 @@ import javax.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-@ToString
 @Getter
 @Builder
 @Entity
@@ -35,21 +33,21 @@ public class Comment extends BaseEntity {
 	@JoinColumn(name = "community_id")
 	private Community community;
 	
-	@Builder
-	public Comment(String content, LocalDateTime regTime, boolean delYn, Community community) {
-		super();
-		this.content = content;
-		this.regTime = regTime;
-		this.delYn = delYn;
-		this.community = community;
-	}
-	
 	public void modifyComment(String content) {
 		this.content = content;
 	}
 	
 	public void deleteComment() {
 		this.delYn = true;
+	}
+
+	public Comment(String content, LocalDateTime regTime, boolean delYn, User user, Community community) {
+		super();
+		this.content = content;
+		this.regTime = regTime;
+		this.delYn = delYn;
+		this.user = user;
+		this.community = community;
 	}
 
 }
