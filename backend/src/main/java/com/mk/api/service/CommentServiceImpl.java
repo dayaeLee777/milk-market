@@ -2,6 +2,8 @@ package com.mk.api.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +45,54 @@ public class CommentServiceImpl implements CommentService {
 		
 		return commentRepository.save(comment);
 	}
+	
+	@Override
+	public CommentGetResponseDto getComment(String commentId) {
+		
+		Comment comment = commentRepository.findById(commentId).orElse(null);
+
+		if(comment == null)
+			return null;
+		
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm:ss");
+		
+		CommentGetResponseDto commentGetResponseDto = CommentGetResponseDto.builder()
+				.commentId(commentId)
+//				.userId(userId)
+//				.userNickname(userNickname)
+				.content(comment.getContent())
+				.regTime(comment.getRegTime().format(dateTimeFormatter))
+				.build();
+		
+		return commentGetResponseDto;
+	}
+
+	@Override
+	public List<CommentGetResponseDto> getCommentList(String communityId) {
+		
+		Community community = communityRepository.findById(communityId).orElse(null);
+		
+		if(community == null)
+			return null;
+		
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm:ss");
+		
+		List<CommentGetResponseDto> commentList = new ArrayList<CommentGetResponseDto>();
+		
+		commentRepository.findByCommunityAndDelYnOrderByRegTime(community, false).forEach(comment -> {
+			CommentGetResponseDto commentGetResponseDto = CommentGetResponseDto.builder()
+					.commentId(comment.getId())
+//					.userId(userId)
+//					.userNickname(userNickname)
+					.content(comment.getContent())
+					.regTime(comment.getRegTime().format(dateTimeFormatter))
+					.build();
+			
+			commentList.add(commentGetResponseDto);
+		});
+		
+		return commentList;
+	}
 
 	@Transactional
 	@Override
@@ -70,27 +120,6 @@ public class CommentServiceImpl implements CommentService {
 		comment.deleteComment();
 		return commentRepository.save(comment);
 		
-	}
-
-	@Override
-	public CommentGetResponseDto getComment(String commentId) {
-		
-		Comment comment = commentRepository.findById(commentId).orElse(null);
-
-		if(comment == null)
-			return null;
-		
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm:ss");
-		
-		CommentGetResponseDto commentGetResponseDto = CommentGetResponseDto.builder()
-				.commentId(commentId)
-//				.userId(userId)
-//				.userNickname(userNickname)
-				.content(comment.getContent())
-				.regTime(comment.getRegTime().format(dateTimeFormatter))
-				.build();
-		
-		return commentGetResponseDto;
 	}
 
 }

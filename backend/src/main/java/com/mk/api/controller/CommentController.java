@@ -1,6 +1,8 @@
 package com.mk.api.controller;
 
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -53,9 +55,20 @@ public class CommentController {
 		@ApiResponse(code=200, message="댓글을 정상적으로 조회하였습니다."),
 		@ApiResponse(code=409, message="댓글 조회를 실패했습니다.")
 	})
-	public ResponseEntity<CommentGetResponseDto> getCommunity(
+	public ResponseEntity<CommentGetResponseDto> getComment(
 			@PathVariable("commentId") @RequestBody @ApiParam(value = "조회할 댓글 ID", required = true) String commentId){
 		return ResponseEntity.status(HttpStatus.CREATED).body(commentService.getComment(commentId));
+	}
+	
+	@GetMapping("/list/{communityId}")
+	@ApiOperation(value = "댓글목록", notes="<strong>communityId에 해당하는 댓글 목록을 불러온다.</strong>")
+	@ApiResponses({
+		@ApiResponse(code=200, message="댓글을 정상적으로 조회하였습니다."),
+		@ApiResponse(code=409, message="댓글 조회를 실패했습니다.")
+	})
+	public ResponseEntity<List<CommentGetResponseDto>> getCommentList(
+			@PathVariable("communityId") @RequestBody @ApiParam(value = "조회할 커뮤니티 ID", required = true) String communityId){
+		return ResponseEntity.status(HttpStatus.CREATED).body(commentService.getCommentList(communityId));
 	}
 	
 	@PutMapping
