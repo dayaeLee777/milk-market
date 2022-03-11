@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @ApiModel("CommentGetResponseDto")
-public class CommentGetResponseDto {
+public class CommentGetResponseDto extends BaseResponseDto {
 	
 	@ApiModelProperty(name="댓글 ID", example="00000000-0000-0000-0000-00000000")
 	private String commentId;
