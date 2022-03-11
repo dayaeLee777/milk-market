@@ -7,19 +7,27 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
+import com.mk.db.entity.User;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Component
@@ -44,6 +52,7 @@ public class JwtTokenProvider {
         //JWT .playload 에 저장되는 정보단위
         Claims claims = Jwts.claims().setSubject(String.valueOf(user.getId()));
         //정보는 key/ value쌍으로 저장된다.
+        
         claims.put("roles",roles);
         Date now = new Date();
         return Jwts.builder()
