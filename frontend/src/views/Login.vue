@@ -5,7 +5,7 @@
         <router-link to="/">Escrow | STARMIX</router-link>
         <div class="mt-4">
           <div class="form-group">
-            <label for="email">email</label>
+            <label for="email">아이디</label>
             <input
               type="text"
               class="form-control"
