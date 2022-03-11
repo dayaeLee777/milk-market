@@ -27,9 +27,9 @@ public class Comment extends BaseEntity {
 	@Column(name="del_yn", columnDefinition="BOOLEAN DEFAULT false")
 	private boolean delYn;
 
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "user_id")
-//	private User user;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private User user;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "community_id")
@@ -42,6 +42,14 @@ public class Comment extends BaseEntity {
 		this.regTime = regTime;
 		this.delYn = delYn;
 		this.community = community;
+	}
+	
+	public void modifyComment(String content) {
+		this.content = content;
+	}
+	
+	public void deleteComment() {
+		this.delYn = true;
 	}
 
 }
