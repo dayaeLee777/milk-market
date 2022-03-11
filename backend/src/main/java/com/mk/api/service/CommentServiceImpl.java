@@ -45,8 +45,29 @@ public class CommentServiceImpl implements CommentService {
 	@Transactional
 	@Override
 	public Comment modifyComment(CommentModifyRequestDto commentModifyRequestDto) {
-			
-		return null;
+		
+		Comment comment = commentRepository.findById(commentModifyRequestDto.getCommentId()).orElse(null);
+		
+		if(comment == null)
+			return null;
+		
+		comment.modifyComment(commentModifyRequestDto.getContent());
+		return commentRepository.save(comment);
+		
+	}
+
+	@Transactional
+	@Override
+	public Comment deleteComment(String commentId) {
+		
+		Comment comment = commentRepository.findById(commentId).orElse(null);
+		
+		if(comment == null)
+			return null;
+		
+		comment.deleteComment();
+		return commentRepository.save(comment);
+		
 	}
 
 }

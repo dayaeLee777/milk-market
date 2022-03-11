@@ -10,4 +10,6 @@ public interface CommentService {
 	
 	Comment modifyComment(CommentModifyRequestDto commentModifyRequestDto);
 	
+	Comment deleteComment(String commentId);
+	
 }
