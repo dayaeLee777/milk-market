@@ -23,7 +23,7 @@ import java.util.Map;
 
 @Slf4j
 @Controller
-@RequestMapping("/email")
+@RequestMapping("/api/email")
 public class EmailController {
 
     @Autowired
