@@ -76,32 +76,16 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    // Request의 Header에서 token 값을 가져옵니다. "X-AUTH-TOKEN" : "TOKEN값'
-    public String resolveToken(HttpServletRequest request) {
-//        validationAuthorizationHeader(request.getHeader(HttpHeaders.AUTHORIZATION));
-        return request.getHeader("Bearer");
-    }
-
-
-    // 토큰의 유효성 + 만료일자 확인
-    public boolean validateToken(String jwtToken) {
-        try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
-            return !claims.getBody().getExpiration().before(new Date());
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
     // Request의 Header에서 token 값을 가져옵니다. 헤더 AUTHOIZATION을 파악한다.
-    public String resolveToken2(HttpServletRequest request) {
-//        validationAuthorizationHeader(request.getHeader(HttpHeaders.AUTHORIZATION));
+    public String resolveToken(HttpServletRequest request) {
         return request.getHeader(HttpHeaders.AUTHORIZATION);
     }
-    public boolean validateToken2(String jwtToken) {
+    public boolean validateToken(String jwtToken) {
         try {
             validationAuthorizationHeader(jwtToken);
             jwtToken = extractToken(jwtToken);
+            //키, 만료시간 확인
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         }catch (IllegalArgumentException e){
@@ -114,6 +98,7 @@ public class JwtTokenProvider {
         }
     }
 
+    //토큰 있는지 없는지 확인, Bearer로 시작하는 지 확인
     private void validationAuthorizationHeader(String header) {
         if (header == null || !header.startsWith("Bearer ")) {
             throw new IllegalArgumentException();
