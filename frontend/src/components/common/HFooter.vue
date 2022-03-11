@@ -1,14 +1,40 @@
 <template>
-  <div class="container fixed-bottom">
-    <div class="row justify-content-around text-center">
-      <div class="col">
-        <router-link to="/login">1</router-link>
+  <div class="container-fluid bg-secondary fixed-bottom">
+    <div class="p-3 row justify-content-between text-center">
+      <div class="col-2">
+        <img
+          class="img-fluid"
+          src="../../../public/images/home.png"
+          alt="home"
+        />
       </div>
-      <div class="col">
-        <router-link to="/login">2</router-link>
+      <div class="col-2">
+        <img
+          class="img-fluid"
+          src="../../../public/images/board.png"
+          alt="board"
+        />
       </div>
-      <div class="col">
-        <router-link to="/login">3</router-link>
+      <div class="col-2">
+        <img
+          class="img-fluid"
+          src="../../../public/images/location.png"
+          alt="location"
+        />
+      </div>
+      <div class="col-2">
+        <img
+          class="img-fluid"
+          src="../../../public/images/chat.png"
+          alt="chat"
+        />
+      </div>
+      <div class="col-2">
+        <img
+          class="img-fluid"
+          src="../../../public/images/info.png"
+          alt="info"
+        />
       </div>
     </div>
   </div>
@@ -22,10 +48,6 @@ export default {
 
 <style scoped>
 .navbar {
-  background-color: rgb(80, 220, 100);
-}
-
-ul {
-  font-size: 20px;
+  height: 60px;
 }
 </style>
