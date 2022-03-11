@@ -20,10 +20,8 @@ import java.util.stream.Collectors;
 @Entity
 @Builder
 @Table(name = "user")
-public class User implements UserDetails {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+public class User extends BaseEntity implements UserDetails {
+
 	
 	@Column
 	private String password;
@@ -90,7 +88,7 @@ public class User implements UserDetails {
 	@Override
 	public String toString() {
 		return "User{" +
-				"id=" + id +
+				"id=" + getId() +
 				", password='" + password + '\'' +
 				", nickname='" + nickname + '\'' +
 				", email='" + email + '\'' +

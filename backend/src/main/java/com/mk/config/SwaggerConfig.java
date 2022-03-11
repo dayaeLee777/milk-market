@@ -37,7 +37,7 @@ public class SwaggerConfig {
 	}
 
 	private ApiKey apiKey() {
-		return new ApiKey("AccessToken", "Bearer", "header");
+		return new ApiKey("AccessToken", "Authorization", "header");
 	}
 
 	private List<SecurityReference> defaultAuth() {

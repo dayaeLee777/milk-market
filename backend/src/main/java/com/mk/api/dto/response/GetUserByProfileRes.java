@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GetUserByProfileRes {
-	private int id;
+	private String id;
 	private String email;
 	private String nickname;
 	private String profileImage;

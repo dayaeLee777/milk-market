@@ -83,7 +83,7 @@ public class UserService {
 	}
 
 
-	public UserDTO getUserById(int id) {
+	public UserDTO getUserById(String id) {
 		try {
 			User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 			return modelMapper.map(user, UserDTO.class);
