@@ -3,7 +3,9 @@ package com.mk.api.service;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.mk.api.dto.request.CommentModifyRequestDto;
 import com.mk.api.dto.request.CommentRegisterRequestDto;
 import com.mk.db.entity.Comment;
 import com.mk.db.entity.Community;
@@ -20,6 +22,7 @@ public class CommentServiceImpl implements CommentService {
 	
 	private final CommentRepository commentRepository;
 	
+	@Transactional
 	@Override
 	public Comment registerComment(CommentRegisterRequestDto commentRegisterRequestDto) {
 		
@@ -37,6 +40,13 @@ public class CommentServiceImpl implements CommentService {
 				.build();
 		
 		return commentRepository.save(comment);
+	}
+
+	@Transactional
+	@Override
+	public Comment modifyComment(CommentModifyRequestDto commentModifyRequestDto) {
+			
+		return null;
 	}
 
 }
