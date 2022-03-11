@@ -1,6 +1,7 @@
 package com.mk.api.service;
 
 import com.mk.api.dto.request.LoginReq;
+import com.mk.api.dto.request.UpdatePasswordReq;
 import com.mk.api.dto.request.UserDTO;
 import com.mk.config.JwtTokenProvider;
 import com.mk.db.entity.User;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 
@@ -102,11 +104,24 @@ public class UserService {
 		return modelMapper.map(source.get(), UserDTO.class);
 	}
 
+	@Transactional
+	public boolean updatePassword(UpdatePasswordReq updatePasswordReq, String email) {
+		Optional<User> user = userRepository.findByEmail(email);
+		if(user.isPresent()){
+			user.get().setPassword(passwordEncoder.encode(updatePasswordReq.getNewPassword()));
+			userRepository.save(user.get());
+			return true;
+		}
+		return false;
+
+	}
+
 
 	//구 matchPassword
 	//생 비밀번호와, 암호화된 비밀번호를 입력받고, 두 비밀번호의 동일 여부를 반환
 	private boolean comparePassword(String rawPassword, String encryptPassword) {
         return passwordEncoder.matches(rawPassword,encryptPassword);
     }
+
 
 }
