@@ -4,6 +4,7 @@ package com.mk.api.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mk.api.dto.request.CommentModifyRequestDto;
 import com.mk.api.dto.request.CommentRegisterRequestDto;
-import com.mk.api.dto.request.CommunityUpdateRequestDto;
 import com.mk.api.dto.response.BaseResponseDto;
+import com.mk.api.dto.response.CommentGetResponseDto;
 import com.mk.api.service.CommentService;
 
 import io.swagger.annotations.Api;
@@ -44,6 +45,17 @@ public class CommentController {
 		if(commentService.registerComment(commentRegisterRequestDto) != null)
 			return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.of(HttpStatus.CREATED.value(), "Success"));
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
+	}
+	
+	@GetMapping("/{commentId}")
+	@ApiOperation(value = "댓글 불러오기", notes="<strong>commentId 에 해당하는 댓글를 불러온다.</strong>")
+	@ApiResponses({
+		@ApiResponse(code=200, message="댓글을 정상적으로 조회하였습니다."),
+		@ApiResponse(code=409, message="댓글 조회를 실패했습니다.")
+	})
+	public ResponseEntity<CommentGetResponseDto> getCommunity(
+			@PathVariable("commentId") @RequestBody @ApiParam(value = "조회할 댓글 ID", required = true) String commentId){
+		return ResponseEntity.status(HttpStatus.CREATED).body(commentService.getComment(commentId));
 	}
 	
 	@PutMapping

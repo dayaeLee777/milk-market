@@ -1,12 +1,14 @@
 package com.mk.api.service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mk.api.dto.request.CommentModifyRequestDto;
 import com.mk.api.dto.request.CommentRegisterRequestDto;
+import com.mk.api.dto.response.CommentGetResponseDto;
 import com.mk.db.entity.Comment;
 import com.mk.db.entity.Community;
 import com.mk.db.repository.CommentRepository;
@@ -68,6 +70,27 @@ public class CommentServiceImpl implements CommentService {
 		comment.deleteComment();
 		return commentRepository.save(comment);
 		
+	}
+
+	@Override
+	public CommentGetResponseDto getComment(String commentId) {
+		
+		Comment comment = commentRepository.findById(commentId).orElse(null);
+
+		if(comment == null)
+			return null;
+		
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm:ss");
+		
+		CommentGetResponseDto commentGetResponseDto = CommentGetResponseDto.builder()
+				.commentId(commentId)
+//				.userId(userId)
+//				.userNickname(userNickname)
+				.content(comment.getContent())
+				.regTime(comment.getRegTime().format(dateTimeFormatter))
+				.build();
+		
+		return commentGetResponseDto;
 	}
 
 }
