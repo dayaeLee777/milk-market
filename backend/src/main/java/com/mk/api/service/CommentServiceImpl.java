@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mk.api.dto.request.CommentModifyRequestDto;
 import com.mk.api.dto.request.CommentRegisterRequestDto;
+import com.mk.api.dto.response.CommentGetListResponseDto;
 import com.mk.api.dto.response.CommentGetResponseDto;
+import com.mk.api.dto.response.CommunityGetListResponseDto;
 import com.mk.db.entity.Comment;
 import com.mk.db.entity.Community;
 import com.mk.db.repository.CommentRepository;
@@ -68,7 +70,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<CommentGetResponseDto> getCommentList(String communityId) {
+	public CommentGetListResponseDto getCommentList(String communityId) {
 		
 		Community community = communityRepository.findById(communityId).orElse(null);
 		
@@ -90,8 +92,11 @@ public class CommentServiceImpl implements CommentService {
 			
 			commentList.add(commentGetResponseDto);
 		});
+		CommentGetListResponseDto commentGetListResponseDto = CommentGetListResponseDto.builder()
+				.commentGetListResponseDto(commentList)
+				.build();
 		
-		return commentList;
+		return commentGetListResponseDto;
 	}
 
 	@Transactional

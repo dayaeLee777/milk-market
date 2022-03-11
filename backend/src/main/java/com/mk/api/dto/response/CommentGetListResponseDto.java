@@ -13,13 +13,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ApiModel("CommunityGetListResponseDto")
-public class CommunityGetListResponseDto extends BaseResponseDto {
+@ApiModel("CommentGetListResponseDto")
+public class CommentGetListResponseDto extends BaseResponseDto {
 	
 	@ApiModelProperty(name="커뮤니티 ID")
-	private List<CommunityGetResponseDto> communityGetResponselist;
-
-	@ApiModelProperty(name="전체 페이지 수", example = "3")
-	private int totalPage;
+	private List<CommentGetResponseDto> commentGetListResponseDto;
 	
 }
