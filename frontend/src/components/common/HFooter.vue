@@ -10,6 +10,7 @@
       </div>
       <div>
         <img
+          @click="openBoard()"
           class="navbar"
           src="../../../public/images/board.png"
           alt="board"
@@ -46,7 +47,10 @@ export default {
   methods: {
     openMap () {
       this.$router.push('/map').catch(() => { })
-    }
+    },
+    openBoard () {
+      this.$router.push('/board').catch(() => { })
+    },
   }
 }
 </script>
