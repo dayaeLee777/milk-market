@@ -5,7 +5,7 @@ const instance = createInstance();
 
 function findById(id, success, fail) {
   instance
-    .get("/api/users/" + id)
+    .get("/users/" + id)
     .then(success)
     .catch(fail);
 }
@@ -18,7 +18,7 @@ function signup(email, name, password, success, fail) {
   };
 
   instance
-    .post("/api/users", JSON.stringify(user))
+    .post("/users", JSON.stringify(user))
     .then(success)
     .catch(fail);
 }
@@ -30,14 +30,14 @@ function login(email, password, success, fail) {
   };
 
   instance
-    .post("/api/users/login", JSON.stringify(body))
+    .post("/users/login", JSON.stringify(body))
     .then(success)
     .catch(fail);
 }
 
 function update(user, success, fail) {
   instance
-    .put("/api/users", JSON.stringify(user))
+    .put("/users", JSON.stringify(user))
     .then(success)
     .catch(fail);
 }
