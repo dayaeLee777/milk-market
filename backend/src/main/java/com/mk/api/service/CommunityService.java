@@ -9,11 +9,13 @@ import com.mk.db.entity.Community;
 
 public interface CommunityService {
 
-	Community registerCommunity(CommunityRegisterRequestDto communityRegisterRequestDto);
+	Community registerCommunity(String accessToken, CommunityRegisterRequestDto communityRegisterRequestDto);
 	
 	CommunityGetResponseDto getCommunity(String communityId);
 	
 	CommunityGetListResponseDto getCommunityList(int pageNumber);
+	
+	CommunityGetListResponseDto getCommunityList();
 	
 	Community modifyCommunity(CommunityModifyRequestDto communityUpdateRequestDto);
 

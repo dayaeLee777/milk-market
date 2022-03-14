@@ -15,6 +15,7 @@ import com.mk.api.dto.response.CommentGetResponseDto;
 import com.mk.api.dto.response.CommunityGetListResponseDto;
 import com.mk.db.entity.Comment;
 import com.mk.db.entity.Community;
+import com.mk.db.entity.User;
 import com.mk.db.repository.CommentRepository;
 import com.mk.db.repository.CommunityRepository;
 
@@ -28,10 +29,13 @@ public class CommentServiceImpl implements CommentService {
 	
 	private final CommentRepository commentRepository;
 	
+	private final JwtTokenService jwtTokenService;
+	
 	@Transactional
 	@Override
-	public Comment registerComment(CommentRegisterRequestDto commentRegisterRequestDto) {
-		
+	public Comment registerComment(String accessToken, CommentRegisterRequestDto commentRegisterRequestDto) {
+
+		User user = jwtTokenService.convertTokenToUser(accessToken);
 		LocalDateTime currentDateTime = LocalDateTime.now();
 		Community community = communityRepository.findById(commentRegisterRequestDto.getCommunityId()).orElse(null);
 		
@@ -42,7 +46,7 @@ public class CommentServiceImpl implements CommentService {
 				.content(commentRegisterRequestDto.getContent())
 				.community(community)
 				.regTime(currentDateTime)
-//				.user()
+				.user(user)
 				.build();
 		
 		return commentRepository.save(comment);
@@ -60,8 +64,8 @@ public class CommentServiceImpl implements CommentService {
 		
 		CommentGetResponseDto commentGetResponseDto = CommentGetResponseDto.builder()
 				.commentId(commentId)
-//				.userId(userId)
-//				.userNickname(userNickname)
+				.userId(comment.getUser().getId())
+				.userNickname(comment.getUser().getNickname())
 				.content(comment.getContent())
 				.regTime(comment.getRegTime().format(dateTimeFormatter))
 				.build();
@@ -84,8 +88,8 @@ public class CommentServiceImpl implements CommentService {
 		commentRepository.findByCommunityAndDelYnOrderByRegTime(community, false).forEach(comment -> {
 			CommentGetResponseDto commentGetResponseDto = CommentGetResponseDto.builder()
 					.commentId(comment.getId())
-//					.userId(userId)
-//					.userNickname(userNickname)
+					.userId(comment.getUser().getId())
+					.userNickname(comment.getUser().getNickname())
 					.content(comment.getContent())
 					.regTime(comment.getRegTime().format(dateTimeFormatter))
 					.build();
