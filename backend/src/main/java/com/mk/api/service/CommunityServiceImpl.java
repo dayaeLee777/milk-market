@@ -102,7 +102,34 @@ public class CommunityServiceImpl implements CommunityService {
 		
 		return communityGetListResponseDto;
 	}
+	
+	@Override
+	public CommunityGetListResponseDto getCommunityList() {
+		List<CommunityGetResponseDto> communityGetResponselist = new ArrayList<CommunityGetResponseDto>();
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		
+		List<Community> communiylist = communityRepository.findByDelYnOrderByRegTimeDesc(false);
+		communiylist.forEach(community -> {
+			CommunityGetResponseDto communityGetResponseDto = CommunityGetResponseDto.builder()
+					.communityId(community.getId())
+					.userId(community.getUser().getId())
+					.userNickname(community.getUser().getNickname())
+					.title(community.getTitle())
+					.hit(community.getHit())
+					.regTime(community.getRegTime().format(dateTimeFormatter))
+					.build();
+			
+			communityGetResponselist.add(communityGetResponseDto);
+		});
+		
+		CommunityGetListResponseDto communityGetListResponseDto = CommunityGetListResponseDto.builder()
+				.communityGetResponselist(communityGetResponselist)
+				.build();
+		
+		return communityGetListResponseDto;
+	}
 
+	@Transactional
 	@Override
 	public Community modifyCommunity(CommunityModifyRequestDto communityUpdateRequestDto) {
 		Community community = communityRepository.findById(communityUpdateRequestDto.getCommunityId()).orElse(null);
@@ -117,6 +144,7 @@ public class CommunityServiceImpl implements CommunityService {
 		return communityRepository.save(community);
 	}
 
+	@Transactional
 	@Override
 	public Community deleteCommunity(String communityId) {
 		Community community = communityRepository.findById(communityId).orElse(null);

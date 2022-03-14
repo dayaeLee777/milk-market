@@ -79,6 +79,19 @@ public class CommunityController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
 	
+	@GetMapping("/list")
+	@ApiOperation(value = "커뮤니티 전체 목록 불러오기", notes="<strong>커뮤니티 전체 목록을 불러온다.</strong>")
+	@ApiResponses({
+		@ApiResponse(code=200, message="커뮤니티 목록을 정상적으로 조회하였습니다."),
+		@ApiResponse(code=204, message="커뮤니티 목록 조회를 실패했습니다.")
+	})
+	public ResponseEntity<? extends BaseResponseDto> getCommunityList() {
+		CommunityGetListResponseDto communityGetListResponseDto = communityService.getCommunityList();
+		if(communityGetListResponseDto != null)
+			return ResponseEntity.status(HttpStatus.OK).body(communityGetListResponseDto);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
+	}
+	
 	@PutMapping
 	@ApiOperation(value = "커뮤니티 수정하기", notes="<strong>작성한 커뮤니티을 수정한다.</strong>")
 	@ApiResponses({
