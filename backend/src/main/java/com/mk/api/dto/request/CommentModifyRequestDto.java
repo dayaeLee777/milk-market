@@ -6,17 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@ApiModel("CommunityUpdateRequestDto")
+@ApiModel("CommentModifyRequestDto")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class CommunityUpdateRequestDto {
+public class CommentModifyRequestDto {
 	
-	@ApiModelProperty(name="커뮤니티 id")
-	private String communityId;
-	
-	@ApiModelProperty(name="제목", example="커뮤니티 제목이에요")
-	private String title;
+	@ApiModelProperty(name="댓글 ID(pk)", example="00000000-0000-0000-0000-00000000")
+	private String commentId;
 	
 	@ApiModelProperty(name="내용", example = "내용이에요~")
 	private String content;

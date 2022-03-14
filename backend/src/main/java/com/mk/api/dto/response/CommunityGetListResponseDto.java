@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @ApiModel("CommunityGetListResponseDto")
-public class CommunityGetListResponseDto {
+public class CommunityGetListResponseDto extends BaseResponseDto {
 	
 	@ApiModelProperty(name="커뮤니티 ID")
 	private List<CommunityGetResponseDto> communityGetResponselist;

@@ -1,14 +1,23 @@
 <template>
   <div class="sf-container">
-    <ul v-if="activeCount > 0" class="progressbar">
+    <ul
+      v-if="activeCount > 0"
+      class="progressbar"
+    >
       <li :class="{ active: activeCount >= 1 }">
         <h5>입금대기중</h5>
         <p>{{ history[0].when }}</p>
-        <div v-if="isCancelled" class="text-danger">
+        <div
+          v-if="isCancelled"
+          class="text-danger"
+        >
           <h5>거래취소</h5>
           <p>{{ history[1].when }}</p>
         </div>
-        <div v-if="isRefunded && activeCount == 1" class="text-danger">
+        <div
+          v-if="isRefunded && activeCount == 1"
+          class="text-danger"
+        >
           <h5>환불완료</h5>
           <p>{{ history[1].when }}</p>
         </div>
@@ -16,7 +25,10 @@
       <li :class="{ active: activeCount >= 2 }">
         <h5>입금완료</h5>
         <p v-if="activeCount >= 2">{{ history[1].when }}</p>
-        <div v-if="isRefunded && activeCount == 2" class="text-danger">
+        <div
+          v-if="isRefunded && activeCount == 2"
+          class="text-danger"
+        >
           <h5>환불완료</h5>
           <p>{{ history[2].when }}</p>
         </div>
@@ -42,7 +54,7 @@
 export default {
   name: "StepFlow",
   props: ["history"],
-  data() {
+  data () {
     return {
       activeCount: 0, // flow UI 활성화 개수
       isCancelled: false,
@@ -50,14 +62,14 @@ export default {
     };
   },
   methods: {
-    setFlow() {
+    setFlow () {
       console.log("setFlow 실행: ", this.history);
       if (this.history.filter(h => h.state === "Cancelled").length === 1) {
         this.isCancelled = true;
         this.activeCount = 1;
       } else if (this.history.filter(h => h.state === "Refunded").length === 1) {
         this.isRefunded = true;
-        switch(this.history.length) {
+        switch (this.history.length) {
           case 3:
             this.activeCount = 1;
             break;
@@ -71,7 +83,7 @@ export default {
     },
   },
   watch: {
-    history() {
+    history () {
       console.log("History 변경됨");
       this.setFlow();
     },

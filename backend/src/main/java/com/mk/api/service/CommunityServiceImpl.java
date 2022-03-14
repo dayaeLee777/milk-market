@@ -13,7 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.mk.api.dto.request.CommunityRegisterRequestDto;
-import com.mk.api.dto.request.CommunityUpdateRequestDto;
+import com.mk.api.dto.request.CommunityModifyRequestDto;
 import com.mk.api.dto.response.CommunityGetListResponseDto;
 import com.mk.api.dto.response.CommunityGetResponseDto;
 import com.mk.db.entity.Community;
@@ -99,7 +99,7 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public Community modifyCommunity(CommunityUpdateRequestDto communityUpdateRequestDto) {
+	public Community modifyCommunity(CommunityModifyRequestDto communityUpdateRequestDto) {
 		Community community = communityRepository.findById(communityUpdateRequestDto.getCommunityId()).orElse(null);
 		
 		if(community == null)
