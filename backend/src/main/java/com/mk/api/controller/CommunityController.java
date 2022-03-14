@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +26,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Api(value = "커뮤니티 API", tags = { "Community" })
 @RestController
@@ -42,8 +44,9 @@ public class CommunityController {
 		@ApiResponse(code=400, message="커뮤니티 등록을 실패했습니다.")
 	})
 	public ResponseEntity<? extends BaseResponseDto> regist(
+		@ApiIgnore @RequestHeader("Authorization") String accessToken,
 		@RequestBody @ApiParam(value = "등록할 커뮤니티", required = true) CommunityRegisterRequestDto communityRegisterRequestDto){
-		if(communityService.registerCommunity(communityRegisterRequestDto) != null)
+		if(communityService.registerCommunity(accessToken, communityRegisterRequestDto) != null)
 			return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.of(HttpStatus.CREATED.value(), "Success"));
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
 	}

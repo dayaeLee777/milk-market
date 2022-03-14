@@ -8,7 +8,7 @@ import com.mk.db.entity.Comment;
 
 public interface CommentService {
 	
-	Comment registerComment(CommentRegisterRequestDto commentRegisterRequestDto);
+	Comment registerComment(String accessToken, CommentRegisterRequestDto commentRegisterRequestDto);
 	
 	CommentGetResponseDto getComment(String commentId);
 	
