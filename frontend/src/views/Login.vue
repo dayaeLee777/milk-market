@@ -31,7 +31,9 @@
         </div>
       </div>
     </div>
+    <f-nav></f-nav>
   </div>
+  
 </template>
 
 <script>

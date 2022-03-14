@@ -5,15 +5,15 @@
       id="map"
       style="margin-top: 76px;"
     ></div>
-    <h-footer></h-footer>
+    <f-nav></f-nav>
   </div>
 </template>
 
 <script>
-import HNav from "../components/common/HNav";
-import HFooter from '../components/common/HFooter.vue';
+
 
 export default {
+  
   data () {
     return {
       markerPositions1: [
@@ -25,10 +25,6 @@ export default {
       markers: [],
       infowindow: null,
     }
-  },
-  components: {
-    HNav,
-    HFooter
   },
   mounted () {
     if (window.kakao && window.kakao.maps) {

@@ -29,20 +29,20 @@
       </div>
     </div>
     <step-flow></step-flow>
-    <h-footer></h-footer>
+    <f-nav></f-nav>
   </div>
 </template>
 
 <script>
 import HNav from "../components/common/HNav";
 import StepFlow from '@/components/common/StepFlow';
-import HFooter from '../components/common/HFooter.vue';
+import FNav from '../components/common/FNav.vue';
 
 export default {
   components: {
     HNav,
     StepFlow,
-    HFooter
+    FNav,
   }
 };
 </script>

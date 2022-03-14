@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import HNav from "./components/common/HNav.vue";
+import FNav from "./components/common/FNav.vue";
 import HBreadcumb from "./components/common/HBreadcrumb.vue";
 import vuetify from './plugins/vuetify'
 
@@ -22,4 +23,5 @@ new Vue({
 }).$mount("#app");
 
 Vue.component("HNav", HNav);
+Vue.component("FNav", FNav);
 Vue.component("HBreadcrumb", HBreadcumb);
