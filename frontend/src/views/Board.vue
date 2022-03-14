@@ -1,12 +1,19 @@
 <template>
   <div>
-    <h1>안녕</h1>
+    <h-nav></h-nav>
+    <h-footer></h-footer>
   </div>
 </template>
 
 <script>
-export default {
+import HNav from "../components/common/HNav";
+import HFooter from '../components/common/HFooter.vue';
 
+export default {
+  components: {
+    HNav,
+    HFooter
+  },
 }
 </script>
 
