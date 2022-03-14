@@ -11,9 +11,7 @@ import javax.persistence.ManyToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-@ToString
 @Getter
 @Builder
 @Entity
@@ -27,22 +25,13 @@ public class Comment extends BaseEntity {
 	@Column(name="del_yn", columnDefinition="BOOLEAN DEFAULT false")
 	private boolean delYn;
 
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "user_id")
-//	private User user;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private User user;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "community_id")
 	private Community community;
-	
-	@Builder
-	public Comment(String content, LocalDateTime regTime, boolean delYn, Community community) {
-		super();
-		this.content = content;
-		this.regTime = regTime;
-		this.delYn = delYn;
-		this.community = community;
-	}
 	
 	public void modifyComment(String content) {
 		this.content = content;
@@ -50,6 +39,15 @@ public class Comment extends BaseEntity {
 	
 	public void deleteComment() {
 		this.delYn = true;
+	}
+
+	public Comment(String content, LocalDateTime regTime, boolean delYn, User user, Community community) {
+		super();
+		this.content = content;
+		this.regTime = regTime;
+		this.delYn = delYn;
+		this.user = user;
+		this.community = community;
 	}
 
 }

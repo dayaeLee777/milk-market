@@ -13,6 +13,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,6 +31,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
@@ -73,29 +76,36 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    // Request의 Header에서 token 값을 가져옵니다. "X-AUTH-TOKEN" : "TOKEN값'
-    public String resolveToken(HttpServletRequest request) {
-//        validationAuthorizationHeader(request.getHeader(HttpHeaders.AUTHORIZATION));
-        return request.getHeader("Bearer");
-    }
 
-    // 토큰의 유효성 + 만료일자 확인
+    // Request의 Header에서 token 값을 가져옵니다. 헤더 AUTHOIZATION을 파악한다.
+    public String resolveToken(HttpServletRequest request) {
+        return request.getHeader(HttpHeaders.AUTHORIZATION);
+    }
     public boolean validateToken(String jwtToken) {
         try {
+            validationAuthorizationHeader(jwtToken);
+            jwtToken = extractToken(jwtToken);
+            //키, 만료시간 확인
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
-        } catch (Exception e) {
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+            log.info("error : " +"토큰이 없거나 불명확한 토큰");
+            return false;
+        }
+        catch (Exception e) {
             return false;
         }
     }
 
+    //토큰 있는지 없는지 확인, Bearer로 시작하는 지 확인
     private void validationAuthorizationHeader(String header) {
         if (header == null || !header.startsWith("Bearer ")) {
             throw new IllegalArgumentException();
         }
     }
 
-    private String extractToken(String authorizationHeader) {
+    public String extractToken(String authorizationHeader) {
         return authorizationHeader.substring("Bearer ".length());
     }
 }

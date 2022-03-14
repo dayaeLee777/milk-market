@@ -68,15 +68,15 @@ public class UserController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<GetUserByProfileRes> getUser (@PathVariable("id") String id) {
-		UserDTO user = userService.getUserById(Integer.parseInt(id));
+		UserDTO user = userService.getUserById(id);
 		return new ResponseEntity<GetUserByProfileRes>(new GetUserByProfileRes(user), HttpStatus.OK);
 	}
 	
 
 	
-	boolean checkUser(String id, User user) {
-		if (user == null) return false;
-		return Integer.parseInt(id) == user.getId();
-	}
+//	boolean checkUser(String id, User user) {
+//		if (user == null) return false;
+//		return Integer.parseInt(id) == user.getId();
+//	}
 	
 }
