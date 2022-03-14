@@ -30,7 +30,7 @@ function login(email, password, success, fail) {
   };
 
   instance
-    .post("/api/users/login", JSON.stringify(body))
+    .post("/users/login", JSON.stringify(body))
     .then(success)
     .catch(fail);
 }
