@@ -10,6 +10,7 @@ import Item from "@/views/Item.vue";
 import Explorer from "@/views/Explorer.vue";
 import Escrow from "@/views/Escrow.vue";
 import Map from "@/views/Map.vue";
+import Board from "@/views/Board.vue";
 
 Vue.use(VueRouter);
 
@@ -46,6 +47,12 @@ const routes = [
     path: "/map",
     name: "map",
     component: Map,
+  },
+  // 게시판
+  {
+    path: "/board",
+    name: "board",
+    component: Board,
   },
   {
     name: "shop",
