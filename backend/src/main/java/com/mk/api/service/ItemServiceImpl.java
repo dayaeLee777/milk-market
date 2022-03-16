@@ -1,6 +1,7 @@
 package com.mk.api.service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +10,9 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mk.api.dto.request.ItemModifyRequestDto;
 import com.mk.api.dto.request.ItemRegisterRequestDto;
+import com.mk.api.dto.response.ItemGetResponseDto;
 import com.mk.db.code.Code;
 import com.mk.db.entity.Item;
 import com.mk.db.entity.ItemImage;
@@ -29,7 +32,7 @@ public class ItemServiceImpl implements ItemService {
 	
 	private final JwtTokenService jwtTokenService;
 
-	private final S3Service S3Service;
+	private final ItemImageService itemImageService;
 	
 	@Transactional
 	@Override
@@ -50,22 +53,60 @@ public class ItemServiceImpl implements ItemService {
 				.build();
 		
 		if(itemRegisterRequestDto.getDivision() == Code.A01)
-			item.setrentDate(itemRegisterRequestDto.getRentStartDate(), itemRegisterRequestDto.getRentEndDate());
+			item.setRentDate(itemRegisterRequestDto.getRentStartDate(), itemRegisterRequestDto.getRentEndDate());
 		
-		if(multipartFile != null) {
-			Map<String, String> fileNameList = S3Service.uploadFile(multipartFile);
-			
-			fileNameList.forEach((o, n) -> {
-				ItemImage itemImage = ItemImage.builder()
-						.originFileName(o)
-						.newFileName(n)
-						.item(item)
-						.build();
-			});
-		}
-		
+		itemImageService.uploadItemImages(item, multipartFile);
 		
 		return itemRepository.save(item);
 	}
+
+	@Override
+	public ItemGetResponseDto getItem(String itemId) {
+		
+		Item item = itemRepository.findById(itemId).orElse(null);
+		
+		if(item == null)
+			return null;
+		
+		Map<String, String> itemImageList = new HashMap<String, String>();
+		
+		itemImageRepository.findByItem(item).forEach(file -> {
+			itemImageList.put(file.getNewFileName(), file.getOriginFileName());
+		});
+		
+		ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder()
+				.itemId(itemId)
+				.division(item.getDivision())
+				.itemName(item.getItemName())
+				.category(item.getCategory())
+				.price(item.getPrice())
+				.description(item.getDescription())
+				.regDate(item.getRegDate())
+				.position(item.getPosition())
+				.files(itemImageList)
+				.build();
+		
+		if(item.getDivision() == Code.A01)
+			item.setRentDate(item.getRentStartDate(), item.getRentEndDate());
+		
+		return itemGetResponseDto;
+	}
+
+	@Transactional
+	@Override
+	public Item modifyItem(ItemModifyRequestDto itemModifyRequestDto, List<MultipartFile> multipartFile) {
+		Item item = itemRepository.findById(itemModifyRequestDto.getItemId()).orElse(null);
+		
+		if(item == null)
+			return null;
+		
+		item.modifyItem(itemModifyRequestDto);
+		
+		itemImageService.deleteItemImages(item);
+		itemImageService.uploadItemImages(item, multipartFile);
+		
+		return itemRepository.save(item);
+	}
+
 
 }

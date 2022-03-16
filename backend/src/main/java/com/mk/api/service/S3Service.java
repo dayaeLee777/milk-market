@@ -14,4 +14,7 @@ public interface S3Service {
 	String getFileExtension(String fileName); 
 	
 	String getFilePath(String newFileName);
+	
+	void deleteFile(String newFileName);
+	
 }

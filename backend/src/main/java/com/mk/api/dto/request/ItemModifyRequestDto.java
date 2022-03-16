@@ -14,7 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class ItemRegisterRequestDto {
+public class ItemModifyRequestDto {
+
+	@ApiModelProperty(name="아이템 ID")
+	private String itemId;
 	
 	@ApiModelProperty(name="구분", example="대여 : A01, 판매 : A02")
 	private Code division;

@@ -1,6 +1,5 @@
 package com.mk.db.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -9,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.mk.api.dto.request.ItemModifyRequestDto;
 import com.mk.db.code.Code;
 
 import lombok.Builder;
@@ -62,9 +62,25 @@ public class Item extends BaseEntity {
 		this.delYn = delYn;
 	}
 	
-	public void setrentDate(LocalDateTime rentStartDate, LocalDateTime rentEndDate) {
+	public void setRentDate(LocalDateTime rentStartDate, LocalDateTime rentEndDate) {
 		this.rentStartDate = rentStartDate;
 		this.rentEndDate = rentEndDate;
+	}	
+	
+	public void modifyItem(ItemModifyRequestDto itemModifyRequestDto) {
+		this.division = itemModifyRequestDto.getDivision();
+		this.itemName = itemModifyRequestDto.getItemName();
+		this.category = itemModifyRequestDto.getCategory();
+		this.price = itemModifyRequestDto.getPrice();
+		this.description = itemModifyRequestDto.getDescription();
+		
+		if(itemModifyRequestDto.getDivision() == Code.A01) {
+			this.rentStartDate = itemModifyRequestDto.getRentStartDate();
+			this.rentEndDate = itemModifyRequestDto.getRentEndDate();			
+		} else {
+			this.rentStartDate = null;
+			this.rentEndDate = null;			
+		}
 	}
 	
 }
