@@ -31,9 +31,9 @@ public class Item extends BaseEntity {
 	
 	private String description;
 	
-	private LocalDate regDate;
+	private LocalDateTime regDate;
 
-	private String position;
+	private int position;
 	
 	private LocalDateTime rentStartDate;
 
@@ -46,8 +46,8 @@ public class Item extends BaseEntity {
 	@Column(name="del_yn", columnDefinition="BOOLEAN DEFAULT false")
 	private boolean delYn;
 
-	public Item(Code division, String itemName, Code category, int price, String description, LocalDate regDate,
-			String position, LocalDateTime rentStartDate, LocalDateTime rentEndDate, User user, boolean delYn) {
+	public Item(Code division, String itemName, Code category, int price, String description, LocalDateTime regDate,
+			int position, LocalDateTime rentStartDate, LocalDateTime rentEndDate, User user, boolean delYn) {
 		super();
 		this.division = division;
 		this.itemName = itemName;
@@ -60,6 +60,11 @@ public class Item extends BaseEntity {
 		this.rentEndDate = rentEndDate;
 		this.user = user;
 		this.delYn = delYn;
+	}
+	
+	public void setrentDate(LocalDateTime rentStartDate, LocalDateTime rentEndDate) {
+		this.rentStartDate = rentStartDate;
+		this.rentEndDate = rentEndDate;
 	}
 	
 }

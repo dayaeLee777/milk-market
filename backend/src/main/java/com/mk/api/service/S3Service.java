@@ -1,8 +1,13 @@
 package com.mk.api.service;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public interface S3Service {
 	
-//	String uploadProfileImg(String accessToken, MultipartFile multipartFile);
+	Map<String, String> uploadFile(List<MultipartFile> multipartFile);
 
 	String createFileName(String fileName);
 	
