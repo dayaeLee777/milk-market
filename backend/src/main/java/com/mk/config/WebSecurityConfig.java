@@ -62,19 +62,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 역시 사용하지 않습니다.
             .and()
                 .authorizeRequests() // 요청에 대한 사용권한 체크
-                .antMatchers(HttpMethod.GET, "/conference/{id}/list","/conference/{id}/detail","/conference/{id}/token").authenticated()
-                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile","/api/email/**","/api/users/login/**","/api/users/signup/**","/exception/**","/search/**","/users/findpwd/**", "/api/oauth/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/conference/**").permitAll()
+                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile","/api/email/**","/api/users/login","/api/users/signup/**","/exception/**","/search/**","/users/findpwd/**", "/api/oauth/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
 //                .antMatchers("/user/**").hasRole("USER")
-                .antMatchers("/h2-console/**").permitAll() // 누구나 h2-console 접속
                 .anyRequest().authenticated()
 //예외처리 필요하면 추가
 //            .and()
 //                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
 //            .and()
 //                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
-            .and().addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+            .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
                 // JwtAuthenticationFilter를 UsernamePasswordAuthenticationFilter 전에 넣는다
     }

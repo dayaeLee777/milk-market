@@ -11,7 +11,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 
 import lombok.RequiredArgsConstructor;
 
-@Service("S3Service")
+@Service("s3Service")
 @RequiredArgsConstructor
 public class S3ServiceImpl implements S3Service {
 
