@@ -93,19 +93,13 @@
         </p>
       </div>
     </div>
-    <h-footer></h-footer>
+    <f-nav></f-nav>
   </div>
 </template>
 
 <script>
-import HNav from "../components/common/HNav";
-import HFooter from '../components/common/HFooter.vue';
 
 export default {
-  components: {
-    HNav,
-    HFooter
-  },
 }
 </script>
 

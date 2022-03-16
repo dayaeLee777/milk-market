@@ -1,17 +1,9 @@
 <template>
   <div class="container">
     <div class="row">
-<<<<<<< HEAD
       <h-nav></h-nav>
       <div id="login-form" class="col-md-6 mx-auto bg-white">
         <router-link to="/">우유 마켓 | STARMIX</router-link>
-=======
-      <div
-        id="login-form"
-        class="col-md-6 mx-auto bg-white"
-      >
-        <router-link to="/">Escrow | STARMIX</router-link>
->>>>>>> 61ca8414d029a6c3edb72c8d0a4de2b2f8767919
         <div class="mt-4">
           <div class="form-group">
             <label for="email">아이디</label>
@@ -33,27 +25,13 @@
               placeholder="비밀번호"
             />
           </div>
-<<<<<<< HEAD
           <button type="submit" class="btn btn-primary" @click="login">
-=======
-          <button
-            type="submit"
-            class="btn btn-primary"
-            v-on:click="login"
-          >
->>>>>>> 61ca8414d029a6c3edb72c8d0a4de2b2f8767919
             로그인
           </button>
         </div>
       </div>
     </div>
-<<<<<<< HEAD
     <f-nav></f-nav>
-=======
-    <section>
-      <div v-on:click="kakaoLoginBtn">카카오 연동</div>
-    </section>
->>>>>>> 61ca8414d029a6c3edb72c8d0a4de2b2f8767919
   </div>
   
 </template>
@@ -82,6 +60,7 @@ export default {
       login(
         this.user.email,
         this.user.password,
+        console.log(this.user.email),
         function (response) {
           scope.$store.commit("setIsSigned", true);
           scope.$store.commit("setUserId", response.data.id);
@@ -152,12 +131,7 @@ export default {
       })
     }
   }
-<<<<<<< HEAD
-
-};
-=======
 }
->>>>>>> 61ca8414d029a6c3edb72c8d0a4de2b2f8767919
 </script>
 
 <style>
