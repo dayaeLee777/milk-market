@@ -2,23 +2,43 @@
   <div>
     <div class="d-flex-row">
       <p>지갑 주소 {{ tx.walletAdress }}</p>
+      <hr>
       <p>지갑 생성</p>
-      <input type="text" v-model=tx.password>
-      <button @click="createWallet">지갑 생성</button>
-    </div>
-
-    <div>
-      <p>Coinbase 잔액 확인</p>
       <div>
-      <span>{{ ethBalance }}ETH</span>
-      <button @click="checkBalance">ETH 잔액 확인</button>
-      </div>
-      <div>
-        <span>{{ milkBalance }}MILK</span>
-        <button @click="checkMilk">MILK 잔액 확인</button>
+        <span>비밀번호 입력</span>
+        <input type="text" v-model=tx.password>
+        <button @click="createWallet">지갑 생성</button>
       </div>
     </div>
-
+    <hr>
+    <div class="d-flex">
+      <div>
+        <p>Coinbase 잔액 확인</p>
+        <span>계좌: {{ coinbaseAdress }}</span>
+     <div>
+        <span>{{ ethBalanceBase }}ETH</span>
+        <button @click="checkBalance(0)">ETH 잔액 확인</button>
+        </div>
+        <div>
+          <span>{{ milkBalanceBase }}MILK</span>
+          <button @click="checkMilk(0)">MILK 잔액 확인</button>
+        </div>
+      </div>
+      <div class="ms-5">
+        <p>계좌 잔액 확인</p>
+        <span>계좌: {{ address }}</span>
+        <input type="text" v-model="idx">
+        <div>
+        <span>{{ ethBalance }}ETH</span>
+        <button @click="checkBalance(idx)">ETH 잔액 확인</button>
+        </div>
+        <div>
+          <span>{{ milkBalance }}MILK</span>
+          <button @click="checkMilk(idx)">MILK 잔액 확인</button>
+        </div>
+      </div>      
+    </div>
+    <hr>
     <div>
       <p>MILK 전송</p>
       <p>From</p>
@@ -29,6 +49,15 @@
       <input type="text" v-model="amount">
       <button @click="sendMilk">MILK 전송</button>
     </div>
+    <hr>
+      <p>ETH 전송</p>
+      <p>From</p>
+      <input type="text" v-model="from_eth">
+      <p>To</p>
+      <input type="text" v-model="to_eth">
+      <p>전송 ETH</p>
+      <input type="text" v-model="amount_eth">
+      <button @click="sendETH">ETH 전송</button>    
   </div>
 
 </template>
@@ -44,21 +73,28 @@ export default {
       web3: "",
       coinbaseAdress: "",
       contractAdress: "",
+      address: "",
       MilkToken: MilkToken,
       from: "",
       to: "",
       amount: 0,
+      from_eth: "",
+      to_eth: "",
+      idx: 0,
+      amount_eth: 0,
       tx: {
         password: "",
         walletAdress: [],
       },
       ethBalance: 0,
       milkBalance: 0,
+      ethBalanceBase: 0,
+      milkBalanceBase: 0,
       contract: "",
     }
   },
   methods: {
-    // 메타마스크 설치 후 프로바이더 사용
+    // 추후 메타마스크 사용으로 변경ㅇ
     makeContract() {   
       const Web3 = require('web3');
       const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT));
@@ -84,28 +120,50 @@ export default {
       })
       this.tx.password = ""
    },
-    checkBalance() {
+    // ETH 남은 금액 확인
+    checkBalance(i) {
       const Web3 = require('web3');
       const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT));
       const ENDPOINT = 'http://localhost:8545';      
-      web3.eth.getBalance(this.coinbaseAdress).then(res => {
+      web3.eth.getBalance(this.tx.walletAdress[i]).then(res => {
+        if (i == 0) {
+          this.ethBalanceBase = (res / 10**18).toLocaleString();
+        }
         this.ethBalance = (res / 10**18).toLocaleString();
       })
     },
-    // 1000MILK = 1ETH (1MILK = 10*15 wei)
-    async checkMilk() {
-      const milkBalance = await this.contract.methods.balanceOf(this.coinbaseAdress).call();
+    // 1000MILK = 1ETH (1MILK = 10*15 wei) (실제 연동은 아님...)
+    // MILK 남은 금액 확인
+    async checkMilk(i) {
+      const milkBalance = await this.contract.methods.balanceOf(this.tx.walletAdress[i]).call();
+      if (i === 0) {
+        this.milkBalanceBase = (milkBalance / 10**15).toLocaleString();
+      }
       this.milkBalance = (milkBalance / 10**15).toLocaleString();
-      const result = await this.contract.methods.approve(this.coinbaseAdress, milkBalance).call();
+      const result = await this.contract.methods.approve(this.tx.walletAdress[i], milkBalance).call();
     },
+    // eth 전송
+    sendETH() {
+      const Web3 = require('web3');
+      const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT));
+      const ENDPOINT = 'http://localhost:8545';      
+      const from = this.from_eth;
+      const to = this.to_eth;
+      const amount = (this.amount_eth) * (10 ** 18); // wei 단위로 변환해 주어야 함
+      const tx = {"from": from, "to": to, "value": amount}
+      web3.eth.sendTransaction(tx).then(res => {
+        console.log(res)
+      })
+    },
+    // MILK 전송
     async sendMilk() {
       const Web3 = require('web3');
       const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT));
       const ENDPOINT = 'http://localhost:8545';       
       const from = this.from;
       const to = this.to;
-      const amount = Number(this.amount);
-      const is_allowed = await this.contract.methods.allowance(to, amount).call();
+      const amount = Number(this.amount) * (10**15);
+      const is_allowed = await this.contract.methods.transferFrom(from, to, amount).call()
       console.log(is_allowed)
       // let result;
       // if (is_allowed) {
@@ -119,7 +177,7 @@ export default {
     }
   },
   mounted() {
-    const contractAdress = "0x36Bb0950E8c2B909bB9AD77573b5fF3982c98Bb8"
+    const contractAdress = "0x3f71d744F618228e4dE3B5dA57C668F3668EC2B7"
     this.contractAdress = contractAdress 
     const Web3 = require('web3');
     const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT));
