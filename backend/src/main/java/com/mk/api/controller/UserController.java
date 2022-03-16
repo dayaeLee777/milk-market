@@ -3,11 +3,13 @@ package com.mk.api.controller;
 import com.mk.api.dto.request.LoginReq;
 import com.mk.api.dto.request.SignUpReq;
 import com.mk.api.dto.request.UserDTO;
+import com.mk.api.dto.response.BaseResponseDto;
 import com.mk.api.dto.response.GetUserByProfileRes;
 import com.mk.api.dto.response.MessageRes;
 import com.mk.api.service.UserService;
 import com.mk.db.entity.User;
 
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -71,9 +73,21 @@ public class UserController {
 		UserDTO user = userService.getUserById(id);
 		return new ResponseEntity<GetUserByProfileRes>(new GetUserByProfileRes(user), HttpStatus.OK);
 	}
-	
 
-	
+	@PutMapping("/delete/{id}")
+	public ResponseEntity<? extends BaseResponseDto> deleteUser (@PathVariable("id") String id){
+		if(userService.delete(id))
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(BaseResponseDto.of(HttpStatus.ACCEPTED.value(), "Success"));
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
+	}
+
+
+//	public ResponseEntity<? extends BaseResponseDto> delete(
+//			@PathVariable("communityId") @RequestBody @ApiParam(value = "삭제할 커뮤니티ID ", required = true) String communityId){
+//		if(communityService.deleteCommunity(communityId) != null)
+//			return ResponseEntity.status(HttpStatus.ACCEPTED).body(BaseResponseDto.of(HttpStatus.ACCEPTED.value(), "Success"));
+//		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
+//	}
 //	boolean checkUser(String id, User user) {
 //		if (user == null) return false;
 //		return Integer.parseInt(id) == user.getId();

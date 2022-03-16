@@ -83,5 +83,18 @@ public class ItemController {
 			return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.of(HttpStatus.CREATED.value(), "Success"));
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
+	
+	@PutMapping("/delete/{itemId}")
+	@ApiOperation(value = "상품 삭제하기", notes="<strong>작성한 상품을 삭제한다.</strong>")
+	@ApiResponses({
+		@ApiResponse(code=202, message="상품이 정상적으로 삭제되었습니다."),
+		@ApiResponse(code=204, message="상품 삭제를 실패했습니다.")
+	})
+	public ResponseEntity<? extends BaseResponseDto> delete(
+			@PathVariable("itemId") @RequestBody @ApiParam(value = "삭제할 상품 ID ", required = true) String itemId){
+		if(itemService.deleteItem(itemId) != null)
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(BaseResponseDto.of(HttpStatus.ACCEPTED.value(), "Success"));
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
+	}
 
 }

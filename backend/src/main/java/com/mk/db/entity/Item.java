@@ -82,5 +82,10 @@ public class Item extends BaseEntity {
 			this.rentEndDate = null;			
 		}
 	}
+
+	public void deleteItem() {
+		this.delYn = true;
+	}
+
 	
 }

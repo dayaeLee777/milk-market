@@ -23,7 +23,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import lombok.RequiredArgsConstructor;
 
-@Service("S3Service")
+@Service("s3Service")
 @RequiredArgsConstructor
 public class S3ServiceImpl implements S3Service {
 

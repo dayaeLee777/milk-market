@@ -3,6 +3,7 @@
     <div class="row p-2 justify-content-center">
       <div>
         <img
+          @click="returnHome()"
           class="navbar"
           src="../../../public/images/home.png"
           alt="home"
@@ -10,6 +11,7 @@
       </div>
       <div>
         <img
+          @click="openBoard()"
           class="navbar"
           src="../../../public/images/board.png"
           alt="board"
@@ -46,6 +48,12 @@ export default {
   methods: {
     openMap () {
       this.$router.push('/map').catch(() => { })
+    },
+    openBoard () {
+      this.$router.push('/board').catch(() => { })
+    },
+    returnHome () {
+      this.$router.push('/').catch(() => { })
     }
   }
 }
