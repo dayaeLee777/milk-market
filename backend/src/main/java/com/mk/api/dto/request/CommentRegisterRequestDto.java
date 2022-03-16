@@ -12,9 +12,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CommentRegisterRequestDto {
 	
-	@ApiModelProperty(name="회원 ID(pk)", example="00000000-0000-0000-0000-00000000")
-	private String userId;
-	
 	@ApiModelProperty(name="커뮤니티 ID(pk)", example="00000000-0000-0000-0000-00000000")
 	private String communityId;
 	

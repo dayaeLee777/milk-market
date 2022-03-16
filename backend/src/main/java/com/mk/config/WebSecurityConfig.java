@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .authorizeRequests() // 요청에 대한 사용권한 체크
                 .antMatchers(HttpMethod.GET, "/conference/{id}/list","/conference/{id}/detail","/conference/{id}/token").authenticated()
-                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile","/api/email/**","/api/users/login/**","/api/users/signup/**","/exception/**","/search/**","/users/findpwd/**", "/books/**","/oauth/**","/users/{user}/bookmark").permitAll()
+                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile","/api/email/**","/api/users/login/**","/api/users/signup/**","/exception/**","/search/**","/users/findpwd/**", "/api/oauth/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/conference/**").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
 //                .antMatchers("/user/**").hasRole("USER")
