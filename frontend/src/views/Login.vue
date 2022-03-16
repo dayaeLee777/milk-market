@@ -28,6 +28,9 @@
           <button type="submit" class="btn btn-primary" @click="login">
             로그인
           </button>
+          <button type="submit" class="btn btn-danger" @click="login">
+            카카오 로그인
+          </button>
         </div>
       </div>
     </div>
@@ -64,7 +67,7 @@ export default {
           scope.$store.commit("setIsSigned", true);
           scope.$store.commit("setUserId", response.data.id);
           scope.$store.commit("setJWTToken", response.data.token);
-          console.log("여기까지 넘어갑니다."+response.data.token)
+          //console.log("여기까지 넘어갑니다."+response.data.token)
           findWallet(
             response.data.id,
             function(response) {

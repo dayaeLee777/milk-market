@@ -3,7 +3,7 @@
     <h-nav></h-nav>
     <div class="row">
       <div id="register-form" class="col-md-6 mx-auto bg-white">
-        <router-link to="/">Escrow | STARMIX</router-link>
+        <router-link to="/">우유마켓 | STARMIX</router-link>
         <div class="mt-4">
           <div class="form-group">
             <label for="email">이메일</label>
