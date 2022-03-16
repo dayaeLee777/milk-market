@@ -31,12 +31,10 @@ public class User extends BaseEntity implements UserDetails {
 	
 	@Column(unique = true)
 	private String email;
-	
-//	@Column
-//	private int gender;
-//
-//	@Column
-//	private Date age;
+
+	@Column(columnDefinition = "boolean default false")
+	private boolean withdrawal;
+
 	
 	@Column(name = "profile_image")
 	private String profileImage;
