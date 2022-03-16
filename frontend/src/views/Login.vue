@@ -60,28 +60,12 @@ export default {
       login(
         this.user.email,
         this.user.password,
-        console.log(this.user.email),
         function (response) {
+          console.log(response)
           scope.$store.commit("setIsSigned", true);
           scope.$store.commit("setUserId", response.data.id);
           scope.$store.commit("setJWTToken", response.data.token);
           console.log("여기까지 넘어갑니다."+response.data.token)
-          findWallet(
-            response.data.id,
-            function (response) {
-              if (response.status == 200) {
-                scope.$store.commit("setWalletAddress", response.data.address);
-              } else {
-                alert("Unexpected status code: " + response.status);
-              }
-            },
-            function (err) {
-              if (err.response != 404) {
-                console.error(err);
-                alert("지갑 정보를 찾지 못했습니다.");
-              }
-            }
-          );
 
           scope.$router.push("/");
         },
