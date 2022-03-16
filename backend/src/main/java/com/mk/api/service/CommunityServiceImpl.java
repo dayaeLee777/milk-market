@@ -12,11 +12,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.mk.api.dto.request.CommunityRegisterRequestDto;
 import com.mk.api.dto.request.CommunityModifyRequestDto;
+import com.mk.api.dto.request.CommunityRegisterRequestDto;
 import com.mk.api.dto.response.CommunityGetListResponseDto;
 import com.mk.api.dto.response.CommunityGetResponseDto;
 import com.mk.db.entity.Community;
+import com.mk.db.entity.User;
 import com.mk.db.repository.CommunityRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -27,10 +28,13 @@ public class CommunityServiceImpl implements CommunityService {
 
 	private final CommunityRepository communityRepository;
 	
+	private final JwtTokenService jwtTokenService;
+	
 	@Transactional
 	@Override
-	public Community registerCommunity(CommunityRegisterRequestDto communityRegisterRequestDto) {
+	public Community registerCommunity(String accessToken, CommunityRegisterRequestDto communityRegisterRequestDto) {
 		
+		User user = jwtTokenService.convertTokenToUser(accessToken);
 		LocalDateTime currentDateTime = LocalDateTime.now();
 		
 		Community community = Community.builder()
@@ -38,7 +42,7 @@ public class CommunityServiceImpl implements CommunityService {
 				.content(communityRegisterRequestDto.getContent())
 				.regTime(currentDateTime)
 				.hit(0)
-//				.user(communityRegisterRequestDto.getUserId())
+				.user(user)
 				.build();
 		
 		return communityRepository.save(community);
@@ -62,8 +66,8 @@ public class CommunityServiceImpl implements CommunityService {
 				.content(community.getContent())
 				.hit(community.getHit())
 				.regTime(community.getRegTime().format(dateTimeFormatter))
-//				.userId(userId)
-//				.userNickname(userNickname)
+				.userId(community.getUser().getId())
+				.userNickname(community.getUser().getNickname())
 				.build();
 		
 		communityRepository.save(community);
@@ -81,7 +85,8 @@ public class CommunityServiceImpl implements CommunityService {
 		communiyPages.forEach(community -> {
 			CommunityGetResponseDto communityGetResponseDto = CommunityGetResponseDto.builder()
 					.communityId(community.getId())
-//					.userNickname()
+					.userId(community.getUser().getId())
+					.userNickname(community.getUser().getNickname())
 					.title(community.getTitle())
 					.hit(community.getHit())
 					.regTime(community.getRegTime().format(dateTimeFormatter))
@@ -97,7 +102,34 @@ public class CommunityServiceImpl implements CommunityService {
 		
 		return communityGetListResponseDto;
 	}
+	
+	@Override
+	public CommunityGetListResponseDto getCommunityList() {
+		List<CommunityGetResponseDto> communityGetResponselist = new ArrayList<CommunityGetResponseDto>();
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		
+		List<Community> communiylist = communityRepository.findByDelYnOrderByRegTimeDesc(false);
+		communiylist.forEach(community -> {
+			CommunityGetResponseDto communityGetResponseDto = CommunityGetResponseDto.builder()
+					.communityId(community.getId())
+					.userId(community.getUser().getId())
+					.userNickname(community.getUser().getNickname())
+					.title(community.getTitle())
+					.hit(community.getHit())
+					.regTime(community.getRegTime().format(dateTimeFormatter))
+					.build();
+			
+			communityGetResponselist.add(communityGetResponseDto);
+		});
+		
+		CommunityGetListResponseDto communityGetListResponseDto = CommunityGetListResponseDto.builder()
+				.communityGetResponselist(communityGetResponselist)
+				.build();
+		
+		return communityGetListResponseDto;
+	}
 
+	@Transactional
 	@Override
 	public Community modifyCommunity(CommunityModifyRequestDto communityUpdateRequestDto) {
 		Community community = communityRepository.findById(communityUpdateRequestDto.getCommunityId()).orElse(null);
@@ -112,6 +144,7 @@ public class CommunityServiceImpl implements CommunityService {
 		return communityRepository.save(community);
 	}
 
+	@Transactional
 	@Override
 	public Community deleteCommunity(String communityId) {
 		Community community = communityRepository.findById(communityId).orElse(null);
