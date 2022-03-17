@@ -168,7 +168,8 @@ export default {
       const from = this.from;
       const to = this.to;
       const amount = Number(this.amount) * (10**15);
-      // 10**15 이상의 숫자를 그냥 보내는것은 불가능 web3.utis.toBN() 메서드 활용해야함
+
+      // 10**15 이상의 숫자를 그냥 보내는것은 불가능 web3.utis.toBN() 메서드 활용
       const a = await this.contract.methods.approve(from, web3.utils.toBN(`${amount}`)).send({ from: from });
       const c = await this.contract.methods.transferFrom(from, to, web3.utils.toBN(`${amount}`)).send({from: from});
       console.log(a, c)
