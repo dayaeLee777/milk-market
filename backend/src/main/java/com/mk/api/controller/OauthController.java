@@ -27,7 +27,7 @@ public class OauthController {
 
     @GetMapping("/kakao")
     public ResponseEntity<OauthUserRes> kakao(@RequestParam String accessToken) throws Exception {
-        log.info("Map : " + accessToken;
+        log.info("Map : " + accessToken);
         Map<String, String> map = new HashMap<>();
         OauthUserRes res = new OauthUserRes();
         res.setSns(true);
