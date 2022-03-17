@@ -26,13 +26,13 @@ public class OauthController {
 
 
     @GetMapping("/kakao")
-    public ResponseEntity<OauthUserRes> kakao(@RequestParam String code) throws Exception {
-        log.info("Map : " + code);
+    public ResponseEntity<OauthUserRes> kakao(@RequestParam String accessToken) throws Exception {
+        log.info("Map : " + accessToken;
         Map<String, String> map = new HashMap<>();
         OauthUserRes res = new OauthUserRes();
         res.setSns(true);
         try {
-            String accessToken = oAuthService.getKakaoAccessToken(code);
+//            String accessToken = oAuthService.getKakaoAccessToken(code);
             SignUpReq signUpReq = oAuthService.createKakaoUser(accessToken);
             System.out.println("Controller" + signUpReq);
             String token = oAuthService.getToken(signUpReq);
@@ -47,12 +47,12 @@ public class OauthController {
 
 
     @GetMapping("/naver")
-    public ResponseEntity<Map<String, String>> naver(@RequestParam String code) throws Exception {
-        log.info("Map : " + code);
+    public ResponseEntity<Map<String, String>> naver(@RequestParam String accessToken) throws Exception {
+        log.info("Map : " + accessToken);
         Map<String, String> map = new HashMap<>();
 
         try {
-           String accessToken = oAuthService.getNaverAccessToken(code);
+//           String accessToken = oAuthService.getNaverAccessToken(code);
             SignUpReq signUpReq = oAuthService.createNaverUser(accessToken);
             System.out.println("Controller" + signUpReq);
             String token = oAuthService.getToken(signUpReq);
