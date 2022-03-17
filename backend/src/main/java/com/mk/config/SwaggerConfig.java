@@ -37,7 +37,7 @@ public class SwaggerConfig {
 				new Contact("", "", ""), "License of API", "", Collections.emptyList());
 	}
 
-	
+
 
 	private ApiKey apiKey() {
 		return new ApiKey("AccessToken", "Authorization", "header");

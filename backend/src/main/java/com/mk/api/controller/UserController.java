@@ -8,12 +8,8 @@ import com.mk.api.dto.response.GetUserByProfileRes;
 import com.mk.api.dto.response.MessageRes;
 import com.mk.api.service.UserService;
 import com.mk.db.entity.User;
-
-<<<<<<< HEAD
 import io.swagger.annotations.Api;
-=======
 import io.swagger.annotations.ApiParam;
->>>>>>> 0160343aa26d560a069a6b4f44354799c1dc2f88
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
