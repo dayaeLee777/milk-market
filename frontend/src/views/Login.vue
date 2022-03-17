@@ -34,12 +34,15 @@
           >
             로그인
           </button>
+          <hr>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            v-on:click="kakaoLogin"
+          >카카오 로그인</button>
         </div>
       </div>
     </div>
-    <section>
-      <div v-on:click="kakaoLoginBtn">카카오 연동</div>
-    </section>
   </div>
 </template>
 
@@ -92,44 +95,34 @@ export default {
         }
       );
     },
-    /////
-    kakaoLoginBtn: function () {
-
-      window.Kakao.init('700fe3eb25ade19a26c18b71610a4b34') // Kakao Developers에서 요약 정보 -> JavaScript 키
-
-      if (window.Kakao.Auth.getAccessToken()) {
-        window.Kakao.API.request({
-          url: '/v1/user/unlink',
-          success: function (response) {
-            console.log(response)
-          },
-          fail: function (error) {
-            console.log(error)
-          },
-        })
-        window.Kakao.Auth.setAccessToken(undefined)
-      }
-
-
+    kakaoLogin () {
       window.Kakao.Auth.login({
-        success: function () {
-          window.Kakao.API.request({
-            url: '/v2/user/me',
-            data: {
-              property_keys: ["kakao_account.email"]
-            },
-            success: async function (response) {
-              console.log(response);
-            },
-            fail: function (error) {
-              console.log(error)
-            },
-          })
-        },
-        fail: function (error) {
-          console.log(error)
-        },
+        // scope: 'profile_nickname, profile_image, account_email',
+        // success: this.getProfile
+        success: this.sendAccessToken
       })
+    },
+    getProfile (authObj) {
+      console.log(authObj)
+      window.Kakao.API.request({
+        url: '/v2/user/me',
+        success: res => {
+          const kakao_account = res.kakao_account
+          console.log(kakao_account)
+          alert("로그인 성공!")
+        }
+      })
+    },
+    sendAccessToken (authObj) {
+      sendAccessToken(
+        authObj.access_token,
+        function (res) {
+          console.log(res);
+        },
+        function (err) {
+          console.log(err)
+        }
+      )
     }
   }
 }
