@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @ApiModel("CommunityGetResponseDto")
-public class CommunityGetResponseDto {
+public class CommunityGetResponseDto extends BaseResponseDto {
 	
 	@ApiModelProperty(name="커뮤니티 ID")
 	private String communityId;
