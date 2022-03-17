@@ -124,4 +124,15 @@ public class UserService {
     }
 
 
+	@Transactional
+    public boolean delete(String id) {
+		Optional<User> user = userRepository.findById(id);
+		if(user.isPresent() && user.get().isWithdrawal() ==false){
+			user.get().setWithdrawal(true);
+			userRepository.save(user.get());
+			return true;
+		}else{
+			return false;
+		}
+    }
 }
