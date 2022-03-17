@@ -1,7 +1,10 @@
 <template>
   <div>
     <h-nav></h-nav>
-    <div id="main-overview" class="container">
+    <div
+      id="main-overview"
+      class="container"
+    >
       <div class="row">
         <div class="col-md-12">
           <h1>DCOMMERCE PLATFORM</h1>
@@ -26,17 +29,20 @@
       </div>
     </div>
     <step-flow></step-flow>
+    <f-nav></f-nav>
   </div>
 </template>
 
 <script>
 import HNav from "../components/common/HNav";
 import StepFlow from '@/components/common/StepFlow';
+import FNav from '../components/common/FNav.vue';
 
 export default {
   components: {
     HNav,
-    StepFlow
+    StepFlow,
+    FNav
   }
 };
 </script>

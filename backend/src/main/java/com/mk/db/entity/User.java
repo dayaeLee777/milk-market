@@ -20,10 +20,8 @@ import java.util.stream.Collectors;
 @Entity
 @Builder
 @Table(name = "user")
-public class User implements UserDetails {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+public class User extends BaseEntity implements UserDetails {
+
 	
 	@Column
 	private String password;
@@ -33,12 +31,10 @@ public class User implements UserDetails {
 	
 	@Column(unique = true)
 	private String email;
-	
-//	@Column
-//	private int gender;
-//
-//	@Column
-//	private Date age;
+
+	@Column(columnDefinition = "boolean default false")
+	private boolean withdrawal;
+
 	
 	@Column(name = "profile_image")
 	private String profileImage;
@@ -90,7 +86,7 @@ public class User implements UserDetails {
 	@Override
 	public String toString() {
 		return "User{" +
-				"id=" + id +
+				"id=" + getId() +
 				", password='" + password + '\'' +
 				", nickname='" + nickname + '\'' +
 				", email='" + email + '\'' +
