@@ -129,7 +129,10 @@ export default {
         if (i == 0) {
           this.ethBalanceBase = (res / 10**18).toLocaleString();
         }
-        this.ethBalance = (res / 10**18).toLocaleString();
+        else{
+
+          this.ethBalance = (res / 10**18).toLocaleString();
+        }
       })
     },
     // 1000MILK = 1ETH (1MILK = 10*15 wei) (실제 연동은 아님...)
@@ -139,7 +142,9 @@ export default {
       if (i === 0) {
         this.milkBalanceBase = (milkBalance / 10**15).toLocaleString();
       }
-      this.milkBalance = (milkBalance / 10**15).toLocaleString();
+      else{
+        this.milkBalance = (milkBalance / 10**15).toLocaleString();
+      }
       const result = await this.contract.methods.approve(this.tx.walletAdress[i], milkBalance).call();
     },
     // eth 전송
@@ -163,21 +168,17 @@ export default {
       const from = this.from;
       const to = this.to;
       const amount = Number(this.amount) * (10**15);
-      const is_allowed = await this.contract.methods.transferFrom(from, to, amount).call()
-      console.log(is_allowed)
-      // let result;
-      // if (is_allowed) {
-      //   console.log(is_allowed)
-      //   result = await this.contract.methods.transferFrom(fromAddress, toAddress, amount).call();
-      // }
-      // console.log(result)
+      // 10**15 이상의 숫자를 그냥 보내는것은 불가능 web3.utis.toBN() 메서드 활용해야함
+      const a = await this.contract.methods.approve(from, web3.utils.toBN(`${amount}`)).send({ from: from });
+      const c = await this.contract.methods.transferFrom(from, to, web3.utils.toBN(`${amount}`)).send({from: from});
+      console.log(a, c)
       this.from = "";
       this.to = "";
       this.amount = 0;
     }
   },
   mounted() {
-    const contractAdress = "0x3f71d744F618228e4dE3B5dA57C668F3668EC2B7"
+    const contractAdress = "0x11BDa2ed447D84217Ec4547DEF29241c2Bc734C7"
     this.contractAdress = contractAdress 
     const Web3 = require('web3');
     const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT));
