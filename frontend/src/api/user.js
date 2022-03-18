@@ -31,12 +31,8 @@ function login(email, password, success, fail) {
 
   instance
     .post("/api/users/login", JSON.stringify(body))
-    .then((success) =>{
-      console.log(success)
-    })
-    .catch((fail) => {
-      console.log(fail)
-    });
+    .then(success)
+    .catch(fail)
 }
 
 function update(user, success, fail) {
