@@ -66,7 +66,6 @@ export default {
         function (response) {
           scope.$store.commit("setIsSigned", true);
           scope.$store.commit("setUserId", response.data.id);
-
           findWallet(
             response.data.id,
             function (response) {

@@ -200,28 +200,20 @@ const router = new VueRouter({
   routes,
 });
 
-<<<<<<< HEAD
 router.beforeEach((to, from, next) => {
   let isSigned = store.state.isSigned;
   let isAvailableToGuest =
-    // 로그인 안해도 되는 페이지 설정
     ["/", "/login", "/register", "/test"].includes(to.path) ||
     to.path.startsWith("/explorer");
-=======
-// router.beforeEach((to, from, next) => {
-//   let isSigned = store.state.isSigned;
-//   let isAvailableToGuest =
-//     ["/", "/login", "/register"].includes(to.path) ||
-//     to.path.startsWith("/explorer");
->>>>>>> develop
 
-//   // 로그인도 하지 않았고 게스트에게 허용된 주소가 아니라면 로그인 화면으로 이동한다.
-//   if (!isSigned && !isAvailableToGuest) {
-//     alert("로그인을 하신 뒤에 사용이 가능합니다.");
-//     next("/login");
-//   } else {
-//     next();
-//   }
-// });
+
+  // 로그인도 하지 않았고 게스트에게 허용된 주소가 아니라면 로그인 화면으로 이동한다.
+  if (!isSigned && !isAvailableToGuest) {
+    alert("로그인을 하신 뒤에 사용이 가능합니다.");
+    next("/login");
+  } else {
+    next();
+  }
+});
 
 export default router;
