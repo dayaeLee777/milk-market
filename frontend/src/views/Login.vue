@@ -61,7 +61,6 @@ export default {
         this.user.email,
         this.user.password,
         function (response) {
-          console.log(response)
           scope.$store.commit("setIsSigned", true);
           scope.$store.commit("setUserId", response.data.id);
           scope.$store.commit("setJWTToken", response.data.token);
