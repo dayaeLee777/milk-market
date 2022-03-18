@@ -42,7 +42,7 @@ export default {
   components: {
     HNav,
     StepFlow,
-    FNav
+    FNav,
   }
 };
 </script>
