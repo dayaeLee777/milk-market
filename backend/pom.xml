@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>	
+		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.4.5</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
@@ -52,6 +52,9 @@
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.5.6</version>
+			<!-- 
+			<version>4.5.6</version>
+			 -->
 		</dependency>
 
 		<dependency>
@@ -59,12 +62,12 @@
 			<artifactId>fabric-sdk-java</artifactId>
 			<version>1.4.0</version>
 		</dependency>
-		
+
 		<dependency>
-          <groupId>io.springfox</groupId>
-          <artifactId>springfox-boot-starter</artifactId>
-          <version>3.0.0</version>
-      </dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>3.0.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -75,7 +78,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-<!--			<scope>provided</scope>-->
+			<!-- <scope>provided</scope> -->
 		</dependency>
 
 		<dependency>
@@ -131,11 +134,11 @@
 
 		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
 		<dependency>
-		    <groupId>com.amazonaws</groupId>
-		    <artifactId>aws-java-sdk-s3</artifactId>
-		    <version>1.12.159</version>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>1.12.159</version>
 		</dependency>
-		
+
 
 	</dependencies>
 
