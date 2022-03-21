@@ -1,11 +1,9 @@
 <template>
   <div class="container">
     <div class="row">
-      <div
-        id="login-form"
-        class="col-md-6 mx-auto bg-white"
-      >
-        <router-link to="/">Escrow | STARMIX</router-link>
+      <h-nav></h-nav>
+      <div id="login-form" class="col-md-6 mx-auto bg-white">
+        <router-link to="/">우유 마켓 | STARMIX</router-link>
         <div class="mt-4">
           <div class="form-group">
             <label for="email">아이디</label>
@@ -27,25 +25,24 @@
               placeholder="비밀번호"
             />
           </div>
-          <button
-            type="submit"
-            class="btn btn-primary"
-            v-on:click="login"
-          >
+          <button type="submit" class="btn btn-primary" @click="login">
             로그인
           </button>
         </div>
       </div>
     </div>
-    <section>
-      <div v-on:click="kakaoLoginBtn">카카오 연동</div>
-    </section>
+    <f-nav></f-nav>
   </div>
+  
 </template>
 
 <script>
 import { login } from "../api/user.js";
 import { findByUserId as findWallet } from "../api/wallet.js";
+import { reactive, computed, ref, onMounted } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+
 
 export default {
   data () {
@@ -64,9 +61,11 @@ export default {
         this.user.email,
         this.user.password,
         function (response) {
+          console.log(response);
           scope.$store.commit("setIsSigned", true);
           scope.$store.commit("setUserId", response.data.id);
-
+          scope.$store.commit("setJWTToken", response.data.token);
+          console.log("여기까지 넘어갑니다."+response.data.token)
           findWallet(
             response.data.id,
             function (response) {
@@ -79,7 +78,7 @@ export default {
             function (err) {
               if (err.response != 404) {
                 console.error(err);
-                //alert("지갑 정보를 찾지 못했습니다.");
+                alert("지갑 정보를 찾지 못했습니다.");
               }
             }
           );

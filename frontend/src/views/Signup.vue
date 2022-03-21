@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h-nav></h-nav>
     <div class="row">
       <div id="register-form" class="col-md-6 mx-auto bg-white">
         <router-link to="/">Escrow | STARMIX</router-link>
@@ -50,6 +51,7 @@
         </div>
       </div>
     </div>
+    <f-nav></f-nav>
   </div>
 </template>
 
