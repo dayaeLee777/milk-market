@@ -26,7 +26,7 @@ public class ItemGetResponseDto extends BaseResponseDto {
 	private String userId;
 	
 	@ApiModelProperty(name="작성자 닉네임")
-	private String userNiㄴckname;
+	private String userNickname;
 	
 	@ApiModelProperty(name="제목", example="커뮤니티 제목이에요")
 	private Code division;
