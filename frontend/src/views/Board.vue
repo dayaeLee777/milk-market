@@ -100,6 +100,12 @@
 <script>
 
 export default {
+<<<<<<< HEAD
+=======
+  components: {
+
+  },
+>>>>>>> 7e7ab7c5c7ed6103905e29032c79c364217b54d0
 }
 </script>
 

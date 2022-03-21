@@ -8,7 +8,7 @@ import HBreadcumb from "./components/common/HBreadcrumb.vue";
 import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false;
-Vue.filter("truncate", function(text, length, clamp) {
+Vue.filter("truncate", function (text, length, clamp) {
   if (text) {
     clamp = clamp || "...";
     return text.length > length ? text.slice(0, length) + clamp : text;
