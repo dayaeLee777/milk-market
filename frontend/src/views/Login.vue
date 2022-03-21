@@ -35,11 +35,16 @@
             로그인
           </button>
           <hr>
-          <button
-            type="submit"
-            class="btn btn-primary"
-            v-on:click="kakaoLogin"
-          >카카오 로그인</button>
+          <img
+            src="https://blog.kakaocdn.net/dn/bYZZHh/btrfibui4Cj/DofAXcdzmQGCKkhTNUUAHk/img.png"
+            @click="kakaoLogin"
+            style="width : 200px;"
+          >
+          <img
+            src="https://static.nid.naver.com/oauth/big_g.PNG?version=js-2.0.1"
+            @click="naverLogin"
+            style="width : 200px;"
+          >
         </div>
       </div>
     </div>
@@ -47,7 +52,7 @@
 </template>
 
 <script>
-import { login } from "../api/user.js";
+import { login, sendAccessToken } from "../api/user.js";
 import { findByUserId as findWallet } from "../api/wallet.js";
 
 export default {
@@ -97,32 +102,38 @@ export default {
     },
     kakaoLogin () {
       window.Kakao.Auth.login({
-        // scope: 'profile_nickname, profile_image, account_email',
-        // success: this.getProfile
         success: this.sendAccessToken
       })
     },
-    getProfile (authObj) {
-      console.log(authObj)
-      window.Kakao.API.request({
-        url: '/v2/user/me',
-        success: res => {
-          const kakao_account = res.kakao_account
-          console.log(kakao_account)
-          alert("로그인 성공!")
-        }
-      })
-    },
+    // getProfile (authObj) {
+    //   console.log(authObj)
+    //   window.Kakao.API.request({
+    //     url: '/v2/user/me',
+    //     success: res => {
+    //       const kakao_account = res.kakao_account
+    //       console.log(kakao_account)
+    //     }
+    //   })
+    // },
     sendAccessToken (authObj) {
+      let scope = this
       sendAccessToken(
         authObj.access_token,
         function (res) {
-          console.log(res);
+          console.log(res)
+          scope.$store.commit("setIsSigned", true);
+          scope.$router.push('/').catch(() => { })
         },
         function (err) {
           console.log(err)
         }
       )
+    },
+    naverLogin () {
+      var client_id = 'QvNWqPgM7ebAubiDGxe8'
+      var callbackUrl = 'http://localhost:8080/api/oauth/naver'
+      var url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' + client_id + '&redirect_uri=' + callbackUrl + '&state=1234'
+      window.location.replace(url)
     }
   }
 }

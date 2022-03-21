@@ -43,12 +43,10 @@ function update (user, success, fail) {
 }
 
 function sendAccessToken (token, success, fail) {
-  const body = {
-    token: token
-  }
+  const accessToken = token
 
   instance
-    .get("/api/oauth/kakao", JSON.stringify(body))
+    .get(`/api/oauth/kakao?accessToken=${accessToken}`)
     .then(success)
     .catch(fail);
 }
