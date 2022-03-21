@@ -204,8 +204,6 @@ export default {
       }
     }
   }
->>>>>>> feature/fe-BoardPage
->>>>>>> develop
 }
 </script>
 
