@@ -32,7 +32,7 @@ function login (email, password, success, fail) {
   instance
     .post("/api/users/login", JSON.stringify(body))
     .then(success)
-    .catch(fail);
+    .catch(fail)
 }
 
 function update (user, success, fail) {

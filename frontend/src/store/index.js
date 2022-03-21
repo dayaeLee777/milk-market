@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import axios from "axios";
 
 Vue.use(Vuex);
 
@@ -8,7 +9,8 @@ export default new Vuex.Store({
     isSigned: false, // 로그인 여부
     user: {
       id: 0, // 사용자 아이디 저장
-      walletAddress: null
+      walletAddress: null,
+      JWTToken : null,
     },
   },
   mutations: {
@@ -20,6 +22,9 @@ export default new Vuex.Store({
     },
     setWalletAddress(state, address) {
       state.user.walletAddress = address;
+    },
+    setJWTToken(state, token){
+      state.user.JWTToken = token;
     },
     logout(state) {
       state.isSigned = false;

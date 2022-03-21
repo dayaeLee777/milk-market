@@ -41,7 +41,8 @@ public class ItemController {
 
 	private final ItemService itemService;
 	
-	@PostMapping(consumes = {"multipart/form-data"})
+	@PostMapping
+//	(consumes = {"multipart/form-data"})
 	@ApiOperation(value = "상품 등록하기", notes="<strong>회원이 작성한 상품를 등록한다.</strong><br/>")
 	@ApiResponses({
 		@ApiResponse(code=201, message="상품을 정상적으로 등록되었습니다."),
@@ -50,7 +51,7 @@ public class ItemController {
 	public ResponseEntity<? extends BaseResponseDto> regist(
 		@ApiIgnore @RequestHeader("Authorization") String accessToken,
 		@ApiParam(value="다중 파일 업로드") @RequestPart(required = false) List<MultipartFile> multipartFile,
-		@ApiParam(value = "등록할 상품") @RequestPart(required = true) ItemRegisterRequestDto itemRegisterRequestDto){
+		@ApiParam(value = "등록할 상품",required = true) ItemRegisterRequestDto itemRegisterRequestDto){
 		if(itemService.registerItem(accessToken, multipartFile, itemRegisterRequestDto) != null)
 			return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.of(HttpStatus.CREATED.value(), "Success"));
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
