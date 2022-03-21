@@ -81,7 +81,8 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
 
-
+//	@PutMapping("/createWallet/{id}")
+//	public ReponseEntity<>
 //	public ResponseEntity<? extends BaseResponseDto> delete(
 //			@PathVariable("communityId") @RequestBody @ApiParam(value = "삭제할 커뮤니티ID ", required = true) String communityId){
 //		if(communityService.deleteCommunity(communityId) != null)

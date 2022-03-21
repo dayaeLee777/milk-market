@@ -10,18 +10,7 @@
         <div class="col-md-12 mt-5">
           <div class="card">
             <div class="card-body">
-              <div v-if="step == 0">
-                <h5 class="card-title">
-                  아직 지갑이 없네요! 지갑을 생성하세요.
-                </h5>
-                <a
-                  href="#"
-                  v-on:click="createWallet"
-                  class="btn btn-lg btn-outline-primary"
-                  >지갑생성하기</a
-                >
-              </div>
-              <div v-if="step == 1">
+              <div v-if="this.walletAddress">
                 <div class="alert alert-warning" role="alert">
                   <strong>경고!</strong>
                   <p>
@@ -49,6 +38,19 @@
                   저장하겠습니다.</a
                 >
               </div>
+              <div v-else>
+                <h5 class="card-title">
+                  아직 지갑이 없네요! 지갑을 생성하세요.
+                </h5>
+                <p>비밀번호 입력</p>
+                <input type="text" class="form-control" v-model="this.pw">
+                <a
+                  href="#"
+                  v-on:click="createWallet"
+                  class="btn btn-lg btn-outline-primary mt-3"
+                  >지갑생성하기</a
+                >
+              </div>
             </div>
           </div>
         </div>
@@ -61,6 +63,8 @@
 import { registerWallet } from "@/api/wallet.js";
 import Web3 from "web3";
 import MyPageNav from "./MyPageNav.vue";
+import { BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js";
+
 
 export default {
   components: {
@@ -69,29 +73,48 @@ export default {
   data() {
     return {
       step: 0,
+      pw: "",
       privateKey: "",
       walletAddress: "",
       sharedState: this.$store.state,
-      userId: this.$store.state.user.id
+      userId: this.$store.state.user.id,
+      contract: "",
     };
   },
   methods: {
-    createWallet: function() {
-      /**
-       * TODO: PJTⅡ 과제 Req.1-1 [지갑 생성]
-       * web3 api를 사용하여 지갑을 생성한다.
-       */
-      
+    // 추후 메타마스크 연동으로 변경
+    makeContract() {   
+      const Web3 = require('web3');
+      const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));   
 
-      this.step += 1;
+      let contract =  new web3.eth.Contract(MilkToken.abi, this.contractAdress);
+      this.contract = contract
+      
     },
-    saveWallet: function() {
+    createWallet() {
+      const Web3 = require('web3');
+      const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
+      this.privateKey = this.pw;
+      console.log(this.pw);
+      web3.eth.personal.newAccount(this.pw).then(address => {
+        console.log(address);
+        this.$store.commit("setWalletAddress", address);
+        this.walletAddress = address;
+      })
+      this.pw = "";
+      // this.step += 1;
+    },
+    saveWallet() {
       /**
        * TODO: PJTⅡ 과제 Req.1-1 [지갑 생성]
        * 생성된 사용자의 지갑 정보를 서버에 등록한다.
        */
-     
+      
     }
+  },
+  mounted() {
+    this.makeContract();
+    this.walletAddress = this.$store.state.user.walletAddress;
   }
 };
 </script>

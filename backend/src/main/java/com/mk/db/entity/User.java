@@ -42,6 +42,9 @@ public class User extends BaseEntity implements UserDetails {
 	@Column(name = "profile_description")
 	private String profileDescription;
 
+	@Column(unique = true)
+	private String walletAddress;
+
 	@ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
@@ -90,6 +93,7 @@ public class User extends BaseEntity implements UserDetails {
 				", password='" + password + '\'' +
 				", nickname='" + nickname + '\'' +
 				", email='" + email + '\'' +
+				", walletAddress='" + walletAddress + '\'' +
 				", profileImage='" + profileImage + '\'' +
 				", profileDescription='" + profileDescription + '\'' +
 				", roles=" + roles +

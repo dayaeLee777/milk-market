@@ -6,8 +6,8 @@
       <p>지갑 생성</p>
       <div>
         <span>비밀번호 입력</span>
-        <input type="text" v-model=tx.password>
-        <button @click="createWallet">지갑 생성</button>
+        <input type="text" class="form-control" v-model=tx.password>
+        <button @click="createWallet" class="btn btn-primary my-2">지갑 생성</button>
       </div>
     </div>
     <hr>
@@ -17,24 +17,24 @@
         <span>계좌: {{ coinbaseAdress }}</span>
      <div>
         <span>{{ ethBalanceBase }}ETH</span>
-        <button @click="checkBalance(0)">ETH 잔액 확인</button>
+        <button @click="checkBalance(0)" class="btn btn-primary my-2">ETH 잔액 확인</button>
         </div>
         <div>
           <span>{{ milkBalanceBase }}MILK</span>
-          <button @click="checkMilk(0)">MILK 잔액 확인</button>
+          <button @click="checkMilk(0)" class="btn btn-primary my-2">MILK 잔액 확인</button>
         </div>
       </div>
       <div class="ms-5">
         <p>계좌 잔액 확인</p>
         <span>계좌: {{ address }}</span>
-        <input type="text" v-model="idx">
+        <input type="text" class="form-control" v-model="idx">
         <div>
         <span>{{ ethBalance }}ETH</span>
-        <button @click="checkBalance(idx)">ETH 잔액 확인</button>
+        <button @click="checkBalance(idx)" class="btn btn-primary my-2">ETH 잔액 확인</button>
         </div>
         <div>
           <span>{{ milkBalance }}MILK</span>
-          <button @click="checkMilk(idx)">MILK 잔액 확인</button>
+          <button @click="checkMilk(idx)" class="btn btn-primary my-2">MILK 잔액 확인</button>
         </div>
       </div>      
     </div>
@@ -42,22 +42,22 @@
     <div>
       <p>MILK 전송</p>
       <p>From</p>
-      <input type="text" v-model="from">
+      <input type="text" class="form-control"  v-model="from">
       <p>To</p>
-      <input type="text" v-model="to">
+      <input type="text" class="form-control" v-model="to">
       <p>전송 MILK</p>
-      <input type="text" v-model="amount">
-      <button @click="sendMilk">MILK 전송</button>
+      <input type="text" class="form-control" v-model="amount">
+      <button @click="sendMilk" class="btn btn-primary my-2">MILK 전송</button>
     </div>
     <hr>
       <p>ETH 전송</p>
       <p>From</p>
-      <input type="text" v-model="from_eth">
+      <input type="text" class="form-control" v-model="from_eth">
       <p>To</p>
-      <input type="text" v-model="to_eth">
+      <input type="text" class="form-control" v-model="to_eth">
       <p>전송 ETH</p>
-      <input type="text" v-model="amount_eth">
-      <button @click="sendETH">ETH 전송</button>    
+      <input type="text" class="form-control" v-model="amount_eth">
+      <button @click="sendETH" class="btn btn-primary my-2">ETH 전송</button>    
   </div>
 
 </template>
@@ -179,7 +179,7 @@ export default {
     }
   },
   mounted() {
-    const contractAdress = "0x11BDa2ed447D84217Ec4547DEF29241c2Bc734C7"
+    const contractAdress = "0x1217aEfde9317a557A6fd43355B1FBeAf53974C7"
     this.contractAdress = contractAdress 
     const Web3 = require('web3');
     const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT));
