@@ -57,6 +57,14 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	public Item getItemEntity(String itemId) {
+		Item item = itemRepository.findById(itemId).orElse(null);
+		if(item ==null)
+			return null;
+		return item;
+	}
+
+	@Override
 	public ItemGetResponseDto getItem(String itemId) {
 
 		Item item = itemRepository.findById(itemId).orElse(null);
@@ -80,6 +88,7 @@ public class ItemServiceImpl implements ItemService {
 
 		return itemGetResponseDto;
 	}
+
 
 	@Transactional
 	@Override

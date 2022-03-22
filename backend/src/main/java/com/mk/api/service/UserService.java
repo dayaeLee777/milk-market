@@ -10,8 +10,6 @@ import com.mk.db.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -38,7 +36,8 @@ public class UserService {
 		this.jwtTokenProvider = jwtTokenProvider;
 		this.modelMapper = new ModelMapper();
 	}
-	
+
+	@Transactional
 	public boolean createUser(UserDTO userDto)  {
 		//throws AlreadyExistEmailException, AlreadyExistNicknameException
 		String email = userDto.getEmail();
@@ -64,6 +63,7 @@ public class UserService {
 
 
 	//Login 데이터를 받고, JWT를 반환하는 메소드
+	@Transactional
 	public String login(LoginReq data) {
 		User user = userRepository.findByEmail(data.getEmail()).orElseThrow(()->new UsernameNotFoundException("사용자를 찾을 수 없습니다.") );
 		if(comparePassword(data.getPassword(), user.getPassword())) {
@@ -94,6 +94,7 @@ public class UserService {
 		}
 		
 	}
+
 
 	public UserDTO getUserByEmail(String email) throws Exception {
 		Optional<User> source = userRepository.findByEmail(email);
@@ -146,8 +147,8 @@ public class UserService {
 	@Transactional
     public boolean delete(String id) {
 		Optional<User> user = userRepository.findById(id);
-		if(user.isPresent() && user.get().isWithdrawal() ==false){
-			user.get().setWithdrawal(true);
+		if(user.isPresent() && user.get().isDelYn() ==false){
+			user.get().setDelYn(true);
 			userRepository.save(user.get());
 			return true;
 		}else{

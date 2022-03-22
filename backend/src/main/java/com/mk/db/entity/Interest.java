@@ -34,4 +34,9 @@ public class Interest extends BaseEntity {
 		this.delYn = delYn;
 	}
 
+	public void deleteInterest(){
+		this.delYn = true;
+	}
+
+
 }

@@ -24,6 +24,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/users")
 public class UserController {
 	private UserService userService;
