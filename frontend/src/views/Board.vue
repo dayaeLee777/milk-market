@@ -6,7 +6,7 @@
       style="margin-top: 76px;"
     > -->
 
-      <!-- <div class="media text-muted pt-3">
+    <!-- <div class="media text-muted pt-3">
         <svg
           class="bd-placeholder-img mr-2 rounded"
           width="32"
@@ -96,36 +96,46 @@
     <!-- </div> -->
     <h2>게시판 리스트</h2>
 
-		<div class="searchWrap">
-			<input type="text" v-model="keyword" @keyup.enter="fnSearch" /><a href="javascript:;" @click="fnSearch" class="btnSearch btn">검색</a>
-		</div>
+    <div class="searchWrap">
+      <input
+        type="text"
+        v-model="keyword"
+        @keyup.enter="fnSearch"
+      /><a
+        href="javascript:;"
+        @click="fnSearch"
+        class="btnSearch btn"
+      >검색</a>
+    </div>
 
-		<div class="listWrap">
-			<table class="tbList">
-				<colgroup>
-					<col width="6%" />
-					<col width="*" />
-					<col width="10%" />
-					<col width="15%" />
-				</colgroup>
-				<tr>
-					<th>no</th>
-					<th>제목</th>
-					<th>아이디</th>
-					<th>날짜</th>
-				</tr>
-				<tr v-for="(content, idx) in contents" :key="idx">
-					<td>{{idx}}</td>
-					<td class="txt_left"><a href="javascript:;">{{content.title}}</a></td>
-					<td>{{content.userNickname}}</td>
-					<td>{{content.regdate}}</td>
-				</tr>
-				<tr v-if="contents.length == 0">
-					<td colspan="4">데이터가 없습니다.</td>
-				</tr>
-			</table>
-		</div>
-    
+    <div class="listWrap">
+      <table class="tbList">
+        <colgroup>
+          <col width="6%" />
+          <col width="*" />
+          <col width="10%" />
+          <col width="15%" />
+        </colgroup>
+        <tr>
+          <th>no</th>
+          <th>제목</th>
+          <th>아이디</th>
+          <th>날짜</th>
+        </tr>
+        <tr
+          v-for="(content, idx) in contents"
+          :key="idx"
+        >
+          <td>{{idx}}</td>
+          <td class="txt_left"><a href="javascript:;">{{content.title}}</a></td>
+          <td>{{content.userNickname}}</td>
+          <td>{{content.regdate}}</td>
+        </tr>
+        <tr v-if="contents.length == 0">
+          <td colspan="4">데이터가 없습니다.</td>
+        </tr>
+      </table>
+    </div>
 
     <f-nav></f-nav>
   </div>
@@ -135,28 +145,25 @@
 import axios from 'axios'
 
 export default {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
   components: {
 
   },
->>>>>>> 7e7ab7c5c7ed6103905e29032c79c364217b54d0
-=======
-  data(){
-    return{
-      contents:[],
-      keyword:"",
+
+  data () {
+    return {
+      contents: [],
+      keyword: "",
     };
   },
-  mounted(){
+  mounted () {
     this.fnGetList();
     console("마운트 되자마자 보여주는 콘솔")
   },
-  methods:{
-    fnGetList(){
+  methods: {
+    fnGetList () {
       const token = this.$store.state.user.JWTToken;
-      console.log(token+"백엔드로 넘어가는 토큰입니다.");
+      console.log(token + "백엔드로 넘어가는 토큰입니다.");
 
       const headers = {
         Authorization: `Bearer ${token}`
@@ -172,19 +179,19 @@ export default {
       //   }
       // })
       axios({
-        url : `http://localhost:8080/api/community/list`,
+        url: `http://localhost:8080/api/community/list`,
         method: 'get',
         headers,
       })
-      .then((res)=>{
-        this.contents = res.data.communityGetResponselist;
-        console.log("성공성공성공");
-        console.log(res);
-        console.log(this.contents);
-      })
-      .catch((err)=>{
-        console.log(err)
-      })
+        .then((res) => {
+          this.contents = res.data.communityGetResponselist;
+          console.log("성공성공성공");
+          console.log(res);
+          console.log(this.contents);
+        })
+        .catch((err) => {
+          console.log(err)
+        })
 
     },
     // getList(){
@@ -198,23 +205,22 @@ export default {
     //     console.log(err);
     //   })
     // },
-    fnSearch(){
+    fnSearch () {
       this.paging.page = 1;
       this.fnGetList();
     },
-    fnPage(n){
-      if(this.page != n){
+    fnPage (n) {
+      if (this.page != n) {
         this.page = n;
         this.fnGetList();
       }
     }
   }
->>>>>>> feature/fe-BoardPage
 }
 </script>
 
 <style scoped>
-	/* .searchWrap{border:1px solid #888; border-radius:5px; text-align:center; padding:20px 0; margin-bottom:40px;}
+/* .searchWrap{border:1px solid #888; border-radius:5px; text-align:center; padding:20px 0; margin-bottom:40px;}
 	.searchWrap input{width:60%; height:36px; border-radius:3px; padding:0 10px; border:1px solid #888;}
 	.searchWrap .btnSearch{display:inline-block; margin-left:10px;}
 	.tbList th{border-top:1px solid #888;}

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h-nav></h-nav>
-    <product-list></product-list>
+    <item-list style="margin-top: 100px;"></item-list>
     <step-flow></step-flow>
     <f-nav></f-nav>
   </div>
@@ -10,7 +10,7 @@
 <script>
 import HNav from "../components/common/HNav";
 import StepFlow from '@/components/common/StepFlow';
-import ProductList from '@/components/ProductList';
+import ItemList from '@/components/item/ItemList';
 import FNav from '../components/common/FNav.vue';
 
 
@@ -20,7 +20,7 @@ export default {
     HNav,
     StepFlow,
     FNav,
-    ProductList
+    ItemList
   }
 };
 </script>

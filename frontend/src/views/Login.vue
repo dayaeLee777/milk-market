@@ -41,11 +41,11 @@
             @click="kakaoLogin"
             style="width : 200px;"
           >
-          <img
+          <!-- <img
             src="https://static.nid.naver.com/oauth/big_g.PNG?version=js-2.0.1"
             @click="naverLogin"
             style="width : 200px;"
-          >
+          > -->
         </div>
       </div>
     </div>

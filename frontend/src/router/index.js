@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Signup from "@/views/Signup.vue";
 import Home from "@/views/Home.vue";
-import Login from "@/views/Login.vue";
+// import Login from "@/views/Login.vue";
 import store from "@/store";
 import Shop from "@/views/Shop.vue";
 import MyPage from "@/views/MyPage.vue";
@@ -26,7 +26,8 @@ const routes = [
   {
     name: "login",
     path: "/login",
-    component: Login,
+    // component: Login,
+    component: () => import("@/views/Login.vue")
   },
   {
     path: "/register",
