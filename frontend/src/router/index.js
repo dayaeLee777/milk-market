@@ -98,7 +98,7 @@ const routes = [
       },
       {
         name: "mypage.wallet.info",
-        path: "wallet_info",
+        path: "/mypage/wallet_info",
         component: () => import("../components/mypage/WalletInfo.vue"),
       },
       {

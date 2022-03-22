@@ -5,20 +5,20 @@ const instance = createInstance();
 
 function findById(id, success, fail) {
   instance
-    .get("api/users/" + id)
+    .get(`api/users/${id}`)
     .then(success)
     .catch(fail);
 }
 
-function signup(email, name, password, success, fail) {
+function signup(email, nickName, password, success, fail) {
   const user = {
     email: email,
-    name: name,
+    nickname: nickName,
     password: password
   };
 
   instance
-    .post("api/users", JSON.stringify(user))
+    .post("api/users/signup", JSON.stringify(user))
     .then(success)
     .catch(fail);
 }

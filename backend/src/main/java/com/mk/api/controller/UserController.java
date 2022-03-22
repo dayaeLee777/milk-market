@@ -8,6 +8,7 @@ import com.mk.api.dto.response.GetUserByProfileRes;
 import com.mk.api.dto.response.MessageRes;
 import com.mk.api.service.UserService;
 import com.mk.db.entity.User;
+import com.mk.db.repository.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -53,9 +55,12 @@ public class UserController {
 		
 		try {
 			String token = userService.login(loginReq);
+			String walletAddress = userService.getWalletByEmail(loginReq.getEmail());
 			if(!token.equals("")) {
 				map.put("message", "로그인 성공");
+				map.put("email", loginReq.getEmail())	;
 	            map.put("token",token);
+				map.put("address", walletAddress);
 				return new ResponseEntity<Map<String,String>>(map, HttpStatus.OK);
 			}
 			map.put("message", "로그인 실패");

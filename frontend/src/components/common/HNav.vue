@@ -51,13 +51,13 @@
             >
           </li>
           <li class="nav-item" v-if="!$store.state.isSigned">
-            <router-link class="nav-link" to="/login">Sign In</router-link>
+            <router-link class="nav-link" to="/login">Log In</router-link>
           </li>
           <li class="nav-item" v-if="!$store.state.isSigned">
             <router-link class="nav-link" to="/register">Sign Up</router-link>
           </li>
           <li class="nav-item" v-if="$store.state.isSigned">
-            <router-link class="nav-link" to="/logout">Sign out</router-link>
+            <router-link class="nav-link" to="/logout">Log out</router-link>
           </li>
         </ul>
 

@@ -50,7 +50,7 @@
                       {{ isCashCharging ? "충전중" : "MILK 충전하기" }}
                     </button>
                   </div>
-                  <p class="text-primary mb-0">* 1 ETH = 1000 CASH</p>
+                  <p class="text-primary mb-0">* 1 ETH = 1000 MILK</p>
                   <p class="text-primary mb-0">* 최소 충전 금액: 0.1 ETH</p>
                 </td>
               </tr>
@@ -135,14 +135,14 @@ export default {
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
       const tx = {"from": this.coinbaseAddress, "to": this.walletAddress, "value": 10**18}
       web3.eth.sendTransaction(tx).then(res => {
-        console.log(res)
+        console.log(res);
+        this.fetchEtherBalance();
       })
-
     },
     chargeCash() {
       const vm = this;
       this.isCashCharging = true;
-      const privateKey = prompt("캐시를 충전하시려면 개인키를 입력하세요.");
+      const privateKey = prompt("캐시 를 충전하시려면 개인키를 입력하세요.");
       if (privateKey) {
         /**
          * TODO: PJTⅡ 과제3 Req.1-1 [토큰 구매]
@@ -180,11 +180,11 @@ export default {
     },
     // 회원 정보 가져온다.
     fetchUserInfo() {
-      const vm = this;
       findById(this.userId, function(response) {
+        console.log(response)
         const data = response.data;
-        vm.user.name = data["name"];
-        vm.user.email = data["email"];
+        this.user.name = data["name"];
+        this.user.email = data["email"];
       });
     },
   },

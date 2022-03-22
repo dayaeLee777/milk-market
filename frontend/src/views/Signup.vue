@@ -16,13 +16,13 @@
             />
           </div>
           <div class="form-group">
-            <label for="name">이름</label>
+            <label for="name">닉네임</label>
             <input
               type="text"
               class="form-control"
               id="name"
               v-model="user.name"
-              placeholder="이름"
+              placeholder="닉네임"
             />
           </div>
           <div class="form-group">

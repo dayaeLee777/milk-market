@@ -3,6 +3,7 @@ package com.mk.api.service;
 import com.mk.api.dto.request.LoginReq;
 import com.mk.api.dto.request.UpdatePasswordReq;
 import com.mk.api.dto.request.UserDTO;
+import com.mk.api.dto.request.WalletReq;
 import com.mk.config.JwtTokenProvider;
 import com.mk.db.entity.User;
 import com.mk.db.repository.UserRepository;
@@ -116,13 +117,31 @@ public class UserService {
 
 	}
 
+	// 지갑 저장
+	public boolean createWallet(WalletReq walletReq) {
+		String email = walletReq.getOwnerId();
+		String walletAddress = walletReq.getAddress();
+		Optional<User> user = userRepository.findByEmail(email);
+		if(user.isPresent()) {
+			user.get().setWalletAddress(walletAddress);
+			userRepository.save(user.get());
+			return true;
+		}
+		return false;
+	}
 
+	public String getWalletByEmail(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
+		if(user.isPresent()) {
+			return user.get().getWalletAddress();
+		}
+		return null;
+	}
 	//구 matchPassword
 	//생 비밀번호와, 암호화된 비밀번호를 입력받고, 두 비밀번호의 동일 여부를 반환
 	private boolean comparePassword(String rawPassword, String encryptPassword) {
         return passwordEncoder.matches(rawPassword,encryptPassword);
     }
-
 
 	@Transactional
     public boolean delete(String id) {

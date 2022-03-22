@@ -23,6 +23,7 @@
               id="password"
               v-model="user.password"
               placeholder="비밀번호"
+              @keydown.enter="login"
             />
           </div>
           <button type="submit" class="btn btn-primary" @click="login">
@@ -61,24 +62,10 @@ export default {
         this.user.email,
         this.user.password,
         function (response) {
+          console.log(response.data)
           scope.$store.commit("setIsSigned", true);
-          scope.$store.commit("setUserId", response.data.id);
-          findWallet(
-            response.data.id,
-            function (response) {
-              if (response.status == 200) {
-                scope.$store.commit("setWalletAddress", response.data.address);
-              } else {
-                alert("Unexpected status code: " + response.status);
-              }
-            },
-            function (err) {
-              if (err.response != 404) {
-                console.error(err);
-                //alert("지갑 정보를 찾지 못했습니다.");
-              }
-            }
-          );
+          scope.$store.commit("setUserId", response.data.email);
+          scope.$store.commit("setWalletAddress", response.data.address);
           scope.$store.commit("setJWTToken", response.data.token);
           console.log("여기까지 넘어갑니다."+response.data.token)
 
