@@ -79,7 +79,6 @@ export default {
         this.user.email,
         this.user.password,
         function (response) {
-          console.log(response);
           scope.$store.commit("setIsSigned", true);
           scope.$store.commit("setUserId", response.data.id);
           scope.$store.commit("setJWTToken", response.data.token);
@@ -96,10 +95,12 @@ export default {
             function (err) {
               if (err.response != 404) {
                 console.error(err);
-                alert("지갑 정보를 찾지 못했습니다.");
+                //alert("지갑 정보를 찾지 못했습니다.");
               }
             }
           );
+          scope.$store.commit("setJWTToken", response.data.token);
+          console.log("여기까지 넘어갑니다." + response.data.token)
 
           scope.$router.push("/");
         },

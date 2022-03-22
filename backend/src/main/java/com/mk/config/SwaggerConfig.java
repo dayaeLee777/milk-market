@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
@@ -35,6 +36,8 @@ public class SwaggerConfig {
 		return new ApiInfo("MilkMarket BACKEND APIs", "For API SERVER descriptions.", "v1.0", "Terms of service",
 				new Contact("", "", ""), "License of API", "", Collections.emptyList());
 	}
+
+
 
 	private ApiKey apiKey() {
 		return new ApiKey("AccessToken", "Authorization", "header");
