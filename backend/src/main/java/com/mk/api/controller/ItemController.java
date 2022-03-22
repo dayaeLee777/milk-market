@@ -3,7 +3,9 @@ package com.mk.api.controller;
 
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +34,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
 
+@Slf4j
 @Api(value = "상품 API", tags = { "Item" })
 @RestController
 @CrossOrigin("*")
@@ -41,8 +44,8 @@ public class ItemController {
 
 	private final ItemService itemService;
 	
-	@PostMapping
-//	(consumes = {"multipart/form-data"})
+	@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,
+			MediaType.MULTIPART_FORM_DATA_VALUE})
 	@ApiOperation(value = "상품 등록하기", notes="<strong>회원이 작성한 상품를 등록한다.</strong><br/>")
 	@ApiResponses({
 		@ApiResponse(code=201, message="상품을 정상적으로 등록되었습니다."),
@@ -50,8 +53,10 @@ public class ItemController {
 	})
 	public ResponseEntity<? extends BaseResponseDto> regist(
 		@ApiIgnore @RequestHeader("Authorization") String accessToken,
-		@ApiParam(value="다중 파일 업로드") @RequestPart(required = false) List<MultipartFile> multipartFile,
-		@ApiParam(value = "등록할 상품",required = true) ItemRegisterRequestDto itemRegisterRequestDto){
+		@ApiParam(value="다중 파일 업로드") @RequestPart(value = "multipartFile", required = false) List<MultipartFile> multipartFile,
+		@ApiParam(value = "등록할 상품",required = true) @RequestPart(value ="itemRegisterRequestDto", required = true) ItemRegisterRequestDto itemRegisterRequestDto){
+		log.info("dto = " + itemRegisterRequestDto);
+//		log.info("file =" + multipartFile.get(0));
 		if(itemService.registerItem(accessToken, multipartFile, itemRegisterRequestDto) != null)
 			return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.of(HttpStatus.CREATED.value(), "Success"));
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
