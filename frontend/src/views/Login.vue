@@ -57,9 +57,7 @@
 <script>
 import { login, sendAccessToken } from "../api/user.js";
 import { findByUserId as findWallet } from "../api/wallet.js";
-import { reactive, computed, ref, onMounted } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+
 
 
 export default {
