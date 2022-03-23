@@ -1,6 +1,10 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "axios";
+import createPersistedState from "vuex-persistedstate";
+
+// const store = new Vuex.Store({
+//   plugins: [createPersistedState()],
+// });
 
 Vue.use(Vuex);
 
@@ -33,5 +37,6 @@ export default new Vuex.Store({
     }
   },
   actions: {},
-  modules: {}
+  modules: {},
+  plugins: [createPersistedState()],
 });
