@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.mk.api.dto.request.CommunityModifyRequestDto;
 import com.mk.api.dto.request.ItemModifyRequestDto;
 import com.mk.api.dto.request.ItemRegisterRequestDto;
 import com.mk.api.dto.response.BaseResponseDto;
@@ -50,11 +49,8 @@ import javax.annotation.PostConstruct;
 public class ItemController {
 
 	private final ItemService itemService;
-	private final UserRepository userRepository;
-	private final ItemRepository itemRepository;
-
-	@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,
-			MediaType.MULTIPART_FORM_DATA_VALUE})
+	
+	@PostMapping(consumes = {"multipart/form-data"})
 	@ApiOperation(value = "상품 등록하기", notes="<strong>회원이 작성한 상품를 등록한다.</strong><br/>")
 	@ApiResponses({
 		@ApiResponse(code=201, message="상품을 정상적으로 등록되었습니다."),
@@ -62,10 +58,9 @@ public class ItemController {
 	})
 	public ResponseEntity<? extends BaseResponseDto> regist(
 		@ApiIgnore @RequestHeader("Authorization") String accessToken,
-		@ApiParam(value="다중 파일 업로드") @RequestPart(value = "multipartFile", required = false) List<MultipartFile> multipartFile,
-		@ApiParam(value = "등록할 상품",required = true) @RequestPart(value ="itemRegisterRequestDto", required = true) ItemRegisterRequestDto itemRegisterRequestDto){
-		log.info("dto = " + itemRegisterRequestDto);
-//		log.info("file =" + multipartFile.get(0));
+		@ApiParam(value="다중 파일 업로드") @RequestPart(required = false) List<MultipartFile> multipartFile,
+		@ApiParam(value = "등록할 상품", required = true) @RequestPart ItemRegisterRequestDto itemRegisterRequestDto){
+		System.out.println(itemRegisterRequestDto.toString());
 		if(itemService.registerItem(accessToken, multipartFile, itemRegisterRequestDto) != null)
 			return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.of(HttpStatus.CREATED.value(), "Success"));
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));

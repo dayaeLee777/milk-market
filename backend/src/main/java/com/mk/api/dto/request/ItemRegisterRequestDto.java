@@ -10,14 +10,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
-@ApiModel("ItemRegisterRequestDto")
+@ApiModel("itemRegisterRequestDto")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 public class ItemRegisterRequestDto {
 	
 	@ApiModelProperty(name="구분", example="대여 : A01, 판매 : A02")
