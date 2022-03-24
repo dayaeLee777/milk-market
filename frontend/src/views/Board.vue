@@ -43,6 +43,7 @@
             <th scope="col">제목</th>
             <th scope="col">아이디</th>
             <th scope="col">날짜</th>
+            <th scope="col">삭제</th>
           </tr>
         </thead>
         <tbody>
@@ -54,8 +55,17 @@
             <td @click="fnBoardDetail(content.communityId)">{{content.title}}</td>
             <td>{{content.userNickname}}</td>
             <td>{{content.regTime}}</td>
-            <td>{{content.communityId}}</td>
-            <td>{{typeof(content.communityId)}}</td>
+            <td>
+              <!-- <button type="button" class="btn btn-danger" @click ="communityWrite">
+                삭제
+              </button> -->
+              <button
+                @click="deleteCommunity(content.communityId)"
+                type="button"
+                class="btn-close"
+                aria-label="Close"
+              ></button>
+            </td>
           </tr>
           <tr v-if="contents.length == 0">
             <td colspan="4">데이터가 없습니다.</td>
@@ -135,10 +145,32 @@ export default {
     console("마운트 되자마자 보여주는 콘솔")
   },
   methods: {
+    deleteCommunity (communityId) {
+      const token = this.$store.state.user.JWTToken;
+      console.log(token + "community 삭제 시 백엔드로 보내는 토큰입니다.");
+
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      axios({
+        url: `http://localhost:8080/api/community/delete/${communityId}`,
+        method: 'put',
+        headers,
+      })
+        .then((res) => {
+          console.log("글 삭제 성공 왜 안될까");
+          console.log(res);
+          this.$router.go('/board'); //여기서 새로고침
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log("글 삭제 실패");
+        })
+    },
     fnBoardDetail (communityId) {
-      // this.$router.push({path : "/community/detail", params: communityId})
-      // this.$router.push({path : "/community/detail", params: communityId})
-      this.$router.push({ name: 'communityDetail', params: { id: communityId } })
+      this.$router.push({ name: "communityDetail", params: { coId: communityId } })
+
     },
     communityWrite () {
       this.$router.push("/commnunity/write");
