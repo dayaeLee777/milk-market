@@ -1,38 +1,52 @@
 package com.mk.api.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.mk.api.dto.request.LoginReq;
 import com.mk.api.dto.request.SignUpReq;
 import com.mk.api.dto.request.UserDTO;
 import com.mk.api.dto.response.BaseResponseDto;
 import com.mk.api.dto.response.GetUserByProfileRes;
 import com.mk.api.dto.response.MessageRes;
+import com.mk.api.service.ProfileImageService;
 import com.mk.api.service.UserService;
-import com.mk.db.entity.User;
-import com.mk.db.repository.UserRepository;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiParam;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/users")
 public class UserController {
-	private UserService userService;
+	
+	private final UserService userService;
 
-	@Autowired
-	public UserController(UserService userService) {
-		this.userService = userService;
-	}
+	private final ProfileImageService profileImageService;
 
 	@PostMapping("/signup")
 	public ResponseEntity<MessageRes> signUp(@Valid @RequestBody SignUpReq signUpReq)  {
@@ -99,5 +113,18 @@ public class UserController {
 //		if (user == null) return false;
 //		return Integer.parseInt(id) == user.getId();
 //	}
+	
+	@PostMapping("/profileImage")
+	@ApiOperation(value = "프로필 이미지 업로드")
+	@ApiResponses({
+		@ApiResponse(code=201, message="파일이 정상적으로 등록되었습니다."),
+		@ApiResponse(code=409, message="업로드를 실패했습니다.")
+	})
+	public ResponseEntity<? extends BaseResponseDto> uploadProfileImage(
+		@ApiIgnore @RequestHeader("Authorization") String accessToken, 
+			@ApiParam(value="프로필 이미지", required = true) @RequestPart List<MultipartFile> multipartFile) {
+		profileImageService.uploadProfileImg(accessToken, multipartFile);
+		return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.of(HttpStatus.CREATED.value(), "Success"));
+	}
 	
 }

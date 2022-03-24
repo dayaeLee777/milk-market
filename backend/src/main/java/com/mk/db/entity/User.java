@@ -1,15 +1,25 @@
 package com.mk.db.entity;
 
-import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Table;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @ToString
 @Getter
@@ -90,7 +100,8 @@ public class User extends BaseEntity implements UserDetails {
 	}
 
 	public User(String password, String nickname, String email, boolean delYn, String bcode, String bname,
-			String profileImage, String profileDescription, String walletAddress, List<String> roles) {
+			String profileImage, String profileDescription, String walletAddress, String walletPrivateKey,
+			List<String> roles) {
 		super();
 		this.password = password;
 		this.nickname = nickname;
@@ -101,6 +112,7 @@ public class User extends BaseEntity implements UserDetails {
 		this.profileImage = profileImage;
 		this.profileDescription = profileDescription;
 		this.walletAddress = walletAddress;
+		this.walletPrivateKey = walletPrivateKey;
 		this.roles = roles;
 	}
 	

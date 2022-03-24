@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +22,7 @@ public class ProfileImage extends BaseEntity {
 	
 	private String newFileName;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 	
@@ -35,5 +35,12 @@ public class ProfileImage extends BaseEntity {
 		this.newFileName = newFileName;
 		this.user = user;
 		this.delYn = delYn;
+	}
+	
+	public void modifyProfileImage(String originFileName, String newFileName) {
+		
+		this.originFileName = originFileName;
+		this.newFileName = newFileName;
+		
 	}
 }
