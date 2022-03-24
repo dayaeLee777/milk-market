@@ -18,7 +18,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ProfileImage extends BaseEntity {
 
-private String originFileName;
+	private String originFileName;
 	
 	private String newFileName;
 	
