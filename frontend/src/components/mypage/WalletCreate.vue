@@ -64,7 +64,7 @@ import { registerWallet } from "@/api/wallet.js";
 import Web3 from "web3";
 import axios from 'axios'
 import MyPageNav from "./MyPageNav.vue";
-import { BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js";
+import { BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS, API_BASE_URL } from "@/config/index.js";
 
 
 export default {
@@ -110,19 +110,20 @@ export default {
       const headers = {
         Authorization: `Bearer ${token}`
       }
-
       axios({
-        url: 'http://localhost:8080/api/wallets/',
+        url: `${API_BASE_URL}/api/wallets/`,
         method: 'post',
         headers,
         data: {
           ownerId: this.userId,
           address: this.walletAddress,
+          privateKey: this.privateKey,
         }
       })
       .then(res => {
-        console.log(res.data)
-        this.$store.commit("setWalletAddress", res.data);
+        // console.log(res.data.data)
+        this.$store.commit("setWalletAddress", res.data.data);
+        this.$router.push("/mypage/wallet_info")
       })
       .catch(err => {
         console.log(err)

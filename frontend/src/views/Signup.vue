@@ -43,6 +43,7 @@
               id="password-confirm"
               v-model="user.passwordConfirm"
               placeholder="비밀번호 확인"
+              @keydown.enter="register"
             />
           </div>
           <button type="submit" class="btn btn-primary" v-on:click="register">
