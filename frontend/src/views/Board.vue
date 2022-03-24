@@ -55,6 +55,7 @@
             <td>{{content.userNickname}}</td>
             <td>{{content.regTime}}</td>
             <td>{{content.communityId}}</td>
+            <td>{{typeof(content.communityId)}}</td>
           </tr>
           <tr v-if="contents.length == 0">
             <td colspan="4">데이터가 없습니다.</td>
@@ -137,7 +138,7 @@ export default {
     fnBoardDetail (communityId) {
       // this.$router.push({path : "/community/detail", params: communityId})
       // this.$router.push({path : "/community/detail", params: communityId})
-      this.$router.push({ name: 'communityDetail', query: { 'coId': communityId } })
+      this.$router.push({ name: 'communityDetail', params: { id: communityId } })
     },
     communityWrite () {
       this.$router.push("/commnunity/write");
