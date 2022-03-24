@@ -37,7 +37,7 @@ function registerWallet(userId, walletAddress, success, fail) {
   };
 
   instance
-    .post("/api/wallets", JSON.stringify(body))
+    .post('/api/wallets/', JSON.stringify(body))
     .then(success)
     .catch(fail);
 }

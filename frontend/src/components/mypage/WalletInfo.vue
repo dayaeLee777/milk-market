@@ -29,8 +29,8 @@
                 </td>
               </tr>
               <tr>
-                <th>보유 캐시</th>
-                <td class="text-right">{{ wallet["cash"] }} CASH</td>
+                <th>보유 MILK</th>
+                <td class="text-right">{{ wallet["cash"] }} MILK</td>
                 <td colspan="2" class="text-left">
                   <div class="input-group">
                     <input
@@ -47,11 +47,10 @@
                       v-on:click="chargeCash()"
                       v-bind:disabled="!canCashCharge"
                     >
-                      {{ isCashCharging ? "충전중" : "캐시 충전하기" }}
+                      {{ isCashCharging ? "충전중" : "MILK 충전하기" }}
                     </button>
                   </div>
-
-                  <p class="text-primary mb-0">* 1 ETH = 100000 CASH</p>
+                  <p class="text-primary mb-0">* 1 ETH = 1000 CASH</p>
                   <p class="text-primary mb-0">* 최소 충전 금액: 0.1 ETH</p>
                 </td>
               </tr>
@@ -79,6 +78,7 @@ import { buyCash, getBalance } from "@/utils/cashContract.js";
 import MyPageNav from "./MyPageNav.vue";
 import { ethToWei } from "@/utils/ethereumUnitUtils.js";
 import BN from "bn.js";
+import { BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js";
 
 export default {
   name: "WalletInfo",
@@ -103,7 +103,8 @@ export default {
       isCashCharging: false, // 현재 캐시을 충전하고 있는 중인지 확인
       cashChargeAmount: 0.1,
       userId: this.$store.state.user.id,
-      walletAddress: this.$store.state.user.walletAddress
+      walletAddress: this.$store.state.user.walletAddress,
+      coinbaseAddress: "",
     };
   },
   computed: {
@@ -122,6 +123,7 @@ export default {
        * TODO: PJTⅡ 과제3 Req.1-3 [지갑 조회 확장]
        * 캐시 잔액 정보를 포함하여 화면에 보여준다.
        */
+      
 
     },
     /**
@@ -129,7 +131,13 @@ export default {
      * 이더 충전을 요청
      */
     chargeETH() {
-  
+      const Web3 = require('web3');
+      const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
+      const tx = {"from": this.coinbaseAddress, "to": this.walletAddress, "value": 10**18}
+      web3.eth.sendTransaction(tx).then(res => {
+        console.log(res)
+      })
+
     },
     chargeCash() {
       const vm = this;
@@ -151,14 +159,24 @@ export default {
       
     },
     fetchEtherBalance() {
-      const vm = this;
-      walletService.findByUserId(this.userId, function(res) {
-        const web3 = createWeb3();
-        vm.wallet.balance = web3.utils.fromWei(
-          res.data.balance.toString(),
-          "ether"
-        );
-      });
+      // const vm = this;
+      // walletService.findByUserId(this.userId, function(res) {
+      //   const web3 = createWeb3();
+      //   vm.wallet.balance = web3.utils.fromWei(
+      //     res.data.balance.toString(),
+      //     "ether"
+      //   );
+      // });
+      const Web3 = require('web3');
+      const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
+      web3.eth.getBalance(this.walletAddress).then(res =>{
+        const balanceWei = res
+        console.log(balanceWei)
+        this.wallet.balance = web3.utils.fromWei(
+          balanceWei, "ether"
+        )
+        console.log(this.wallet.balance)
+      })
     },
     // 회원 정보 가져온다.
     fetchUserInfo() {
@@ -173,6 +191,13 @@ export default {
   mounted() {
     this.fetchWalletInfo();
     this.fetchUserInfo();
+    this.fetchEtherBalance();
+    const Web3 = require('web3');
+    const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
+    web3.eth.getAccounts().then(res => {
+      this.coinbaseAddress = res[0]
+    });
+
   }
 };
 </script>

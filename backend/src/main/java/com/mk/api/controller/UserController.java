@@ -8,7 +8,7 @@ import com.mk.api.dto.response.GetUserByProfileRes;
 import com.mk.api.dto.response.MessageRes;
 import com.mk.api.service.UserService;
 import com.mk.db.entity.User;
-
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/users")
 public class UserController {
 	private UserService userService;
@@ -81,7 +82,8 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
 
-
+//	@PutMapping("/createWallet/{id}")
+//	public ReponseEntity<>
 //	public ResponseEntity<? extends BaseResponseDto> delete(
 //			@PathVariable("communityId") @RequestBody @ApiParam(value = "삭제할 커뮤니티ID ", required = true) String communityId){
 //		if(communityService.deleteCommunity(communityId) != null)

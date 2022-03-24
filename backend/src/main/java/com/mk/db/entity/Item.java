@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 public class Item extends BaseEntity {
-	
 	@Enumerated(EnumType.STRING)
 	private Code division;
 	

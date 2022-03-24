@@ -2,6 +2,7 @@ package com.mk.api.dto.request;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mk.db.code.Code;
 
 import io.swagger.annotations.ApiModel;
@@ -9,9 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-@ToString
 @ApiModel("itemRegisterRequestDto")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,8 +33,10 @@ public class ItemRegisterRequestDto {
 	private String description;
 
 	@ApiModelProperty(name="대여시작일", example="2022-01-01 00:00:00")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime rentStartDate;
 
 	@ApiModelProperty(name="대여종료일", example="2022-01-01 00:00:00")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime rentEndDate;
 }

@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -92,6 +93,7 @@ public class OAuthService {
         return access_Token;
     }
 
+    @Transactional
     public SignUpReq createKakaoUser(String token) throws Exception {
 
         String reqURL = "https://kapi.kakao.com/v2/user/me";
@@ -213,6 +215,7 @@ public class OAuthService {
         return access_Token;
     }
 
+    @Transactional
     public SignUpReq createNaverUser(String token) throws Exception {
 
         String reqURL = "https://openapi.naver.com/v1/nid/me";

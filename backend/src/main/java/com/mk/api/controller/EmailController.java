@@ -23,6 +23,7 @@ import java.util.Map;
 
 @Slf4j
 @Controller
+@CrossOrigin("*")
 @RequestMapping("/api/email")
 public class EmailController {
 

@@ -14,6 +14,7 @@ public interface ItemService {
 
 	Item registerItem(String accessToken, List<MultipartFile> multipartFile, ItemRegisterRequestDto itemRegisterRequestDto);
 
+	Item getItemEntity(String itemId);
 	ItemGetResponseDto getItem(String itemId);
 	
 	Item modifyItem(ItemModifyRequestDto itemModifyRequestDto, List<MultipartFile> multipartFile);
