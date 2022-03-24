@@ -11,7 +11,7 @@ import Explorer from "@/views/Explorer.vue";
 import Escrow from "@/views/Escrow.vue";
 import ScTestPage from "@/views/ScTestPage.vue";
 import Map from "@/views/Map.vue";
-import Board from "@/views/Board.vue";
+import Community from "@/views/Community.vue";
 // import CommunityWrite from "@/components/community/CommunityWrite.vue"
 
 Vue.use(VueRouter);
@@ -24,6 +24,12 @@ const routes = [
     path: "/",
     name: "home",
     component: Home,
+  },
+  // 게시판
+  {
+    path: "/community",
+    name: "community",
+    component: Community,
   },
   {
     path: "/commnunity/write",
@@ -64,12 +70,6 @@ const routes = [
     path: "/map",
     name: "map",
     component: Map,
-  },
-  // 게시판
-  {
-    path: "/board",
-    name: "board",
-    component: Board,
   },
   {
     name: "shop",
