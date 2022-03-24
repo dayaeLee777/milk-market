@@ -180,7 +180,7 @@ export default {
     }
   },
   mounted() {
-    const contractAdress = "0xe642E3849D36349600Be40EAcC85BA1E8C6A5257"
+    const contractAdress = "0xcc559c9bDe3Ec864c8b18EE4c5a9975677615fF5"
     this.contractAdress = contractAdress 
     const Web3 = require('web3');
     const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT));
