@@ -14,6 +14,7 @@ import Map from "@/views/Map.vue";
 import Community from "@/views/Community.vue";
 // import CommunityWrite from "@/components/community/CommunityWrite.vue"
 
+
 Vue.use(VueRouter);
 
 /**
@@ -122,6 +123,11 @@ const routes = [
         path: "/mypage/password",
         component: () => import("../components/mypage/Password.vue"),
       },
+      {
+        name: "mypage.update",
+        path: "/mypage/update",
+        component: () => import("../components/mypage/MyInfoUpdate.vue"),
+      }
     ],
     redirect: () => {
       return "/mypage/items";
