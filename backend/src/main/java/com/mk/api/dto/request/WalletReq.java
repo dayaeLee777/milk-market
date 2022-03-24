@@ -11,4 +11,5 @@ import lombok.*;
 public class WalletReq {
     private String ownerId;
     private String address;
+    private String privateKey;
 }

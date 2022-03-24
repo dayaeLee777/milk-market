@@ -24,7 +24,10 @@
                 <h4 class="alert alert-primary">{{ item.price }} CASH</h4>
               </div>
               <div class="form-group">
-                <label id="user" class="text-secondary">판매자</label>
+                <label
+                  id="user"
+                  class="text-secondary"
+                >판매자</label>
                 <p>
                   {{ item.seller.name }}({{ item.seller.email }})
                 </p>
@@ -34,15 +37,24 @@
                 <p>{{ item.registeredAt }}</p>
               </div>
               <div class="form-group">
-                <label id="explanation" class="text-secondary">상품 설명</label>
+                <label
+                  id="explanation"
+                  class="text-secondary"
+                >상품 설명</label>
                 <p v-if="item.explanation.length > 0">{{ item.explanation }}</p>
                 <p v-else>-</p>
               </div>
               <div class="form-group">
-                <label id="state" class="text-secondary">상태</label><br />
+                <label
+                  id="state"
+                  class="text-secondary"
+                >상태</label><br />
                 <p>{{ item.available ? "판매중" : "판매 종료" }}</p>
               </div>
-              <div class="row" v-if="userId !== item.seller.id">
+              <div
+                class="row"
+                v-if="userId !== item.seller.id"
+              >
                 <div class="col-md-12 text-right">
                   <router-link
                     :to="{
@@ -50,8 +62,7 @@
                       params: { id: item.id, seller: item.seller, image: item.image, name: item.name, price: item.price },
                     }"
                     class="btn btn-lg btn-primary"
-                    >구매하기</router-link
-                  >
+                  >구매하기</router-link>
                 </div>
               </div>
             </div>
@@ -76,7 +87,7 @@ import { CATEGORY } from '@/utils/category.js';
 
 export default {
   name: 'ItemDetail',
-  data() {
+  data () {
     return {
       item: {
         id: null,
@@ -98,18 +109,18 @@ export default {
     };
   },
   methods: {
-    goBack: function() {
+    goBack: function () {
       // 이전 페이지로 이동한다.
       this.$router.go(-1);
     },
-    convertWeiToEth(value) {
+    convertWeiToEth (value) {
       if (value) {
         return weiToEth(value.toString()) + ' ETH';
       } else {
         return '-';
       }
     },
-    getImg(name) {
+    getImg (name) {
       if (name) {
         return getLocalImg(name);
       }
@@ -117,20 +128,20 @@ export default {
     },
   },
   filters: {
-    symbolToFullName(symbol) {
+    symbolToFullName (symbol) {
       return CATEGORY[symbol];
     },
   },
-  created() {
+  created () {
     this.item.id = this.$route.params.id;
   },
-  mounted: function() {
+  mounted: function () {
     const vm = this;
 
     // [DB] 상품 상세 정보 조회
     findById(
       this.item.id,
-      function(res) {
+      function (res) {
         const result = res.data;
         vm.item.name = result.name;
         vm.item.category = result.category;
@@ -141,13 +152,13 @@ export default {
         vm.item.registeredAt = result.registeredAt;
 
         // 판매자 정보
-        findUserById(result.seller, function(res) {
+        findUserById(result.seller, function (res) {
           const result = res.data;
           vm.item.seller.name = result.name;
           vm.item.seller.email = result.email;
         });
       },
-      function(error) {
+      function (error) {
         console.error(error);
         alert('DB에서 상품 상세 정보 조회를 가져올 수 없습니다.');
       },
@@ -155,10 +166,10 @@ export default {
     // [Smart Contract] 가격 조회
     getPrice(
       this.item.id,
-      function(price) {
+      function (price) {
         vm.item.price = price;
       },
-      function(err) {
+      function (err) {
         alert('상품 가격 조회에 실패했습니다.');
         console.error('가격 조회 실패:', err);
       },

@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  
+
   data () {
     return {
       markerPositions1: [

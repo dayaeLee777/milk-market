@@ -45,6 +45,9 @@ public class User extends BaseEntity implements UserDetails {
 	@Column(unique = true)
 	private String walletAddress;
 
+	@Column
+	private String walletPrivateKey;
+
 	@ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
