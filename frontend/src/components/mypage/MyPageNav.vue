@@ -24,9 +24,9 @@
         >
         <router-link
           class="nav-item nav-link"
-          v-bind:class="{ active: viewName == 'mypage.password' }"
-          :to="{ name: 'mypage.password' }"
-          >비밀번호 변경</router-link
+          v-bind:class="{ active: viewName == 'mypage.update' }"
+          :to="{ name: 'mypage.update' }"
+          >내정보 변경 변경</router-link
         >
       </nav>
     </div>
