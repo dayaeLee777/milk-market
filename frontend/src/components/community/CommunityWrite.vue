@@ -24,10 +24,6 @@
     </div>
 
     
-    
-    
-    
-    
     <f-nav></f-nav>
   </div>
 </template>
