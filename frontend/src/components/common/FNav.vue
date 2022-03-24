@@ -1,7 +1,11 @@
 <template>
-  <div class="container-fluid bg-secondary fixed-bottom">
+  <!-- <div class="container-fluid bg-secondary fixed-bottom">
     <div class="row p-2 justify-content-center">
+<<<<<<< HEAD
       <!-- <div>
+=======
+      <div class>
+>>>>>>> 1dafa85a821a297f205a58f41b42f7be8b112181
         <img
           @click="returnHome()"
           class="navbar"
@@ -40,6 +44,9 @@
         />
       </div> -->
     </div>
+  </div> -->
+  <div>
+
   </div>
 </template>
 

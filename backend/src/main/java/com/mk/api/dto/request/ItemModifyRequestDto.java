@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@ApiModel("ItemRegisterRequestDto")
+@ApiModel("itemModifyRequestDto")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

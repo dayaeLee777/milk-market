@@ -18,5 +18,7 @@ public class InterestGetListResponseDto extends BaseResponseDto {
 	
 	@ApiModelProperty(name="관심 상품 목록")
 	private List<ItemGetResponseDto> InterestListResponseDto;
-	
+
+	@ApiModelProperty(name="전체 페이지 수")
+	private int totalPage;
 }

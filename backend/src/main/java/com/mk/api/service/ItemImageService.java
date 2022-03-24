@@ -11,5 +11,7 @@ public interface ItemImageService {
 	void uploadItemImages(Item item, List<MultipartFile> multipartFile);
 	
 	void deleteItemImages(Item item);
+	
+	String getImagePath(String filename);
 
 }

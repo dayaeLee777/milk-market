@@ -26,19 +26,17 @@ public class ItemImageServiceImpl implements ItemImageService {
 	@Override
 	public void uploadItemImages(Item item, List<MultipartFile> multipartFile) {
 		
-		if(multipartFile != null) {
-			Map<String, String> fileNameList = S3Service.uploadFile(multipartFile);
+		Map<String, String> fileNameList = S3Service.uploadFile(multipartFile);
+		
+		fileNameList.forEach((o, n) -> {
+			ItemImage itemImage = ItemImage.builder()
+					.originFileName(o)
+					.newFileName(n)
+					.item(item)
+					.build();
 			
-			fileNameList.forEach((o, n) -> {
-				ItemImage itemImage = ItemImage.builder()
-						.originFileName(o)
-						.newFileName(n)
-						.item(item)
-						.build();
-				
-				itemImageRepository.save(itemImage);
-			});
-		}
+			itemImageRepository.save(itemImage);
+		});
 	}
 
 	@Transactional
@@ -51,6 +49,11 @@ public class ItemImageServiceImpl implements ItemImageService {
 			itemImageRepository.delete(itemImage);
 			
 		});
+	}
+
+	@Override
+	public String getImagePath(String filename) {
+		return S3Service.getFilePath(filename);
 	}
 
 }

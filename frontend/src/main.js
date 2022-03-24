@@ -15,6 +15,7 @@ Vue.filter("truncate", function (text, length, clamp) {
   }
 });
 
+window.Kakao.init('700fe3eb25ade19a26c18b71610a4b34')
 new Vue({
   router,
   store,
