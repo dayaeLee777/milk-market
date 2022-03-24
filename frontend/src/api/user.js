@@ -10,11 +10,8 @@ function findById (id, success, fail) {
     .catch(fail);
 }
 
-<<<<<<< HEAD
-function signup(email, nickName, password, success, fail) {
-=======
-function signup (email, name, password, success, fail) {
->>>>>>> 1dafa85a821a297f205a58f41b42f7be8b112181
+
+function signup (email, nickName, password, success, fail) {
   const user = {
     email: email,
     nickname: nickName,

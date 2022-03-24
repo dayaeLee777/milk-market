@@ -52,10 +52,6 @@
               v-if="$store.state.user.walletAddress"
             >MyPage</router-link>
           </li>
-<<<<<<< HEAD
-          <li class="nav-item" v-if="!$store.state.isSigned">
-            <router-link class="nav-link" to="/login">Log In</router-link>
-=======
           <li
             class="nav-item"
             v-if="!$store.state.isSigned"
@@ -63,8 +59,7 @@
             <router-link
               class="nav-link"
               to="/login"
-            >Sign In</router-link>
->>>>>>> 1dafa85a821a297f205a58f41b42f7be8b112181
+            >Login</router-link>
           </li>
           <li
             class="nav-item"
@@ -75,10 +70,8 @@
               to="/register"
             >Sign Up</router-link>
           </li>
-<<<<<<< HEAD
           <li class="nav-item" v-if="$store.state.isSigned">
             <router-link class="nav-link" to="/logout">Log out</router-link>
-=======
           <li
             class="nav-item"
             v-if="$store.state.isSigned"
@@ -87,7 +80,6 @@
               class="nav-link"
               to="/logout"
             >Sign out</router-link>
->>>>>>> 1dafa85a821a297f205a58f41b42f7be8b112181
           </li>
         </ul>
 
