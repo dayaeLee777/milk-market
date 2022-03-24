@@ -61,7 +61,7 @@ export default {
       })
       .then((res)=>{
         console.log("글 등록 성공");
-        this.$router.push("/board")
+        this.$router.push("/community")
       })
       .catch((err)=>{
         console.log(err);

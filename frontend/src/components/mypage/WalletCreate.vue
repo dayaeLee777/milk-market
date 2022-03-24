@@ -10,7 +10,7 @@
         <div class="col-md-12 mt-5">
           <div class="card">
             <div class="card-body">
-              <div v-if="this.walletAddress">
+              <div v-if="walletAddress">
                 <div class="alert alert-warning" role="alert">
                   <strong>경고!</strong>
                   <p>
@@ -43,7 +43,7 @@
                   아직 지갑이 없네요! 지갑을 생성하세요.
                 </h5>
                 <p>비밀번호 입력</p>
-                <input type="text" class="form-control" v-model="this.pw">
+                <input type="text" class="form-control" v-model="pw">
                 <a
                   href="#"
                   v-on:click="createWallet"
@@ -62,8 +62,9 @@
 <script>
 import { registerWallet } from "@/api/wallet.js";
 import Web3 from "web3";
+import axios from 'axios'
 import MyPageNav from "./MyPageNav.vue";
-import { BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js";
+import { BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS, API_BASE_URL } from "@/config/index.js";
 
 
 export default {
@@ -105,10 +106,28 @@ export default {
       // this.step += 1;
     },
     saveWallet() {
-      /**
-       * TODO: PJTⅡ 과제 Req.1-1 [지갑 생성]
-       * 생성된 사용자의 지갑 정보를 서버에 등록한다.
-       */
+      const token = this.$store.state.user.JWTToken;
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+      axios({
+        url: `${API_BASE_URL}/api/wallets/`,
+        method: 'post',
+        headers,
+        data: {
+          ownerId: this.userId,
+          address: this.walletAddress,
+          privateKey: this.privateKey,
+        }
+      })
+      .then(res => {
+        // console.log(res.data.data)
+        this.$store.commit("setWalletAddress", res.data.data);
+        this.$router.push("/mypage/wallet_info")
+      })
+      .catch(err => {
+        console.log(err)
+      })
       
     }
   },

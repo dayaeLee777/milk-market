@@ -3,6 +3,7 @@ package com.mk.api.service;
 import com.mk.api.dto.request.LoginReq;
 import com.mk.api.dto.request.UpdatePasswordReq;
 import com.mk.api.dto.request.UserDTO;
+import com.mk.api.dto.request.WalletReq;
 import com.mk.config.JwtTokenProvider;
 import com.mk.db.entity.User;
 import com.mk.db.repository.UserRepository;
@@ -117,12 +118,45 @@ public class UserService {
 
 	}
 
+	// 지갑 저장
+	public boolean createWallet(WalletReq walletReq) {
+		String email = walletReq.getOwnerId();
+		String walletAddress = walletReq.getAddress();
+		Optional<User> user = userRepository.findByEmail(email);
+		if(user.isPresent()) {
+			user.get().setWalletAddress(walletAddress);
+			user.get().setWalletPrivateKey(passwordEncoder.encode(walletReq.getPrivateKey()));
+			userRepository.save(user.get());
+			return true;
+		}
+		return false;
+	}
+
+	// 이메일 통해 지갑 찾기
+	public String getWalletByEmail(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
+		if(user.isPresent()) {
+			return user.get().getWalletAddress();
+		}
+		return null;
+	}
+	// PrivateKey(지갑 비밀번호 확인)
+	public boolean checkPrivateKey(WalletReq walletReq) {
+		User user = userRepository.findByEmail(walletReq.getOwnerId()).get();
+		if(comparePrivateKey(walletReq.getPrivateKey(), user.getWalletPrivateKey())) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean comparePrivateKey(String rawPrivateKey, String encryptPrivateKey) {
+		return passwordEncoder.matches(rawPrivateKey, encryptPrivateKey);
+	}
 	//구 matchPassword
 	//생 비밀번호와, 암호화된 비밀번호를 입력받고, 두 비밀번호의 동일 여부를 반환
 	private boolean comparePassword(String rawPassword, String encryptPassword) {
         return passwordEncoder.matches(rawPassword,encryptPassword);
     }
-
 
 	@Transactional
     public boolean delete(String id) {

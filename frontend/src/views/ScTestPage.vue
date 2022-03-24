@@ -159,6 +159,7 @@ export default {
       web3.eth.sendTransaction(tx).then(res => {
         console.log(res)
       })
+    
     },
     // MILK 전송
     async sendMilk() {
@@ -179,7 +180,7 @@ export default {
     }
   },
   mounted() {
-    const contractAdress = "0x374Ed0e8bAeEb4D82a0e75f4af4e3586821aD3c4"
+    const contractAdress = "0xe642E3849D36349600Be40EAcC85BA1E8C6A5257"
     this.contractAdress = contractAdress 
     const Web3 = require('web3');
     const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT));
