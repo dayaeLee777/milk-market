@@ -3,6 +3,11 @@ package com.mk.api.controller;
 
 import java.util.List;
 
+import com.mk.api.service.UserService;
+import com.mk.db.code.Code;
+import com.mk.db.entity.Item;
+import com.mk.db.repository.ItemRepository;
+import com.mk.db.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,6 +39,8 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.PostConstruct;
+
 @Slf4j
 @Api(value = "상품 API", tags = { "Item" })
 @RestController
@@ -43,7 +50,9 @@ import springfox.documentation.annotations.ApiIgnore;
 public class ItemController {
 
 	private final ItemService itemService;
-	
+	private final UserRepository userRepository;
+	private final ItemRepository itemRepository;
+
 	@PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE,
 			MediaType.MULTIPART_FORM_DATA_VALUE})
 	@ApiOperation(value = "상품 등록하기", notes="<strong>회원이 작성한 상품를 등록한다.</strong><br/>")
@@ -102,5 +111,6 @@ public class ItemController {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(BaseResponseDto.of(HttpStatus.ACCEPTED.value(), "Success"));
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
+
 
 }

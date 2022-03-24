@@ -1,5 +1,7 @@
 package com.mk.db.code;
 
+import java.util.Random;
+
 public enum Code {
 	
 	A01("대여",true),
@@ -36,5 +38,10 @@ public enum Code {
 
 	public boolean isUseYn() {
 		return useYn;
+	}
+
+	public static Code getRandomCode(){
+		Random random = new Random();
+		return values()[random.nextInt(values().length-2)+2];
 	}
 }
