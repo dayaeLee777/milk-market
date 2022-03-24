@@ -10,7 +10,6 @@
         class="navbar-brand"
         to="/"
       >MILK</router-link>
-      
 
       <router-link
         class="navbar-brand"
@@ -21,43 +20,64 @@
         to="/"
       >알람</router-link>
 
-      
-      
       <div
         class="navbar-collapse offcanvas-collapse"
         id="navbarsExampleDefault"
       >
-      <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <router-link class="nav-link" to="/explorer/dashboard"
-              >Explorer</router-link
-            >
+            <router-link
+              class="nav-link"
+              to="/explorer/dashboard"
+            >Explorer</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/shop">Shop</router-link>
+            <router-link
+              class="nav-link"
+              to="/shop"
+            >Shop</router-link>
           </li>
-          <li class="nav-item" v-if="$store.state.isSigned">
+          <li
+            class="nav-item"
+            v-if="$store.state.isSigned"
+          >
             <router-link
               class="nav-link"
               to="/mypage/wallet_create"
               v-if="!$store.state.user.walletAddress"
-              >MyPage</router-link
-            >
+            >MyPage</router-link>
             <router-link
               class="nav-link"
               to="/mypage/wallet_info"
               v-if="$store.state.user.walletAddress"
-              >MyPage</router-link
-            >
+            >MyPage</router-link>
           </li>
-          <li class="nav-item" v-if="!$store.state.isSigned">
-            <router-link class="nav-link" to="/login">Sign In</router-link>
+          <li
+            class="nav-item"
+            v-if="!$store.state.isSigned"
+          >
+            <router-link
+              class="nav-link"
+              to="/login"
+            >Sign In</router-link>
           </li>
-          <li class="nav-item" v-if="!$store.state.isSigned">
-            <router-link class="nav-link" to="/register">Sign Up</router-link>
+          <li
+            class="nav-item"
+            v-if="!$store.state.isSigned"
+          >
+            <router-link
+              class="nav-link"
+              to="/register"
+            >Sign Up</router-link>
           </li>
-          <li class="nav-item" v-if="$store.state.isSigned">
-            <router-link class="nav-link" to="/logout">Sign out</router-link>
+          <li
+            class="nav-item"
+            v-if="$store.state.isSigned"
+          >
+            <router-link
+              class="nav-link"
+              to="/logout"
+            >Sign out</router-link>
           </li>
         </ul>
 
@@ -78,7 +98,7 @@
           aria-labelledby="dropdownMenuButton"
         > -->
 
-          <!-- <router-link
+      <!-- <router-link
             class="dropdown-item"
             to="/explorer/dashboard"
           >Explorer
@@ -135,7 +155,7 @@
             >Sign out</router-link>
           </li> -->
 
-        <!-- </div>
+      <!-- </div>
       </div> -->
 
     </div>
@@ -150,7 +170,6 @@ export default {
 </script>
 
 <style>
-
 #nav-icon {
   height: 60px;
   padding-right: 0.5rem;
