@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +32,7 @@ public class User extends BaseEntity implements UserDetails {
 	private String email;
 
 	@Column(columnDefinition = "boolean default false")
-	private boolean withdrawal;
+	private boolean delYn;
 
 	
 	@Column(name = "profile_image")

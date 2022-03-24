@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,11 +22,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 public class Item extends BaseEntity {
-	
+	@Enumerated(EnumType.STRING)
 	private Code division;
 	
 	private String itemName;
 	
+	@Enumerated(EnumType.STRING)
 	private Code category;
 	
 	private int price;

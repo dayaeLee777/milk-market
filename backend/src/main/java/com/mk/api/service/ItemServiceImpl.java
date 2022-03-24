@@ -51,9 +51,18 @@ public class ItemServiceImpl implements ItemService {
 		if (itemRegisterRequestDto.getDivision() == Code.A01)
 			item.setRentDate(itemRegisterRequestDto.getRentStartDate(), itemRegisterRequestDto.getRentEndDate());
 
-		itemImageService.uploadItemImages(item, multipartFile);
+		if(multipartFile != null) 
+			itemImageService.uploadItemImages(item, multipartFile);
 
 		return itemRepository.save(item);
+	}
+
+	@Override
+	public Item getItemEntity(String itemId) {
+		Item item = itemRepository.findById(itemId).orElse(null);
+		if(item ==null)
+			return null;
+		return item;
 	}
 
 	@Override
@@ -67,7 +76,9 @@ public class ItemServiceImpl implements ItemService {
 		Map<String, String> itemImageList = new HashMap<String, String>();
 
 		itemImageRepository.findByItem(item).forEach(file -> {
-			itemImageList.put(file.getNewFileName(), file.getOriginFileName());
+			String originFilename = file.getOriginFileName();
+			String newFilename = file.getNewFileName();
+			itemImageList.put(originFilename, itemImageService.getImagePath(newFilename));
 		});
 
 		ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder().itemId(itemId).division(item.getDivision())
@@ -81,6 +92,7 @@ public class ItemServiceImpl implements ItemService {
 		return itemGetResponseDto;
 	}
 
+
 	@Transactional
 	@Override
 	public Item modifyItem(ItemModifyRequestDto itemModifyRequestDto, List<MultipartFile> multipartFile) {
@@ -91,8 +103,10 @@ public class ItemServiceImpl implements ItemService {
 
 		item.modifyItem(itemModifyRequestDto);
 
-		itemImageService.deleteItemImages(item);
-		itemImageService.uploadItemImages(item, multipartFile);
+		if(multipartFile != null) {
+			itemImageService.deleteItemImages(item);
+			itemImageService.uploadItemImages(item, multipartFile);
+		}
 
 		return itemRepository.save(item);
 	}
