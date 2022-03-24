@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Signup from "@/views/Signup.vue";
 import Home from "@/views/Home.vue";
-import Login from "@/views/Login.vue";
+// import Login from "@/views/Login.vue";
 import store from "@/store";
 import Shop from "@/views/Shop.vue";
 import MyPage from "@/views/MyPage.vue";
@@ -12,6 +12,7 @@ import Escrow from "@/views/Escrow.vue";
 import ScTestPage from "@/views/ScTestPage.vue";
 import Map from "@/views/Map.vue";
 import Board from "@/views/Board.vue";
+// import CommunityWrite from "@/components/community/CommunityWrite.vue"
 
 Vue.use(VueRouter);
 
@@ -25,9 +26,19 @@ const routes = [
     component: Home,
   },
   {
+    path: "/commnunity/write",
+    name: "commnunityWrite",
+    component: () => import("@/components/community/CommunityWrite.vue"),
+  },
+  {
+    path: "/commnunity/detail",
+    name: "communityDetail",
+    component: () => import("@/components/community/CommunityDetail.vue"),
+  },
+  {
     name: "login",
     path: "/login",
-    component: Login,
+    component: () => import("@/views/Login.vue"),
   },
   {
     path: "/register",

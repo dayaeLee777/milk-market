@@ -15,19 +15,43 @@
                   type="text"
                   class="form-control"
                   id="name"
-                  v-model="item.name"
+                  v-model="item.itemName"
                 />
               </div>
               <div class="form-group">
-                <label id="name">카테고리</label>
+                <label id="division">구분</label>
+                <select
+                  class="form-control"
+                  id="division"
+                  v-model="item.division"
+                >
+                  <option value="A01">대여</option>
+                  <option value="A02">판매</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label id="category">카테고리</label>
                 <select
                   class="form-control"
                   id="category"
                   v-model="item.category"
                 >
-                  <option value="D">디지털/가전</option>
-                  <option value="C">유아물품</option>
-                  <option value="H">게임/취미</option>
+                  <option value="B01">신생아</option>
+                  <option value="B02">유모차</option>
+                  <option value="B03">카시트</option>
+                  <option value="B04">발육</option>
+                  <option value="B05">수유</option>
+                  <option value="B06">이유식</option>
+                  <option value="B07">소독/살균</option>
+                  <option value="B08">스킨/바디</option>
+                  <option value="B09">유아가구</option>
+                  <option value="B10">목욕</option>
+                  <option value="B11">구강청결</option>
+                  <option value="B12">세제</option>
+                  <option value="B13">안전</option>
+                  <option value="B14">위생/건강</option>
+                  <option value="B15">임산부</option>
+                  <option value="B16">유아침구</option>
                 </select>
               </div>
               <div class="form-group">
@@ -48,9 +72,42 @@
                   placeholder=""
                 ></textarea>
               </div>
+              <div
+                v-if="item.division === 'A01'"
+                class="form-group"
+              >
+                <label id="rentStartDate">대여 시작 날짜</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="rentStartDate"
+                  v-model="item.rentStartDate"
+                />
+              </div>
+              <div
+                v-if="item.division === 'A01'"
+                class="form-group"
+              >
+                <label id="rentEndDate">대여 종료 날짜</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="rentEndDate"
+                  v-model="item.rentEndDate"
+                />
+              </div>
               <div class="form-group">
                 <label id="image-upload">이미지 첨부</label>
-                <!-- Upload image input-->
+                <input
+                  type="file"
+                  class="form-control"
+                  ref="itemImage"
+                  id="image-upload"
+                  @change="selectFile()"
+                />
+              </div>
+              <!-- <div class="form-group">
+                <label id="image-upload">이미지 첨부</label>
                 <input
                   id="upload"
                   type="file"
@@ -58,8 +115,6 @@
                   style="height: auto;"
                   @change="onFileChange"
                 />
-
-                <!-- Uploaded image area-->
                 <div class="image-area mt-4">
                   <img
                     id="imageResult"
@@ -69,7 +124,7 @@
                     style="max-height: 500px;"
                   />
                 </div>
-              </div>
+              </div> -->
               <div class="form-group">
                 <label id="privateKey">지갑 개인키</label>
                 <input
@@ -103,18 +158,23 @@
 <script>
 import { create as createItem } from "@/api/item.js";
 import { registerItem } from "@/utils/itemInventory.js";
+import axios from 'axios'
+
 
 export default {
   name: "ItemCreate",
-  data() {
+  data () {
     return {
       item: {
-        name: "",
+        itemName: "",
+        division: "",
         category: "",
         price: null,
         description: "",
-        imgName: null,
+        rentStartDate: null,
+        rentEndDate: null,
       },
+      image: "",
       privateKey: "",
       userId: this.$store.state.user.id,
       isCreating: false,
@@ -126,7 +186,7 @@ export default {
      * DB에는 이미지 파일 이름만 저장되고
      * 화면에 보여줄 땐 'public/images/{파일이름}' 경로를 사용합니다.
      */
-    imgLocalPath() {
+    imgLocalPath () {
       if (this.item.imgName) {
         return process.env.BASE_URL + "images/" + this.item.imgName;
       }
@@ -136,21 +196,46 @@ export default {
   },
   methods: {
     // 상품을 등록한다.
-    save() {
+    save () {
       const vm = this;
       this.isCreating = true; // 아이템 등록 중임을 화면에 표시, 등록이 끝나면 false로 변경
-      if (
-        this.item.name.length <= 0 ||
-        this.item.category.length <= 0 ||
-        this.item.price === null ||
-        this.item.price <= 0 ||
-        this.item.imgName === null ||
-        this.item.imgName.length <= 0
-      ) {
-        alert("입력폼을 모두 입력해주세요.");
-        this.isCreating = false;
-        return;
+      if (this.item.division === 'A01') {
+        if (this.item.itemName.length <= 0 ||
+          this.item.division.length <= 0 ||
+          this.item.category.length <= 0 ||
+          this.item.price === null ||
+          this.item.price <= 0 ||
+          this.item.rentStartDate === null ||
+          this.item.rentStartDate.length <= 0 ||
+          this.item.rentEndDate === null ||
+          this.item.rentEndDate.legnth <= 0 ||
+          this.image === null ||
+          this.image.length <= 0
+        ) {
+          alert("입력폼을 모두 입력해주세요.");
+          this.isCreating = false;
+          return;
+        }
+        else {
+
+        }
+
       }
+      else {
+        if (this.item.itemName.length <= 0 ||
+          this.item.division.length <= 0 ||
+          this.item.category.length <= 0 ||
+          this.item.price === null ||
+          this.item.price <= 0 ||
+          this.image === null ||
+          this.image.length <= 0
+        ) {
+          alert("입력폼을 모두 입력해주세요.");
+          this.isCreating = false;
+          return;
+        }
+      }
+
 
       const item = {
         name: this.item.name,
@@ -165,14 +250,18 @@ export default {
        * DB에 상품 등록 후 반환 받은 id를 이용해서 이더리움에 상품을 등록
        */
     },
-    onFileChange(input) {
-      var files = input.target.files || input.dataTransfer.files;
-      if (!files.length) {
-        return;
-      }
+    // onFileChange (input) {
+    //   var files = input.target.files || input.dataTransfer.files;
+    //   if (!files.length) {
+    //     return;
+    //   }
+    //   this.item.imgName = files[0].name;
+    // },
 
-      this.item.imgName = files[0].name;
-    },
+    selectFile () {
+      this.image = this.$refs.itemImage.files[0]
+      console.log(this.image)
+    }
   },
 };
 </script>
