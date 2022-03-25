@@ -161,7 +161,7 @@ export default {
         .then((res) => {
           console.log("글 삭제 성공 왜 안될까");
           console.log(res);
-          this.$router.go('/board'); //여기서 새로고침
+          this.$router.go('/community'); //여기서 새로고침
         })
         .catch((err) => {
           console.log(err);
@@ -169,7 +169,7 @@ export default {
         })
     },
     fnBoardDetail (communityId) {
-      this.$router.push({ name: "communityDetail", params: { coId: communityId } })
+      this.$router.push({ name: "communityDetail", params: { coId: communityId} })
 
     },
     communityWrite () {
