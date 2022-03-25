@@ -1,6 +1,5 @@
 package com.mk.api.dto.response;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 import com.mk.db.code.Code;
@@ -43,19 +42,26 @@ public class ItemGetResponseDto extends BaseResponseDto {
 	@ApiModelProperty(name="설명", example = "설명이에요~")
 	private String description;
 	
-	@ApiModelProperty(name="등록일시", example = "2022-01-01 00:00:00")
-	private LocalDateTime regDate;
+	@ApiModelProperty(name="등록일시", example = "2022년 01월 01일 ")
+	private String regDate;
 	
 	@ApiModelProperty(name="법정동코드", example = "00000000")
-	private int position;
+	private String bcode;
+	
+	@ApiModelProperty(name="법정동이름", example = "삼평동")
+	private String bname;
 
 	@ApiModelProperty(name="대여시작일", example="2022-01-01 00:00:00")
-	private LocalDateTime rentStartDate;
+	private String rentStartDate;
 
 	@ApiModelProperty(name="대여종료일", example="2022-01-01 00:00:00")
-	private LocalDateTime rentEndDate;
+	private String rentEndDate;
 	
 	@ApiModelProperty(name="파일", example="orginFile, 파일 URL")
 	private Map<String, String> files;
 	
+	public void setRentDate(String rentStartDate, String rentEndDate) {
+		this.rentStartDate = rentStartDate;
+		this.rentEndDate = rentEndDate;
+	}
 }
