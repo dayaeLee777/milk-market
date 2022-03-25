@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +29,6 @@ public class InterestServiceImpl implements InterestService{
 
     private final InterestRepository interestRepository;
     private final JwtTokenService jwtTokenService;
-    private final ItemService itemService;
     private final ItemImageRepository itemImageRepository;
     private final ItemRepository itemRepository;
 
@@ -37,7 +37,7 @@ public class InterestServiceImpl implements InterestService{
     public Interest registerInterest(String accessToken, String itemId) {
 
         User user = jwtTokenService.convertTokenToUser(accessToken);
-        Item item = itemService.getItemEntity(itemId);
+        Item item = itemRepository.findById(itemId).orElse(null);
 
         //사용자가 없거나 삭제한 멤버일 경우
         if(user == null || user.isDelYn()==true){
@@ -66,6 +66,9 @@ public class InterestServiceImpl implements InterestService{
         Map<String, String> itemImageList = new HashMap<String, String>();
 
         User user = jwtTokenService.convertTokenToUser(accessToken);
+        
+		DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+		DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
 
         //Interest를 조회, User와 false로 찾기
         interestRepository.findByUserAndDelYn(user,false).forEach(interest ->{
@@ -78,12 +81,16 @@ public class InterestServiceImpl implements InterestService{
             //interest.getItem(). -> 관심상품 아이템 객체
             ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder().itemId(interest.getItem().getId()).division(interest.getItem().getDivision())
                     .itemName(interest.getItem().getItemName()).category(interest.getItem().getCategory()).price(interest.getItem().getPrice())
-                    .description(interest.getItem().getDescription()).regDate(interest.getItem().getRegDate()).position(interest.getItem().getPosition())
+                    .description(interest.getItem().getDescription())
+    				.regDate(interest.getItem().getRegDate().format(regDateFormatter))
+    				.bcode(interest.getItem().getUser().getBcode())
+    				.bname(interest.getItem().getUser().getBname())
                     .files(itemImageList).build();
             //상품이 판매인지 대여인지 판별.
             //대여이면 -> 종료 시작일. Code.A01 대여
             if (interest.getItem().getDivision() == Code.A01)
-                interest.getItem().setRentDate(interest.getItem().getRentStartDate(), interest.getItem().getRentEndDate());
+            	itemGetResponseDto.setRentDate(interest.getItem().getRentStartDate().format(rentDateTimeFormatter),
+            			interest.getItem().getRentEndDate().format(rentDateTimeFormatter));
 
             //관심상품 정보 List에 추가
             itemList.add(itemGetResponseDto);
@@ -106,6 +113,9 @@ public class InterestServiceImpl implements InterestService{
 
         User user = jwtTokenService.convertTokenToUser(accessToken);
 
+		DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+		DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
+        
         //Interest를 조회, User와 false로 찾기
         Page<Interest> interests = interestRepository.findByUserAndDelYn(user,false,pageable);
         interests.forEach(interest ->{
@@ -118,13 +128,16 @@ public class InterestServiceImpl implements InterestService{
             //interest.getItem(). -> 관심상품 아이템 객체
             ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder().itemId(interest.getItem().getId()).division(interest.getItem().getDivision())
                     .itemName(interest.getItem().getItemName()).category(interest.getItem().getCategory()).price(interest.getItem().getPrice())
-                    .description(interest.getItem().getDescription()).regDate(interest.getItem().getRegDate()).position(interest.getItem().getPosition())
+                    .description(interest.getItem().getDescription())
+    				.regDate(interest.getItem().getRegDate().format(regDateFormatter))
+                    .bcode(interest.getItem().getUser().getBcode())
+    				.bname(interest.getItem().getUser().getBname())
                     .files(itemImageList).build();
             //상품이 판매인지 대여인지 판별.
             //대여이면 -> 종료 시작일. Code.A01 대여
             if (interest.getItem().getDivision() == Code.A01)
-                interest.getItem().setRentDate(interest.getItem().getRentStartDate(), interest.getItem().getRentEndDate());
-
+            	itemGetResponseDto.setRentDate(interest.getItem().getRentStartDate().format(rentDateTimeFormatter),
+            			interest.getItem().getRentEndDate().format(rentDateTimeFormatter));
             //관심상품 정보 List에 추가
             itemList.add(itemGetResponseDto);
 

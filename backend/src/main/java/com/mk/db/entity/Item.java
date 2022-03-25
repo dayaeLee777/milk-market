@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 public class Item extends BaseEntity {
+	
 	@Enumerated(EnumType.STRING)
 	private Code division;
 	
@@ -35,8 +36,6 @@ public class Item extends BaseEntity {
 	private String description;
 	
 	private LocalDateTime regDate;
-
-	private int position;
 	
 	private LocalDateTime rentStartDate;
 
@@ -50,7 +49,7 @@ public class Item extends BaseEntity {
 	private boolean delYn;
 
 	public Item(Code division, String itemName, Code category, int price, String description, LocalDateTime regDate,
-			int position, LocalDateTime rentStartDate, LocalDateTime rentEndDate, User user, boolean delYn) {
+			LocalDateTime rentStartDate, LocalDateTime rentEndDate, User user, boolean delYn) {
 		super();
 		this.division = division;
 		this.itemName = itemName;
@@ -58,7 +57,6 @@ public class Item extends BaseEntity {
 		this.price = price;
 		this.description = description;
 		this.regDate = regDate;
-		this.position = position;
 		this.rentStartDate = rentStartDate;
 		this.rentEndDate = rentEndDate;
 		this.user = user;
