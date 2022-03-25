@@ -1,8 +1,6 @@
 <template>
   <div>
     <h-breadcrumb
-      title="비밀번호 수정"
-      description="비밀번호를 수정합니다."
     ></h-breadcrumb>
     <div class="container">
       <my-page-nav></my-page-nav>

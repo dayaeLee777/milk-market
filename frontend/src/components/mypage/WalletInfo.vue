@@ -1,12 +1,10 @@
 <template>
   <div>
     <h-breadcrumb
-      title="마이페이지"
-      description="지갑을 생성하거나 상품 상태를 확인할 수 있습니다."
     ></h-breadcrumb>
     <div class="container">
       <my-page-nav></my-page-nav>
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -25,7 +23,7 @@
         </div>
       </div>        
       <div id="mywallet-info" class="row">
-        <div class="col-md-12 mt-5">
+        <div class="col-10 mt-5">
           <div class="card">
             <table class="table table-bordered">
               <tr>
@@ -35,7 +33,7 @@
                   <p>PrivateKey 인증 완료</p>
                 </div>
                 <div v-else>
-                  <button class="btn btn-secondary mt-1"
+                  <button type="button" class="btn btn-secondary mt-1"
                   data-bs-toggle="modal" data-bs-target="#exampleModal"
                   >privateKey 인증</button>
                 </div>

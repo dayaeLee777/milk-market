@@ -82,16 +82,6 @@ contract Milk {
         emit LogBuyProduct(msg.sender, _id);
     }
 
-    //상품 배송 시, 배송금액이 소유자 계정으로 전송
-		// 빌리지는 해당 함수를 쓸 필요 없음. 배송이 없기 때문.
-    // function deliveryProduct(uint _id, bytes32 _name, bytes32 _home, uint _post, uint _phone) public payable {
-    //     require(_id >= 0 && _id <= 9, "the input shoud be included in the _id's ranges");
-    //     sellers[_id] = msg.sender;
-    //     sellerInfo[_id] = Seller(msg.sender, _name, _home, _post, _phone);
-
-    //     address(uint160(owner)).transfer(msg.value);
-    //     emit LogDeliveryProduct(msg.sender, _id);
-    // }
 
     //구매확정
     function decidePayProduct(uint _id, uint _date) public {

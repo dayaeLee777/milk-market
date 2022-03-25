@@ -10,16 +10,6 @@
         class="navbar-brand"
         to="/"
       >MILK</router-link>
-
-      <router-link
-        class="navbar-brand"
-        to="/"
-      >찾기</router-link>
-      <router-link
-        class="navbar-brand"
-        to="/"
-      >알람</router-link>
-
       <div
         class="navbar-collapse offcanvas-collapse"
         id="navbarsExampleDefault"
@@ -82,7 +72,9 @@
             >Sign out</router-link>
           </li>
         </ul>
-
+        <div v-if="$store.state.isSigned">
+          <img src="../../../public/images/ompang2.png" alt="profile-img" id="my-img" @click="moveToMypage()">
+        </div>
       </div>
 
       <!-- <div class="dropdown">
@@ -168,6 +160,11 @@
 
 export default {
 
+  methods: {
+    moveToMypage() {
+      this.$router.push("/mypage/wallet_info")
+    }
+  }
 };
 </script>
 
@@ -175,5 +172,11 @@ export default {
 #nav-icon {
   height: 60px;
   padding-right: 0.5rem;
+}
+#my-img {
+  height: 45px;
+  border-radius: 50px;
+  margin-left: 5px;
+  cursor: pointer;
 }
 </style>
