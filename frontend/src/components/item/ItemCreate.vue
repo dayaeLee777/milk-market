@@ -9,6 +9,7 @@
         <div class="col-md-8 mx-auto">
           <div class="card">
             <div class="card-body">
+              {{ JSON.stringify({ ...this.item, rentStartDate: this.changeDateFormat(this.item.rentStartDate), rentEndDate: this.changeDateFormat(this.item.rentEndDate) }) }}
               <div class="form-group">
                 <label id="name">상품 이름</label>
                 <input
@@ -78,7 +79,7 @@
               >
                 <label id="rentStartDate">대여 시작 날짜</label>
                 <input
-                  type="date"
+                  type="datetime-local"
                   class="form-control"
                   id="rentStartDate"
                   v-model="item.rentStartDate"
@@ -90,7 +91,7 @@
               >
                 <label id="rentEndDate">대여 종료 날짜</label>
                 <input
-                  type="date"
+                  type="datetime-local"
                   class="form-control"
                   id="rentEndDate"
                   v-model="item.rentEndDate"
@@ -125,16 +126,6 @@
                   />
                 </div>
               </div> -->
-              <div class="form-group">
-                <label id="privateKey">지갑 개인키</label>
-                <input
-                  id="privateKey"
-                  v-model="privateKey"
-                  type="text"
-                  class="form-control"
-                  placeholder="지갑 개인키를 입력해주세요."
-                />
-              </div>
               <button
                 type="button"
                 class="btn btn-primary"
@@ -169,8 +160,7 @@ export default {
         rentStartDate: null,
         rentEndDate: null,
       },
-      image: "",
-      privateKey: "",
+      image: null,
       userId: this.$store.state.user.id,
     };
   },
@@ -240,15 +230,34 @@ export default {
     // },
 
     selectFile () {
-      this.image = this.$refs.itemImage.files[0]
+      this.image = this.$refs.itemImage.files
       console.log(this.image)
+    },
+    changeDateFormat (date) {
+      if (date) {
+        return date.substring(0, 10) + " " + date.substring(11, 16)
+      }
+      else {
+        return null
+      }
     },
     sendData () {
       const formdata = new FormData()
 
-      formdata.append('itemRegisterRequestDto', this.item)
-      formdata.append('multipartFile', this.image)
-
+      if (this.image) {
+        for (let i = 0; i < this.image.length; i++) {
+          formdata.append("multipartFile", this.image[i]);
+        }
+      }
+      formdata.append(
+        "itemRegisterRequestDto",
+        new Blob(
+          [
+            JSON.stringify({ ...this.item, rentStartDate: this.changeDateFormat(this.rentStartDate), rentEndDate: this.changeDateFormat(rentEndDate) })
+          ],
+          { type: "application/json" }
+        )
+      );
       const token = this.$store.state.user.JWTToken;
 
       const headers = {
@@ -267,6 +276,7 @@ export default {
           console.log(res);
         })
         .catch((err) => {
+          console.log('실패')
           console.log(err)
         })
     }
