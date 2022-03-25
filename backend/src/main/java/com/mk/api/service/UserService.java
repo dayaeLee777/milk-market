@@ -169,4 +169,11 @@ public class UserService {
 			return false;
 		}
     }
+
+	public String getNickname(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
+		if(user.isPresent() && user.get().isDelYn() == false)
+			return user.get().getNickname();
+		return null;
+	}
 }
