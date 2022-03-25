@@ -6,6 +6,7 @@ import com.mk.api.dto.response.InterestGetListResponseDto;
 import com.mk.api.service.InterestService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,20 @@ public class InterestController {
     public ResponseEntity<? extends BaseResponseDto> getItem(
             @ApiIgnore @RequestHeader("Authorization") String accessToken){
         InterestGetListResponseDto interestListDto= interestService.getItemList(accessToken);
+        if(interestListDto !=null)
+            return ResponseEntity.status(HttpStatus.OK).body(interestListDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
+    }
+
+    @GetMapping("/lists")
+    @ApiOperation(value = "관심상품 불러오기", notes="<strong>관심상품들을 불러온다.</strong>")
+    @ApiResponses({
+            @ApiResponse(code=200, message="관심 상품을 정상적으로 조회하였습니다."),
+            @ApiResponse(code=204, message="관심 상품 조회를 실패했습니다.")
+    })
+    public ResponseEntity<? extends BaseResponseDto> getItem(
+            @ApiIgnore @RequestHeader("Authorization") String accessToken, Pageable pageable){
+        InterestGetListResponseDto interestListDto= interestService.getItemLists(accessToken,pageable);
         if(interestListDto !=null)
             return ResponseEntity.status(HttpStatus.OK).body(interestListDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));

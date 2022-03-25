@@ -1,9 +1,15 @@
 {
   "contractName": "Milk",
   "abi": [],
+<<<<<<< HEAD
   "metadata": "{\"compiler\":{\"version\":\"0.8.0+commit.c7dfd78e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Milk.sol\":\"Milk\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Milk.sol\":{\"keccak256\":\"0x2159fa42fc756f7c94527dc051178a1cab4578edcd271d1caef5287049175dbb\",\"license\":\"GPL-3.0\",\"urls\":[\"bzz-raw://af243fc576233a537fa222d7607ffa8d317e0bdf49d9fb072ccbd3b3ade17a2e\",\"dweb:/ipfs/QmUfDksMtjNpjia384T5z6Ux1h8xuGu1gTxdgbTU9DVdAD\"]}},\"version\":1}",
   "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220d1189d6edf4fd0af9275fba8ffac7f93cbd4f86b4e411886b4bc26fd5c73e2c164736f6c63430008000033",
   "deployedBytecode": "0x6080604052600080fdfea2646970667358221220d1189d6edf4fd0af9275fba8ffac7f93cbd4f86b4e411886b4bc26fd5c73e2c164736f6c63430008000033",
+=======
+  "metadata": "{\"compiler\":{\"version\":\"0.8.12+commit.f00d7308\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Milk.sol\":\"Milk\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Milk.sol\":{\"keccak256\":\"0x2159fa42fc756f7c94527dc051178a1cab4578edcd271d1caef5287049175dbb\",\"license\":\"GPL-3.0\",\"urls\":[\"bzz-raw://af243fc576233a537fa222d7607ffa8d317e0bdf49d9fb072ccbd3b3ade17a2e\",\"dweb:/ipfs/QmUfDksMtjNpjia384T5z6Ux1h8xuGu1gTxdgbTU9DVdAD\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220ab8b6efb0a643b9dd61e80caa96be69391fd93bb97ff5b41373d2109b6534a3a64736f6c634300080c0033",
+  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220ab8b6efb0a643b9dd61e80caa96be69391fd93bb97ff5b41373d2109b6534a3a64736f6c634300080c0033",
+>>>>>>> develop
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [],
@@ -36,6 +42,7 @@
       {
         "abstract": false,
         "baseContracts": [],
+        "canonicalName": "Milk",
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
@@ -44,6 +51,7 @@
           792
         ],
         "name": "Milk",
+        "nameLocation": "75:4:5",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
@@ -55,6 +63,7 @@
                 "id": 749,
                 "mutability": "mutable",
                 "name": "buyerAddress",
+                "nameLocation": "144:12:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 760,
                 "src": "136:20:5",
@@ -82,6 +91,7 @@
                 "id": 751,
                 "mutability": "mutable",
                 "name": "user_name",
+                "nameLocation": "175:9:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 760,
                 "src": "167:17:5",
@@ -108,6 +118,7 @@
                 "id": 753,
                 "mutability": "mutable",
                 "name": "user_nickname",
+                "nameLocation": "203:13:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 760,
                 "src": "195:21:5",
@@ -134,6 +145,7 @@
                 "id": 755,
                 "mutability": "mutable",
                 "name": "user_email",
+                "nameLocation": "235:10:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 760,
                 "src": "227:18:5",
@@ -160,6 +172,7 @@
                 "id": 757,
                 "mutability": "mutable",
                 "name": "user_address",
+                "nameLocation": "264:12:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 760,
                 "src": "256:20:5",
@@ -186,6 +199,7 @@
                 "id": 759,
                 "mutability": "mutable",
                 "name": "user_milk",
+                "nameLocation": "295:9:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 760,
                 "src": "287:17:5",
@@ -209,6 +223,7 @@
               }
             ],
             "name": "Buyer",
+            "nameLocation": "119:5:5",
             "nodeType": "StructDefinition",
             "scope": 792,
             "src": "112:200:5",
@@ -223,6 +238,7 @@
                 "id": 762,
                 "mutability": "mutable",
                 "name": "sellerAddress",
+                "nameLocation": "378:13:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 771,
                 "src": "370:21:5",
@@ -250,6 +266,7 @@
                 "id": 764,
                 "mutability": "mutable",
                 "name": "user_name",
+                "nameLocation": "410:9:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 771,
                 "src": "402:17:5",
@@ -276,6 +293,7 @@
                 "id": 766,
                 "mutability": "mutable",
                 "name": "user_nickname",
+                "nameLocation": "438:13:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 771,
                 "src": "430:21:5",
@@ -302,6 +320,7 @@
                 "id": 768,
                 "mutability": "mutable",
                 "name": "user_email",
+                "nameLocation": "470:10:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 771,
                 "src": "462:18:5",
@@ -328,6 +347,7 @@
                 "id": 770,
                 "mutability": "mutable",
                 "name": "user_address",
+                "nameLocation": "499:12:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 771,
                 "src": "491:20:5",
@@ -351,6 +371,7 @@
               }
             ],
             "name": "Seller",
+            "nameLocation": "352:6:5",
             "nodeType": "StructDefinition",
             "scope": 792,
             "src": "345:174:5",
@@ -365,6 +386,7 @@
                 "id": 773,
                 "mutability": "mutable",
                 "name": "buyerAddress",
+                "nameLocation": "583:12:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 776,
                 "src": "575:20:5",
@@ -392,6 +414,7 @@
                 "id": 775,
                 "mutability": "mutable",
                 "name": "date",
+                "nameLocation": "611:4:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 776,
                 "src": "606:9:5",
@@ -415,6 +438,7 @@
               }
             ],
             "name": "Payment",
+            "nameLocation": "556:7:5",
             "nodeType": "StructDefinition",
             "scope": 792,
             "src": "549:74:5",
@@ -429,6 +453,7 @@
                 "id": 778,
                 "mutability": "mutable",
                 "name": "buyerAddress",
+                "nameLocation": "686:12:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 781,
                 "src": "678:20:5",
@@ -456,6 +481,7 @@
                 "id": 780,
                 "mutability": "mutable",
                 "name": "date",
+                "nameLocation": "714:4:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 781,
                 "src": "709:9:5",
@@ -479,6 +505,7 @@
               }
             ],
             "name": "Cancel",
+            "nameLocation": "660:6:5",
             "nodeType": "StructDefinition",
             "scope": 792,
             "src": "653:73:5",
@@ -493,6 +520,7 @@
                 "id": 783,
                 "mutability": "mutable",
                 "name": "managerAddress",
+                "nameLocation": "782:14:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 786,
                 "src": "774:22:5",
@@ -520,6 +548,7 @@
                 "id": 785,
                 "mutability": "mutable",
                 "name": "date",
+                "nameLocation": "812:4:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 786,
                 "src": "807:9:5",
@@ -543,6 +572,7 @@
               }
             ],
             "name": "doPay",
+            "nameLocation": "757:5:5",
             "nodeType": "StructDefinition",
             "scope": 792,
             "src": "750:74:5",
@@ -557,6 +587,7 @@
                 "id": 788,
                 "mutability": "mutable",
                 "name": "managerAddress",
+                "nameLocation": "867:14:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 791,
                 "src": "859:22:5",
@@ -584,6 +615,7 @@
                 "id": 790,
                 "mutability": "mutable",
                 "name": "date",
+                "nameLocation": "897:4:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 791,
                 "src": "892:9:5",
@@ -607,6 +639,7 @@
               }
             ],
             "name": "doCancel",
+            "nameLocation": "839:8:5",
             "nodeType": "StructDefinition",
             "scope": 792,
             "src": "832:77:5",
@@ -614,7 +647,12 @@
           }
         ],
         "scope": 793,
+<<<<<<< HEAD
         "src": "66:860:5"
+=======
+        "src": "66:860:5",
+        "usedErrors": []
+>>>>>>> develop
       }
     ],
     "src": "39:887:5"
@@ -644,6 +682,7 @@
       {
         "abstract": false,
         "baseContracts": [],
+        "canonicalName": "Milk",
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
@@ -652,6 +691,7 @@
           792
         ],
         "name": "Milk",
+        "nameLocation": "75:4:5",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
@@ -663,6 +703,7 @@
                 "id": 749,
                 "mutability": "mutable",
                 "name": "buyerAddress",
+                "nameLocation": "144:12:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 760,
                 "src": "136:20:5",
@@ -690,6 +731,7 @@
                 "id": 751,
                 "mutability": "mutable",
                 "name": "user_name",
+                "nameLocation": "175:9:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 760,
                 "src": "167:17:5",
@@ -716,6 +758,7 @@
                 "id": 753,
                 "mutability": "mutable",
                 "name": "user_nickname",
+                "nameLocation": "203:13:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 760,
                 "src": "195:21:5",
@@ -742,6 +785,7 @@
                 "id": 755,
                 "mutability": "mutable",
                 "name": "user_email",
+                "nameLocation": "235:10:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 760,
                 "src": "227:18:5",
@@ -768,6 +812,7 @@
                 "id": 757,
                 "mutability": "mutable",
                 "name": "user_address",
+                "nameLocation": "264:12:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 760,
                 "src": "256:20:5",
@@ -794,6 +839,7 @@
                 "id": 759,
                 "mutability": "mutable",
                 "name": "user_milk",
+                "nameLocation": "295:9:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 760,
                 "src": "287:17:5",
@@ -817,6 +863,7 @@
               }
             ],
             "name": "Buyer",
+            "nameLocation": "119:5:5",
             "nodeType": "StructDefinition",
             "scope": 792,
             "src": "112:200:5",
@@ -831,6 +878,7 @@
                 "id": 762,
                 "mutability": "mutable",
                 "name": "sellerAddress",
+                "nameLocation": "378:13:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 771,
                 "src": "370:21:5",
@@ -858,6 +906,7 @@
                 "id": 764,
                 "mutability": "mutable",
                 "name": "user_name",
+                "nameLocation": "410:9:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 771,
                 "src": "402:17:5",
@@ -884,6 +933,7 @@
                 "id": 766,
                 "mutability": "mutable",
                 "name": "user_nickname",
+                "nameLocation": "438:13:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 771,
                 "src": "430:21:5",
@@ -910,6 +960,7 @@
                 "id": 768,
                 "mutability": "mutable",
                 "name": "user_email",
+                "nameLocation": "470:10:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 771,
                 "src": "462:18:5",
@@ -936,6 +987,7 @@
                 "id": 770,
                 "mutability": "mutable",
                 "name": "user_address",
+                "nameLocation": "499:12:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 771,
                 "src": "491:20:5",
@@ -959,6 +1011,7 @@
               }
             ],
             "name": "Seller",
+            "nameLocation": "352:6:5",
             "nodeType": "StructDefinition",
             "scope": 792,
             "src": "345:174:5",
@@ -973,6 +1026,7 @@
                 "id": 773,
                 "mutability": "mutable",
                 "name": "buyerAddress",
+                "nameLocation": "583:12:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 776,
                 "src": "575:20:5",
@@ -1000,6 +1054,7 @@
                 "id": 775,
                 "mutability": "mutable",
                 "name": "date",
+                "nameLocation": "611:4:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 776,
                 "src": "606:9:5",
@@ -1023,6 +1078,7 @@
               }
             ],
             "name": "Payment",
+            "nameLocation": "556:7:5",
             "nodeType": "StructDefinition",
             "scope": 792,
             "src": "549:74:5",
@@ -1037,6 +1093,7 @@
                 "id": 778,
                 "mutability": "mutable",
                 "name": "buyerAddress",
+                "nameLocation": "686:12:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 781,
                 "src": "678:20:5",
@@ -1064,6 +1121,7 @@
                 "id": 780,
                 "mutability": "mutable",
                 "name": "date",
+                "nameLocation": "714:4:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 781,
                 "src": "709:9:5",
@@ -1087,6 +1145,7 @@
               }
             ],
             "name": "Cancel",
+            "nameLocation": "660:6:5",
             "nodeType": "StructDefinition",
             "scope": 792,
             "src": "653:73:5",
@@ -1101,6 +1160,7 @@
                 "id": 783,
                 "mutability": "mutable",
                 "name": "managerAddress",
+                "nameLocation": "782:14:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 786,
                 "src": "774:22:5",
@@ -1128,6 +1188,7 @@
                 "id": 785,
                 "mutability": "mutable",
                 "name": "date",
+                "nameLocation": "812:4:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 786,
                 "src": "807:9:5",
@@ -1151,6 +1212,7 @@
               }
             ],
             "name": "doPay",
+            "nameLocation": "757:5:5",
             "nodeType": "StructDefinition",
             "scope": 792,
             "src": "750:74:5",
@@ -1165,6 +1227,7 @@
                 "id": 788,
                 "mutability": "mutable",
                 "name": "managerAddress",
+                "nameLocation": "867:14:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 791,
                 "src": "859:22:5",
@@ -1192,6 +1255,7 @@
                 "id": 790,
                 "mutability": "mutable",
                 "name": "date",
+                "nameLocation": "897:4:5",
                 "nodeType": "VariableDeclaration",
                 "scope": 791,
                 "src": "892:9:5",
@@ -1215,6 +1279,7 @@
               }
             ],
             "name": "doCancel",
+            "nameLocation": "839:8:5",
             "nodeType": "StructDefinition",
             "scope": 792,
             "src": "832:77:5",
@@ -1222,18 +1287,27 @@
           }
         ],
         "scope": 793,
+<<<<<<< HEAD
         "src": "66:860:5"
+=======
+        "src": "66:860:5",
+        "usedErrors": []
+>>>>>>> develop
       }
     ],
     "src": "39:887:5"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.8.0+commit.c7dfd78e.Emscripten.clang"
+    "version": "0.8.12+commit.f00d7308.Emscripten.clang"
   },
   "networks": {},
   "schemaVersion": "3.4.6",
+<<<<<<< HEAD
   "updatedAt": "2022-03-25T04:36:31.399Z",
+=======
+  "updatedAt": "2022-03-24T08:31:55.416Z",
+>>>>>>> develop
   "devdoc": {
     "kind": "dev",
     "methods": {},

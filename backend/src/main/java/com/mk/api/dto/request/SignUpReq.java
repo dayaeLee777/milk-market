@@ -1,13 +1,18 @@
 package com.mk.api.dto.request;
 
-import lombok.*;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@ToString
 @Getter
-@Setter
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
@@ -18,18 +23,18 @@ public class SignUpReq {
     private String password;
 
     @NotBlank(message = "닉네임은 필수 입력 값입니다.")
-    private String nickname;
+        private String nickname;
 
     @Email(message = "이메일 형식에 맞지 않습니다.")
     @NotBlank(message = "이메일은 필수 입력 값입니다.")
     private String email;
 
     private String profileImage;
+    
+    @ApiModelProperty(name="법정동/법정리 코드", example="4113510900")
+    private String bcode;
 
-    @Override
-	public String toString() {
-		return "SignUpUserDto [password=" + password + ", nickname=" + nickname + ", email=" + email + "]";
-	}
-    
-    
+	@ApiModelProperty(name="법정동/법정리 이름", example="삼평동")
+    private String bname;
+
 }

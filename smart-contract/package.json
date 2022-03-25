@@ -1,7 +1,11 @@
 {
   "name": "smart-contract",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -9,13 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@openzeppelin/contracts": "^4.5.0",
-    "@truffle/hdwallet-provider": "^2.0.3",
-    "openzeppelin-solidity": "4.5.0"
-  },
-  "directories": {
-    "test": "test"
-  },
-  "devDependencies": {},
-  "description": ""
+    "@openzeppelin/contracts": "^4.5.0"
+  }
 }

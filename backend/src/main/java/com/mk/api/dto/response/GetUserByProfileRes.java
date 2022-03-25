@@ -15,6 +15,8 @@ public class GetUserByProfileRes {
 	private String id;
 	private String email;
 	private String nickname;
+	private String bcode;
+	private String bname;
 	private String profileImage;
 	private String profileDescription;
 	
@@ -22,6 +24,8 @@ public class GetUserByProfileRes {
 		setId(data.getId());
 		setEmail(data.getEmail());
 		setNickname(data.getNickname());
+		setBcode(data.getBcode());
+		setBname(data.getBname());
 		setProfileImage(data.getProfileImage());
 		setProfileDescription(data.getProfileDescription());
 	}
