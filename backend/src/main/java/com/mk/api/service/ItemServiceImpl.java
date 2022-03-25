@@ -1,6 +1,7 @@
 package com.mk.api.service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,12 +42,15 @@ public class ItemServiceImpl implements ItemService {
 		User user = jwtTokenService.convertTokenToUser(accessToken);
 		LocalDateTime currentDateTime = LocalDateTime.now();
 
-		Item item = Item.builder().division(itemRegisterRequestDto.getDivision())
-				.itemName(itemRegisterRequestDto.getItemName()).category(itemRegisterRequestDto.getCategory())
-				.price(itemRegisterRequestDto.getPrice()).description(itemRegisterRequestDto.getDescription())
+		Item item = Item.builder()
+				.division(itemRegisterRequestDto.getDivision())
+				.itemName(itemRegisterRequestDto.getItemName())
+				.category(itemRegisterRequestDto.getCategory())
+				.price(itemRegisterRequestDto.getPrice())
+				.description(itemRegisterRequestDto.getDescription())
 				.regDate(currentDateTime)
-//				.position(user.getPosition())
-				.user(user).build();
+				.user(user)
+				.build();
 
 		if (itemRegisterRequestDto.getDivision() == Code.A01)
 			item.setRentDate(itemRegisterRequestDto.getRentStartDate(), itemRegisterRequestDto.getRentEndDate());
@@ -55,14 +59,6 @@ public class ItemServiceImpl implements ItemService {
 			itemImageService.uploadItemImages(item, multipartFile);
 
 		return itemRepository.save(item);
-	}
-
-	@Override
-	public Item getItemEntity(String itemId) {
-		Item item = itemRepository.findById(itemId).orElse(null);
-		if(item ==null)
-			return null;
-		return item;
 	}
 
 	@Override
@@ -81,13 +77,27 @@ public class ItemServiceImpl implements ItemService {
 			itemImageList.put(originFilename, itemImageService.getImagePath(newFilename));
 		});
 
-		ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder().itemId(itemId).division(item.getDivision())
-				.itemName(item.getItemName()).category(item.getCategory()).price(item.getPrice())
-				.description(item.getDescription()).regDate(item.getRegDate()).position(item.getPosition())
-				.files(itemImageList).build();
+		DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+		DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
+		
+		ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder()
+				.itemId(itemId)
+				.userId(item.getUser().getUsername())
+				.userNickname(item.getUser().getNickname())
+				.division(item.getDivision())
+				.itemName(item.getItemName())
+				.category(item.getCategory())
+				.price(item.getPrice())
+				.description(item.getDescription())
+				.regDate(item.getRegDate().format(regDateFormatter))
+				.bcode(item.getUser().getBcode())
+				.bname(item.getUser().getBname())
+				.files(itemImageList)
+				.build();
 
 		if (item.getDivision() == Code.A01)
-			item.setRentDate(item.getRentStartDate(), item.getRentEndDate());
+			itemGetResponseDto.setRentDate(item.getRentStartDate().format(rentDateTimeFormatter),
+					item.getRentEndDate().format(rentDateTimeFormatter));
 
 		return itemGetResponseDto;
 	}
@@ -121,7 +131,6 @@ public class ItemServiceImpl implements ItemService {
 		
 		itemImageService.deleteItemImages(item);
 		item.deleteItem();
-		
 		
 		return itemRepository.save(item);
 	}

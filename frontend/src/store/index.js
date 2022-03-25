@@ -19,26 +19,38 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setIsSigned (state, isSigned) {
+    setIsSigned(state, isSigned) {
       state.isSigned = isSigned;
     },
-    setUserId (state, id) {
+    setUserId(state, id) {
       state.user.id = id;
     },
-    setWalletAddress (state, address) {
+    setWalletAddress(state, address) {
       state.user.walletAddress = address;
     },
-    setJWTToken (state, token) {
+    setJWTToken(state, token) {
       state.user.JWTToken = token;
     },
+<<<<<<< HEAD
     // setUserNickname (state, userNickname) {
     //   state.user.userNickname = userNickname;
     // },
     logout (state) {
+=======
+    logout(state) {
+>>>>>>> c0c6de7b24ce836b4a0135d594c1feff3960988b
       state.isSigned = false;
       state.user.id = 0;
       state.user.walletAddress = null;
-    }
+    },
+  },
+  getters: {
+    getJWTToken: function (state) {
+      return state.user.JWTToken;
+    },
+    getUserId: function (state) {
+      return state.user.id;
+    },
   },
   actions: {},
   modules: {},

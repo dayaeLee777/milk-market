@@ -18,7 +18,7 @@ public class BackendApplication {
 //        pbeEnc.setAlgorithm("PBEWithMD5AndDES");
 //        pbeEnc.setPassword("password");
 //
-//        String enc = pbeEnc.encrypt("Test");
+//        String enc = pbeEnc.encrypt("webfirewood");
 //        System.out.println("enc = " + enc);
 //
 //        String des = pbeEnc.decrypt(enc);

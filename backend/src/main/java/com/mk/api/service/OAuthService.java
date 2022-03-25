@@ -307,9 +307,8 @@ public class OAuthService {
             user = userRepository.findByEmail(entitiy.getEmail());
 
         }
+
         return jwtTokenProvider.createToken(user.get(), user.get().getRoles());
     }
-
-
 
 }

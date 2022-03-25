@@ -39,7 +39,8 @@
           alt="info"
         />
       </div> -->
-  
+    <!-- </div>
+  </div> -->
   <div>
 
   </div>

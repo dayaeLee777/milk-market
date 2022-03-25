@@ -11,58 +11,48 @@
             <div class="card-body">
               <div class="form-group">
                 <h3>
-                  <a href="">{{ item.category | symbolToFullName }}</a> >
-                  {{ item.name }}
+                  <a href="">{{ item.category }}</a> >
+                  {{ item.itemName }}
                 </h3>
               </div>
-              <img
-                class="center"
-                :src="getImg(item.image)"
-                style="max-height: 500px;"
-              />
+              <div v-for="imgName in item.keys" :key="imgName.id">
+                <img
+                  class="center"
+                  :src="getImg(item.files[imgName])"
+                  style="max-width: 100%; height: auto"
+                />
+              </div>
+              <!--v-for-->
               <div class="form-group">
                 <h4 class="alert alert-primary">{{ item.price }} CASH</h4>
               </div>
               <div class="form-group">
-                <label
-                  id="user"
-                  class="text-secondary"
-                >판매자</label>
+                <label id="user" class="text-secondary">판매자</label>
                 <p>
-                  {{ item.seller.name }}({{ item.seller.email }})
+                  {{ item.userNickname }}
+                  <!-- ({{ item.seller.email }}) -->
                 </p>
               </div>
               <div class="form-group">
                 <label class="text-secondary">상품 등록일</label>
-                <p>{{ item.registeredAt }}</p>
+                <p>{{ item.regDate }}</p>
               </div>
               <div class="form-group">
-                <label
-                  id="explanation"
-                  class="text-secondary"
-                >상품 설명</label>
-                <p v-if="item.explanation.length > 0">{{ item.explanation }}</p>
+                <label id="explanation" class="text-secondary">상품 설명</label>
+                <p v-if="item.description.length > 0">{{ item.description }}</p>
                 <p v-else>-</p>
               </div>
-              <div class="form-group">
-                <label
-                  id="state"
-                  class="text-secondary"
-                >상태</label><br />
-                <p>{{ item.available ? "판매중" : "판매 종료" }}</p>
-              </div>
-              <div
-                class="row"
-                v-if="userId !== item.seller.id"
-              >
-                <div class="col-md-12 text-right">
-                  <router-link
-                    :to="{
-                      name: 'item.purchase',
-                      params: { id: item.id, seller: item.seller, image: item.image, name: item.name, price: item.price },
-                    }"
-                    class="btn btn-lg btn-primary"
-                  >구매하기</router-link>
+
+              <!-- 사용자와 판매자가 다르면 구매하기 버튼 생성! 대여 A01, 구매 A02-->
+              <div class="row" v-if="userId !== item.userId">
+                <div
+                  class="col-md-12 text-right"
+                  v-if="item.division === 'A01'"
+                >
+                  <button class="btn btn-lg btn-primary">대여하기</button>
+                </div>
+                <div class="col-md-12 text-right" v-else>
+                  <button class="btn btn-lg btn-primary">구매하기</button>
                 </div>
               </div>
             </div>
@@ -74,105 +64,75 @@
 </template>
 
 <script>
-// import * as itemService from "../../api/item.js";
-// import * as auctionService from "../../api/auction.js";
-// import * as userService from "../../api/user.js";
-import { findById as findUserById } from '@/api/user.js';
-import { weiToEth } from '@/utils/ethereumUnitUtils.js';
-// import { ITEM_STATUS } from "../../config/constants.js";
-import { getLocalImg } from '@/utils/imgLoader.js';
-import { getPrice } from '@/utils/itemInventory.js';
-import { findById } from '@/api/item.js';
-import { CATEGORY } from '@/utils/category.js';
-
+import { Code } from "@/utils/enum.js";
+import { findById } from "@/api/item.js";
+const vm = this;
 export default {
-  name: 'ItemDetail',
-  data () {
+  name: "ItemDetail",
+  data() {
     return {
       item: {
-        id: null,
-        name: '',
-        category: null,
-        explanation: '',
-        available: null,
-        state: '',
-        seller: {
-          id: null,
-          name: '',
-          email: '',
-        },
-        image: null,
-        price: null,
-        registeredAt: null,
+        id: "",
+        userId: "",
+        userNickname: "",
+        division: "",
+        itemName: "",
+        category: "",
+        price: "",
+        description: "",
+        regDate: "",
+        position: "",
+        rentStartDate: "",
+        rentEndDate: "",
+        files: [],
+        keys: [],
       },
       userId: this.$store.state.user.id,
     };
   },
   methods: {
-    goBack: function () {
-      // 이전 페이지로 이동한다.
-      this.$router.go(-1);
-    },
-    convertWeiToEth (value) {
-      if (value) {
-        return weiToEth(value.toString()) + ' ETH';
-      } else {
-        return '-';
-      }
-    },
-    getImg (name) {
+    getImg(name) {
       if (name) {
-        return getLocalImg(name);
+        return name;
       }
       return null;
     },
   },
-  filters: {
-    symbolToFullName (symbol) {
-      return CATEGORY[symbol];
-    },
-  },
-  created () {
+  created() {
+    console.log("created");
     this.item.id = this.$route.params.id;
+    console.log(this.item.id);
   },
   mounted: function () {
     const vm = this;
-
     // [DB] 상품 상세 정보 조회
     findById(
       this.item.id,
       function (res) {
+        console.log(res);
         const result = res.data;
-        vm.item.name = result.name;
+        vm.item.itemName = result.itemName;
         vm.item.category = result.category;
-        vm.item.explanation = result.explanation ? result.explanation : '';
-        vm.item.available = result.available;
-        vm.item.seller.id = result.seller;
-        vm.item.image = result.image;
-        vm.item.registeredAt = result.registeredAt;
-
-        // 판매자 정보
-        findUserById(result.seller, function (res) {
-          const result = res.data;
-          vm.item.seller.name = result.name;
-          vm.item.seller.email = result.email;
-        });
+        //console.log("res: " + Code[vm.item.category]);
+        vm.item.category = Code[vm.item.category];
+        vm.item.description = result.description ? result.description : "";
+        vm.item.price = result.price;
+        vm.item.userId = result.userId;
+        vm.item.userNickname = result.userNickname;
+        vm.item.division = result.division;
+        vm.item.regDate = result.regDate;
+        vm.item.rentStartDate = result.rentStartDate
+          ? result.rentStartDate
+          : "";
+        vm.item.rentEndDate = result.rentendDate ? result.rentEndDate : "";
+        vm.item.files = result.files;
+        vm.item.keys = Object.keys(vm.item.files);
       },
       function (error) {
         console.error(error);
-        alert('DB에서 상품 상세 정보 조회를 가져올 수 없습니다.');
-      },
-    );
-    // [Smart Contract] 가격 조회
-    getPrice(
-      this.item.id,
-      function (price) {
-        vm.item.price = price;
-      },
-      function (err) {
-        alert('상품 가격 조회에 실패했습니다.');
-        console.error('가격 조회 실패:', err);
-      },
+        console.log("실패");
+        alert("DB에서 상품 상세 정보 조회를 가져올 수 없습니다.");
+      }
     );
   },
 };
