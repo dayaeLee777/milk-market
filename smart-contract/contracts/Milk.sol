@@ -45,8 +45,20 @@ contract Milk {
         uint date;
     }
 
-    
+    mapping (uint => Buyer) public buyerInfo;
+    mapping (uint => Seller) public sellerInfo;
+    mapping (uint => Payment) public decidePaymentInfo;
+    mapping (uint => Cancel) public decideCancelInfo;
+    mapping (uint => doPay) public doPaymentInfo;
+    mapping (uint => doCancel) public doCancelInfo;
 
+    address public owner; // 컨트랙트 소유자 계정
+    address[10] public buyers; // 구매자 목록
+    address[10] public sellers; // 판매자 목록
+    address[10] public decidePayments; //구매 확적 목록
+    address[10] public decideCancels; // 구매 취소 목록
+    address[10] public doPayments; // 정산 목록
+    address[10] public doCancels; // 환불 목록
 
 
 }
