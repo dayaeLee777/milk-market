@@ -38,8 +38,8 @@
           src="../../../public/images/info.png"
           alt="info"
         />
-      </div>
-    </div>
+      </div> -->
+    <!-- </div>
   </div> -->
   <div>
 

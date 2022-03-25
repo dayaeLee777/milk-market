@@ -138,14 +138,9 @@
               <button
                 type="button"
                 class="btn btn-primary"
-                v-on:click="save"
-                v-bind:disabled="isCreating"
+                @click="save()"
               >
-                {{
-                  isCreating
-                    ? "상품을 등록하는 중입니다."
-                    : "상품을 등록합니다."
-                }}
+                등록
               </button>
             </div>
           </div>
@@ -177,7 +172,6 @@ export default {
       image: "",
       privateKey: "",
       userId: this.$store.state.user.id,
-      isCreating: false,
     };
   },
   computed: {
@@ -186,13 +180,13 @@ export default {
      * DB에는 이미지 파일 이름만 저장되고
      * 화면에 보여줄 땐 'public/images/{파일이름}' 경로를 사용합니다.
      */
-    imgLocalPath () {
-      if (this.item.imgName) {
-        return process.env.BASE_URL + "images/" + this.item.imgName;
-      }
+    // imgLocalPath () {
+    //   if (this.item.imgName) {
+    //     return process.env.BASE_URL + "images/" + this.item.imgName;
+    //   }
 
-      return null;
-    },
+    //   return null;
+    // },
   },
   methods: {
     // 상품을 등록한다.
@@ -213,13 +207,9 @@ export default {
           this.image.length <= 0
         ) {
           alert("입력폼을 모두 입력해주세요.");
-          this.isCreating = false;
           return;
         }
-        else {
-
-        }
-
+        this.sendData()
       }
       else {
         if (this.item.itemName.length <= 0 ||
@@ -231,19 +221,10 @@ export default {
           this.image.length <= 0
         ) {
           alert("입력폼을 모두 입력해주세요.");
-          this.isCreating = false;
           return;
         }
+        this.sendData()
       }
-
-
-      const item = {
-        name: this.item.name,
-        category: this.item.category,
-        explanation: this.item.description,
-        seller: this.userId,
-        image: this.item.imgName,
-      };
 
       /**
        * TODO: PJTⅢ 과제3 Req.1-1 [상품 등록]
@@ -261,6 +242,33 @@ export default {
     selectFile () {
       this.image = this.$refs.itemImage.files[0]
       console.log(this.image)
+    },
+    sendData () {
+      const formdata = new FormData()
+
+      formdata.append('itemRegisterRequestDto', this.item)
+      formdata.append('multipartFile', this.image)
+
+      const token = this.$store.state.user.JWTToken;
+
+      const headers = {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`
+      }
+
+      axios({
+        url: `http://localhost:8080/api/item`,
+        method: 'post',
+        headers,
+        data: formdata
+      })
+        .then((res) => {
+          console.log('성공')
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   },
 };

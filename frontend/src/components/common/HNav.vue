@@ -59,7 +59,7 @@
             <router-link
               class="nav-link"
               to="/login"
-            >Sign In</router-link>
+            >Login</router-link>
           </li>
           <li
             class="nav-item"
@@ -70,6 +70,8 @@
               to="/register"
             >Sign Up</router-link>
           </li>
+          <li class="nav-item" v-if="$store.state.isSigned">
+            <router-link class="nav-link" to="/logout">Log out</router-link>
           <li
             class="nav-item"
             v-if="$store.state.isSigned"

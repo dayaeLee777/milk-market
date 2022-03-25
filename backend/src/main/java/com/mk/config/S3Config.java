@@ -12,11 +12,12 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
 @Configuration
-public class S3Config {
+public class S3Config{
+
 	@Value("${cloud.aws.credentials.access-key}")
     private String accessKey;
 
-    @Value("${cloud.aws.credentials.secret-key}")
+	@Value("${cloud.aws.credentials.secret-key}")
     private String secretKey;
 
     @Value("${cloud.aws.region.static}")
@@ -46,4 +47,5 @@ public class S3Config {
                 .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                 .build();
     }
+
 }

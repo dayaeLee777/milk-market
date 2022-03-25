@@ -11,6 +11,8 @@ import com.mk.db.repository.ItemImageRepository;
 import com.mk.db.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -92,6 +94,47 @@ public class InterestServiceImpl implements InterestService{
 
         InterestGetListResponseDto interestGetListResponseDto = InterestGetListResponseDto.builder()
                 .InterestListResponseDto(itemList)
+                .build();
+
+        return interestGetListResponseDto;
+    }
+
+    @Override
+    public InterestGetListResponseDto getItemLists(String accessToken, Pageable pageable) {
+        List<ItemGetResponseDto> itemList = new ArrayList<>();
+        Map<String, String> itemImageList = new HashMap<String, String>();
+
+        User user = jwtTokenService.convertTokenToUser(accessToken);
+
+        //Interest를 조회, User와 false로 찾기
+        Page<Interest> interests = interestRepository.findByUserAndDelYn(user,false,pageable);
+        interests.forEach(interest ->{
+
+            //아이템 사진 경로 위치
+            itemImageRepository.findByItem(interest.getItem()).forEach(file -> {
+                itemImageList.put(file.getNewFileName(), file.getOriginFileName());
+            });
+
+            //interest.getItem(). -> 관심상품 아이템 객체
+            ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder().itemId(interest.getItem().getId()).division(interest.getItem().getDivision())
+                    .itemName(interest.getItem().getItemName()).category(interest.getItem().getCategory()).price(interest.getItem().getPrice())
+                    .description(interest.getItem().getDescription()).regDate(interest.getItem().getRegDate()).position(interest.getItem().getPosition())
+                    .files(itemImageList).build();
+            //상품이 판매인지 대여인지 판별.
+            //대여이면 -> 종료 시작일. Code.A01 대여
+            if (interest.getItem().getDivision() == Code.A01)
+                interest.getItem().setRentDate(interest.getItem().getRentStartDate(), interest.getItem().getRentEndDate());
+
+            //관심상품 정보 List에 추가
+            itemList.add(itemGetResponseDto);
+
+            //관심상품 사진 초기화
+            itemImageList.clear();
+        });
+
+        InterestGetListResponseDto interestGetListResponseDto = InterestGetListResponseDto.builder()
+                .InterestListResponseDto(itemList)
+                .totalPage(interests.getTotalPages())
                 .build();
 
         return interestGetListResponseDto;
