@@ -15,11 +15,14 @@
                   {{ item.itemName }}
                 </h3>
               </div>
-              <img
-                class="center"
-                :src="getImg(item.files[item.keys[0]])"
-                style="max-height: 500px"
-              />
+              <div v-for="imgName in item.keys" :key="imgName.id">
+                <img
+                  class="center"
+                  :src="getImg(item.files[imgName])"
+                  style="max-width: 100%; height: auto"
+                />
+              </div>
+              <!--v-for-->
               <div class="form-group">
                 <h4 class="alert alert-primary">{{ item.price }} CASH</h4>
               </div>
@@ -39,24 +42,19 @@
                 <p v-if="item.description.length > 0">{{ item.description }}</p>
                 <p v-else>-</p>
               </div>
-              <div class="form-group">
-                <label id="state" class="text-secondary">상태</label><br />
-                <!-- <p>{{ item.available ? "판매중" : "판매 종료" }}</p> -->
-              </div>
-              <!-- <div
-                class="row"
-                v-if="userId !== item.seller.id"
-              >
-                <div class="col-md-12 text-right">
-                  <router-link
-                    :to="{
-                      name: 'item.purchase',
-                      params: { id: item.id, seller: item.seller, image: item.image, name: item.name, price: item.price },
-                    }"
-                    class="btn btn-lg btn-primary"
-                  >구매하기</router-link>
+
+              <!-- 사용자와 판매자가 다르면 구매하기 버튼 생성! 대여 A01, 구매 A02-->
+              <div class="row" v-if="userId !== item.userId">
+                <div
+                  class="col-md-12 text-right"
+                  v-if="item.division === 'A01'"
+                >
+                  <button class="btn btn-lg btn-primary">대여하기</button>
                 </div>
-              </div> -->
+                <div class="col-md-12 text-right" v-else>
+                  <button class="btn btn-lg btn-primary">구매하기</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -66,7 +64,7 @@
 </template>
 
 <script>
-import { getLocalImg } from "@/utils/imgLoader.js";
+import { Code } from "@/utils/enum.js";
 import { findById } from "@/api/item.js";
 const vm = this;
 export default {
@@ -89,13 +87,13 @@ export default {
         files: [],
         keys: [],
       },
-      // userId: this.$store.state.user.id,
+      userId: this.$store.state.user.id,
     };
   },
   methods: {
     getImg(name) {
       if (name) {
-        return getLocalImg(name);
+        return name;
       }
       return null;
     },
@@ -115,10 +113,13 @@ export default {
         const result = res.data;
         vm.item.itemName = result.itemName;
         vm.item.category = result.category;
+        //console.log("res: " + Code[vm.item.category]);
+        vm.item.category = Code[vm.item.category];
         vm.item.description = result.description ? result.description : "";
         vm.item.price = result.price;
         vm.item.userId = result.userId;
         vm.item.userNickname = result.userNickname;
+        vm.item.division = result.division;
         vm.item.regDate = result.regDate;
         vm.item.rentStartDate = result.rentStartDate
           ? result.rentStartDate
@@ -126,7 +127,6 @@ export default {
         vm.item.rentEndDate = result.rentendDate ? result.rentEndDate : "";
         vm.item.files = result.files;
         vm.item.keys = Object.keys(vm.item.files);
-        console.log(vm.item.keys);
       },
       function (error) {
         console.error(error);

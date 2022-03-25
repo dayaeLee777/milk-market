@@ -40,6 +40,9 @@ export default new Vuex.Store({
     getJWTToken: function (state) {
       return state.user.JWTToken;
     },
+    getUserId: function (state) {
+      return state.user.id;
+    },
   },
   actions: {},
   modules: {},
