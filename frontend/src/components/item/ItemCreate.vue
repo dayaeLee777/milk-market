@@ -9,7 +9,6 @@
         <div class="col-md-8 mx-auto">
           <div class="card">
             <div class="card-body">
-              {{ JSON.stringify({ ...this.item, rentStartDate: this.changeDateFormat(this.item.rentStartDate), rentEndDate: this.changeDateFormat(this.item.rentEndDate) }) }}
               <div class="form-group">
                 <label id="name">상품 이름</label>
                 <input
@@ -253,7 +252,7 @@ export default {
         "itemRegisterRequestDto",
         new Blob(
           [
-            JSON.stringify({ ...this.item, rentStartDate: this.changeDateFormat(this.rentStartDate), rentEndDate: this.changeDateFormat(rentEndDate) })
+            JSON.stringify({ ...this.item, rentStartDate: this.changeDateFormat(this.item.rentStartDate), rentEndDate: this.changeDateFormat(this.item.rentEndDate) })
           ],
           { type: "application/json" }
         )
