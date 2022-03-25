@@ -3,14 +3,7 @@ package com.mk.api.controller;
 
 import java.util.List;
 
-import com.mk.api.service.UserService;
-import com.mk.db.code.Code;
-import com.mk.db.entity.Item;
-import com.mk.db.repository.ItemRepository;
-import com.mk.db.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,9 +31,6 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.annotation.PostConstruct;
-
-@Slf4j
 @Api(value = "상품 API", tags = { "Item" })
 @RestController
 @CrossOrigin("*")
