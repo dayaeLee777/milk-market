@@ -71,11 +71,13 @@ public class UserController {
 		try {
 			String token = userService.login(loginReq);
 			String walletAddress = userService.getWalletByEmail(loginReq.getEmail());
+			String nickname = userService.getNickname(loginReq.getEmail());
 			if(!token.equals("")) {
 				map.put("message", "로그인 성공");
 				map.put("email", loginReq.getEmail())	;
 	            map.put("token",token);
 				map.put("address", walletAddress);
+				map.put("nickname", nickname);
 				return new ResponseEntity<Map<String,String>>(map, HttpStatus.OK);
 			}
 			map.put("message", "로그인 실패");

@@ -32,11 +32,11 @@ public class ItemRegisterRequestDto {
 	@ApiModelProperty(name="설명", example = "설명이에요~")
 	private String description;
 
-	@ApiModelProperty(name="대여시작일", example="2022-01-01 00:00:00")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+	@ApiModelProperty(name="대여시작일", example="2022-01-01 00:00")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime rentStartDate;
 
-	@ApiModelProperty(name="대여종료일", example="2022-01-01 00:00:00")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+	@ApiModelProperty(name="대여종료일", example="2022-01-01 00:00")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime rentEndDate;
 }
