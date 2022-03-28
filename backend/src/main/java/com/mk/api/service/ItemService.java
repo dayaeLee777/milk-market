@@ -19,6 +19,7 @@ public interface ItemService {
 	Item modifyItem(ItemModifyRequestDto itemModifyRequestDto, List<MultipartFile> multipartFile);
 
 	Item deleteItem(String itemId);
-	
+
+    List<ItemGetResponseDto> getItemList();
 }
 
