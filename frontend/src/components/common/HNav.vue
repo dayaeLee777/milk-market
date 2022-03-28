@@ -60,6 +60,12 @@
               to="/register"
             >Sign Up</router-link>
           </li>
+          <li v-if="$store.state.isSigned">
+            <router-link
+              class="nav-link"
+              to="/community"
+            >Community</router-link>
+          </li>
           <li class="nav-item" v-if="$store.state.isSigned">
             <router-link class="nav-link" to="/logout">Log out</router-link>
           <li
@@ -73,7 +79,12 @@
           </li>
         </ul>
         <div v-if="$store.state.isSigned">
-          <img src="../../../public/images/ompang2.png" alt="profile-img" id="my-img" @click="moveToMypage()">
+          <div v-if="profileImage">
+            <img :src="profileImage" alt="profile-img" class="my-img" @click="moveToMypage()">
+          </div>
+          <div v-else>
+            <img src="../../../public/images/ompang2.png" alt="profile-img" class="my-img" @click="moveToMypage()">
+          </div>
         </div>
       </div>
 
@@ -157,13 +168,45 @@
 </template>
 
 <script>
+import axios from 'axios';
+import jwt_decode from "jwt-decode";
+import { API_BASE_URL } from "@/config/index.js";
 
 export default {
-
+  data() {
+    return {
+      profileImage: "",
+    }
+  },
   methods: {
     moveToMypage() {
       this.$router.push("/mypage/wallet_info")
-    }
+    },
+    UserInfo() {
+      const token = this.$store.state.user.JWTToken;
+      const decode = jwt_decode(token)
+      console.log(decode.sub)
+
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      axios({
+        url: `${API_BASE_URL}/api/users/${decode.sub}`,
+        method: 'get',
+        headers,
+      })
+      .then( (res) => {
+        this.profileImage = res.data.profileImage;
+        console.log(res)
+      })
+      .catch( (err) => {
+        console.log(err)
+      });
+    },       
+  },
+  mounted() {
+    this.UserInfo();
   }
 };
 </script>
@@ -173,8 +216,9 @@ export default {
   height: 60px;
   padding-right: 0.5rem;
 }
-#my-img {
+.my-img {
   height: 45px;
+  width: 45px;
   border-radius: 50px;
   margin-left: 5px;
   cursor: pointer;

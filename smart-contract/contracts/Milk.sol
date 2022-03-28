@@ -121,7 +121,7 @@ contract Milk {
     //구매자 정보
     function getBuyerInfo(uint _id) public view returns (address, bytes32, bytes32, bytes32, bytes32, bytes32) {
         Buyer memory buyer = buyerInfo[_id];
-        return (buyer.buyerAddress, buyer.user_name, buyer.user_nickname, buyer.user_email, buyer.user_address, buyer.user_bli);
+        return (buyer.buyerAddress, buyer.user_name, buyer.user_nickname, buyer.user_email, buyer.user_address, buyer.user_milk);
     }
 
     //모든 구매자 정보
