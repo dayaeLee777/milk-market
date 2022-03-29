@@ -1,7 +1,8 @@
 module.exports = {
   devServer: {
     https: false,
-    port:3000,
+    // port:3000,
+    port:8083,
     open:true,
     // proxy:{
     //   '/api' : {
