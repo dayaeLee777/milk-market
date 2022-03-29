@@ -143,6 +143,7 @@
 <script>
 import { create as createItem } from "@/api/item.js";
 import { registerItem } from "@/utils/itemInventory.js";
+import { API_BASE_URL } from "@/config/index.js";
 import axios from 'axios'
 
 
@@ -265,7 +266,7 @@ export default {
       }
 
       axios({
-        url: `http://localhost:8080/api/item`,
+        url: `${API_BASE_URL}/api/item`,
         method: 'post',
         headers,
         data: formdata

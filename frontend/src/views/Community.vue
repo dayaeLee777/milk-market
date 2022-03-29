@@ -131,6 +131,7 @@
 </template>
 
 <script>
+import { API_BASE_URL } from "@/config/index.js";
 import axios from 'axios'
 
 export default {
@@ -154,7 +155,7 @@ export default {
       }
 
       axios({
-        url: `http://localhost:8080/api/community/delete/${communityId}`,
+        url: `${API_BASE_URL}/api/community/delete/${communityId}`,
         method: 'put',
         headers,
       })
@@ -183,7 +184,7 @@ export default {
         Authorization: `Bearer ${token}`
       }
       axios({
-        url: `http://localhost:8080/api/community/list/1`,
+        url: `${API_BASE_URL}/api/community/list/1`,
         method: 'get',
         headers,
       })
@@ -205,7 +206,7 @@ export default {
         Authorization: `Bearer ${token}`
       }
       axios({
-        url: `http://localhost:8080/api/community/list/${i}`,
+        url: `${API_BASE_URL}/api/community/list/${i}`,
         method: 'get',
         headers,
       })
