@@ -55,7 +55,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label id="price">가격 <b>(CASH)</b></label>
+                <label id="price">가격 <b>(MILK)</b></label>
                 <input
                   type="number"
                   class="form-control"

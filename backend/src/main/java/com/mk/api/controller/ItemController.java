@@ -59,7 +59,7 @@ public class ItemController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
 	}
 
-	@GetMapping("/list")
+	@GetMapping("/list}")
 	@ApiOperation(value = "상품 목록 불러오기", notes="<strong>상품 목록을 불러온다.</strong>")
 	@ApiResponses({
 			@ApiResponse(code=200, message="상품을 정상적으로 조회하였습니다."),
