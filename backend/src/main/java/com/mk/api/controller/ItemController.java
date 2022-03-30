@@ -3,6 +3,8 @@ package com.mk.api.controller;
 
 import java.util.List;
 
+import com.mk.api.dto.response.ItemGetListResponseDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,6 +38,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
 
+@Slf4j
 @Api(value = "상품 API", tags = { "Item" })
 @RestController
 @CrossOrigin("*")
@@ -64,6 +67,42 @@ public class ItemController {
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
 	}
+
+	@GetMapping("/list")
+	@ApiOperation(value = "상품 목록 불러오기", notes="<strong>상품 목록을 불러온다.</strong>")
+	@ApiResponses({
+			@ApiResponse(code=200, message="상품을 정상적으로 조회하였습니다."),
+			@ApiResponse(code=204, message="상품 조회를 실패했습니다.")
+	})
+	public ResponseEntity<? extends BaseResponseDto> getItemList(){
+		List<ItemGetResponseDto> itemGetResponseDto = itemService.getItemList();
+		if(itemGetResponseDto != null) {
+			log.info("files : " +itemGetResponseDto.get(0).getFiles());
+			return ResponseEntity.status(HttpStatus.OK).body(ItemGetListResponseDto.builder().list(itemGetResponseDto).build());
+		}
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
+	}
+
+	@GetMapping("/list/{pageNumber}")
+	@ApiOperation(value = "상품 목록 불러오기", notes="<strong>상품 목록을 불러온다.</strong>")
+	@ApiResponses({
+			@ApiResponse(code=200, message="상품을 정상적으로 조회하였습니다."),
+			@ApiResponse(code=204, message="상품 조회를 실패했습니다.")
+	})
+	public ResponseEntity<? extends BaseResponseDto> getItemListByPage(@PathVariable("pageNumber") int pageNumber){
+		ItemGetListResponseDto dto = new ItemGetListResponseDto();
+		List<ItemGetResponseDto> itemGetResponseDto = itemService.getItemList(pageNumber,dto);
+
+		if(itemGetResponseDto != null) {
+//			log.info("files : " +itemGetResponseDto.get(0).getFiles());
+			dto.setList(itemGetResponseDto);
+			dto.setMessage("Success");
+			dto.setStatusCode(200);
+			return ResponseEntity.status(HttpStatus.OK).body(dto);
+		}
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
+	}
+
 	
 	@GetMapping("/{itemId}")
 	@ApiOperation(value = "상품 불러오기", notes="<strong>itemId에 해당하는 커뮤니티를 불러온다.</strong>")

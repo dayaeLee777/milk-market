@@ -27,13 +27,15 @@ public class UserService {
 	private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 	private JwtTokenProvider jwtTokenProvider;
+	private JwtTokenService jwtTokenService;
 	private ModelMapper modelMapper;
 	
 	@Autowired
-	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider) {
+	public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, JwtTokenService jwtTokenService) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.jwtTokenProvider = jwtTokenProvider;
+		this.jwtTokenService = jwtTokenService;
 		this.modelMapper = new ModelMapper();
 	}
 
@@ -84,9 +86,9 @@ public class UserService {
 	}
 
 
-	public UserDTO getUserById(String id) {
+	public UserDTO getUserById(String accessToken) {
 		try {
-			User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+			User user = jwtTokenService.convertTokenToUser(accessToken);
 			return modelMapper.map(user, UserDTO.class);
 		}catch(Exception e) {
 			e.printStackTrace();
