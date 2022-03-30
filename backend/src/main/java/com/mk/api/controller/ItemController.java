@@ -22,6 +22,11 @@ import com.mk.api.dto.request.ItemRegisterRequestDto;
 import com.mk.api.dto.response.BaseResponseDto;
 import com.mk.api.dto.response.ItemGetResponseDto;
 import com.mk.api.service.ItemService;
+import com.mk.db.code.Code;
+import com.mk.db.entity.Item;
+import com.mk.elastic.document.Itemsearch;
+import com.mk.elastic.search.SearchRequestDTO;
+import com.mk.elastic.service.ItemSearchService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,6 +45,8 @@ public class ItemController {
 
 	private final ItemService itemService;
 	
+	private final ItemSearchService itemSearchService;
+	
 	@PostMapping(consumes = {"multipart/form-data"})
 	@ApiOperation(value = "상품 등록하기", notes="<strong>회원이 작성한 상품를 등록한다.</strong><br/>")
 	@ApiResponses({
@@ -50,9 +57,11 @@ public class ItemController {
 		@ApiIgnore @RequestHeader("Authorization") String accessToken,
 		@ApiParam(value="다중 파일 업로드") @RequestPart(required = false) List<MultipartFile> multipartFile,
 		@ApiParam(value = "등록할 상품", required = true) @RequestPart ItemRegisterRequestDto itemRegisterRequestDto){
-		System.out.println(itemRegisterRequestDto.toString());
-		if(itemService.registerItem(accessToken, multipartFile, itemRegisterRequestDto) != null)
+		Item item = itemService.registerItem(accessToken, multipartFile, itemRegisterRequestDto);
+		if(item != null) {
+			itemSearchService.registerItemSearch(item.getId());
 			return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.of(HttpStatus.CREATED.value(), "Success"));
+		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
 	}
 	
@@ -96,6 +105,15 @@ public class ItemController {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(BaseResponseDto.of(HttpStatus.ACCEPTED.value(), "Success"));
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
-
+	
+    @PostMapping("/search")
+    @ApiOperation(value = "상품  검색하기", notes="<strong>입력한 상품을 검색한다.</strong>")
+	@ApiResponses({
+		@ApiResponse(code=200, message="상품이 정상적으로 검색되었습니다."),
+		@ApiResponse(code=204, message="상품 검색을 실패했습니다.")
+	})
+    public List<Itemsearch> search(@RequestBody final SearchRequestDTO dto) {
+		return itemSearchService.search(dto);
+    }
 
 }
