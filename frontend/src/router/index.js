@@ -39,6 +39,11 @@ const routes = [
     component: Community,
   },
   {
+    path: "/room",
+    name: "room",
+    component: () => import("@/views/ChatRoom.vue"),
+  },
+  {
     path: "/commnunity/write",
     name: "commnunityWrite",
     component: () => import("@/components/community/CommunityWrite.vue"),
@@ -66,7 +71,7 @@ const routes = [
   {
     path: "/logout",
     name: "logout",
-    beforeEnter(to, from, next) {
+    beforeEnter (to, from, next) {
       store.commit("logout");
       alert("로그아웃 되었습니다.");
       next("/");
