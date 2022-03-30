@@ -3,6 +3,7 @@ module.exports = {
     https: false,
     port:8083,
     open:true,
+    proxy: "https://kapi.kakao.com",
     // proxy:{
     //   '/api' : {
     //     target: 'http://localhost:8080/'

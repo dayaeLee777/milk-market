@@ -39,4 +39,6 @@ public class ItemRegisterRequestDto {
 	@ApiModelProperty(name="대여종료일", example="2022-01-01 00:00")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
 	private LocalDateTime rentEndDate;
+
+
 }

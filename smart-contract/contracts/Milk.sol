@@ -60,6 +60,7 @@ contract Milk {
     address[10] public doPayments; // 정산 목록
     address[10] public doCancels; // 환불 목록
 
+    // event 는 emit으로 호출함
     event LogBuyProduct(address _buyer, uint _id);  // 상품 구입시 발생
     event LogDecidePayment(address _buyer, uint _id); // 구매 확정시 발생
     event LogDecideCancel(address _buyer, uint _id); // 구매 취소시 발생
@@ -72,10 +73,10 @@ contract Milk {
     }
 //상품 구입시, 금액이 소유자 계정으로 이동
     //매개변수로 계정, 이름, 닉네임, 이메일, 집주소, 코인을 이용
-    function buyProduct(uint _id, bytes32 _name, bytes32 _nickname, bytes32 _email, bytes32 _address, bytes32 _bli) public payable {
+    function buyProduct(uint _id, bytes32 _name, bytes32 _nickname, bytes32 _email, bytes32 _address, bytes32 _milk) public payable {
         require(_id >= 0 && _id <= 9, "the input shoud be included in the _id's ranges");
         buyers[_id] = msg.sender; //현재 상품을 구매하는 계정을 구매자배열에 저장하는데, 매물의 id를 인덱스값으로 저장
-        buyerInfo[_id] = Buyer(msg.sender, _name, _nickname, _email, _address, _bli); //구매자의 정보를 저장
+        buyerInfo[_id] = Buyer(msg.sender, _name, _nickname, _email, _address, _milk); //구매자의 정보를 저장
 
         payable(address(uint160(owner))).transfer(msg.value); // 코드 수정
         // address(uint160(owner)).transfer(msg.value); //함수에서 넘겨받은 값을 msg.value로 해서 이더를 전달

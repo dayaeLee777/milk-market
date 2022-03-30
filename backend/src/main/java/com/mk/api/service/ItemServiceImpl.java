@@ -53,6 +53,7 @@ public class ItemServiceImpl implements ItemService {
 				.description(itemRegisterRequestDto.getDescription())
 				.regDate(currentDateTime)
 				.user(user)
+				.status(Code.C01)
 				.build();
 
 		if (itemRegisterRequestDto.getDivision() == Code.A01)

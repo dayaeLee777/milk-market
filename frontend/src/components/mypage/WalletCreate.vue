@@ -32,8 +32,7 @@
                 </div>
                 <hr />
                 <a href="#" v-on:click="saveWallet" class="btn btn-primary"
-                  >네, 경고를 모두 숙지 했으며 이제 지갑 정보를
-                  저장하겠습니다.</a
+                  >지갑 정보를 저장하겠습니다.</a
                 >
               </div>
               <div v-else>

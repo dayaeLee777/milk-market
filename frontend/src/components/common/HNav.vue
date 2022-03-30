@@ -68,7 +68,8 @@
           </li>
           <li class="nav-item" v-if="$store.state.isSigned">
             <router-link class="nav-link" to="/logout">Log out</router-link>
-          <li
+          </li>
+          <!-- <li
             class="nav-item"
             v-if="$store.state.isSigned"
           >
@@ -76,7 +77,7 @@
               class="nav-link"
               to="/logout"
             >Sign out</router-link>
-          </li>
+          </li> -->
         </ul>
         <div v-if="$store.state.isSigned">
           <div v-if="profileImage">
@@ -180,7 +181,7 @@ export default {
   },
   methods: {
     moveToMypage() {
-      this.$router.push("/mypage/wallet_info")
+      this.$router.push("/mypage/update")
     },
     UserInfo() {
       const token = this.$store.state.user.JWTToken;

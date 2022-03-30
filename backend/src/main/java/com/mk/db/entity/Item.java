@@ -30,9 +30,13 @@ public class Item extends BaseEntity {
 	
 	@Enumerated(EnumType.STRING)
 	private Code category;
+
+	@Enumerated(EnumType.STRING)
+	private Code status;
 	
 	private int price;
-	
+
+
 	private String description;
 	
 	private LocalDateTime regDate;
@@ -48,12 +52,12 @@ public class Item extends BaseEntity {
 	@Column(name="del_yn", columnDefinition="BOOLEAN DEFAULT false")
 	private boolean delYn;
 
-	public Item(Code division, String itemName, Code category, int price, String description, LocalDateTime regDate,
-			LocalDateTime rentStartDate, LocalDateTime rentEndDate, User user, boolean delYn) {
+	public Item(Code division, String itemName, Code category, Code status, int price, String description, LocalDateTime regDate, LocalDateTime rentStartDate, LocalDateTime rentEndDate, User user, boolean delYn) {
 		super();
 		this.division = division;
 		this.itemName = itemName;
 		this.category = category;
+		this.status = status;
 		this.price = price;
 		this.description = description;
 		this.regDate = regDate;
@@ -62,7 +66,7 @@ public class Item extends BaseEntity {
 		this.user = user;
 		this.delYn = delYn;
 	}
-	
+
 	public void setRentDate(LocalDateTime rentStartDate, LocalDateTime rentEndDate) {
 		this.rentStartDate = rentStartDate;
 		this.rentEndDate = rentEndDate;

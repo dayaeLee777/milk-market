@@ -23,19 +23,20 @@
         </div>
       </div>        
       <div id="mywallet-info" class="row">
-        <div class="col-10 mt-5">
+        <div class="col-8 mt-5">
           <div class="card">
             <table class="table table-bordered">
               <tr>
                 <th>회원 정보</th>
                 <td class="text-right">{{ user.name }}({{ user.email }})</td>
                 <div v-if="isAuthorized">
-                  <p>PrivateKey 인증 완료</p>
+                  <p class="text-primary fw-bold">PrivateKey 인증 완료</p>
                 </div>
                 <div v-else>
                   <button type="button" class="btn btn-secondary mt-1"
                   data-bs-toggle="modal" data-bs-target="#exampleModal"
                   >privateKey 인증</button>
+                  <span class="text-danger fw-bold" id="warn-wallet">※ 개인키 인증이 필요합니다.</span>
                 </div>
               </tr>
               <tr>
@@ -49,7 +50,9 @@
                       v-on:click="chargeETH()"
                     >
                       {{ "ETH 충전" }}
-                    </button>
+                    </button> 
+
+                    <button class="btn btn-warning" @click="kakaoPay">카카오페이</button>
                   </div>
                 </td>
               </tr>
@@ -78,8 +81,7 @@
                       </button>                    
                     </div>
                   </div>
-                  <p class="text-primary mb-0">* 1 ETH = 1000 MILK</p>
-                  <p class="text-primary mb-0">* 최소 충전 금액: 0.001 ETH</p>
+                  <p class="text-primary mb-0" id="eth-font">* 1 ETH = 1000 MILK / 최소 충전 금액: 0.001 ETH</p>
                 </td>
               </tr>
               <!-- PJTⅡ 과제3 Req.1-1 보유 캐시 화면 구현 -->
@@ -300,6 +302,42 @@ export default {
         console.log(err)
         alert("privateKey 재확인!")
       })
+    },
+    kakaoPay() {
+
+      // 문서보고도 혼자서 이렇게 할 줄 알아야 한다 ㅠ
+      let headers = {
+            'Authorization': 'KakaoAK '+'32486cdd0cf1d8255805865d025b7cd4',
+            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+        };
+
+        let params = {
+            'cid': 'TC0ONETIME', // 테스트 코드
+            'partner_order_id': '423423',
+            'partner_user_id': '123',
+            'item_name': '물품',
+            'quantity': 1,
+            'total_amount': 20000,
+            'vat_amount': 200,
+            'tax_free_amount': 0,
+            'approval_url': 'http://localhost:8083/mypage/wallet_info',
+            'fail_url': 'http://localhost:8083/mypage/wallet_info',
+            'cancel_url': 'http://localhost:8083/mypage/wallet_info',
+        };
+
+        axios({
+          url:'/v1/payment/ready',
+          method: 'POST',
+          headers: headers,
+          form: params          
+        })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+
     }
   },
   mounted() {
@@ -316,5 +354,11 @@ export default {
 <style>
 #mywallet-info th {
   text-align: left;
+}
+#warn-wallet {
+  font-size: 8px;
+}
+#eth-font {
+  font-size: 12px;
 }
 </style>

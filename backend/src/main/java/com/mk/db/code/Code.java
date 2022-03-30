@@ -21,7 +21,10 @@ public enum Code {
 	B13("안전",true),
 	B14("위생/건강",true),
 	B15("임산부",true),
-	B16("유아침구",true);
+	B16("유아침구",true),
+	C01("진열 중", true),
+	C02("결재 완료", true),
+	C03("판매 완료", true);
 	
 	private String name;
 	

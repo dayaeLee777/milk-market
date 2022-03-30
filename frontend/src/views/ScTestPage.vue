@@ -39,25 +39,31 @@
       </div>      
     </div>
     <hr>
-    <div>
-      <p>MILK 전송</p>
-      <p>From</p>
-      <input type="text" class="form-control"  v-model="from">
-      <p>To</p>
-      <input type="text" class="form-control" v-model="to">
-      <p>전송 MILK</p>
-      <input type="text" class="form-control" v-model="amount">
-      <button @click="sendMilk" class="btn btn-primary my-2">MILK 전송</button>
+    <div class="d-flex">
+      <div class="col-3">
+        <p>MILK 전송</p>
+        <p>From</p>
+        <input type="text" class="form-control"  v-model="from">
+        <p>To</p>
+        <input type="text" class="form-control" v-model="to">
+        <p>전송 MILK</p>
+        <input type="text" class="form-control" v-model="amount">
+        <button @click="sendMilk" class="btn btn-primary my-2">MILK 전송</button>
+      </div>
+      <div class="col-3">
+        <p>ETH 전송</p>
+        <p>From</p>
+        <input type="text" class="form-control" v-model="from_eth">
+        <p>To</p>
+        <input type="text" class="form-control" v-model="to_eth">
+        <p>전송 ETH</p>
+        <input type="text" class="form-control" v-model="amount_eth">
+        <button @click="sendETH" class="btn btn-primary my-2">ETH 전송</button>    
+      </div>
     </div>
-    <hr>
-      <p>ETH 전송</p>
-      <p>From</p>
-      <input type="text" class="form-control" v-model="from_eth">
-      <p>To</p>
-      <input type="text" class="form-control" v-model="to_eth">
-      <p>전송 ETH</p>
-      <input type="text" class="form-control" v-model="amount_eth">
-      <button @click="sendETH" class="btn btn-primary my-2">ETH 전송</button>    
+    <div>
+      <button class="btn btn-secondary my-2" @click="testEscrow">테스트</button>
+    </div>
   </div>
 
 </template>
@@ -65,7 +71,8 @@
 <script>
 import Web3 from "web3";
 import MilkToken from "../config/contract/MilkToken.json"
-
+import Milk from "../config/contract/Milk.json"
+import { BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS, PURCHASE_RECORD_CONTRACT_ADDRESS} from "@/config/index.js" 
 
 export default {
   data() {
@@ -91,6 +98,7 @@ export default {
       ethBalanceBase: 0,
       milkBalanceBase: 0,
       contract: "",
+      testContract: "",
     }
   },
   methods: {
@@ -98,12 +106,13 @@ export default {
     makeContract() {   
       const Web3 = require('web3');
       const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT));
-      const ENDPOINT = 'http://localhost:8545';      
+      const ENDPOINT = BLOCKCHAIN_URL;      
 
+      const contract =  new web3.eth.Contract(MilkToken.abi, CASH_CONTRACT_ADDRESS);
+      this.contract = contract;
 
-      let contract =  new web3.eth.Contract(MilkToken.abi, this.contractAdress);
-      this.contract = contract
-      
+      const testContract = new web3.eth.Contract(Milk.abi, PURCHASE_RECORD_CONTRACT_ADDRESS);
+      this.testContract = testContract;
     },
   	createWallet() {
       const Web3 = require('web3');
@@ -177,10 +186,15 @@ export default {
       this.from = "";
       this.to = "";
       this.amount = 0;
-    }
+    },
+    testEscrow() {
+       const web3 = new Web3(Web3.givenProvider)
+       this.web3 = web3
+       reslove(web3);
+    },
   },
   mounted() {
-    const contractAdress = "0x0006dc5424B27a81Cca0B1bcF93Cf4C7c6946691"
+    const contractAdress = CASH_CONTRACT_ADDRESS
     this.contractAdress = contractAdress 
     const Web3 = require('web3');
     const web3 = new Web3(new Web3.providers.HttpProvider(ENDPOINT));

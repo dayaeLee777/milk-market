@@ -3,35 +3,32 @@
     <h-breadcrumb
     ></h-breadcrumb>    
     <div class="container" id="profile-body">
-      <my-page-nav></my-page-nav>
+      <my-page-nav></my-page-nav>      
       <div class="d-flex justify-content-start align-items-center mt-5" id="profile-tag">
-        <div class="d-flex flex-column col-2 align-items-center ms-5">
+        <div class="d-flex flex-column col-2 align-items-center ms-5 image_outer_container">
           <div v-if="user.profileImage">
-            <img :src="user.profileImage" alt="profile-image" class="profile-img">
+            <div class="image_inner_container">
+              <img :src="user.profileImage" alt="profile-image" class="profile-img">
+            </div>
           </div>
           <div v-else>
-            <img src="../../../public/images/ompang2.png" alt="profile-img" class="img-thumbnail profile-img"> 
+            <div class="image_inner_container">
+              <img src="../../../public/images/ompang2.png" alt="profile-img" class="profile-img"> 
+            </div>
           </div>
           <button class="btn btn-secondary mt-2" id="profile-btn" data-bs-toggle="modal" data-bs-target="#profileImage">프로필 변경</button>
         </div>
         <div class="ms-3">
-          <p>이메일: {{ user.email }}</p>
+          <p>이메일 : {{ user.email }}</p>
           <p>닉네임: {{ user.nickName }} </p>
           <div class="d-flex align-items-center">
             <p>현재 주소: </p>
             <button class="btn btn-secondary ms-3">주소 변경</button>
           </div>
-          <p>보유 ETH: </p>
-          <p>보유 MILK: </p>
         </div>
       </div>
-      <div class="d-flex justify-content-center">
-        <div>
-          <p>내가 작성한 글</p>
-        </div>
-        <div>
-          <p>하하</p>
-        </div>
+      <div class="d-flex justify-content-start">
+
       </div>
       <!-- 여기 모달창으로 변경 -->
       <!-- <div class="mt-3">
@@ -143,11 +140,12 @@ export default {
         data: formdata,
       })
       .then(res => {
-        console.log(res)
-        this.fetchUserInfo()
+        console.log(res);
+        // 새로고침할때 이거 쓰자.
+        this.$router.go();
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
       });
 
     },
@@ -214,13 +212,13 @@ export default {
 
 <style>
   .profile-img{
-    height: 150px;
-    width: 160px;
-    border-radius: 80px;
+    height: 200px;
+    width: 180px;
+    border-radius: 10px;
   }
   #profile-btn{
     width: 90px;
-    font-size: 8px;
+    font-size: 10px;
   }
   /* #profile-tag{
     border-style: solid;
@@ -231,4 +229,35 @@ export default {
     height: 300px;
     background-color: #fdefff;
   } */
+  .image_outer_container{
+  margin-top: auto;
+  margin-bottom: auto;
+  border-radius: 50%;
+  position: relative;
+  }
+
+  .image_inner_container{
+  border-radius: 50%;
+  padding: 5px;
+  background: #833ab4; 
+  background: -webkit-linear-gradient(to bottom, #fcb045, #fd1d1d, #833ab4); 
+  background: linear-gradient(to bottom, #fcb045, #fd1d1d, #833ab4);
+  }
+  .image_inner_container img{
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  border: 5px solid white;
+  }
+
+  .image_outer_container .green_icon{
+    background-color: #4cd137;
+    position: absolute;
+    right: 30px;
+    bottom: 10px;
+    height: 30px;
+    width: 30px;
+    border:5px solid white;
+    border-radius: 50%;
+  }  
 </style>

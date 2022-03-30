@@ -20,14 +20,19 @@
           class="nav-item nav-link"
           v-bind:class="{ active: viewName == 'mypage.update' }"
           :to="{ name: 'mypage.update' }"
-          >내정보 확인</router-link
+          >My 프로필</router-link
         >
         <router-link
           class="nav-item nav-link"
           v-bind:class="{ active: viewName == 'mypage.items' }"
           :to="{ name: 'mypage.items' }"
-          >상품 관리</router-link
+          >My 거래내역</router-link
         >
+        <!-- <router-link
+        class="nav-item nav-link"
+        v-bind:class="{ active: viewName == 'mypage.password' }"
+        :to="{ name: 'mypage.password'}"
+        >비밀번호 변경</router-link> -->
       </nav>
     </div>
   </div>
