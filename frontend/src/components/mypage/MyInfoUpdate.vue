@@ -106,7 +106,7 @@ export default {
       }
 
       axios({
-        url: `${API_BASE_URL}/api/users/${decode.sub}`,
+        url: `${API_BASE_URL}/api/users/`,
         method: 'get',
         headers,
       })
