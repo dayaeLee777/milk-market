@@ -9,6 +9,8 @@
     >
 
       <a>{{$route.params.coId}}</a>
+      <div></div>
+      <a>{{$route.params.userN}}</a>
 
       <div class="mb-3">
         <label
@@ -68,7 +70,7 @@
                 댓글 등록
               </button>
             </from>
-              <div class="d-flex mb-4 ml-4 mt-4">
+              <!-- <div class="d-flex mb-4 ml-4 mt-4">
                 <div class="flex-shrink-0">
                   <img class="rounded-circle" src = "https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
                 </div>
@@ -78,7 +80,7 @@
                   </div>
                     if youre going to lead a space if
 
-                    <!--child commnet1 -->
+                    
                     <div class = "d-flex mt-4">
                       <div class="flex-shrink-0">
                         <img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
@@ -90,17 +92,23 @@
                     </div>
                 </div>
                 
-              </div>
+              </div> -->
 
 
               <div 
-              v-for="(comment, idx) in comments" :key="idx" class="d-flex mb-4 ml-4">
+              v-for="(comment, idx) in comments" :key="idx" class="d-flex mb-4 ml-4 mt-4">
                 <div class="flex-shrink-0">
                   <img class="rounded-circle" src = "https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
                 </div>
                 <div class="ms-3">
                   <div class="fw-bold">
                     {{comment.userNickname}}
+                    <button
+                        @click="deleteComment(comment.commentId, comment.userNickname)"
+                        type="button"
+                        class="btn-close"
+                        aria-label="Close"
+                      ></button>
                   </div>
                     {{comment.content}}
                 </div>
@@ -121,6 +129,7 @@
 
 <script>
 import axios from 'axios';
+import { API_BASE_URL } from "@/config/index.js";
 
 export default {
   data () {
@@ -136,6 +145,54 @@ export default {
     this.getCommunityComment();
   },
   methods: {
+    //댓글 지우는 함수
+    deleteComment(commentId, userNickname){
+      const token = this.$store.state.user.JWTToken;
+      console.log(token + "community 내부의 댓글을 삭제할때 백엔드로 보내는 토큰입니다.");
+      console.log(this.$route.params.coId);
+
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      const data1 = { //이건 데이터 새로고침할때 사용하는 데이터
+        userNickname : this.$store.state.user.userNickname, //이 부분을 스토어에 닉네임을 담아서 끌어오면됨
+        content : this.commentContent,
+      }
+      if(userNickname>this.$store.state.user.userNickname){
+        console.log("글작성자가 숫자로 치면 더 크다");
+        console.log(userNickname + this.$store.state.user.userNickname);
+      }else{
+        console.log("지금 사용자가 더크다.")
+      }
+
+      if(userNickname===this.$store.state.user.userNickname){
+        console.log("일치");
+        axios({
+        url: `${API_BASE_URL}/api/comment/delete/${commentId}`,
+        method: 'put',
+        headers,
+      })
+        .then((res) => {
+          console.log("댓글 삭제 성공");
+          alert("댓글 삭제 성공");
+          // this.comments.push(data1);
+          const idx = this.comments.findIndex(comment => comment.commentId === commentId)
+          this.comments.splice(idx, 1)
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log("댓글 등록 실패");
+        })
+
+      }else{
+        alert("댓글 쓴 본인이 아니다");
+      }
+      
+
+      
+
+    },
     goCommunity(){
       this.$router.push("/community");
     },
@@ -150,7 +207,7 @@ export default {
 
       const data1 = { //이건 데이터 새로고침할때 사용하는 데이터
         // userNickname : this.comments.userNickname,
-        userNickname : this.$store.state.user.id, //이 부분을 스토어에 닉네임을 담아서 끌어오면됨
+        userNickname : this.$store.state.user.userNickname, //이 부분을 스토어에 닉네임을 담아서 끌어오면됨
         content : this.commentContent,
       }
 
@@ -160,7 +217,7 @@ export default {
       }
 
       axios({
-        url: `http://localhost:8080/api/comment`,
+        url: `${API_BASE_URL}/api/comment`,
         method: 'post',
         headers,
         data,
@@ -188,7 +245,7 @@ export default {
       }
 
        axios({
-        url: `http://localhost:8080/api/comment/list/${this.$route.params.coId}`,
+        url: `${API_BASE_URL}/api/comment/list/${this.$route.params.coId}`,
         method: 'get',
         headers,
       })
@@ -215,7 +272,7 @@ export default {
       }
 
       axios({
-        url: `http://localhost:8080/api/community/${this.$route.params.coId}`,
+        url: `${API_BASE_URL}/api/community/${this.$route.params.coId}`,
         method: 'get',
         headers,
       })
@@ -244,8 +301,11 @@ export default {
         content: this.content,
       }
 
-      axios({
-        url: `http://localhost:8080/api/community`,
+      if(this.$route.params.userN===this.$store.state.user.userNickname){
+        console.log("수정가능한 아이디");
+
+        axios({
+        url: `${API_BASE_URL}/api/community`,
         method: 'put',
         headers,
         data,
@@ -262,6 +322,12 @@ export default {
           console.log(err);
           console.log("글 수정 실패");
         })
+      }else{
+        console.log("수정불가능 아이디")
+        alert("작성자가 아니라 수정 불가.")
+      }
+
+      
     }
   },
 };

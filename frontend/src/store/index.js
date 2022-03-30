@@ -15,7 +15,7 @@ export default new Vuex.Store({
       id: 0, // 사용자 아이디 저장
       walletAddress: null,
       JWTToken: null,
-      // userNickname: null,
+      userNickname: null,
     },
   },
   mutations: {
@@ -31,14 +31,10 @@ export default new Vuex.Store({
     setJWTToken(state, token) {
       state.user.JWTToken = token;
     },
-<<<<<<< HEAD
-    // setUserNickname (state, userNickname) {
-    //   state.user.userNickname = userNickname;
-    // },
+    setUserNickname(state, userNickname) {
+      state.user.userNickname = userNickname;
+    },
     logout (state) {
-=======
-    logout(state) {
->>>>>>> c0c6de7b24ce836b4a0135d594c1feff3960988b
       state.isSigned = false;
       state.user.id = 0;
       state.user.walletAddress = null;
