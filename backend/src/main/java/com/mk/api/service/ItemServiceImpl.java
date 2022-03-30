@@ -9,7 +9,12 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import com.mk.api.dto.response.ItemGetListResponseDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,20 +71,19 @@ public class ItemServiceImpl implements ItemService {
 	}
 	@Override
 	public List<ItemGetResponseDto> getItemList() {
-		//아이템을 찾고,
-		//그 아이템으로 이미지 파일 이름, 경로를 찾고
-		//
-		List<Item> items = itemRepository.findAll();
-		Map<String, String> itemImageList = new HashMap<String, String>();
-		List<ItemGetResponseDto> itemLists = new ArrayList<>();
-		for(Item item : items){
 
+		List<Item> items = itemRepository.findAll();
+
+		List<ItemGetResponseDto> itemLists = new ArrayList<>();
+
+
+		for(Item item : items){
+			Map<String, String> itemImageList = new HashMap<String, String>();
 			itemImageRepository.findByItem(item).forEach(file -> {
+
 				String originFilename = file.getOriginFileName();
 				String newFilename = file.getNewFileName();
-				log.info("파일 이름 : "+ originFilename+" "+ newFilename);
 				itemImageList.put(originFilename, itemImageService.getImagePath(newFilename));
-				log.info("files : "+ originFilename+" "+ itemImageList.get(originFilename));
 			});
 
 			DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
@@ -104,17 +108,64 @@ public class ItemServiceImpl implements ItemService {
 				itemGetResponseDto.setRentDate(item.getRentStartDate().format(rentDateTimeFormatter),
 						item.getRentEndDate().format(rentDateTimeFormatter));
 
-			//테스트
-			log.info("keys :"+ itemGetResponseDto.getFiles().keySet() +"\n values : "+itemGetResponseDto.getFiles().values());
 			//아이템 리스트 추가
 			itemLists.add(itemGetResponseDto);
 
-			//아이템 이미지 초기화( 이름, 경로)
-			itemImageList.clear();
+
 		}
 
 		return itemLists;
 	}
+
+	@Override
+	public List<ItemGetResponseDto> getItemList(int pageNumber, ItemGetListResponseDto dto) {
+		Pageable pageable = PageRequest.of(pageNumber-1, 4, Sort.Direction.DESC, "id");
+		Page<Item> items = itemRepository.findAll(pageable);
+		log.info("totalpage : "+ items.getTotalPages());
+		dto.setTotalPages(items.getTotalPages());
+		List<ItemGetResponseDto> itemLists = new ArrayList<>();
+
+
+		for(Item item : items){
+			Map<String, String> itemImageList = new HashMap<String, String>();
+			itemImageRepository.findByItem(item).forEach(file -> {
+
+				String originFilename = file.getOriginFileName();
+				String newFilename = file.getNewFileName();
+				itemImageList.put(originFilename, itemImageService.getImagePath(newFilename));
+			});
+
+			DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+			DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
+
+			ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder()
+					.itemId(item.getId())
+					.userId(item.getUser().getUsername())
+					.userNickname(item.getUser().getNickname())
+					.division(item.getDivision())
+					.itemName(item.getItemName())
+					.category(item.getCategory())
+					.price(item.getPrice())
+					.description(item.getDescription())
+					.regDate(item.getRegDate().format(regDateFormatter))
+					.bcode(item.getUser().getBcode())
+					.bname(item.getUser().getBname())
+					.files(itemImageList)
+					.build();
+
+			if (item.getDivision() == Code.A01)
+				itemGetResponseDto.setRentDate(item.getRentStartDate().format(rentDateTimeFormatter),
+						item.getRentEndDate().format(rentDateTimeFormatter));
+
+			//아이템 리스트 추가
+			itemLists.add(itemGetResponseDto);
+
+
+		}
+
+		return itemLists;
+	}
+
 	@Override
 	public ItemGetResponseDto getItem(String itemId) {
 
