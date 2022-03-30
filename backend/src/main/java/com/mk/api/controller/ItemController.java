@@ -144,9 +144,7 @@ public class ItemController {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(BaseResponseDto.of(HttpStatus.ACCEPTED.value(), "Success"));
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
-<<<<<<< HEAD
-=======
-	
+
     @PostMapping("/search")
     @ApiOperation(value = "상품  검색하기", notes="<strong>입력한 상품을 검색한다.</strong>")
 	@ApiResponses({
@@ -156,6 +154,5 @@ public class ItemController {
     public List<Itemsearch> search(@RequestBody final SearchRequestDTO dto) {
 		return itemSearchService.search(dto);
     }
->>>>>>> develop
 
 }

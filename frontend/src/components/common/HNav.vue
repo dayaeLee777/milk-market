@@ -189,28 +189,28 @@ export default {
     moveToMypage() {
       this.$router.push("/mypage/update")
     },
-    UserInfo() {
-      const token = this.$store.state.user.JWTToken;
-      const decode = jwt_decode(token)
-      console.log(decode.sub)
+    // UserInfo() {
+    //   const token = this.$store.state.user.JWTToken;
+    //   const decode = jwt_decode(token)
+    //   console.log(decode.sub)
 
-      const headers = {
-        Authorization: `Bearer ${token}`
-      }
+    //   const headers = {
+    //     Authorization: `Bearer ${token}`
+    //   }
 
-      axios({
-        url: `${API_BASE_URL}/api/users/${decode.sub}`,
-        method: 'get',
-        headers,
-      })
-      .then( (res) => {
-        this.profileImage = res.data.profileImage;
-        console.log(res)
-      })
-      .catch( (err) => {
-        console.log(err)
-      });
-    },       
+    //   axios({
+    //     url: `${API_BASE_URL}/api/users/${decode.sub}`,
+    //     method: 'get',
+    //     headers,
+    //   })
+    //   .then( (res) => {
+    //     this.profileImage = res.data.profileImage;
+    //     console.log(res)
+    //   })
+    //   .catch( (err) => {
+    //     console.log(err)
+    //   });
+    // },       
   },
   mounted() {
     this.UserInfo();
