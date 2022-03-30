@@ -8,6 +8,13 @@ function findAll(success, fail) {
   instance.get("/api/item/").then(success).catch(fail);
 }
 
+function findItemListByPage(pageNumber, success, fail) {
+  instance
+    .get("/api/item/list/" + pageNumber)
+    .then(success)
+    .catch(fail);
+}
+
 function findItemsByOwner(userId, success, fail) {
   instance
     .get("/api/item/seller/" + userId)
@@ -90,6 +97,7 @@ function findMySaleItems(userId, success, fail) {
 
 export {
   findAll,
+  findItemListByPage,
   findItemsByOwner,
   findById,
   findHistoryById,

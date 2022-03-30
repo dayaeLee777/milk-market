@@ -1,10 +1,15 @@
 <template>
   <div
-    class="card col-sm-12 col-lg-6"
+    class="card h-100"
     @click="itemDetail(content.itemId)"
     style="cursor: pointer"
   >
-    <img v-if="!key" :src="item_img" class="card-img-top" alt="사진없음" />
+    <img
+      v-if="!contentImage()"
+      :src="item_img"
+      class="card-img-top"
+      alt="사진없음"
+    />
     <img v-else :src="content.files[key]" class="card-img-top" alt="" />
     <div class="card-body">
       <div>
@@ -30,7 +35,6 @@ export default {
   },
   mounted() {
     this.key = Object.keys(this.content.files)[0];
-    console.log("key 출력" + this.key);
   },
   methods: {
     itemDetail(itemId) {
@@ -38,7 +42,12 @@ export default {
         name: "item.detail",
         params: { id: this.content.itemId },
       });
-      console.log("경로 : " + this.content.files[this.key]);
+    },
+    contentImage() {
+      this.key = Object.keys(this.content.files)[0];
+
+      if (this.key) return true;
+      return false;
     },
   },
 };
