@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import io.swagger.v3.oas.annotations.headers.Header;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -90,9 +91,10 @@ public class UserController {
 		return new ResponseEntity<Map<String,String>>(map, HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<GetUserByProfileRes> getUser (@PathVariable("id") String id) {
-		UserDTO user = userService.getUserById(id);
+	@GetMapping("/")
+	public ResponseEntity<GetUserByProfileRes> getUser (@ApiIgnore @RequestHeader("Authorization") String accessToken) {
+
+		UserDTO user = userService.getUserById(accessToken);
 		return new ResponseEntity<GetUserByProfileRes>(new GetUserByProfileRes(user), HttpStatus.OK);
 	}
 

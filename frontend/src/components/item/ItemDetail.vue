@@ -11,6 +11,7 @@
             <div class="card-body">
               <div class="form-group">
                 <h3>
+                  <!--search 완성 되면 실행해보기-->
                   <a href="">{{ item.category }}</a> >
                   {{ item.itemName }}
                 </h3>

@@ -3,6 +3,7 @@ package com.mk.api.service;
 
 import java.util.List;
 
+import com.mk.api.dto.response.ItemGetListResponseDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mk.api.dto.request.ItemModifyRequestDto;
@@ -19,6 +20,9 @@ public interface ItemService {
 	Item modifyItem(ItemModifyRequestDto itemModifyRequestDto, List<MultipartFile> multipartFile);
 
 	Item deleteItem(String itemId);
-	
+
+    List<ItemGetResponseDto> getItemList();
+
+	List<ItemGetResponseDto> getItemList(int pageNumber, ItemGetListResponseDto dto);
 }
 

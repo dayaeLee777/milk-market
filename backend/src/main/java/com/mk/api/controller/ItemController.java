@@ -3,6 +3,8 @@ package com.mk.api.controller;
 
 import java.util.List;
 
+import com.mk.api.dto.response.ItemGetListResponseDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +24,11 @@ import com.mk.api.dto.request.ItemRegisterRequestDto;
 import com.mk.api.dto.response.BaseResponseDto;
 import com.mk.api.dto.response.ItemGetResponseDto;
 import com.mk.api.service.ItemService;
+import com.mk.db.code.Code;
+import com.mk.db.entity.Item;
+import com.mk.elastic.document.Itemsearch;
+import com.mk.elastic.search.SearchRequestDTO;
+import com.mk.elastic.service.ItemSearchService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +38,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
 
+@Slf4j
 @Api(value = "상품 API", tags = { "Item" })
 @RestController
 @CrossOrigin("*")
@@ -39,6 +47,8 @@ import springfox.documentation.annotations.ApiIgnore;
 public class ItemController {
 
 	private final ItemService itemService;
+	
+	private final ItemSearchService itemSearchService;
 	
 	@PostMapping(consumes = {"multipart/form-data"})
 	@ApiOperation(value = "상품 등록하기", notes="<strong>회원이 작성한 상품를 등록한다.</strong><br/>")
@@ -50,11 +60,49 @@ public class ItemController {
 		@ApiIgnore @RequestHeader("Authorization") String accessToken,
 		@ApiParam(value="다중 파일 업로드") @RequestPart(required = false) List<MultipartFile> multipartFile,
 		@ApiParam(value = "등록할 상품", required = true) @RequestPart ItemRegisterRequestDto itemRegisterRequestDto){
-		System.out.println(itemRegisterRequestDto.toString());
-		if(itemService.registerItem(accessToken, multipartFile, itemRegisterRequestDto) != null)
+		Item item = itemService.registerItem(accessToken, multipartFile, itemRegisterRequestDto);
+		if(item != null) {
+			itemSearchService.registerItemSearch(item.getId());
 			return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.of(HttpStatus.CREATED.value(), "Success"));
+		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
 	}
+
+	@GetMapping("/list")
+	@ApiOperation(value = "상품 목록 불러오기", notes="<strong>상품 목록을 불러온다.</strong>")
+	@ApiResponses({
+			@ApiResponse(code=200, message="상품을 정상적으로 조회하였습니다."),
+			@ApiResponse(code=204, message="상품 조회를 실패했습니다.")
+	})
+	public ResponseEntity<? extends BaseResponseDto> getItemList(){
+		List<ItemGetResponseDto> itemGetResponseDto = itemService.getItemList();
+		if(itemGetResponseDto != null) {
+			log.info("files : " +itemGetResponseDto.get(0).getFiles());
+			return ResponseEntity.status(HttpStatus.OK).body(ItemGetListResponseDto.builder().list(itemGetResponseDto).build());
+		}
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
+	}
+
+	@GetMapping("/list/{pageNumber}")
+	@ApiOperation(value = "상품 목록 불러오기", notes="<strong>상품 목록을 불러온다.</strong>")
+	@ApiResponses({
+			@ApiResponse(code=200, message="상품을 정상적으로 조회하였습니다."),
+			@ApiResponse(code=204, message="상품 조회를 실패했습니다.")
+	})
+	public ResponseEntity<? extends BaseResponseDto> getItemListByPage(@PathVariable("pageNumber") int pageNumber){
+		ItemGetListResponseDto dto = new ItemGetListResponseDto();
+		List<ItemGetResponseDto> itemGetResponseDto = itemService.getItemList(pageNumber,dto);
+
+		if(itemGetResponseDto != null) {
+//			log.info("files : " +itemGetResponseDto.get(0).getFiles());
+			dto.setList(itemGetResponseDto);
+			dto.setMessage("Success");
+			dto.setStatusCode(200);
+			return ResponseEntity.status(HttpStatus.OK).body(dto);
+		}
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
+	}
+
 	
 	@GetMapping("/{itemId}")
 	@ApiOperation(value = "상품 불러오기", notes="<strong>itemId에 해당하는 커뮤니티를 불러온다.</strong>")
@@ -96,6 +144,15 @@ public class ItemController {
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(BaseResponseDto.of(HttpStatus.ACCEPTED.value(), "Success"));
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
-
+	
+    @PostMapping("/search")
+    @ApiOperation(value = "상품  검색하기", notes="<strong>입력한 상품을 검색한다.</strong>")
+	@ApiResponses({
+		@ApiResponse(code=200, message="상품이 정상적으로 검색되었습니다."),
+		@ApiResponse(code=204, message="상품 검색을 실패했습니다.")
+	})
+    public List<Itemsearch> search(@RequestBody final SearchRequestDTO dto) {
+		return itemSearchService.search(dto);
+    }
 
 }
