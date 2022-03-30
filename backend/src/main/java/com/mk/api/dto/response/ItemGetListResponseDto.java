@@ -2,14 +2,12 @@ package com.mk.api.dto.response;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -18,4 +16,7 @@ public class ItemGetListResponseDto extends BaseResponseDto{
 
     @ApiModelProperty(name="아이템 목록")
     List<ItemGetResponseDto> list;
+
+    @ApiModelProperty(name="총 페이지 수")
+    int totalPages;
 }
