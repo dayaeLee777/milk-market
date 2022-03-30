@@ -12,7 +12,6 @@ import Escrow from "@/views/Escrow.vue";
 import ScTestPage from "@/views/ScTestPage.vue";
 import Map from "@/views/Map.vue";
 import Community from "@/views/Community.vue";
-import Chatting from "@/components/chatting/chatting.vue";
 // import CommunityWrite from "@/components/community/CommunityWrite.vue"
 
 
@@ -27,16 +26,16 @@ const routes = [
     name: "home",
     component: Home,
   },
-  {
-    path: "/chatting",
-    name: "chatting",
-    component: Chatting,
-  },
   // 게시판
   {
     path: "/community",
     name: "community",
     component: Community,
+  },
+  {
+    path: "/room",
+    name: "room",
+    component: () => import("@/views/ChatRoom.vue"),
   },
   {
     path: "/commnunity/write",
@@ -66,7 +65,7 @@ const routes = [
   {
     path: "/logout",
     name: "logout",
-    beforeEnter(to, from, next) {
+    beforeEnter (to, from, next) {
       store.commit("logout");
       alert("로그아웃 되었습니다.");
       next("/");

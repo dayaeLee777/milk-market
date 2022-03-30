@@ -19,19 +19,19 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setIsSigned(state, isSigned) {
+    setIsSigned (state, isSigned) {
       state.isSigned = isSigned;
     },
-    setUserId(state, id) {
+    setUserId (state, id) {
       state.user.id = id;
     },
-    setWalletAddress(state, address) {
+    setWalletAddress (state, address) {
       state.user.walletAddress = address;
     },
-    setJWTToken(state, token) {
+    setJWTToken (state, token) {
       state.user.JWTToken = token;
     },
-    setUserNickname(state, userNickname) {
+    setUserNickname (state, userNickname) {
       state.user.userNickname = userNickname;
     },
     logout (state) {
