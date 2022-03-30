@@ -3,14 +3,48 @@ import { createInstance } from "./index.js";
 
 const token = store.getters.getJWTToken;
 const instance = createInstance();
+// function signup(email, nickName, password, success, fail) {
+//   const user = {
+//     email: email,
+//     nickname: nickName,
+//     password: password,
+//   };
 
+//   instance
+//     .post("api/users/signup", JSON.stringify(user))
+//     .then(success)
+//     .catch(fail);
+// }
 function findAll(success, fail) {
   instance.get("/api/item/").then(success).catch(fail);
 }
+function getItemList(bcode, sortBy, order, page, size, success, fail) {
+  const ItemList = {
+    bcode: bcode,
+    sortBy: sortBy,
+    order: order,
+    page: page,
+    size: size,
+  };
+
+  instance
+    .post("/api/item/search", JSON.stringify(ItemList), {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then(success)
+    .catch(fail);
+}
 
 function findItemListByPage(pageNumber, success, fail) {
+  const ItemList = {
+    bcode: bcode,
+    sortBy: sortBy,
+    order: order,
+    page: pageNumber,
+    size: size,
+  };
   instance
-    .get("/api/item/list/" + pageNumber)
+    .get("/api/item/search/" + pageNumber)
     .then(success)
     .catch(fail);
 }
@@ -109,4 +143,5 @@ export {
   remove,
   confirm,
   findMySaleItems,
+  getItemList,
 };
