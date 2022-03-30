@@ -1,5 +1,7 @@
 <template>
   <div>
+    {{ $route.params.userNickname }}
+    {{ $route.params.sessionId }}
     <div class="chat_window">
       <div class="top_menu">
         <div class="buttons">
@@ -61,11 +63,11 @@ export default {
 
   methods: {
     scrollToBottom () {
-      let box = document.querySelector('.msg_history')
+      let box = document.querySelector('.messages')
       box.scrollTop = box.scrollHeight
     },
     saveMessage () {
-      db.collection('chat').doc('roomA').collection('messages').add({
+      db.collection('chat').doc(this.$route.params.sessionId).collection('messages').add({
         message: this.message,
         author: this.$store.state.user.userNickname,
         createdAt: new Date()
@@ -76,7 +78,7 @@ export default {
     },
 
     fetchMessages () {
-      db.collection('chat').doc('roomA').collection('messages').orderBy('createdAt').onSnapshot((querySnapshot) => {
+      db.collection('chat').doc(this.$route.params.sessionId).collection('messages').orderBy('createdAt').onSnapshot((querySnapshot) => {
         let allMessages = []
         querySnapshot.forEach(doc => {
           allMessages.push(doc.data())

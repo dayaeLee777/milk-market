@@ -53,7 +53,7 @@
           >
             <th scope="row">{{idx}}</th>
             <td @click="fnBoardDetail(content.communityId)">{{content.title}}</td>
-            <td>{{content.userNickname}}</td>
+            <td @click="goChatting(content.userNickname)">{{content.userNickname}}</td>
             <td>{{content.regTime}}</td>
             <td>
               <!-- <button type="button" class="btn btn-danger" @click ="communityWrite">
@@ -146,6 +146,12 @@ export default {
     console("마운트 되자마자 보여주는 콘솔")
   },
   methods: {
+    goChatting (userNickname) {
+      console.log("채팅방으로 가는 버튼을 눌럿음")
+      const A = userNickname > this.$store.state.user.userNickname ? this.$store.state.user.userNickname : userNickname;
+      const B = userNickname > this.$store.state.user.userNickname ? userNickname : this.$store.state.user.userNickname;
+      this.$router.push({ name: "room", params: { userNickname: userNickname, sessionId: A + '1' + B } });
+    },
     deleteCommunity (communityId) {
       const token = this.$store.state.user.JWTToken;
       console.log(token + "community 삭제 시 백엔드로 보내는 토큰입니다.");
