@@ -24,13 +24,10 @@ COPY . .
 RUN npm run build
 EXPOSE 3000
 
-<<<<<<< HEAD
 # production stage
 FROM nginx:stable-alpine as production-stage
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 EXPOSE 80d
 CMD ["nginx", "-g", "daemon off;"]
-=======
 CMD [ "http-server", "dist" ]
 CMD [ "npm", "run", "serve" ]
->>>>>>> develop
