@@ -73,6 +73,7 @@ export default {
           scope.$store.commit("setUserId", response.data.email);
           scope.$store.commit("setWalletAddress", response.data.address);
           scope.$store.commit("setJWTToken", response.data.token);
+          scope.$store.commit("setUserNickname", response.data.nickname);
           console.log("여기까지 넘어갑니다." + response.data.token);
 
           scope.$router.push("/");

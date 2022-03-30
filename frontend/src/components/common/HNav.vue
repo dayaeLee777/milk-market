@@ -28,6 +28,12 @@
           <li class="nav-item">
             <router-link
               class="nav-link"
+              to="/community"
+            >Community</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              class="nav-link"
               to="/explorer/dashboard"
             >Explorer</router-link>
           </li>
