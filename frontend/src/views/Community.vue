@@ -52,17 +52,18 @@
             :key="idx"
           >
             <th scope="row">{{idx}}</th>
-            <td @click="fnBoardDetail(content.communityId)">{{content.title}}</td>
-            <td>{{content.userNickname}}</td>
+            <td @click="fnBoardDetail(content.communityId, content.userNickname)">{{content.title}}</td>
+            <td @click="goChatting()">{{content.userNickname}}</td>
             <td>{{content.regTime}}</td>
             <td>
               <!-- <button type="button" class="btn btn-danger" @click ="communityWrite">
                 삭제
               </button> -->
               <button
-                @click="deleteCommunity(content.communityId)"
+                @click="deleteCommunity(content.communityId, content.userNickname)"
                 type="button"
                 class="btn-close"
+                
                 aria-label="Close"
               ></button>
             </td>
@@ -132,6 +133,7 @@
 
 <script>
 import axios from 'axios'
+import { API_BASE_URL } from "@/config/index.js";
 
 export default {
   data () {
@@ -145,31 +147,43 @@ export default {
     console("마운트 되자마자 보여주는 콘솔")
   },
   methods: {
-    deleteCommunity (communityId) {
+    goChatting(){
+      console.log("채팅방으로 가는 버튼을 눌럿음")
+      this.$router.push("/chatting");
+    },
+    deleteCommunity (communityId, userNickname) {
       const token = this.$store.state.user.JWTToken;
       console.log(token + "community 삭제 시 백엔드로 보내는 토큰입니다.");
 
       const headers = {
         Authorization: `Bearer ${token}`
       }
+      if(this.$store.state.user.userNickname===userNickname){
+        console.log('삭제가능');
+        axios({
+          url: `${API_BASE_URL}/api/community/delete/${communityId}`,
+          method: 'put',
+          headers,
+        })
+          .then((res) => {
+            console.log("글 삭제 성공");
+            console.log(res);
+            // this.$router.go('/community');
+            const idx = this.contents.findIndex(content => content.communityId === communityId)
+            this.contents.splice(idx, 1)
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log("글 삭제 실패");
+          })
+      }else{
+        alert("본인이 아닙니다. 삭제 불가능")
+      }
 
-      axios({
-        url: `http://localhost:8080/api/community/delete/${communityId}`,
-        method: 'put',
-        headers,
-      })
-        .then((res) => {
-          console.log("글 삭제 성공 왜 안될까");
-          console.log(res);
-          this.$router.go('/board'); //여기서 새로고침
-        })
-        .catch((err) => {
-          console.log(err);
-          console.log("글 삭제 실패");
-        })
+      
     },
-    fnBoardDetail (communityId) {
-      this.$router.push({ name: "communityDetail", params: { coId: communityId } })
+    fnBoardDetail (communityId, userNickname) {
+      this.$router.push({ name: "communityDetail", params: { coId: communityId, userN: userNickname} })
 
     },
     communityWrite () {
@@ -183,7 +197,7 @@ export default {
         Authorization: `Bearer ${token}`
       }
       axios({
-        url: `http://localhost:8080/api/community/list/1`,
+        url: `${API_BASE_URL}/api/community/list/1`,
         method: 'get',
         headers,
       })
@@ -205,7 +219,7 @@ export default {
         Authorization: `Bearer ${token}`
       }
       axios({
-        url: `http://localhost:8080/api/community/list/${i}`,
+        url: `${API_BASE_URL}/api/community/list/${i}`,
         method: 'get',
         headers,
       })

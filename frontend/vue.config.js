@@ -1,6 +1,7 @@
 module.exports = {
   devServer: {
     https: false,
+    // port:3000,
     port:8083,
     open:true,
     proxy: "https://kapi.kakao.com",
@@ -10,6 +11,7 @@ module.exports = {
     //   }
     // },
     historyApiFallback: true,
+    disableHostCheck: true,
     hot:true
   },
   css: {
@@ -20,5 +22,5 @@ module.exports = {
     'vuetify'
   ],
   lintOnSave:false,
-  // outputDir: '../backend/src/main/resources/dist' //빌드 시 dist 파일 생성 경로 지정
+  outputDir: '../backend/src/main/resources/dist' //빌드 시 dist 파일 생성 경로 지정
 };

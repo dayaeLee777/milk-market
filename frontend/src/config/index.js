@@ -1,6 +1,7 @@
 /**
  * TODO: 개발 및 배포 환경 에 맞추어 아래의 상수들을 지정합니다.
  */
+// const API_BASE_URL = "http://j6a504.p.ssafy.io";
 const API_BASE_URL = "http://localhost:8080";
 const BLOCKCHAIN_URL = "http://localhost:8545";
 const BLOCKCHAIN_WEBSOCKET_URL = "ws://127.0.0.1:8545";
