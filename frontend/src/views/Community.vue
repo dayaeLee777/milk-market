@@ -52,28 +52,20 @@
             :key="idx"
           >
             <th scope="row">{{idx}}</th>
-            <<<<<<<
-              HEAD
-              <td
-              @click="fnBoardDetail(content.communityId, content.userNickname)"
-            >{{content.title}}</td>
-              <td @click="goChatting()">{{content.userNickname}}</td>
-              =======
-              <td @click="fnBoardDetail(content.communityId)">{{content.title}}</td>
-              <td @click="goChatting(content.userNickname)">{{content.userNickname}}</td>
-              >>>>>>> feature/fe-design
-              <td>{{content.regTime}}</td>
-              <td>
-                <!-- <button type="button" class="btn btn-danger" @click ="communityWrite">
+            <td @click="fnBoardDetail(content.communityId)">{{content.title}}</td>
+            <td @click="goChatting(content.userNickname)">{{content.userNickname}}</td>
+            <td>{{content.regTime}}</td>
+            <td>
+              <!-- <button type="button" class="btn btn-danger" @click ="communityWrite">
                 삭제
               </button> -->
-                <button
-                  @click="deleteCommunity(content.communityId, content.userNickname)"
-                  type="button"
-                  class="btn-close"
-                  aria-label="Close"
-                ></button>
-              </td>
+              <button
+                @click="deleteCommunity(content.communityId, content.userNickname)"
+                type="button"
+                class="btn-close"
+                aria-label="Close"
+              ></button>
+            </td>
           </tr>
           <tr v-if="contents.length == 0">
             <td colspan="4">데이터가 없습니다.</td>
@@ -141,7 +133,7 @@
 <script>
 import { API_BASE_URL } from "@/config/index.js";
 import axios from 'axios'
-import { API_BASE_URL } from "@/config/index.js";
+
 
 export default {
   data () {

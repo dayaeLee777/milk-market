@@ -12,7 +12,6 @@ import Escrow from "@/views/Escrow.vue";
 import ScTestPage from "@/views/ScTestPage.vue";
 import Map from "@/views/Map.vue";
 import Community from "@/views/Community.vue";
-import Chatting from "@/components/chatting/chatting.vue";
 // import CommunityWrite from "@/components/community/CommunityWrite.vue"
 
 
@@ -26,11 +25,6 @@ const routes = [
     path: "/",
     name: "home",
     component: Home,
-  },
-  {
-    path: "/chatting",
-    name: "chatting",
-    component: Chatting,
   },
   // 게시판
   {
