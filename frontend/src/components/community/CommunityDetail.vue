@@ -11,42 +11,58 @@
       <a>{{$route.params.coId}}</a>
       <div></div>
       <a>{{$route.params.userN}}</a>
-
-      <div class="mb-3">
-        <label
-          for="exampleFormControlInput1"
-          class="form-label"
-        >글 제목</label>
-        <input
-          type="text"
-          class="form-control"
-          v-model="title"
-          id="exampleFormControlInput1"
-          placeholder="글 제목을 입력해주세요"
-        >
-      </div>
-      <div class="mb-3">
-        <label
-          for="exampleFormControlTextarea1"
-          class="form-label"
-        >글 내용</label>
-        <textarea
-          class="form-control"
-          v-model="content"
-          id="exampleFormControlTextarea1"
-          rows="10"
-          placeholder="글 내용을 입력해주세요"
-        ></textarea>
-      </div>
+      
+      
+      <fieldset :disabled="$route.params.userN!==$store.state.user.userNickname">
+        
+        <div class="mb-3">
+          <label
+            for="exampleFormControlInput1"
+            class="form-label"
+          ><h1>글 제목</h1></label>
+          <input
+            type="text"
+            class="form-control"
+            v-model="title"
+            id="exampleFormControlInput1"
+            placeholder="글 제목을 입력해주세요"
+          >
+        </div>
+        <div class="mb-3">
+          <label
+            for="exampleFormControlTextarea1"
+            class="form-label"
+          ><h2>글 내용</h2></label>
+          <textarea
+            class="form-control"
+            v-model="content"
+            id="exampleFormControlTextarea1"
+            rows="10"
+            placeholder="글 내용을 입력해주세요"
+          ></textarea>
+        </div>
+      </fieldset>
 
       <button
         type="button"
-        class="btn btn-primary"
+        class="btn btn-primary mr-3"
         @click="modifyCommunity"
+        v-if="$route.params.userN===$store.state.user.userNickname"
         style="justify-content : center"
       >
         글 수정 버튼
       </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        @click="deleteCommunity($route.params.coId)"
+        v-if="$route.params.userN===$store.state.user.userNickname"
+        style="justify-content : center"
+      >
+        글 삭제 버튼
+      </button>
+
+      
 
       <button
         type="button"
@@ -105,6 +121,7 @@
                     {{comment.userNickname}}
                     <button
                         @click="deleteComment(comment.commentId, comment.userNickname)"
+                        v-if="comment.userNickname===$store.state.user.userNickname"
                         type="button"
                         class="btn-close"
                         aria-label="Close"
@@ -138,6 +155,7 @@ export default {
       content: '',
       comments:[],
       commentContent:'',
+      disabled:false,
     };
   },
   mounted () {
@@ -145,6 +163,29 @@ export default {
     this.getCommunityComment();
   },
   methods: {
+    //글 삭제하는 함수
+    deleteCommunity(coId){
+      const token = this.$store.state.user.JWTToken;
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+      axios({
+          url: `${API_BASE_URL}/api/community/delete/${coId}`,
+          method: 'put',
+          headers,
+        })
+          .then((res) => {
+            console.log("글 삭제 성공");
+            console.log(res);
+            this.$router.push('/community');
+            
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log("글 삭제 실패");
+          })
+
+    },
     //댓글 지우는 함수
     deleteComment(commentId, userNickname){
       const token = this.$store.state.user.JWTToken;

@@ -2,7 +2,10 @@
   <div class="container">
     <h-nav></h-nav>
     <div class="row">
-      <div id="register-form" class="col-md-6 mx-auto bg-white">
+      <div
+        id="register-form"
+        class="col-md-6 mx-auto bg-white"
+      >
         <router-link to="/">Escrow | STARMIX</router-link>
         <div class="mt-4">
           <div class="form-group">
@@ -46,7 +49,26 @@
               @keydown.enter="register"
             />
           </div>
-          <button type="submit" class="btn btn-primary" v-on:click="register">
+          <label for="location">주소</label>
+          <div class="d-flex form-group">
+            <input
+              type="text"
+              class="col-9 form-control"
+              id="location"
+              placeholder="주소"
+            />
+            <input
+              type="button"
+              class="col-3 form-control"
+              value="찾기"
+              @click="execDaumPostcode()"
+            />
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary mt-3"
+            v-on:click="register"
+          >
             회원가입
           </button>
         </div>
@@ -60,18 +82,21 @@
 import { signup } from "../api/user.js";
 
 export default {
-  data() {
+  data () {
     return {
       user: {
         email: "",
         name: "",
+        bcode: "",
+        bname: "",
+        sigungu: "",
         password: "",
         passwordConfirm: ""
       }
     };
   },
   methods: {
-    register() {
+    register () {
       var vm = this;
 
       if (this.user.password === this.user.passwordConfirm) {
@@ -79,17 +104,30 @@ export default {
           this.user.email,
           this.user.name,
           this.user.password,
-          function() {
+          function () {
             alert("회원가입이 완료되었습니다.");
             vm.$router.push("/");
           },
-          function(error) {
+          function (error) {
             console.error(error);
           }
         );
       } else {
         alert("비밀번호가 일치하지 않습니다.");
       }
+    },
+    execDaumPostcode () {
+      const vm = this
+      new daum.Postcode({
+        oncomplete: function (data) {
+          const addr = data.address
+          document.getElementById("location").value = addr
+          vm.user.bcode = data.bcode
+          vm.user.bname = data.bname
+          vm.user.sigungu = data.sigungu
+          console.log(vm.user)
+        }
+      }).open();
     }
   }
 };
