@@ -35,8 +35,28 @@ function getItemList (bcode, sortBy, order, page, size, success, fail) {
     .then(success)
     .catch(fail);
 }
+function getSearchItem(
+  keyword,
+  bcode,
+  sortBy,
+  order,
+  page,
+  size,
+  success,
+  fail
+) {
+  const ItemList = {
+    fields: ["description", "itemName"],
+    searchTerm: keyword,
+    bcode: bcode,
+    sortBy: sortBy,
+    order: order,
+    page: page,
+    size: size,
+  };
 
-function findItemListByPage (pageNumber, success, fail) {
+
+function findItemListByPage(pageNumber, success, fail) {
   const ItemList = {
     bcode: bcode,
     sortBy: sortBy,
@@ -145,4 +165,5 @@ export {
   confirm,
   findMySaleItems,
   getItemList,
+  getSearchItem,
 };

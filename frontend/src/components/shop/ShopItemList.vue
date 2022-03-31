@@ -70,7 +70,7 @@
 import axios from "axios";
 import ItemEach from "@/components/item/ItemEach";
 import ItemCreate from "@/components/item/ItemCreate";
-import { findItemListByPage, getItemList, getSearchItem } from "@/api/item.js";
+import { findItemListByPage, getItemList, getSearchItem } from "@/api/shop.js";
 export default {
   components: {
     ItemEach,
@@ -96,7 +96,6 @@ export default {
 
     console.log("마운트 되자마자 보여주는 콘솔");
   },
-  computed() {},
   updated() {
     this.currentPageActive(this.prevPageNum, this.currentPageNum);
   },
@@ -105,7 +104,6 @@ export default {
     itemList() {
       var vm = this;
       getItemList(
-        this.bcode,
         this.sortBy,
         this.order,
         this.page,
@@ -138,34 +136,6 @@ export default {
         }
       );
     },
-    // getItemList() {
-    //   const token = this.$store.state.user.JWTToken;
-    //   console.log("아이템 리스트 가져오기" + token);
-    //   const headers = {
-    //     Authorization: `Bearer ${token}`,
-    //   };
-    //   axios({
-    //     url: `http://localhost:8080/api/item/search`,
-    //     method: "post",
-    //     data: {
-
-    //     },
-    //     headers,
-    //   })
-    //     .then((res) => {
-    //       console.log(res);
-    //       this.contents = res.data.list;
-    //       this.totalPages = res.data.totalPages;
-    //       console.log(" 아이템 리스트 로드 성공");
-    //       console.log(res);
-    //       console.log(this.contents);
-    //       console.log("total page : " + this.totalPages);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
-
     itemWrite() {
       // this.$router.push({
       //   name: "item.write",

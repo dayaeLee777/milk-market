@@ -72,10 +72,7 @@
                   placeholder=""
                 ></textarea>
               </div>
-              <div
-                v-if="item.division === 'A01'"
-                class="form-group"
-              >
+              <div v-if="item.division === 'A01'" class="form-group">
                 <label id="rentStartDate">대여 시작 날짜</label>
                 <input
                   type="datetime-local"
@@ -84,10 +81,7 @@
                   v-model="item.rentStartDate"
                 />
               </div>
-              <div
-                v-if="item.division === 'A01'"
-                class="form-group"
-              >
+              <div v-if="item.division === 'A01'" class="form-group">
                 <label id="rentEndDate">대여 종료 날짜</label>
                 <input
                   type="datetime-local"
@@ -126,11 +120,7 @@
                   />
                 </div>
               </div> -->
-              <button
-                type="button"
-                class="btn btn-primary"
-                @click="save()"
-              >
+              <button type="button" class="btn btn-primary" @click="save()">
                 등록
               </button>
             </div>
@@ -145,12 +135,11 @@
 import { create as createItem } from "@/api/item.js";
 import { registerItem } from "@/utils/itemInventory.js";
 import { API_BASE_URL } from "@/config/index.js";
-import axios from 'axios'
-
+import axios from "axios";
 
 export default {
   name: "ItemCreate",
-  data () {
+  data() {
     return {
       item: {
         itemName: "",
@@ -175,17 +164,17 @@ export default {
     //   if (this.item.imgName) {
     //     return process.env.BASE_URL + "images/" + this.item.imgName;
     //   }
-
     //   return null;
     // },
   },
   methods: {
     // 상품을 등록한다.
-    save () {
+    save() {
       const vm = this;
       this.isCreating = true; // 아이템 등록 중임을 화면에 표시, 등록이 끝나면 false로 변경
-      if (this.item.division === 'A01') {
-        if (this.item.itemName.length <= 0 ||
+      if (this.item.division === "A01") {
+        if (
+          this.item.itemName.length <= 0 ||
           this.item.division.length <= 0 ||
           this.item.category.length <= 0 ||
           this.item.price === null ||
@@ -200,10 +189,10 @@ export default {
           alert("입력폼을 모두 입력해주세요.");
           return;
         }
-        this.sendData()
-      }
-      else {
-        if (this.item.itemName.length <= 0 ||
+        this.sendData();
+      } else {
+        if (
+          this.item.itemName.length <= 0 ||
           this.item.division.length <= 0 ||
           this.item.category.length <= 0 ||
           this.item.price === null ||
@@ -214,7 +203,7 @@ export default {
           alert("입력폼을 모두 입력해주세요.");
           return;
         }
-        this.sendData()
+        this.sendData();
       }
 
       /**
@@ -230,20 +219,19 @@ export default {
     //   this.item.imgName = files[0].name;
     // },
 
-    selectFile () {
-      this.image = this.$refs.itemImage.files
-      console.log(this.image)
+    selectFile() {
+      this.image = this.$refs.itemImage.files;
+      console.log(this.image);
     },
-    changeDateFormat (date) {
+    changeDateFormat(date) {
       if (date) {
-        return date.substring(0, 10) + " " + date.substring(11, 16)
-      }
-      else {
-        return null
+        return date.substring(0, 10) + " " + date.substring(11, 16);
+      } else {
+        return null;
       }
     },
-    sendData () {
-      const formdata = new FormData()
+    sendData() {
+      const formdata = new FormData();
 
       if (this.image) {
         for (let i = 0; i < this.image.length; i++) {
@@ -254,7 +242,11 @@ export default {
         "itemRegisterRequestDto",
         new Blob(
           [
-            JSON.stringify({ ...this.item, rentStartDate: this.changeDateFormat(this.item.rentStartDate), rentEndDate: this.changeDateFormat(this.item.rentEndDate) })
+            JSON.stringify({
+              ...this.item,
+              rentStartDate: this.changeDateFormat(this.item.rentStartDate),
+              rentEndDate: this.changeDateFormat(this.item.rentEndDate),
+            }),
           ],
           { type: "application/json" }
         )
@@ -262,25 +254,26 @@ export default {
       const token = this.$store.state.user.JWTToken;
 
       const headers = {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${token}`
-      }
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      };
 
       axios({
         url: `${API_BASE_URL}/api/item`,
-        method: 'post',
+        method: "post",
         headers,
-        data: formdata
+        data: formdata,
       })
         .then((res) => {
-          console.log('성공')
+          console.log("성공");
           console.log(res);
+          this.$router.push("/shop");
         })
         .catch((err) => {
-          console.log('실패')
-          console.log(err)
-        })
-    }
+          console.log("실패");
+          console.log(err);
+        });
+    },
   },
 };
 </script>

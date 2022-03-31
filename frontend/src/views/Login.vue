@@ -2,10 +2,7 @@
   <div class="container">
     <div class="row">
       <h-nav></h-nav>
-      <div
-        id="login-form"
-        class="col-md-6 mx-auto bg-white"
-      >
+      <div id="login-form" class="col-md-6 mx-auto bg-white">
         <router-link to="/">우유 마켓 | STARMIX</router-link>
         <div class="mt-4">
           <div class="form-group">
@@ -29,11 +26,7 @@
               @keydown.enter="login"
             />
           </div>
-          <button
-            type="submit"
-            class="btn btn-primary"
-            @click="login"
-          >
+          <button type="submit" class="btn btn-primary" @click="login">
             로그인
           </button>
           <hr />
@@ -59,7 +52,7 @@ import { login, sendAccessToken } from "../api/user.js";
 import { findByUserId as findWallet } from "../api/wallet.js";
 
 export default {
-  data () {
+  data() {
     return {
       user: {
         email: "",
@@ -68,7 +61,7 @@ export default {
     };
   },
   methods: {
-    login () {
+    login() {
       const scope = this;
       //함수 안에 함수를 쓸 때 this쓰면 바뀐다.
       login(
@@ -76,6 +69,7 @@ export default {
         this.user.password,
         function (response) {
           console.log(response.data);
+          scope.$store.commit("setBcode", response.data.bcode);
           scope.$store.commit("setIsSigned", true);
           scope.$store.commit("setUserId", response.data.email);
           scope.$store.commit("setWalletAddress", response.data.address);
@@ -91,7 +85,7 @@ export default {
         }
       );
     },
-    kakaoLogin () {
+    kakaoLogin() {
       window.Kakao.Auth.login({
         success: this.sendAccessToken,
       });
@@ -106,21 +100,21 @@ export default {
     //     }
     //   })
     // },
-    sendAccessToken (authObj) {
+    sendAccessToken(authObj) {
       let scope = this;
       sendAccessToken(
         authObj.access_token,
         function (res) {
           console.log(res);
           scope.$store.commit("setIsSigned", true);
-          scope.$router.push("/").catch(() => { });
+          scope.$router.push("/").catch(() => {});
         },
         function (err) {
           console.log(err);
         }
       );
     },
-    naverLogin () {
+    naverLogin() {
       var client_id = "QvNWqPgM7ebAubiDGxe8";
       var callbackUrl = "http://localhost:8080/api/oauth/naver";
       var url =
