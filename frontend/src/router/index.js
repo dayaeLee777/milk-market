@@ -13,7 +13,6 @@ import Map from "@/views/Map.vue";
 import Community from "@/views/Community.vue";
 // import CommunityWrite from "@/components/community/CommunityWrite.vue"
 
-
 Vue.use(VueRouter);
 
 /**
@@ -64,7 +63,7 @@ const routes = [
   {
     path: "/logout",
     name: "logout",
-    beforeEnter (to, from, next) {
+    beforeEnter(to, from, next) {
       store.commit("logout");
       alert("로그아웃 되었습니다.");
       next("/");
@@ -96,6 +95,10 @@ const routes = [
       {
         path: "hobby",
         component: () => import("@/components/shop/Hobby.vue"),
+      },
+      {
+        path: "list",
+        component: () => import("@/components/shop/ShopItemList.vue"),
       },
     ],
     redirect: () => {
@@ -131,7 +134,7 @@ const routes = [
         name: "mypage.update",
         path: "/mypage/update",
         component: () => import("../components/mypage/MyInfoUpdate.vue"),
-      }
+      },
     ],
     redirect: () => {
       return "/mypage/items";
