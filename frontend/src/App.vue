@@ -16,3 +16,8 @@ export default {
   }),
 };
 </script>
+<style>
+  body {
+    font-family: 'Dongle', sans-serif;
+  }
+</style>
