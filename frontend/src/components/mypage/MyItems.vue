@@ -15,28 +15,28 @@
             <div
               v-for="(imgName, idx) in item.files"
               :key="idx"
-              class="d-flex   item-img">
-              <img :src="imgName" alt="itemImg" @click="moveToDetail(item.itemId)">
+              class="d-flex">
+              <img :src="imgName" alt="itemImg" @click="moveToDetail(item.itemId)" class="item-img">
             </div>  
           </div>
           <div class="ms-5">
             <h5>상품명: {{ item.itemName }}</h5>
             <p>상품가격: {{ item.price }}MILK</p>
+            <button class="btn btn-secondary">하하</button>
           </div>
           <div>
-            <button class="btn btn-secondary">하하</button>
           </div>
         </div>
         <h4 class="col-12 mt-5">내가 판매한 거래</h4>
         
 
-        
+
         <h4 class="col-8 mt-5">내가 구매한 거래</h4>
-    
+        
 
       </div>
-    </div>
-  </div>
+    </div>  
+  </div>  
 </template>
 
 <script>
@@ -111,6 +111,7 @@ export default {
 }
 .item-img {
   height: 200px;
+  width: 250px;
   cursor: pointer;
 }
 /* .badge-primary {

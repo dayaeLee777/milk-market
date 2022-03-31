@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="myPage">
     <h-nav></h-nav>
     <router-view></router-view>
   </div>
@@ -9,4 +9,11 @@
 export default {};
 </script>
 
-<style></style>
+<style>
+  .myPage {
+    width: 100vw;
+    height: 100vh;
+    background: url(../../public/images/profile.jpg);
+  }
+
+</style>
