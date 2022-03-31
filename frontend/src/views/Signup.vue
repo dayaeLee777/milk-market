@@ -104,6 +104,9 @@ export default {
           this.user.email,
           this.user.name,
           this.user.password,
+          this.user.bname,
+          this.user.bcode,
+          this.user.sigungu,
           function () {
             alert("회원가입이 완료되었습니다.");
             vm.$router.push("/");

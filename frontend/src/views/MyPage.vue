@@ -11,9 +11,13 @@ export default {};
 
 <style>
   .myPage {
-    width: 100vw;
     height: 100vh;
-    background: url(../../public/images/profile.jpg);
+    background-color: aliceblue;
+    /* background-image: linear-gradient(
+      rgba(147, 124, 154, 0.3),
+      rgba(117, 76, 121, 0.3)),
+      url(../../public/images/profile.jpg);
+    background-size: cover; */
   }
 
 </style>
