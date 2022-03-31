@@ -50,10 +50,10 @@
                   class="col-md-12 text-right"
                   v-if="item.division === 'A01'"
                 >
-                  <button class="btn btn-lg btn-primary">대여하기</button>
+                  <button class="btn btn-lg btn-primary" @click="doPay">대여하기</button>
                 </div>
                 <div class="col-md-12 text-right" v-else>
-                  <button class="btn btn-lg btn-primary">구매하기</button>
+                  <button class="btn btn-lg btn-primary" @click="doPay">구매하기</button>
                 </div>
               </div>
             </div>
@@ -67,6 +67,8 @@
 <script>
 import { Code } from "@/utils/enum.js";
 import { findById } from "@/api/item.js";
+import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js";
+
 const vm = this;
 export default {
   name: "ItemDetail",
@@ -98,6 +100,9 @@ export default {
       }
       return null;
     },
+    doPay() {
+      
+    }
   },
   created() {
     console.log("created");
@@ -110,7 +115,7 @@ export default {
     findById(
       this.item.id,
       function (res) {
-        console.log(res);
+        console.log(res.data);
         const result = res.data;
         vm.item.itemName = result.itemName;
         vm.item.category = result.category;

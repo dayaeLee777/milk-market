@@ -8,17 +8,9 @@ export const CATEGORIES = {
 };
 
 export const ITEM_STATUS = {
-    ADDED: {
-        symbol: "A",
-        explanation: "등록됨"
-    },
     ONSALE: {
         symbol: "S",
         explanation: "판매중"
-    },
-    DELIVER: {
-        symbol: "D",
-        explanation: "배송중"
     },
     CONFIRMED: {
         symbol: "C",
@@ -34,12 +26,8 @@ export const ITEM_STATUS = {
     },
     symbolToStatus(symbol) {
         switch (symbol) {
-            case "A":
-                return this.ADDED;
             case "S":
                 return this.ONSALE;
-            case "D":
-                return this.DELIVER;
             case "C":
                 return this.CONFIRMED;
             case "X":
@@ -51,17 +39,9 @@ export const ITEM_STATUS = {
 };
 
 export const ESCROW_STATE = {
-    INITIAL: {
-        symbol: "I",
-        explanation: "입금대기중"
-    },
     PAID: {
         symbol: "P",
         explanation: "입금완료"
-    },
-    SENT: {
-        symbol: "S",
-        explanation: "배송완료"
     },
     CONFIRMED: {
         symbol: "C",
@@ -74,12 +54,8 @@ export const ESCROW_STATE = {
     
     symbolToState(symbol) {
         switch (symbol) {
-            case "I":
-                return this.INITIAL;
             case "P":
                 return this.PAID;
-            case "S":
-                return this.SENT;
             case "C":
                 return this.CONFIRMED;
             case "X":

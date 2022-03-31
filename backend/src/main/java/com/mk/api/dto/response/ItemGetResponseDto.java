@@ -33,6 +33,9 @@ public class ItemGetResponseDto extends BaseResponseDto {
 	@ApiModelProperty(name="상품명", example="유모차")
 	private String itemName;
 
+	@ApiModelProperty(name="아이템 상태", example="판매 중")
+	private Code status;
+
 	@ApiModelProperty(name="카테고리", example="B01")
 	private Code category;
 

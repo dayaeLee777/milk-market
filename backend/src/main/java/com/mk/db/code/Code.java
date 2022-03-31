@@ -23,8 +23,9 @@ public enum Code {
 	B15("임산부",true),
 	B16("유아침구",true),
 	C01("진열 중", true),
-	C02("결재 완료", true),
-	C03("판매 완료", true);
+	C02("입금 완료", true),
+	C03("구매 확정", true),
+	C04("거래 취소", true);
 	
 	private String name;
 	
