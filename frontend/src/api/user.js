@@ -10,11 +10,23 @@ function findUser(success, fail) {
     .catch(fail);
 }
 
-function signup(email, nickName, password, success, fail) {
+function signup(
+  email,
+  nickName,
+  password,
+  bname,
+  bcode,
+  sigungu,
+  success,
+  fail
+) {
   const user = {
     email: email,
     nickname: nickName,
     password: password,
+    bname: bname,
+    bcode: bcode,
+    sigungu: sigungu,
   };
 
   instance
