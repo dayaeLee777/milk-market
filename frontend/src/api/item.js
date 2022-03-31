@@ -34,7 +34,33 @@ function getItemList(bcode, sortBy, order, page, size, success, fail) {
     .then(success)
     .catch(fail);
 }
+function getSearchItem(
+  keyword,
+  bcode,
+  sortBy,
+  order,
+  page,
+  size,
+  success,
+  fail
+) {
+  const ItemList = {
+    fields: ["description", "itemName"],
+    searchTerm: keyword,
+    bcode: bcode,
+    sortBy: sortBy,
+    order: order,
+    page: page,
+    size: size,
+  };
 
+  instance
+    .post("/api/item/search", JSON.stringify(ItemList), {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then(success)
+    .catch(fail);
+}
 function findItemListByPage(pageNumber, success, fail) {
   const ItemList = {
     bcode: bcode,
@@ -144,4 +170,5 @@ export {
   confirm,
   findMySaleItems,
   getItemList,
+  getSearchItem,
 };
