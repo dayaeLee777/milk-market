@@ -244,8 +244,8 @@ body {
   padding: 8px 15px;
   margin: 0 20px 10px 0;
   clear: both;
-  color: #fff;
-  background-color: #62a8ea;
+  color: #76838f;
+  background-color: #dfe9ef;
   border-radius: 4px;
   -webkit-box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
@@ -259,7 +259,7 @@ body {
   height: 0;
   content: "";
   border: 5px solid transparent;
-  border-left-color: #62a8ea;
+  border-left-color: #dfe9ef;
 }
 
 .chat-content + .chat-content:before {
@@ -269,7 +269,7 @@ body {
 .chat-time {
   display: block;
   margin-top: 8px;
-  color: rgba(255, 255, 255, 0.6);
+  color: #a3afb7;
 }
 
 .chat-left .chat-avatar {
@@ -284,14 +284,14 @@ body {
 .chat-left .chat-content {
   float: left;
   margin: 0 0 10px 20px;
-  color: #76838f;
-  background-color: #dfe9ef;
+  color: #fff;
+  background-color: #62a8ea;
 }
 
 .chat-left .chat-content:before {
   right: auto;
   left: -10px;
-  border-right-color: #dfe9ef;
+  border-right-color: #62a8ea;
   border-left-color: transparent;
 }
 
@@ -300,7 +300,7 @@ body {
 }
 
 .chat-left .chat-time {
-  color: #a3afb7;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .panel-footer {

@@ -39,10 +39,11 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">no</th>
+            <!-- <th scope="col">no</th> -->
             <th scope="col">제목</th>
             <th scope="col">아이디</th>
             <th scope="col">날짜</th>
+            <th scope="col">조회수</th>
             <th scope="col">삭제</th>
           </tr>
         </thead>
@@ -51,16 +52,17 @@
             v-for="(content, idx) in contents"
             :key="idx"
           >
-            <th scope="row">{{idx}}</th>
-            <td @click="fnBoardDetail(content.communityId)">{{content.title}}</td>
-            <td @click="goChatting(content.userNickname)">{{content.userNickname}}</td>
+            <td @click="fnBoardDetail(content.communityId, content.userNickname)">{{content.title}}</td>
+            <td>{{content.userNickname}}</td>
             <td>{{content.regTime}}</td>
+            <td>{{content.hit}}</td>
             <td>
               <!-- <button type="button" class="btn btn-danger" @click ="communityWrite">
                 삭제
               </button> -->
               <button
                 @click="deleteCommunity(content.communityId, content.userNickname)"
+                v-if="$store.state.user.userNickname === content.userNickname"
                 type="button"
                 class="btn-close"
                 aria-label="Close"
@@ -153,7 +155,7 @@ export default {
       const B = userNickname > this.$store.state.user.userNickname ? userNickname : this.$store.state.user.userNickname;
       this.$router.push({ name: "room", params: { userNickname: userNickname, sessionId: A + '1' + B } });
     },
-    deleteCommunity (communityId) {
+    deleteCommunity (communityId, userNickname) {
       const token = this.$store.state.user.JWTToken;
       console.log(token + "community 삭제 시 백엔드로 보내는 토큰입니다.");
 

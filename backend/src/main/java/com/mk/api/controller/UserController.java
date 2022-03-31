@@ -98,6 +98,7 @@ public class UserController {
 		return new ResponseEntity<GetUserByProfileRes>(new GetUserByProfileRes(user), HttpStatus.OK);
 	}
 
+
 	@PutMapping("/delete/{id}")
 	public ResponseEntity<? extends BaseResponseDto> deleteUser (@PathVariable("id") String id){
 		if(userService.delete(id))

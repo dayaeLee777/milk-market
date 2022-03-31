@@ -1,7 +1,7 @@
 <template>
   <div
     class="card h-100"
-    @click="itemDetail(content.itemId)"
+    @click="itemDetail(content.id)"
     style="cursor: pointer"
   >
     <img
@@ -10,7 +10,7 @@
       class="card-img-top"
       alt="사진없음"
     />
-    <img v-else :src="content.files[key]" class="card-img-top" alt="" />
+    <img v-else :src="content.fileNameList[key]" class="card-img-top" alt="" />
     <div class="card-body">
       <div>
         <h5 class="card-title">{{ content.itemName }}</h5>
@@ -34,17 +34,17 @@ export default {
     };
   },
   mounted() {
-    this.key = Object.keys(this.content.files)[0];
+    this.key = Object.keys(this.content.fileNameList)[0];
   },
   methods: {
     itemDetail(itemId) {
       this.$router.push({
         name: "item.detail",
-        params: { id: this.content.itemId },
+        params: { id: this.content.id },
       });
     },
     contentImage() {
-      this.key = Object.keys(this.content.files)[0];
+      this.key = Object.keys(this.content.fileNameList)[0];
 
       if (this.key) return true;
       return false;
