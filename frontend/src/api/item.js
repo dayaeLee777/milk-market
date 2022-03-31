@@ -61,6 +61,7 @@ function getSearchItem(
     .then(success)
     .catch(fail);
 }
+
 function findItemListByPage(pageNumber, success, fail) {
   const ItemList = {
     bcode: bcode,

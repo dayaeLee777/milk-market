@@ -1,21 +1,20 @@
 // userService.js
 import { createInstance } from "./index.js";
-
+import store from "../store/index.js";
 const instance = createInstance();
-
-function findById (id, success, fail) {
+const token = store.getters.getJWTToken;
+function findUser(success, fail) {
   instance
-    .get(`api/users/${id}`)
+    .get(`api/users/`, { headers: { Authorization: `Bearer ${token}` } })
     .then(success)
     .catch(fail);
 }
 
-
-function signup (email, nickName, password, success, fail) {
+function signup(email, nickName, password, success, fail) {
   const user = {
     email: email,
     nickname: nickName,
-    password: password
+    password: password,
   };
 
   instance
@@ -24,10 +23,10 @@ function signup (email, nickName, password, success, fail) {
     .catch(fail);
 }
 
-function login (email, password, success, fail) {
+function login(email, password, success, fail) {
   const body = {
     email: email,
-    password: password
+    password: password,
   };
 
   instance
@@ -36,15 +35,12 @@ function login (email, password, success, fail) {
     .catch(fail);
 }
 
-function update (user, success, fail) {
-  instance
-    .put("api/users", JSON.stringify(user))
-    .then(success)
-    .catch(fail);
+function update(user, success, fail) {
+  instance.put("api/users", JSON.stringify(user)).then(success).catch(fail);
 }
 
-function sendAccessToken (token, success, fail) {
-  const accessToken = token
+function sendAccessToken(token, success, fail) {
+  const accessToken = token;
 
   instance
     .get(`/api/oauth/kakao?accessToken=${accessToken}`)
@@ -52,4 +48,4 @@ function sendAccessToken (token, success, fail) {
     .catch(fail);
 }
 
-export { findById, signup, login, update, sendAccessToken };
+export { findUser, signup, login, update, sendAccessToken };

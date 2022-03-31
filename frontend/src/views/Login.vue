@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { login, sendAccessToken } from "../api/user.js";
+import { login, sendAccessToken, findUser } from "../api/user.js";
 import { findByUserId as findWallet } from "../api/wallet.js";
 
 export default {
@@ -68,15 +68,21 @@ export default {
         this.user.email,
         this.user.password,
         function (response) {
-          console.log(response.data);
-          scope.$store.commit("setBcode", response.data.bcode);
           scope.$store.commit("setIsSigned", true);
           scope.$store.commit("setUserId", response.data.email);
           scope.$store.commit("setWalletAddress", response.data.address);
           scope.$store.commit("setJWTToken", response.data.token);
           scope.$store.commit("setUserNickname", response.data.nickname);
           console.log("여기까지 넘어갑니다." + response.data.token);
-
+          findUser(
+            function (success) {
+              console.log("findBy User " + success.data.bcode);
+              scope.$store.commit("setBcode", success.data.bcode);
+            },
+            function (error) {
+              console.log(error);
+            }
+          );
           scope.$router.push("/");
         },
         function (error) {

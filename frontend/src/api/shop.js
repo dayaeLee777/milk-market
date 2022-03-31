@@ -3,11 +3,12 @@ import { createInstance } from "./index.js";
 const token = store.getters.getJWTToken;
 const instance = createInstance();
 const bcode = store.getters.getBcode;
+// const bcode = store.state.user.bcode;
 
 function getItemList(sortBy, order, page, size, success, fail) {
-  console.log(bcode);
+  console.log("bcode: " + bcode);
   const ItemList = {
-    bcode: this.bcode,
+    bcode: bcode,
     sortBy: sortBy,
     order: order,
     page: page,
