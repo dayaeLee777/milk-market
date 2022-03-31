@@ -1,7 +1,7 @@
 <template>
   <div>
     <h-nav></h-nav>
-    <item-list style="margin-top: 100px;"></item-list>
+    <hot-item style="margin-top: 100px;"></hot-item>
     <step-flow></step-flow>
     <f-nav></f-nav>
   </div>
@@ -10,17 +10,15 @@
 <script>
 import HNav from "../components/common/HNav";
 import StepFlow from '@/components/common/StepFlow';
-import ItemList from '@/components/item/ItemList';
 import FNav from '../components/common/FNav.vue';
-
-
+import HotItem from '../components/mainpage/HotItem.vue';
 
 export default {
   components: {
     HNav,
     StepFlow,
     FNav,
-    ItemList
+    HotItem
   }
 };
 </script>
