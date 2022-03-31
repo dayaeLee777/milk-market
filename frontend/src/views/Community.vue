@@ -53,7 +53,7 @@
           >
             <th scope="row">{{idx}}</th>
             <td @click="fnBoardDetail(content.communityId)">{{content.title}}</td>
-            <td @click="goChatting(content.userNickname)">{{content.userNickname}}</td>
+            <td>{{content.userNickname}}</td>
             <td>{{content.regTime}}</td>
             <td>
               <!-- <button type="button" class="btn btn-danger" @click ="communityWrite">
