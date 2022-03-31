@@ -100,6 +100,7 @@
                 <label id="image-upload">이미지 첨부</label>
                 <input
                   type="file"
+                  multiple
                   class="form-control"
                   ref="itemImage"
                   id="image-upload"

@@ -52,9 +52,15 @@
             v-for="(content, idx) in contents"
             :key="idx"
           >
+<<<<<<< HEAD
             <!-- <th scope="row">{{idx}}</th> -->
             <td @click="fnBoardDetail(content.communityId, content.userNickname)">{{content.title}}</td>
             <td @click="goChatting(content.userNickname)">{{content.userNickname}}</td>
+=======
+            <th scope="row">{{idx}}</th>
+            <td @click="fnBoardDetail(content.communityId)">{{content.title}}</td>
+            <td>{{content.userNickname}}</td>
+>>>>>>> develop
             <td>{{content.regTime}}</td>
             <td>{{content.hit}}</td>
             <td>

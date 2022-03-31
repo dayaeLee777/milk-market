@@ -39,7 +39,7 @@
 <script>
 import axios from "axios";
 import ItemEach from "@/components/item/ItemEach";
-import { findItemListByPage } from "@/api/item.js";
+import { findItemListByPage, getItemList } from "@/api/item.js";
 export default {
   components: {
     ItemEach,
@@ -53,9 +53,14 @@ export default {
     currentPageNum: 1,
     prev: true,
     next: false,
+    bcode: null,
+    sortBy: "regDate",
+    order: "ASC",
+    page: 0,
+    size: 12,
   }),
   mounted() {
-    this.getItemList();
+    this.itemList();
 
     console.log("마운트 되자마자 보여주는 콘솔");
   },
@@ -64,30 +69,51 @@ export default {
   },
 
   methods: {
-    getItemList() {
-      const token = this.$store.state.user.JWTToken;
-      console.log("아이템 리스트 가져오기" + token);
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-      axios({
-        url: `http://localhost:8080/api/item/list/1`,
-        method: "get",
-        headers,
-      })
-        .then((res) => {
-          console.log(res);
-          this.contents = res.data.list;
-          this.totalPages = res.data.totalPages;
-          console.log(" 아이템 리스트 로드 성공");
-          console.log(res);
-          console.log(this.contents);
-          console.log("total page : " + this.totalPages);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    itemList() {
+      var vm = this;
+      getItemList(
+        this.bcode,
+        this.sortBy,
+        this.order,
+        this.page,
+        this.size,
+        function (res) {
+          vm.contents = res.data;
+          console.log(vm.contents);
+        },
+        function (error) {
+          console.error("에러 : " + error);
+        }
+      );
     },
+    // getItemList() {
+    //   const token = this.$store.state.user.JWTToken;
+    //   console.log("아이템 리스트 가져오기" + token);
+    //   const headers = {
+    //     Authorization: `Bearer ${token}`,
+    //   };
+    //   axios({
+    //     url: `http://localhost:8080/api/item/search`,
+    //     method: "post",
+    //     data: {
+
+    //     },
+    //     headers,
+    //   })
+    //     .then((res) => {
+    //       console.log(res);
+    //       this.contents = res.data.list;
+    //       this.totalPages = res.data.totalPages;
+    //       console.log(" 아이템 리스트 로드 성공");
+    //       console.log(res);
+    //       console.log(this.contents);
+    //       console.log("total page : " + this.totalPages);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
+
     itemWrite() {
       // this.$router.push({
       //   name: "item.write",
