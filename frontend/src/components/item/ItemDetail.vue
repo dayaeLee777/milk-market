@@ -16,7 +16,10 @@
                   {{ item.itemName }}
                 </h3>
               </div>
-              <div v-for="imgName in item.keys" :key="imgName.id">
+              <div
+                v-for="imgName in item.keys"
+                :key="imgName.id"
+              >
                 <img
                   class="center"
                   :src="getImg(item.files[imgName])"
@@ -28,7 +31,10 @@
                 <h4 class="alert alert-primary">{{ item.price }} CASH</h4>
               </div>
               <div class="form-group">
-                <label id="user" class="text-secondary">판매자</label>
+                <label
+                  id="user"
+                  class="text-secondary"
+                >판매자</label>
                 <p>
                   {{ item.userNickname }}
                   <!-- ({{ item.seller.email }}) -->
@@ -39,20 +45,29 @@
                 <p>{{ item.regDate }}</p>
               </div>
               <div class="form-group">
-                <label id="explanation" class="text-secondary">상품 설명</label>
+                <label
+                  id="explanation"
+                  class="text-secondary"
+                >상품 설명</label>
                 <p v-if="item.description.length > 0">{{ item.description }}</p>
                 <p v-else>-</p>
               </div>
 
               <!-- 사용자와 판매자가 다르면 구매하기 버튼 생성! 대여 A01, 구매 A02-->
-              <div class="row" v-if="userId !== item.userId">
-                <div
-                  class="col-md-12 text-right"
-                  v-if="item.division === 'A01'"
-                >
+              <div
+                class="d-flex justify-content-between"
+                v-if="userId !== item.userId"
+              >
+                <div>
+                  <button
+                    @click="goChatting"
+                    class="btn btn-lg btn-primary"
+                  >채팅하기</button>
+                </div>
+                <div v-if="item.division === 'A01'">
                   <button class="btn btn-lg btn-primary">대여하기</button>
                 </div>
-                <div class="col-md-12 text-right" v-else>
+                <div v-else>
                   <button class="btn btn-lg btn-primary">구매하기</button>
                 </div>
               </div>
@@ -70,7 +85,7 @@ import { findById } from "@/api/item.js";
 const vm = this;
 export default {
   name: "ItemDetail",
-  data() {
+  data () {
     return {
       item: {
         id: "",
@@ -92,14 +107,20 @@ export default {
     };
   },
   methods: {
-    getImg(name) {
+    getImg (name) {
       if (name) {
         return name;
       }
       return null;
     },
+    goChatting () {
+      console.log("채팅방으로 가는 버튼을 눌럿음")
+      const A = this.item.userNickname > this.$store.state.user.userNickname ? this.$store.state.user.userNickname : this.item.userNickname;
+      const B = this.item.userNickname > this.$store.state.user.userNickname ? this.item.userNickname : this.$store.state.user.userNickname;
+      this.$router.push({ name: "room", params: { userNickname: this.item.userNickname, sessionId: A + '1' + B } });
+    },
   },
-  created() {
+  created () {
     console.log("created");
     this.item.id = this.$route.params.id;
     console.log(this.item.id);
