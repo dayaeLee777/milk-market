@@ -16,12 +16,13 @@ export default new Vuex.Store({
       walletAddress: null,
       JWTToken: null,
       userNickname: null,
-      bcode: null,
+      bcode: 0,
     },
   },
   mutations: {
     setBcode(state, bcode) {
       state.user.bcode = bcode;
+      console.log("여기는 세팅 : " + state.user.bcode);
     },
     setIsSigned(state, isSigned) {
       state.isSigned = isSigned;
