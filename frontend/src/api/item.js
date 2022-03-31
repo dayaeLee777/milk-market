@@ -1,7 +1,9 @@
 import store from "../store/index.js";
 import { createInstance } from "./index.js";
 
-const token = store.getters.getJWTToken;
+
+// const token = store.getters.getJWTToken;
+const token = store.state.user.JWTToken;
 const instance = createInstance();
 // function signup(email, nickName, password, success, fail) {
 //   const user = {
@@ -34,7 +36,7 @@ function getItemList(bcode, sortBy, order, page, size, success, fail) {
     .then(success)
     .catch(fail);
 }
-function getSearchItem (
+function getSearchItem(
   keyword,
   bcode,
   sortBy,
@@ -62,7 +64,8 @@ function getSearchItem (
     .catch(fail);
 }
 
-function findItemListByPage (pageNumber, success, fail) {
+
+function findItemListByPage(pageNumber, success, fail) {
   const ItemList = {
     bcode: bcode,
     sortBy: sortBy,
