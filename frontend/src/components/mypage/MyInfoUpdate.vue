@@ -65,7 +65,8 @@
               <div 
                 v-for="community in communityList"
                 :key="community.communityId">
-                <span class="my-content">제목: {{ community.title }}</span>
+                <span class="my-content"
+                  @click="moveToCommuniy(community.communityId, community.userNickname)">제목: {{ community.title }}</span>
               </div>
             </div>
           </div>
@@ -329,6 +330,9 @@ export default {
         },
       }).open();
     },
+    moveToCommunity(communityId, userNickname) {
+      this.$router.push({name: 'communityDetail', params: { coId: communityId, userN: userNickname }})
+    }
   },
   mounted() {
     this.fetchUserInfo();
