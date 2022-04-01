@@ -1,5 +1,21 @@
 package com.mk.api.service;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.mk.api.dto.response.HotItemGetResponseDto;
 import com.mk.api.dto.response.InterestGetListResponseDto;
 import com.mk.api.dto.response.ItemGetResponseDto;
 import com.mk.db.code.Code;
@@ -9,18 +25,9 @@ import com.mk.db.entity.User;
 import com.mk.db.repository.InterestRepository;
 import com.mk.db.repository.ItemImageRepository;
 import com.mk.db.repository.ItemRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -31,7 +38,8 @@ public class InterestServiceImpl implements InterestService{
     private final JwtTokenService jwtTokenService;
     private final ItemImageRepository itemImageRepository;
     private final ItemRepository itemRepository;
-
+	private final ItemImageService itemImageService;
+	
     @Override
     @Transactional
     public Interest registerInterest(String accessToken, String itemId) {
@@ -169,4 +177,65 @@ public class InterestServiceImpl implements InterestService{
 
         return interestRepository.save(interest);
     }
+
+
+	@Override
+	public List<HotItemGetResponseDto> getHotItem() {
+		List<HotItemGetResponseDto> hotItemGetResponseDtoList = new ArrayList<HotItemGetResponseDto>();
+		interestRepository.findHotItem().forEach(interest -> {
+			Item item = interest.getItem();
+			int count = (int) interestRepository.countByItem(item);
+			
+			Map<String, String> itemImageList = new HashMap<String, String>();
+			itemImageRepository.findByItem(item).forEach(file -> {
+
+				String originFilename = file.getOriginFileName();
+				String newFilename = file.getNewFileName();
+				itemImageList.put(originFilename, itemImageService.getImagePath(newFilename));
+			});
+			
+			LocalDateTime regDateTime = item.getRegDate();
+			LocalDateTime currentDateTime = LocalDateTime.now();
+			
+			Duration duration = Duration.between(regDateTime, currentDateTime);
+			String regDateString = "";
+			long hour = duration.getSeconds() / 60 / 60;
+			if(hour < 24)
+				regDateString = hour + "시간 전";
+			else {
+				LocalDate regDate = regDateTime.toLocalDate();
+				LocalDate currentDate = currentDateTime.toLocalDate();
+				Period period = Period.between(regDate, currentDate);
+				if(period.getYears() > 0)
+					regDateString = period.getYears() + "년 전";
+				else if(period.getMonths() > 0)
+						regDateString = period.getMonths() + "개월 전";
+				else if(period.getDays() > 0)
+					regDateString = period.getDays() + "일 전";
+			}
+			
+			HotItemGetResponseDto hotItemGetResponseDto = HotItemGetResponseDto.builder()
+					.itemId(item.getId())
+					.division(item.getDivision())
+					.itemName(item.getItemName())
+					.status(item.getStatus())
+					.category(item.getCategory())
+					.price(item.getPrice())
+					.description(item.getDescription())
+					.count(count)
+					.regDate(regDateString)
+					.bname(interest.getUser().getBname())
+					.files(itemImageList)
+					.build();
+			
+			hotItemGetResponseDtoList.add(hotItemGetResponseDto);
+		});
+		return hotItemGetResponseDtoList;
+	}
+
+
+	@Override
+	public List<HotItemGetResponseDto> getHotItem(String accessToken) {
+		return null;
+	}
 }
