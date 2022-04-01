@@ -1,5 +1,6 @@
 package com.mk.elastic.service;
 
+import java.io.IOException;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.core.CountRequest;
+import org.elasticsearch.client.core.CountResponse;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
@@ -52,15 +55,36 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 	private final ItemRepository itemRepository;
 
 	private final ItemImageRepository itemImageRepository;
-	
+
 	private final ItemSearchRepository itemSearchRepository;
 
 	private final ItemImageService itemImageService;
 
 	public List<Itemsearch> search(final SearchRequestDTO dto) {
 		final SearchRequest request = SearchUtil.buildSearchRequest(Indices.ITEMSEARCH_INDEX, dto);
-
 		return searchInternal(request);
+	}
+
+	@Override
+	public int getSearchPages(SearchRequestDTO dto) {
+		final CountRequest request = SearchUtil.buildSearchRequestCount(Indices.ITEMSEARCH_INDEX, dto);
+		int size = 12;
+		CountResponse countResponse;
+		try {
+			countResponse = client.count(request, RequestOptions.DEFAULT);
+			int totalCount = (int) countResponse.getCount();
+
+			if (totalCount == 0)
+				return 0;
+
+			int count = totalCount % size == 0 ? totalCount / size : totalCount / size + 1;
+
+			return count;
+
+		} catch (IOException e) {
+			LOG.error(e.getMessage(), e);
+			return 0;
+		}
 	}
 
 	private List<Itemsearch> searchInternal(final SearchRequest request) {
@@ -135,22 +159,14 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 		});
 
 		DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
-		
+
 		Date date = Date.from(item.getRegDate().atZone(ZoneId.systemDefault()).toInstant());
-		
+
 		System.out.println(item.getRegDate());
-		Itemsearch itemSearch = Itemsearch.builder()
-				.id(itemId)
-				.division(item.getDivision())
-				.itemName(item.getItemName())
-				.category(item.getCategory())
-				.price(item.getPrice())
-				.description(item.getDescription())
-				.bcode(item.getUser().getBcode())
-				.bname(item.getUser().getBname())
-				.regDate(date)
-				.fileNameList(itemImageList)
-				.build();
+		Itemsearch itemSearch = Itemsearch.builder().id(itemId).division(item.getDivision())
+				.itemName(item.getItemName()).category(item.getCategory()).price(item.getPrice())
+				.description(item.getDescription()).bcode(item.getUser().getBcode()).bname(item.getUser().getBname())
+				.regDate(date).fileNameList(itemImageList).build();
 
 		if (item.getDivision() == Code.A01)
 			itemSearch.setRentDate(item.getRentStartDate().format(rentDateTimeFormatter),
@@ -161,9 +177,9 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
 	@Override
 	public Boolean deleteItemsearch(String itemSearchId) {
-		if(getById(itemSearchId) != null) {
+		if (getById(itemSearchId) != null) {
 			itemSearchRepository.deleteById(itemSearchId);
-			return true;			
+			return true;
 		}
 		return false;
 	}
@@ -171,16 +187,16 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 	@Override
 	public Boolean modifyItemsearch(ItemModifyRequestDto itemModifyRequestDto) {
 		Itemsearch itemsearch = getById(itemModifyRequestDto.getItemId());
-		if(itemsearch == null) 
+		if (itemsearch == null)
 			return false;
-		
+
 		itemsearch.modifyItemSearch(itemModifyRequestDto);
 
 		Item item = itemRepository.findById(itemsearch.getId()).orElse(null);
 
 		if (item == null)
 			return false;
-		
+
 		Map<String, String> itemImageList = new HashMap<String, String>();
 
 		itemImageRepository.findByItem(item).forEach(file -> {
@@ -188,7 +204,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 			String newFilename = file.getNewFileName();
 			itemImageList.put(originFilename, itemImageService.getImagePath(newFilename));
 		});
-		
+
 		itemsearch.modifyItemSearchImages(itemImageList);
 		itemSearchRepository.save(itemsearch);
 		return true;

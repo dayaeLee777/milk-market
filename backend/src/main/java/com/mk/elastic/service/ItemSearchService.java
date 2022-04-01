@@ -12,6 +12,8 @@ public interface ItemSearchService {
 	
 	public List<Itemsearch> search(final SearchRequestDTO dto);
 	
+	public int getSearchPages(final SearchRequestDTO dto);
+	
 	public Itemsearch getById(final String itemSearchId);
 	
 	Boolean registerItemSearch(String itemId);
