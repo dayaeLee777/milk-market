@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -32,6 +33,7 @@ import com.mk.db.repository.ItemImageRepository;
 import com.mk.db.repository.ItemRepository;
 import com.mk.elastic.document.Itemsearch;
 import com.mk.elastic.helper.Indices;
+import com.mk.elastic.repository.ItemSearchRepository;
 import com.mk.elastic.search.SearchRequestDTO;
 import com.mk.elastic.search.util.SearchUtil;
 
@@ -50,6 +52,8 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 	private final ItemRepository itemRepository;
 
 	private final ItemImageRepository itemImageRepository;
+	
+	private final ItemSearchRepository itemSearchRepository;
 
 	private final ItemImageService itemImageService;
 
@@ -153,6 +157,15 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 					item.getRentEndDate().format(rentDateTimeFormatter));
 
 		return index(itemSearch);
+	}
+
+	@Override
+	public Boolean deleteItemsearch(String itemSearchId) {
+		if(getById(itemSearchId) != null) {
+			itemSearchRepository.deleteById(itemSearchId);
+			return true;			
+		}
+		return false;
 	}
 
 }

@@ -155,8 +155,10 @@ public class ItemController {
 	})
 	public ResponseEntity<? extends BaseResponseDto> delete(
 			@PathVariable("itemId") @RequestBody @ApiParam(value = "삭제할 상품 ID ", required = true) String itemId){
-		if(itemService.deleteItem(itemId) != null)
+		if(itemService.deleteItem(itemId) != null) {
+			itemSearchService.deleteItemsearch(itemId);
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(BaseResponseDto.of(HttpStatus.ACCEPTED.value(), "Success"));
+		}
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
 

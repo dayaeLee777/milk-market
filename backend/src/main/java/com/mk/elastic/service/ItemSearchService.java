@@ -15,4 +15,6 @@ public interface ItemSearchService {
 	
 	Boolean registerItemSearch(String itemId);
 	
+	public Boolean deleteItemsearch(final String itemSearchId);
+	
 }
