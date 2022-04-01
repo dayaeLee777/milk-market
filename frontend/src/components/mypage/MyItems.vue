@@ -9,7 +9,7 @@
         <div 
           v-for="item in saleItems"
           :key="item.itemId"
-          class="d-flex justify-content-start mt-3"
+          class="d-flex justify-content-start align-items-center mt-2 my-items"
           >
           <div>
             <div
@@ -110,9 +110,14 @@ export default {
   text-align: center;
 }
 .item-img {
-  height: 200px;
-  width: 250px;
-  cursor: pointer;
+  height: 80px;
+}
+.my-items {
+  height: 100px;
+  width: 450px;
+  background-color: beige;
+  border-color: black;
+  border-width: 1px;
 }
 /* .badge-primary {
   color: #fff;

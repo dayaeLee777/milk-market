@@ -46,13 +46,13 @@
                   <div v-if="isAuthorized">
                     <button
                       type="button"
-                      class="btn btn-secondary"
+                      class="btn btn-primary"
                       v-on:click="chargeETH()"
                     >
                       {{ "ETH 충전" }}
                     </button> 
-
-                    <button class="btn btn-warning" @click="kakaoPay">카카오페이</button>
+<!-- 
+                    <button class="btn btn-warning" @click="kakaoPay">카카오페이</button> -->
                   </div>
                 </td>
               </tr>

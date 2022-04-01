@@ -9,14 +9,14 @@
         id="navbarsExampleDefault"
       >
         <ul class="navbar-nav ml-auto">
+          <!-- <li class="nav-item">
+            <router-link class="nav-link" to="/explorer/dashboard"
+              >Explorer</router-link
+            >
+          </li> -->
           <li class="nav-item">
             <router-link class="nav-link" to="/community"
               >Community</router-link
-            >
-          </li>
-          <li class="nav-item">
-            <router-link class="nav-link" to="/explorer/dashboard"
-              >Explorer</router-link
             >
           </li>
           <li class="nav-item">
@@ -41,11 +41,6 @@
           </li>
           <li class="nav-item" v-if="!$store.state.isSigned">
             <router-link class="nav-link" to="/register">Sign Up</router-link>
-          </li>
-          <li v-if="$store.state.isSigned">
-            <router-link class="nav-link" to="/community"
-              >Community</router-link
-            >
           </li>
           <li class="nav-item" v-if="$store.state.isSigned">
             <router-link class="nav-link" to="/logout">Log out</router-link>

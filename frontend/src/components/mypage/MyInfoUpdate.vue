@@ -45,11 +45,11 @@
               프로필 변경
             </button>
           </div>
-          <div class="ms-3">
-            <p>이메일 : {{ user.email }}</p>
-            <p>닉네임: {{ user.nickName }}</p>
+          <div class="ms-5">
+            <p class="profile-info">이메일 : {{ user.email }}</p>
+            <p class="profile-info">닉네임: {{ user.nickName }}</p>
             <div class="d-flex align-items-center">
-              <p>현재 주소:</p>
+              <p class="profile-info">현재 주소: {{ user.sigungu }} {{ user.bname }}</p>
               <button class="btn btn-secondary ms-3">주소 변경</button>
             </div>
           </div>
@@ -172,6 +172,8 @@ export default {
         eth: "",
         milk: "",
         profileImage: "",
+        sigungu: "",
+        bname: "",
       },
       image: "",
       communityList: [],
@@ -198,6 +200,8 @@ export default {
           this.user.nickName = res.data.nickname;
           this.user.email = res.data.email;
           this.user.profileImage = res.data.profileImage;
+          this.user.sigungu = res.data.sigungu;
+          this.user.bname = res.data.bname;
         })
         .catch((err) => {
           console.log(err);
@@ -355,6 +359,9 @@ export default {
 .my-content {
   font-size: 20px;
   cursor: pointer;
+}
+.profile-info {
+  font-size: 25px;
 }
 /* #profile-tag{
     border-style: solid;
