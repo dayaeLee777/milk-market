@@ -190,6 +190,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 		});
 		
 		itemsearch.modifyItemSearchImages(itemImageList);
+		itemSearchRepository.save(itemsearch);
 		return true;
 	}
 
