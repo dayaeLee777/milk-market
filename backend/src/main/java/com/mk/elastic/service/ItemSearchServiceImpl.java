@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -26,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mk.api.dto.request.ItemModifyRequestDto;
 import com.mk.api.service.ItemImageService;
 import com.mk.db.code.Code;
 import com.mk.db.entity.Item;
@@ -166,6 +166,31 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 			return true;			
 		}
 		return false;
+	}
+
+	@Override
+	public Boolean modifyItemsearch(ItemModifyRequestDto itemModifyRequestDto) {
+		Itemsearch itemsearch = getById(itemModifyRequestDto.getItemId());
+		if(itemsearch == null) 
+			return false;
+		
+		itemsearch.modifyItemSearch(itemModifyRequestDto);
+
+		Item item = itemRepository.findById(itemsearch.getId()).orElse(null);
+
+		if (item == null)
+			return false;
+		
+		Map<String, String> itemImageList = new HashMap<String, String>();
+
+		itemImageRepository.findByItem(item).forEach(file -> {
+			String originFilename = file.getOriginFileName();
+			String newFilename = file.getNewFileName();
+			itemImageList.put(originFilename, itemImageService.getImagePath(newFilename));
+		});
+		
+		itemsearch.modifyItemSearchImages(itemImageList);
+		return true;
 	}
 
 }

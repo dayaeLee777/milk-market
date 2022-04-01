@@ -142,8 +142,10 @@ public class ItemController {
 	public ResponseEntity<? extends BaseResponseDto> modify(
 			@ApiParam(value = "수정할 상품정보") @RequestPart(required = true) ItemModifyRequestDto itemModifyRequestDto,
 			@ApiParam(value="다중 파일 업로드") @RequestPart(required = false) List<MultipartFile> multipartFile){
-		if(itemService.modifyItem(itemModifyRequestDto, multipartFile) != null)
+		if(itemService.modifyItem(itemModifyRequestDto, multipartFile) != null) {
+			itemSearchService.modifyItemsearch(itemModifyRequestDto);
 			return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.of(HttpStatus.CREATED.value(), "Success"));
+		}
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
 	

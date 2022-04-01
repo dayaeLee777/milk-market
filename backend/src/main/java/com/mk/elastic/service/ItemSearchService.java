@@ -2,6 +2,7 @@ package com.mk.elastic.service;
 
 import java.util.List;
 
+import com.mk.api.dto.request.ItemModifyRequestDto;
 import com.mk.elastic.document.Itemsearch;
 import com.mk.elastic.search.SearchRequestDTO;
 
@@ -16,5 +17,7 @@ public interface ItemSearchService {
 	Boolean registerItemSearch(String itemId);
 	
 	public Boolean deleteItemsearch(final String itemSearchId);
+	
+	public Boolean modifyItemsearch(final ItemModifyRequestDto itemModifyRequestDto);
 	
 }
