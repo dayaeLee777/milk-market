@@ -117,7 +117,7 @@ export default {
       console.log("채팅방으로 가는 버튼을 눌럿음")
       const A = this.item.userNickname > this.$store.state.user.userNickname ? this.$store.state.user.userNickname : this.item.userNickname;
       const B = this.item.userNickname > this.$store.state.user.userNickname ? this.item.userNickname : this.$store.state.user.userNickname;
-      this.$router.push({ name: "room", params: { userNickname: this.item.userNickname, sessionId: A + '1' + B } });
+      this.$router.push({ name: "room", query: { userNickname: this.item.userNickname, sessionId: A + '1' + B } });
     },
   },
   created () {
