@@ -25,7 +25,9 @@
                 @keydown.enter="login"
               />
             </div>
-            <button type="submit" class="btn btn-primary" @click="login">로그인</button>
+            <button type="submit" class="btn btn-primary" @click="login">
+              로그인
+            </button>
             <hr />
             <img
               src="https://blog.kakaocdn.net/dn/bYZZHh/btrfibui4Cj/DofAXcdzmQGCKkhTNUUAHk/img.png"
@@ -63,7 +65,7 @@ export default {
       const scope = this;
       //함수 안에 함수를 쓸 때 this쓰면 바뀐다.
 
-      const Swal = require("sweetalert2");
+      // const Swal = require("sweetalert2");
       login(
         this.user.email,
         this.user.password,
@@ -88,19 +90,20 @@ export default {
             },
             function (error) {
               console.log(error);
-              Swal.fire({
-                position: "center",
-                icon: "fail",
-                title: "로그인 실패",
-                showConfirmButton: false,
-                timer: 1500,
-              });
+              console.log("api user : error");
+              // Swal.fire({
+              //   position: "center",
+              //   icon: "fail",
+              //   title: "로그인 실패",
+              //   showConfirmButton: false,
+              //   timer: 1500,
+              // });
             }
           );
           scope.$router.push("/");
         },
         function (error) {
-          console.error(error);
+          console.error("login user :" + error);
           // alert("유저 이메일 혹은 비밀번호가 일치하지 않습니다.");
           Swal.fire({
             position: "center",

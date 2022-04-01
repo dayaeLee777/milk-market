@@ -47,7 +47,12 @@
             </div>
             <label for="location">주소</label>
             <div class="d-flex form-group">
-              <input type="text" class="col-9 form-control" id="location" placeholder="주소" />
+              <input
+                type="text"
+                class="col-9 form-control"
+                id="location"
+                placeholder="주소"
+              />
               <input
                 type="button"
                 class="col-3 form-control"
@@ -55,7 +60,11 @@
                 @click="execDaumPostcode()"
               />
             </div>
-            <button type="submit" class="btn btn-primary mt-3" v-on:click="register">
+            <button
+              type="submit"
+              class="btn btn-primary mt-3"
+              v-on:click="register"
+            >
               회원가입
             </button>
           </div>
@@ -67,6 +76,8 @@
 
 <script>
 import { signup } from "../api/user.js";
+
+//여기서 변수 선언.
 
 export default {
   data() {

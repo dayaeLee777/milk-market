@@ -1,10 +1,10 @@
 import store from "../store/index.js";
 import { createInstance } from "./index.js";
 
-
 // const token = store.getters.getJWTToken;
 const token = store.state.user.JWTToken;
 const instance = createInstance();
+const bcode = store.getters.getBcode;
 // function signup(email, nickName, password, success, fail) {
 //   const user = {
 //     email: email,
@@ -64,6 +64,77 @@ function getSearchItem(
     .catch(fail);
 }
 
+function getSearchItemByDivision(
+  division,
+  bcode,
+  sortBy,
+  order,
+  page,
+  size,
+  success,
+  fail
+) {
+  const ItemList = {
+    division: division,
+    bcode: bcode,
+    sortBy: sortBy,
+    order: order,
+    page: page,
+    size: size,
+  };
+
+  instance
+    .post("/api/item/search", JSON.stringify(ItemList), {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then(success)
+    .catch(fail);
+}
+//카테고리로 검색
+function getSearchItemByCategory(
+  category,
+  bcode,
+  sortBy,
+  order,
+  page,
+  size,
+  success,
+  fail
+) {
+  const ItemList = {
+    category: category,
+    bcode: bcode,
+    sortBy: sortBy,
+    order: order,
+    page: page,
+    size: size,
+  };
+
+  instance
+    .post("/api/item/search", JSON.stringify(ItemList), {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+//우리동네 찾기
+function getSearchItemByBcode(sortBy, order, page, size, success, fail) {
+  console.log("bcode: " + bcode);
+  const ItemList = {
+    bcode: bcode,
+    sortBy: sortBy,
+    order: order,
+    page: page,
+    size: size,
+  };
+  instance
+    .post("/api/item/search", JSON.stringify(ItemList), {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then(success)
+    .catch(fail);
+}
 
 function findItemListByPage(pageNumber, success, fail) {
   const ItemList = {
@@ -175,4 +246,7 @@ export {
   findMySaleItems,
   getItemList,
   getSearchItem,
+  getSearchItemByDivision,
+  getSearchItemByCategory,
+  getSearchItemByBcode,
 };

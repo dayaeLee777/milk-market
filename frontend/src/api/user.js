@@ -4,6 +4,7 @@ import store from "../store/index.js";
 const instance = createInstance();
 const token = store.getters.getJWTToken;
 function findUser(success, fail) {
+  console.log("tokent in user.js : " + token);
   instance
     .get(`api/users/`, { headers: { Authorization: `Bearer ${token}` } })
     .then(success)
