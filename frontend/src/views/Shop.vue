@@ -3,11 +3,7 @@
     <h-nav></h-nav>
 
     <!-- <item-list style="margin-top: 100px"></item-list> -->
-<<<<<<< HEAD
-    <router-view></router-view>
-=======
     <shop-item-list></shop-item-list>
->>>>>>> f037ecdfec16693fa63538626ad2b1398ac83fb2
     <step-flow></step-flow>
     <f-nav></f-nav>
   </div>
@@ -25,12 +21,8 @@ export default {
     HNav,
     StepFlow,
     FNav,
-<<<<<<< HEAD
-    // ItemList,
-=======
     ItemList,
     ShopItemList,
->>>>>>> f037ecdfec16693fa63538626ad2b1398ac83fb2
   },
 };
 </script>
