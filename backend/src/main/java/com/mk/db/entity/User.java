@@ -29,7 +29,7 @@ import lombok.ToString;
 @Builder
 @Table(name = "user")
 public class User extends BaseEntity implements UserDetails {
-	
+
 	@Column
 	private String password;
 	
@@ -41,6 +41,8 @@ public class User extends BaseEntity implements UserDetails {
 
 	@Column(columnDefinition = "boolean default false")
 	private boolean delYn;
+
+	private String sigungu;
 
 	private String bcode;
 	
@@ -58,9 +60,26 @@ public class User extends BaseEntity implements UserDetails {
 	@Column
 	private String walletPrivateKey;
 
+
 	@ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
+
+	public User(String password, String nickname, String email, boolean delYn, String sigungu, String bcode, String bname, String profileImage, String profileDescription, String walletAddress, String walletPrivateKey, List<String> roles) {
+		this.password = password;
+		this.nickname = nickname;
+		this.email = email;
+		this.delYn = delYn;
+		this.sigungu = sigungu;
+		this.bcode = bcode;
+		this.bname = bname;
+		this.profileImage = profileImage;
+		this.profileDescription = profileDescription;
+		this.walletAddress = walletAddress;
+		this.walletPrivateKey = walletPrivateKey;
+		this.roles = roles;
+	}
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -68,6 +87,7 @@ public class User extends BaseEntity implements UserDetails {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
+
 
 	@Override
 	public String getUsername() {
@@ -99,21 +119,6 @@ public class User extends BaseEntity implements UserDetails {
 		return true;
 	}
 
-	public User(String password, String nickname, String email, boolean delYn, String bcode, String bname,
-			String profileImage, String profileDescription, String walletAddress, String walletPrivateKey,
-			List<String> roles) {
-		super();
-		this.password = password;
-		this.nickname = nickname;
-		this.email = email;
-		this.delYn = delYn;
-		this.bcode = bcode;
-		this.bname = bname;
-		this.profileImage = profileImage;
-		this.profileDescription = profileDescription;
-		this.walletAddress = walletAddress;
-		this.walletPrivateKey = walletPrivateKey;
-		this.roles = roles;
-	}
+
 	
 }

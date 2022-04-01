@@ -82,6 +82,8 @@
 <script>
 import { Code } from "@/utils/enum.js";
 import { findById } from "@/api/item.js";
+import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js";
+
 const vm = this;
 export default {
   name: "ItemDetail",
@@ -113,6 +115,9 @@ export default {
       }
       return null;
     },
+    doPay() {
+      
+    },
     goChatting () {
       console.log("채팅방으로 가는 버튼을 눌럿음")
       const A = this.item.userNickname > this.$store.state.user.userNickname ? this.$store.state.user.userNickname : this.item.userNickname;
@@ -131,7 +136,7 @@ export default {
     findById(
       this.item.id,
       function (res) {
-        console.log(res);
+        console.log(res.data);
         const result = res.data;
         vm.item.itemName = result.itemName;
         vm.item.category = result.category;

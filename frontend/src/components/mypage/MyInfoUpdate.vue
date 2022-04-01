@@ -3,53 +3,78 @@
     <h-breadcrumb></h-breadcrumb>
     <div class="container" id="profile-body">
       <my-page-nav></my-page-nav>
-      <div
-        class="d-flex justify-content-start align-items-center mt-5"
-        id="profile-tag"
-      >
+      <div class="d-flex flex-column">
         <div
-          class="
-            d-flex
-            flex-column
-            col-2
-            align-items-center
-            ms-5
-            image_outer_container
-          "
+          class="d-flex justify-content-start align-items-center mt-5"
+          id="profile-tag"
         >
-          <div v-if="user.profileImage">
-            <div class="image_inner_container">
-              <img
-                :src="user.profileImage"
-                alt="profile-image"
-                class="profile-img"
-              />
-            </div>
-          </div>
-          <div v-else>
-            <div class="image_inner_container">
-              <img
-                src="../../../public/images/ompang2.png"
-                alt="profile-img"
-                class="profile-img"
-              />
-            </div>
-          </div>
-          <button
-            class="btn btn-secondary mt-2"
-            id="profile-btn"
-            data-bs-toggle="modal"
-            data-bs-target="#profileImage"
+          <div
+            class="
+              d-flex
+              flex-column
+              col-2
+              align-items-center
+              ms-5
+              image_outer_container
+            "
           >
-            프로필 변경
-          </button>
+            <div v-if="user.profileImage">
+              <div class="image_inner_container">
+                <img
+                  :src="user.profileImage"
+                  alt="profile-image"
+                  class="profile-img"
+                />
+              </div>
+            </div>
+            <div v-else>
+              <div class="image_inner_container">
+                <img
+                  src="../../../public/images/ompang2.png"
+                  alt="profile-img"
+                  class="profile-img"
+                />
+              </div>
+            </div>
+            <button
+              class="btn btn-secondary mt-2"
+              id="profile-btn"
+              data-bs-toggle="modal"
+              data-bs-target="#profileImage"
+            >
+              프로필 변경
+            </button>
+          </div>
+          <div class="ms-3">
+            <p>이메일 : {{ user.email }}</p>
+            <p>닉네임: {{ user.nickName }}</p>
+            <div class="d-flex align-items-center">
+              <p>현재 주소:</p>
+              <button class="btn btn-secondary ms-3">주소 변경</button>
+            </div>
+          </div>
         </div>
-        <div class="ms-3">
-          <p>이메일 : {{ user.email }}</p>
-          <p>닉네임: {{ user.nickName }}</p>
-          <div class="d-flex align-items-center">
-            <p>현재 주소:</p>
-            <button class="btn btn-secondary ms-3">주소 변경</button>
+        <hr>
+        <div class="d-flex justify-content-around">
+          <div>
+            <h3>내가 작성한 글</h3>
+            <div v-if="!communityList.length">
+              <h4>아직 작성한 글이 없습니다!!</h4>
+            </div>
+            <div v-else>
+              <div 
+                v-for="community in communityList"
+                :key="community.communityId">
+                <span class="my-content"
+                  @click="moveToCommuniy(community.communityId, community.userNickname)">제목: {{ community.title }}</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h3>나의 wish 리스트</h3>
+            <div v-if="!mywishList.length">
+              <h4>아직 찜한 아이템이 없어요!</h4>
+            </div>
           </div>
         </div>
       </div>
@@ -149,6 +174,8 @@ export default {
         profileImage: "",
       },
       image: "",
+      communityList: [],
+      mywishList: [],
     };
   },
   methods: {
@@ -175,6 +202,46 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    fetchCommunity() {
+      const token = this.$store.state.user.JWTToken;
+
+      const headers  = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      axios({
+        url: `${API_BASE_URL}/api/community/list/myList`,
+        method: 'get',
+        headers,
+      })
+      .then( res => {
+        // console.log(res.data.communityGetResponselist)
+        this.communityList = res.data.communityGetResponselist;
+      })
+      .catch( err => {
+        consoel.log(err)
+      })
+    },
+    getWishList() {
+      const token = this.$store.state.user.JWTToken;
+
+      const headers  = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      axios({
+        url: `${API_BASE_URL}/api/interest/list/`,
+        method: 'get',
+        headers,
+      })
+      .then( res => {
+        console.log(res.data)
+        
+      })
+      .catch( err => {
+        consoel.log(err)
+      })
     },
     selectProfile() {
       this.image = this.$refs.profileImage.files[0];
@@ -263,9 +330,14 @@ export default {
         },
       }).open();
     },
+    moveToCommunity(communityId, userNickname) {
+      this.$router.push({name: 'communityDetail', params: { coId: communityId, userN: userNickname }})
+    }
   },
   mounted() {
     this.fetchUserInfo();
+    this.fetchCommunity();
+    this.getWishList();
   },
 };
 </script>
@@ -278,7 +350,11 @@ export default {
 }
 #profile-btn {
   width: 90px;
-  font-size: 10px;
+  font-size: 15px;
+}
+.my-content {
+  font-size: 20px;
+  cursor: pointer;
 }
 /* #profile-tag{
     border-style: solid;

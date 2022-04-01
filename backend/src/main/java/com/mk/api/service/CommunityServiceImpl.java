@@ -102,7 +102,36 @@ public class CommunityServiceImpl implements CommunityService {
 		
 		return communityGetListResponseDto;
 	}
-	
+
+	@Override
+	public CommunityGetListResponseDto getMyCommunityList(String accessToken) {
+		List<CommunityGetResponseDto> communityGetResponseDtos = new ArrayList<>();
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+		User user = jwtTokenService.convertTokenToUser(accessToken);
+
+		List<Community> communityList = communityRepository.findByUser(user);
+
+		for (Community community : communityList) {
+			CommunityGetResponseDto communityGetResponseDto = CommunityGetResponseDto.builder()
+					.communityId(community.getId())
+					.userId(community.getUser().getId())
+					.userNickname(community.getUser().getNickname())
+					.title(community.getTitle())
+					.content(community.getContent())
+					.hit(community.getHit())
+					.regTime(community.getRegTime().format(dateTimeFormatter))
+					.build();
+
+			communityGetResponseDtos.add(communityGetResponseDto);
+		}
+		CommunityGetListResponseDto communityGetListResponseDto = CommunityGetListResponseDto.builder()
+				.communityGetResponselist(communityGetResponseDtos)
+				.build();
+
+		return communityGetListResponseDto;
+	}
+
 	@Override
 	public CommunityGetListResponseDto getCommunityList() {
 		List<CommunityGetResponseDto> communityGetResponselist = new ArrayList<CommunityGetResponseDto>();

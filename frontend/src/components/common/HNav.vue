@@ -4,20 +4,13 @@
       <img id="nav-icon" src="../../../public/images/milk.png" />
       <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> -->
       <router-link class="navbar-brand" to="/">MILK</router-link>
-      <div
-        class="navbar-collapse offcanvas-collapse"
-        id="navbarsExampleDefault"
-      >
+      <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <router-link class="nav-link" to="/community"
-              >Community</router-link
-            >
+            <router-link class="nav-link" to="/community">Community</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/explorer/dashboard"
-              >Explorer</router-link
-            >
+            <router-link class="nav-link" to="/explorer/dashboard">Explorer</router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" to="/shop">Shop</router-link>
@@ -43,9 +36,7 @@
             <router-link class="nav-link" to="/register">Sign Up</router-link>
           </li>
           <li v-if="$store.state.isSigned">
-            <router-link class="nav-link" to="/community"
-              >Community</router-link
-            >
+            <router-link class="nav-link" to="/community">Community</router-link>
           </li>
           <li class="nav-item" v-if="$store.state.isSigned">
             <router-link class="nav-link" to="/logout">Log out</router-link>
@@ -62,12 +53,7 @@
         </ul>
         <div v-if="$store.state.isSigned">
           <div v-if="profileImage">
-            <img
-              :src="profileImage"
-              alt="profile-img"
-              class="my-img"
-              @click="moveToMypage()"
-            />
+            <img :src="profileImage" alt="profile-img" class="my-img" @click="moveToMypage()" />
           </div>
           <div v-else>
             <img

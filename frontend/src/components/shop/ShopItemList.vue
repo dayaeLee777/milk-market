@@ -1,7 +1,7 @@
 <template>
   <div id="main-overview" class="container">
     <!-- 검색 -->
-
+    <div>안녕하세요 shop item</div>
     <div
       class="
         card-body
@@ -94,7 +94,7 @@ export default {
   mounted() {
     this.itemList();
 
-    console.log("마운트 되자마자 보여주는 콘솔");
+    console.log("마운트 되자마자 보여주는 콘솔 shopitem");
   },
   updated() {
     this.currentPageActive(this.prevPageNum, this.currentPageNum);
@@ -102,6 +102,7 @@ export default {
 
   methods: {
     itemList() {
+      console.log("여기는 shoplist");
       var vm = this;
       getItemList(
         this.sortBy,
