@@ -63,11 +63,19 @@ const routes = [
     component: ScTestPage,
   },
   {
+    
     path: "/logout",
     name: "logout",
     beforeEnter(to, from, next) {
       store.commit("logout");
-      alert("로그아웃 되었습니다.");
+      const Swal = require('sweetalert2');
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: '정상적으로 로그아웃되었습니다.',
+        showConfirmButton: false,
+        timer: 1500
+      })
       next("/");
     },
   },

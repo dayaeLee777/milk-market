@@ -22,8 +22,8 @@
           <div class="card__img--hover"></div>
         </a>
         <div class="card__info">
-          <span class="card__category"> Travel</span>
-          <h3 class="card__title">Discover the sea</h3>
+          <span class="card__category">역삼동</span>
+          <h3 class="card__title">카시트 A급</h3>
           <div class="badges">
             <!-- <span class="badge badge-pill badge-primary">판매</span>
             <span class="badge badge-pill badge-info">유모차</span>
@@ -62,7 +62,7 @@
                   d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z"
                 />
               </svg>
-              유모차</span
+              카시트</span
             >
             <span class="badge badge-inverse">
               <svg
@@ -101,6 +101,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
+@import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
 
 .hotitemslide * {
   box-sizing: border-box;
@@ -223,8 +224,8 @@ body {
 }
 
 .hotitemslide .card__category {
-  font-family: "Raleway", sans-serif;
-  text-transform: uppercase;
+  /* font-family: "Noto Sans KR", sans-serif; */
+  font-family: "Jua", sans-serif;
   font-size: 13px;
   letter-spacing: 2px;
   font-weight: 500;
@@ -234,7 +235,7 @@ body {
 .hotitemslide .card__title {
   margin-top: 5px;
   margin-bottom: 10px;
-  font-family: "Roboto Slab", serif;
+  font-family: "Black Han Sans", sans-serif;
 }
 
 .hotitemslide .card__by {
@@ -288,10 +289,10 @@ body {
   background-color: #953b39;
 }
 .badges .badge-warning {
-  background-color: #ffc107;
+  background-color: #8a3aff;
 }
 .badges .badge-warning:hover {
-  background-color: #c67605;
+  background-color: #692bc5;
 }
 .badges .badge-success {
   background-color: #468847;
@@ -300,15 +301,15 @@ body {
   background-color: #356635;
 }
 .badges .badge-info {
-  background-color: #34a3d4;
+  background-color: #6f79ff;
 }
 .badges .badge-info:hover {
-  background-color: #2d6987;
+  background-color: #454cac;
 }
 .badges .badge-inverse {
-  background-color: #9958da;
+  background-color: #3a9fff;
 }
 .badges .badge-inverse:hover {
-  background-color: #5f2599;
+  background-color: #2974bb;
 }
 </style>
