@@ -68,7 +68,7 @@ public class ItemController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
 	}
 
-	@GetMapping("/list}")
+	@GetMapping("/list")
 	@ApiOperation(value = "상품 목록 불러오기", notes="<strong>상품 목록을 불러온다.</strong>")
 	@ApiResponses({
 			@ApiResponse(code=200, message="상품을 정상적으로 조회하였습니다."),
@@ -76,6 +76,21 @@ public class ItemController {
 	})
 	public ResponseEntity<? extends BaseResponseDto> getItemList(){
 		List<ItemGetResponseDto> itemGetResponseDto = itemService.getItemList();
+		if(itemGetResponseDto != null) {
+			log.info("files : " +itemGetResponseDto.get(0).getFiles());
+			return ResponseEntity.status(HttpStatus.OK).body(ItemGetListResponseDto.builder().list(itemGetResponseDto).build());
+		}
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
+	}
+
+	@GetMapping("/list/myItem")
+	@ApiOperation(value = "상품 목록 불러오기", notes="<strong>상품 목록을 불러온다.</strong>")
+	@ApiResponses({
+			@ApiResponse(code=200, message="상품을 정상적으로 조회하였습니다."),
+			@ApiResponse(code=204, message="상품 조회를 실패했습니다.")
+	})
+	public ResponseEntity<? extends BaseResponseDto> getMyItemList(@ApiIgnore @RequestHeader("Authorization") String accessToken){
+		List<ItemGetResponseDto> itemGetResponseDto = itemService.getMyItemList(accessToken);
 		if(itemGetResponseDto != null) {
 			log.info("files : " +itemGetResponseDto.get(0).getFiles());
 			return ResponseEntity.status(HttpStatus.OK).body(ItemGetListResponseDto.builder().list(itemGetResponseDto).build());

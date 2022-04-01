@@ -96,7 +96,6 @@ export default {
 
     console.log("마운트 되자마자 보여주는 콘솔");
   },
-  computed() {},
   updated() {
     this.currentPageActive(this.prevPageNum, this.currentPageNum);
   },

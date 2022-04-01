@@ -23,6 +23,7 @@ public class UserDTO {
 	private String email;	
 	private String bcode;
 	private String bname;
+	private String sigungu;
 	private String profileImage;
 	private String profileDescription;
 	private List<String> roles;
@@ -37,6 +38,7 @@ public class UserDTO {
 			setProfileImage(data.getProfileImage());
 		setBcode(data.getBcode());
 		setBname(data.getBname());
+		setSigungu(data.getSigungu());
 		setProfileDescription("");
 		setRoles(new ArrayList<String>());
 		getRoles().add("ROLE_USER");

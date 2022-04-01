@@ -13,7 +13,7 @@
               <div class="form-group">
                 <div class="row">
                   <img :src="getImg()" class="col-3" />
-                  <div class="col-9" style="vertical-align: middle;">
+                  <div class="col-9" style="vertical-align: middle">
                     <h2>
                       {{ tx.itemName }}
                     </h2>
@@ -34,9 +34,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="text-secondary">
-                  내 지갑 잔액
-                </label>
+                <label class="text-secondary"> 내 지갑 잔액 </label>
                 <br />
                 <div v-if="wallet.id === undefined" class="content">
                   <p class="text-danger">지갑이 없습니다.</p>
@@ -52,16 +50,15 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="text-secondary">
-                  거래 상태
-                </label>
+                <label class="text-secondary"> 거래 상태 </label>
                 <br />
                 <div class="content">
                   <p>
                     {{ getState }}
                     <a
-                      @click.prevent="checkPaid" 
-                      v-show="tx.state == eState.INITIAL.symbol">
+                      @click.prevent="checkPaid"
+                      v-show="tx.state == eState.INITIAL.symbol"
+                    >
                       <svg
                         width="1em"
                         height="1em"
@@ -86,7 +83,7 @@
               <div
                 v-if="
                   tx.state == eState.INITIAL.symbol ||
-                    tx.state == eState.PAID.symbol
+                  tx.state == eState.PAID.symbol
                 "
                 class="form-group"
               >
@@ -143,7 +140,7 @@
 </template>
 
 <script>
-import { findById as findUserById } from "@/api/user.js";
+// import { findById as findUserById } from "@/api/user.js";
 import * as walletService from "@/api/wallet.js";
 import { weiToEth } from "@/utils/ethereumUnitUtils.js";
 import { getLocalImg } from "@/utils/imgLoader.js";
@@ -167,21 +164,21 @@ export default {
         itemName: "",
         price: null,
         purchaseId: null,
-        state: null
+        state: null,
       },
       processing: false,
       wallet: {
-        address: ""
+        address: "",
       },
       input: {
-        privateKey: ""
+        privateKey: "",
       },
       buttonText: {
         default: "",
-        inProcess: ""
+        inProcess: "",
       },
       eState: ESCROW_STATE,
-      userId: this.$store.state.user.id
+      userId: this.$store.state.user.id,
     };
   },
   methods: {
@@ -203,20 +200,17 @@ export default {
      * TODO: PJTⅢ 과제3 Req.1-8 [입금 확인 요청]
      * 백엔드에 해당 구매 건에 대해 입금이 되었는지 확인 요청한다.
      */
-    checkPaid() {
-    },
+    checkPaid() {},
     /**
      * TODO: PJTⅢ 과제3 Req.1-9 [상품 발송]
      * 이더리움에 상품 배송 요청 후 DB 업데이트
      */
-    sendItem() {
-    },
+    sendItem() {},
     /**
      * TODO: PJTⅢ 과제3 Req.1-6 [거래 취소]
      * 이더리움에 거래 취소 요청 후 DB 업데이트
      */
-    cancelTx() {
-    }
+    cancelTx() {},
   },
   computed: {
     canPurchase() {
@@ -231,14 +225,14 @@ export default {
       } else {
         return "상태 조회 중";
       }
-    }
+    },
   },
-  mounted: function() {
+  mounted: function () {
     const vm = this;
     this.tx = this.$route.params.tx;
 
     // 내 지갑 정보 조회
-    walletService.findByUserId(vm.userId, function(response) {
+    walletService.findByUserId(vm.userId, function (response) {
       const wallet = response.data;
       wallet["balance"] = Number(wallet["balance"]) / 10 ** 18;
       wallet["cash"] = Number(wallet["cash"]);
@@ -247,16 +241,16 @@ export default {
     // [UI] 구매자 정보 조회
     findUserById(
       this.tx.buyerId,
-      function(res) {
+      function (res) {
         vm.$set(vm.tx, "buyerName", res.data.name);
         vm.$set(vm.tx, "buyerEmail", res.data.email);
       },
-      function(err) {
+      function (err) {
         console.error("사용자 정보 조회를 실패했습니다.", err);
         alert("구매자 정보 조회를 실패했습니다.");
       }
     );
-  }
+  },
 };
 </script>
 

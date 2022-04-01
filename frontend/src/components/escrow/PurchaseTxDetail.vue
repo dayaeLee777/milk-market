@@ -13,7 +13,7 @@
               <div class="form-group">
                 <div class="row">
                   <img :src="getImg()" class="col-3" />
-                  <div class="col-9" style="vertical-align: middle;">
+                  <div class="col-9" style="vertical-align: middle">
                     <h2>
                       {{ tx.itemName }}
                     </h2>
@@ -34,9 +34,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="text-secondary">
-                  내 지갑 잔액
-                </label>
+                <label class="text-secondary"> 내 지갑 잔액 </label>
                 <br />
                 <div v-if="wallet.id === undefined" class="content">
                   <p class="text-danger">지갑이 없습니다.</p>
@@ -53,7 +51,7 @@
                     <span
                       v-else-if="
                         tx.state == eState.INITIAL.symbol &&
-                          Number(wallet.cash) < Number(tx.price) + 20
+                        Number(wallet.cash) < Number(tx.price) + 20
                       "
                       class="ml-3 text-danger"
                       >잔액이 부족합니다.</span
@@ -62,9 +60,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="text-secondary">
-                  거래 상태
-                </label>
+                <label class="text-secondary"> 거래 상태 </label>
                 <br />
                 <div class="content">
                   <p>
@@ -111,7 +107,7 @@
               <div
                 v-if="
                   tx.state != eState.CONFIRMED.symbol &&
-                    tx.state != eState.CANCELED.symbol
+                  tx.state != eState.CANCELED.symbol
                 "
                 class="form-group"
               >
@@ -170,7 +166,7 @@
 </template>
 
 <script>
-import { findById as findUserById } from "@/api/user.js";
+// import { findById as findUserById } from "@/api/user.js";
 import * as walletService from "@/api/wallet.js";
 import { getLocalImg } from "@/utils/imgLoader.js";
 import { confirm, cancel } from "@/utils/itemInventory.js";
@@ -193,22 +189,22 @@ export default {
         price: null,
         purchaseId: null,
         sellerId: null,
-        state: null
+        state: null,
       },
       processing: false,
       wallet: {
-        address: ""
+        address: "",
       },
       input: {
         payAmount: null,
-        privateKey: ""
+        privateKey: "",
       },
       actionText: {
         default: "",
-        inProcess: ""
+        inProcess: "",
       },
       eState: ESCROW_STATE,
-      userId: this.$store.state.user.id
+      userId: this.$store.state.user.id,
     };
   },
   methods: {
@@ -230,8 +226,7 @@ export default {
      * TODO: PJTⅢ 과제3 Req.1-8 [입금 확인 요청]
      * 백엔드에 해당 구매 건에 대해 입금이 되었는지 확인 요청한다.
      */
-    checkPaid() {
-    },
+    checkPaid() {},
     pay() {
       const vm = this;
       this.processing = true; // [UI] '입금 요청 중'임을 표시
@@ -245,14 +240,12 @@ export default {
      * TODO: PJTⅢ 과제3 Req.1-10 [구매 확정]
      * 구매 확정하는 스마트 컨트랙트 호출 후 DB 데이터 업데이트
      */
-    confirmPurchase() {
-    },
+    confirmPurchase() {},
     /**
      * TODO: PJTⅢ 과제3 Req.1-6 [거래 취소]
      * 이더리움에 거래 취소 요청 후 DB 업데이트
      */
-    cancelTx() {
-    },
+    cancelTx() {},
     /**
      * 거래 상태에 따라 버튼 텍스트를 변경
      * 빈 문자열일 때 버튼은 보이지 않음
@@ -281,13 +274,13 @@ export default {
     },
     getWalletBalance() {
       const vm = this;
-      walletService.findByUserId(vm.userId, function(response) {
+      walletService.findByUserId(vm.userId, function (response) {
         const wallet = response.data;
         wallet["balance"] = Number(wallet["balance"]) / 10 ** 18;
         wallet["cash"] = Number(wallet["cash"]);
         vm.wallet = wallet;
       });
-    }
+    },
   },
   computed: {
     getState() {
@@ -296,9 +289,9 @@ export default {
       } else {
         return "상태 조회 중";
       }
-    }
+    },
   },
-  mounted: function() {
+  mounted: function () {
     const vm = this;
     this.tx = this.$route.params.tx;
     this.setActionText();
@@ -307,16 +300,16 @@ export default {
     // [UI] 판매자 정보 조회
     findUserById(
       this.tx.sellerId,
-      function(res) {
+      function (res) {
         vm.$set(vm.tx, "sellerName", res.data.name);
         vm.$set(vm.tx, "sellerEmail", res.data.email);
       },
-      function(err) {
+      function (err) {
         console.error("사용자 정보 조회를 실패했습니다.", err);
         alert("판매자 정보 조회를 실패했습니다.");
       }
     );
-  }
+  },
 };
 </script>
 

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h-breadcrumb
-    ></h-breadcrumb>
+    <h-breadcrumb></h-breadcrumb>
     <div class="container">
       <my-page-nav></my-page-nav>
       <div class="row">
@@ -55,12 +54,12 @@
 </template>
 
 <script>
-import { findById, update } from "../../api/user.js";
+// import { findById, update } from "../../api/user.js";
 import MyPageNav from "./MyPageNav.vue";
 
 export default {
   components: {
-    MyPageNav
+    MyPageNav,
   },
   data() {
     return {
@@ -69,12 +68,12 @@ export default {
       confirmNew: "",
       user: {
         id: this.$store.state.user.id,
-        email: ""
-      }
+        email: "",
+      },
     };
   },
   methods: {
-    update: function() {
+    update: function () {
       const scope = this;
 
       if (
@@ -86,7 +85,7 @@ export default {
       } else if (this.newPwd !== this.confirmNew) {
         alert("새 비밀번호가 일치하지 않습니다.");
       } else {
-        findById(this.user.id, function(response) {
+        findById(this.user.id, function (response) {
           scope.user.email = response.data["email"];
           if (scope.prevPwd !== response.data["password"]) {
             alert("기존 비밀번호와 일치하지 않습니다.");
@@ -95,15 +94,15 @@ export default {
               {
                 id: scope.user.id,
                 email: scope.user.email,
-                password: scope.newPwd
+                password: scope.newPwd,
               },
-              function() {
+              function () {
                 alert("비밀번호가 변경되었습니다.");
                 scope.user.prevPwd = "";
                 scope.user.newPwd = "";
                 scope.user.confirmNew = "";
               },
-              function() {
+              function () {
                 alert("비밀번호 변경에 실패했습니다.");
               }
             );
@@ -112,7 +111,7 @@ export default {
       }
     },
   },
-  mounted: function() {}
+  mounted: function () {},
 };
 </script>
 
