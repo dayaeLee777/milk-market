@@ -1,6 +1,7 @@
 import store from "../store/index.js";
 import { createInstance } from "./index.js";
 
+
 // const token = store.getters.getJWTToken;
 const token = store.state.user.JWTToken;
 const instance = createInstance();
@@ -62,6 +63,7 @@ function getSearchItem(
     .then(success)
     .catch(fail);
 }
+
 
 function findItemListByPage(pageNumber, success, fail) {
   const ItemList = {

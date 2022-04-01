@@ -37,4 +37,6 @@ public class SignUpReq {
 	@ApiModelProperty(name="법정동/법정리 이름", example="삼평동")
     private String bname;
 
+    @ApiModelProperty(name="시군구 이름", example="과천시 문원동")
+    private String sigungu;
 }

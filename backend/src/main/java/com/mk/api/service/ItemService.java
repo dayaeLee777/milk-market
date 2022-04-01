@@ -16,12 +16,15 @@ public interface ItemService {
 	Item registerItem(String accessToken, List<MultipartFile> multipartFile, ItemRegisterRequestDto itemRegisterRequestDto);
 
 	ItemGetResponseDto getItem(String itemId);
-	
+
+
 	Item modifyItem(ItemModifyRequestDto itemModifyRequestDto, List<MultipartFile> multipartFile);
 
 	Item deleteItem(String itemId);
 
     List<ItemGetResponseDto> getItemList();
+
+	List<ItemGetResponseDto> getMyItemList(String accessToken);
 
 	List<ItemGetResponseDto> getItemList(int pageNumber, ItemGetListResponseDto dto);
 }

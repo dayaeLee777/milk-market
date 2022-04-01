@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import com.mk.api.dto.response.ItemGetListResponseDto;
+import com.mk.db.entity.ItemImage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -91,6 +92,7 @@ public class ItemServiceImpl implements ItemService {
 
 			ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder()
 					.itemId(item.getId())
+					.status(item.getStatus())
 					.userId(item.getUser().getUsername())
 					.userNickname(item.getUser().getNickname())
 					.division(item.getDivision())
@@ -118,6 +120,45 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	public List<ItemGetResponseDto> getMyItemList(String accessToken) {
+		List<ItemGetResponseDto> itemGetResponseDtos = new ArrayList<>();
+
+		User user = jwtTokenService.convertTokenToUser(accessToken);
+		List<Item> itemList = itemRepository.findByUser(user);
+
+		for (Item item: itemList) {
+			Map<String, String> itemImageList = new HashMap<String, String>();
+			itemImageRepository.findByItem(item).forEach( file -> {
+				String originFileName = file.getOriginFileName();
+				String newFileName = file.getNewFileName();
+
+				itemImageList.put(originFileName, itemImageService.getImagePath(newFileName));
+			});
+			DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+			DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
+
+			ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder()
+					.itemId(item.getId())
+					.status(item.getStatus())
+					.userId(item.getUser().getUsername())
+					.userNickname(item.getUser().getNickname())
+					.division(item.getDivision())
+					.itemName(item.getItemName())
+					.category(item.getCategory())
+					.price(item.getPrice())
+					.description(item.getDescription())
+					.regDate(item.getRegDate().format(regDateFormatter))
+					.bcode(item.getUser().getBcode())
+					.bname(item.getUser().getBname())
+					.files(itemImageList)
+					.build();
+			itemGetResponseDtos.add(itemGetResponseDto);
+
+		}
+		return itemGetResponseDtos;
+	}
+
+	@Override
 	public List<ItemGetResponseDto> getItemList(int pageNumber, ItemGetListResponseDto dto) {
 		Pageable pageable = PageRequest.of(pageNumber-1, 4, Sort.Direction.DESC, "id");
 		Page<Item> items = itemRepository.findAll(pageable);
@@ -140,6 +181,7 @@ public class ItemServiceImpl implements ItemService {
 
 			ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder()
 					.itemId(item.getId())
+					.status(item.getStatus())
 					.userId(item.getUser().getUsername())
 					.userNickname(item.getUser().getNickname())
 					.division(item.getDivision())
@@ -187,6 +229,7 @@ public class ItemServiceImpl implements ItemService {
 		
 		ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder()
 				.itemId(itemId)
+				.status(item.getStatus())
 				.userId(item.getUser().getUsername())
 				.userNickname(item.getUser().getNickname())
 				.division(item.getDivision())
