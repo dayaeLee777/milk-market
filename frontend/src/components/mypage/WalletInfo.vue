@@ -1,10 +1,11 @@
 <template>
   <div>
-    <h-breadcrumb
-    ></h-breadcrumb>
+    <!-- <h-breadcrumb
+    ></h-breadcrumb> -->
+    
     <div class="container">
       <my-page-nav></my-page-nav>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -41,17 +42,18 @@
               </tr>
               <tr>
                 <th>보유 ETH</th>
-                <td class="text-right">{{ wallet["balance"] }} ETH</td>
+                <td class="text-right">{{ wallet.balance }} ETH</td>
                 <td colspan="2" class="text-left">
                   <div v-if="isAuthorized">
                     <button
                       type="button"
                       class="btn btn-primary"
-                      v-on:click="chargeETH()"
-                    >
+                      data-bs-toggle="modal" 
+                      data-bs-target="#ethModal"
+                    > 
                       {{ "ETH 충전" }}
                     </button> 
-<!-- 
+                  <!-- 
                     <button class="btn btn-warning" @click="kakaoPay">카카오페이</button> -->
                   </div>
                 </td>
@@ -81,11 +83,9 @@
                       </button>                    
                     </div>
                   </div>
-                  <p class="text-primary mb-0" id="eth-font">* 1 ETH = 1000 MILK / 최소 충전 금액: 0.001 ETH</p>
+                  <p class="text-primary mb-0 eth-font">* 1 ETH = 1000 MILK / 최소 충전 금액: 0.001 ETH</p>
                 </td>
               </tr>
-              <!-- PJTⅡ 과제3 Req.1-1 보유 캐시 화면 구현 -->
-
               <tr>
                 <th>내 지갑주소</th>
                 <td class="text-right">{{ walletAddress }}</td>
@@ -93,6 +93,31 @@
                 <td class="text-right">{{ wallet["receivingCount"] }}회</td> -->
               </tr>
             </table>
+            <!-- 모달 -->
+            <div class="modal fade" id="ethModal" tabindex="-1" aria-labelledby="ethModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="ethModalLabel">ETH 충전하기</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body d-flex flex-column">
+                    <p class="eth-font">현재 환율: 1ETH = \  {{ ethPrice.toLocaleString() }}</p>
+                    <div class="d-flex align-items-center">
+                      <label for="won">충전할 ETH: </label>
+                      <input type="number" step="0.001" class="form-control col-3 ms-3" id="won" v-model="amountCharge">
+                      <span>ETH</span>
+                    </div>
+                    <p class="mt-3 fw-bold">결제 금액: {{ (amountCharge * ethPrice).toLocaleString() }}원</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                      @click="chargeETH()">충전</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -112,6 +137,7 @@ import MilkToken from "@/config/contract/MilkToken.json"
 import axios from 'axios'
 import jwt_decode from "jwt-decode";
 import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js";
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 export default {
   name: "WalletInfo",
@@ -140,6 +166,8 @@ export default {
       walletAddress: this.$store.state.user.walletAddress,
       coinbaseAddress: "",
       contract: "",
+      amountCharge: 0,
+      ethPrice: 3972000, // 크롤링으로 받아오는걸로
     };
   },
   computed: {
@@ -165,7 +193,6 @@ export default {
 
       web3.eth.getBalance(myWallet).then(res => {
         const balanceWei = res
-        console.log(balanceWei)
         this.wallet.balance = web3.utils.fromWei(
           balanceWei, "ether"
         )
@@ -177,8 +204,7 @@ export default {
       let contract =  new web3.eth.Contract(MilkToken.abi, CASH_CONTRACT_ADDRESS);
       const myWallet = this.$store.state.user.walletAddress;
       const milkBalance = await contract.methods.balanceOf(myWallet).call();
-      console.log(milkBalance)
-      this.wallet.cash = (milkBalance / 10**18).toLocaleString();
+      this.wallet.cash = (milkBalance / 10**18).toFixed(3);
     },
     async checkMilk() {
       const milk = await this.contract.methods.balanceOf(this.$store.state.user.walletAddress).call();
@@ -200,10 +226,19 @@ export default {
     chargeETH() {
       const Web3 = require('web3');
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
-      const tx = {"from": this.coinbaseAddress, "to": this.walletAddress, "value": 10**18}
+      const value = (this.amountCharge) * (10**18) 
+      const tx = {"from": this.coinbaseAddress, "to": this.walletAddress, "value": value}
       web3.eth.sendTransaction(tx).then(res => {
         console.log(res);
         this.fetchEtherBalance();
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "충전 되었습니다.",
+          showConfirmButton: false,
+          timer: 1500,
+        }); 
+        this.amountCharge = 0;
       })
     },
     chargeCash() {
@@ -295,12 +330,24 @@ export default {
       .then( res => {
         if (res.data.is_login === "true") {
           this.isAuthorized = true;
-          alert("확인 완료!")
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "인증 성공",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
       })
       .catch( err => {
         console.log(err)
-        alert("privateKey 재확인!")
+        Swal.fire({
+          position: "center",
+          icon: "fail",
+          title: "개인키를 다시 확인해주세요",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
     },
     kakaoPay() {
@@ -358,7 +405,8 @@ export default {
 #warn-wallet {
   font-size: 8px;
 }
-#eth-font {
+.eth-font {
   font-size: 12px;
 }
+
 </style>

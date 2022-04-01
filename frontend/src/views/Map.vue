@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h-nav></h-nav>
+    <header></header>
     <div
       id="map"
       style="margin-top: 76px;"
     ></div>
-    <f-nav></f-nav>
+    <!-- <f-nav></f-nav> -->
   </div>
 </template>
 

@@ -1,6 +1,7 @@
 <template>
   <div class="sect sect--padding-top">
     <div class="container">
+    <h3 class="text-center">로그인</h3>
       <div class="row">
         <div class="site">
           <div id="login-form" class="col-md-6 mx-auto bg-white">
@@ -26,12 +27,13 @@
               />
             </div>
             <button type="submit" class="btn btn-primary" @click="login">로그인</button>
-            <hr />
             <img
               src="https://blog.kakaocdn.net/dn/bYZZHh/btrfibui4Cj/DofAXcdzmQGCKkhTNUUAHk/img.png"
               @click="kakaoLogin"
-              style="width: 200px"
+              class="ms-1"
+              id="kakao-login-btn"
             />
+            <hr />
             <!-- <img
             src="https://static.nid.naver.com/oauth/big_g.PNG?version=js-2.0.1"
             @click="naverLogin"
@@ -62,8 +64,7 @@ export default {
     login() {
       const scope = this;
       //함수 안에 함수를 쓸 때 this쓰면 바뀐다.
-
-      const Swal = require("sweetalert2");
+      // const Swal = require("sweetalert2");
       login(
         this.user.email,
         this.user.password,
@@ -161,5 +162,9 @@ export default {
 .site {
   align-content: center;
   align-self: center;
+}
+#kakao-login-btn {
+  height: 40px;
+  cursor: pointer;
 }
 </style>

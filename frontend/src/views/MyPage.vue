@@ -1,6 +1,6 @@
 <template>
   <div class="myPage">
-    <h-nav></h-nav>
+    <header></header>
     <router-view></router-view>
   </div>
 </template>
@@ -12,7 +12,6 @@ export default {};
 <style>
   .myPage {
     height: 100vh;
-    background-color: aliceblue;
     /* background-image: linear-gradient(
       rgba(147, 124, 154, 0.3),
       rgba(117, 76, 121, 0.3)),

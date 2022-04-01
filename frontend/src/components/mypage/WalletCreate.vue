@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h-breadcrumb
-    ></h-breadcrumb>
+    <!-- <h-breadcrumb
+    ></h-breadcrumb> -->
     <div class="container">
       <my-page-nav></my-page-nav>
       <div id="create-wallet-form" class="row">
-        <div class="col-md-12 mt-5">
+        <div class="col-7 mt-5">
           <div class="card">
             <div class="card-body">
               <div v-if="walletAddress">
@@ -62,7 +62,7 @@ import Web3 from "web3";
 import axios from 'axios'
 import MyPageNav from "./MyPageNav.vue";
 import { BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS, API_BASE_URL } from "@/config/index.js";
-
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 export default {
   components: {
@@ -121,9 +121,22 @@ export default {
         // console.log(res.data.data)
         this.$store.commit("setWalletAddress", res.data.data);
         this.$router.push("/mypage/wallet_info")
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "지갑이 생성 됬어요!",
+          showConfirmButton: false,
+          timer: 1500,
+        });        
       })
       .catch(err => {
-        console.log(err)
+        Swal.fire({
+          position: "center",
+          icon: "fail",
+          title: "다시 시도해주세요",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       
     }

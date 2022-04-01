@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <h-nav></h-nav>
+  <div class="item-body">
+    <header></header>
 
     <!-- <item-list style="margin-top: 100px"></item-list> -->
     <shop-item-list></shop-item-list>
     <step-flow></step-flow>
-    <f-nav></f-nav>
+    <!-- <f-nav></f-nav> -->
   </div>
 </template>
 
