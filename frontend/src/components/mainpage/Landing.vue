@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="site">
-              <h1 class="site__title">우리 유아들을 위한 중고거래 마켓</h1>
+              <h1 class="site__title">우리 유아를 위한 중고거래 마켓</h1>
               <h2 class="site__subtitle">Milk 토큰으로 거래하세요</h2>
               <div class="site__box-link">
                 <router-link to="/shop">

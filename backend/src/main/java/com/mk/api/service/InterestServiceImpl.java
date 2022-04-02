@@ -181,17 +181,18 @@ public class InterestServiceImpl implements InterestService{
 
 	@Override
 	public List<HotItemGetResponseDto> getHotItem() {
+		
 		List<HotItemGetResponseDto> hotItemGetResponseDtoList = new ArrayList<HotItemGetResponseDto>();
+		
 		interestRepository.findHotItem().forEach(interest -> {
 			Item item = interest.getItem();
 			int count = (int) interestRepository.countByItem(item);
 			
-			Map<String, String> itemImageList = new HashMap<String, String>();
+			List<String> itemImageList = new ArrayList();
 			itemImageRepository.findByItem(item).forEach(file -> {
 
-				String originFilename = file.getOriginFileName();
 				String newFilename = file.getNewFileName();
-				itemImageList.put(originFilename, itemImageService.getImagePath(newFilename));
+				itemImageList.add(itemImageService.getImagePath(newFilename));
 			});
 			
 			LocalDateTime regDateTime = item.getRegDate();
@@ -216,10 +217,10 @@ public class InterestServiceImpl implements InterestService{
 			
 			HotItemGetResponseDto hotItemGetResponseDto = HotItemGetResponseDto.builder()
 					.itemId(item.getId())
-					.division(item.getDivision())
+					.division(item.getDivision().getName())
 					.itemName(item.getItemName())
-					.status(item.getStatus())
-					.category(item.getCategory())
+					.status(item.getStatus().getName())
+					.category(item.getCategory().getName())
 					.price(item.getPrice())
 					.description(item.getDescription())
 					.count(count)

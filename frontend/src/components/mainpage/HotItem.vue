@@ -19,7 +19,7 @@
       </div>
       <carousel-3d :width="500" :height="500">
         <slide v-for="(slide, i) in slides" :index="i" :key="i">
-          <hot-item-slide />
+          <hot-item-slide :slide="slide" />
         </slide>
       </carousel-3d>
     </div>
@@ -29,6 +29,7 @@
 <script>
 import { Carousel3d, Slide } from "vue-carousel-3d";
 import HotItemSlide from "./HotItemSlide.vue";
+import { getHotItem } from "@/api/interest.js";
 
 export default {
   name: "HotItem",
@@ -37,10 +38,25 @@ export default {
     Slide,
     HotItemSlide,
   },
-  data() {
-    return {
-      slides: 5,
-    };
+  data: () => ({
+    slides: 5,
+  }),
+  created() {
+    this.getHotItemList();
+    console.log(this.slides);
+  },
+  methods: {
+    getHotItemList() {
+      var vm = this;
+      getHotItem(
+        function (res) {
+          vm.slides = res.data;
+        },
+        function (error) {
+          console.error("에러 : " + error);
+        }
+      );
+    },
   },
 };
 </script>

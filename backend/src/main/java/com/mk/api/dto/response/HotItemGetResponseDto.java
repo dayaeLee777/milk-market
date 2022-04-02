@@ -1,8 +1,6 @@
 package com.mk.api.dto.response;
 
-import java.util.Map;
-
-import com.mk.db.code.Code;
+import java.util.List;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -22,16 +20,16 @@ public class HotItemGetResponseDto extends BaseResponseDto {
 	private String itemId;
 	
 	@ApiModelProperty(name="구분", example="대여")
-	private Code division;
+	private String division;
 
 	@ApiModelProperty(name="상품명", example="유모차")
 	private String itemName;
 
 	@ApiModelProperty(name="아이템 상태", example="판매 중")
-	private Code status;
+	private String status;
 
 	@ApiModelProperty(name="카테고리", example="B01")
-	private Code category;
+	private String category;
 
 	@ApiModelProperty(name="가격", example="30000")
 	private int price;
@@ -49,6 +47,6 @@ public class HotItemGetResponseDto extends BaseResponseDto {
 	private String bname;
 	
 	@ApiModelProperty(name="파일", example="orginFile, 파일 URL")
-	private Map<String, String> files;
+	private List<String> files;
 	
 }
