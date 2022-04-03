@@ -3,14 +3,14 @@ import { createInstance } from "./index.js";
 import store from "../store/index.js";
 const instance = createInstance();
 const token = store.getters.getJWTToken;
-function findUser(success, fail) {
+function findUser (token, success, fail) {
   instance
     .get(`api/users/`, { headers: { Authorization: `Bearer ${token}` } })
     .then(success)
     .catch(fail);
 }
 
-function signup(
+function signup (
   email,
   nickName,
   password,
@@ -35,7 +35,7 @@ function signup(
     .catch(fail);
 }
 
-function login(email, password, success, fail) {
+function login (email, password, success, success2, fail) {
   const body = {
     email: email,
     password: password,
@@ -44,14 +44,15 @@ function login(email, password, success, fail) {
   instance
     .post("api/users/login", JSON.stringify(body))
     .then(success)
+    .then(success2)
     .catch(fail);
 }
 
-function update(user, success, fail) {
+function update (user, success, fail) {
   instance.put("api/users", JSON.stringify(user)).then(success).catch(fail);
 }
 
-function sendAccessToken(token, success, fail) {
+function sendAccessToken (token, success, fail) {
   const accessToken = token;
 
   instance
