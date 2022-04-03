@@ -77,18 +77,19 @@ public class InterestController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
     }
     
-    @GetMapping("/hotitem")
+	@GetMapping("/hotitem")
     @ApiOperation(value = "인기상품 불러오기", notes="<strong>인기상품들을 불러온다.</strong>")
     @ApiResponses({
             @ApiResponse(code=200, message="인기상품을 정상적으로 조회하였습니다."),
             @ApiResponse(code=204, message="인기상품 조회를 실패했습니다.")
     })
-    public ResponseEntity<? extends BaseResponseDto> getHotItem(){
+    public List<HotItemGetResponseDto> getHotItem(){
     	List<HotItemGetResponseDto> hotItemGetResponseDtoList = interestService.getHotItem();
-        if(hotItemGetResponseDtoList !=null)
-            return (ResponseEntity<? extends BaseResponseDto>) ResponseEntity.status(HttpStatus.OK).body(hotItemGetResponseDtoList);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
-    }
+//        if(hotItemGetResponseDtoList !=null)
+//            return (ResponseEntity<? extends BaseResponseDto>) ResponseEntity.status(HttpStatus.OK).body(hotItemGetResponseDtoList);
+//        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
+    	return hotItemGetResponseDtoList;
+	}
 
 
 }
