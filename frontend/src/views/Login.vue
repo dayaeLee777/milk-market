@@ -1,7 +1,6 @@
 <template>
   <div class="sect sect--padding-top">
     <div class="container">
-      <h3 class="text-center">로그인</h3>
       <div class="row">
         <div class="site">
           <div id="login-form" class="col-md-6 mx-auto bg-white">
@@ -27,13 +26,12 @@
               />
             </div>
             <button type="submit" class="btn btn-primary" @click="login">로그인</button>
+            <hr />
             <img
               src="https://blog.kakaocdn.net/dn/bYZZHh/btrfibui4Cj/DofAXcdzmQGCKkhTNUUAHk/img.png"
               @click="kakaoLogin"
-              class="ms-1"
-              id="kakao-login-btn"
+              style="width: 200px"
             />
-            <hr />
             <!-- <img
             src="https://static.nid.naver.com/oauth/big_g.PNG?version=js-2.0.1"
             @click="naverLogin"
@@ -64,19 +62,24 @@ export default {
     login() {
       const scope = this;
       //함수 안에 함수를 쓸 때 this쓰면 바뀐다.
-      // const Swal = require("sweetalert2");
+
+      const Swal = require("sweetalert2");
       login(
         this.user.email,
         this.user.password,
-        function (response) {
+        (response) => {
           scope.$store.commit("setIsSigned", true);
           scope.$store.commit("setUserId", response.data.email);
           scope.$store.commit("setWalletAddress", response.data.address);
           scope.$store.commit("setJWTToken", response.data.token);
           scope.$store.commit("setUserNickname", response.data.nickname);
           console.log("여기까지 넘어갑니다." + response.data.token);
+          return response.data.token;
+        },
+        (response) => {
           findUser(
-            function (success) {
+            response,
+            (success) => {
               console.log("findBy User " + success.data.bcode);
               Swal.fire({
                 position: "center",
@@ -87,7 +90,7 @@ export default {
               });
               scope.$store.commit("setBcode", success.data.bcode);
             },
-            function (error) {
+            (error) => {
               console.log(error);
               Swal.fire({
                 position: "center",
@@ -98,9 +101,9 @@ export default {
               });
             }
           );
-          scope.$router.push("/");
+          this.$router.push("/");
         },
-        function (error) {
+        (error) => {
           console.error(error);
           // alert("유저 이메일 혹은 비밀번호가 일치하지 않습니다.");
           Swal.fire({
@@ -162,9 +165,5 @@ export default {
 .site {
   align-content: center;
   align-self: center;
-}
-#kakao-login-btn {
-  height: 40px;
-  cursor: pointer;
 }
 </style>
