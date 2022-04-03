@@ -107,6 +107,8 @@
                       <label for="won">충전할 ETH: </label>
                       <input type="number" step="0.001" class="form-control col-3 ms-3" id="won" v-model="amountCharge">
                       <span>ETH</span>
+                      <!-- <button class="btn btn-secondary btn-sm ms-2" @click="addCharge(0.1)">0.1</button>
+                      <button class="btn btn-secondary btn-sm ms-2" @click="addCharge(0.01)">0.01</button> -->
                     </div>
                     <p class="mt-3 fw-bold">결제 금액: {{ (amountCharge * ethPrice).toLocaleString() }}원</p>
                   </div>
@@ -126,12 +128,7 @@
 </template>
 
 <script>
-import * as walletService from "@/api/wallet.js";
-import { findById } from "@/api/user.js";
-import { createWeb3 } from "@/utils/itemInventory.js";
-import { buyCash, getBalance } from "@/utils/cashContract.js";
 import MyPageNav from "./MyPageNav.vue";
-import { ethToWei } from "@/utils/ethereumUnitUtils.js";
 import BN from "bn.js";
 import MilkToken from "@/config/contract/MilkToken.json"
 import axios from 'axios'
@@ -176,6 +173,9 @@ export default {
     }
   },
   methods: {
+    addCharge(n) {
+      this.amountCharge += n
+    },
     makeContract() {
       const Web3 = require('web3');
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));

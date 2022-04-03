@@ -5,7 +5,7 @@ import store from "./store";
 import HNav from "./components/common/HNav.vue";
 import FNav from "./components/common/FNav.vue";
 import HBreadcumb from "./components/common/HBreadcrumb.vue";
-import vuetify from './plugins/vuetify'
+import vuetify from '@/plugins/vuetify'
 
 import firebase from 'firebase'
 

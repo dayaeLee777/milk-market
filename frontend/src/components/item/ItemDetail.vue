@@ -68,7 +68,8 @@
                      </button>
                 </div>
                 <div v-else>
-                  <button class="btn btn-lg btn-primary" 
+                  <button class="btn btn-lg btn-primary"
+                    @click="checkMilk()" 
                     data-bs-toggle="modal" data-bs-target="#purchaseModal">
                     구매하기
                     </button>
@@ -99,11 +100,23 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                        ...
+                        <div class="d-flex">
+                          <div class="text-primary">현재 잔액: {{ milkBalance }}MILK</div>
+                          <button class="btn btn-secondary btn-sm ms-2" 
+                            data-bs-dismiss="modal"
+                            @click="moveToWallet">충전하기</button>
+                        </div>
+                        <div v-if="(milkBalance - item.price) >= 0">
+                          <p>현재 상품 가격: {{ item.price }}</p>
+                          <p>구매 후 잔액: {{ milkBalance - item.price }}</p>
+                        </div>
+                        <div v-else>
+                          <p calss="text-danger">MILK 잔액이 부족합니다!</p>
+                        </div>
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="doPay">결재하기</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                       </div>
                     </div>
                   </div>
@@ -122,6 +135,9 @@
 import { Code } from "@/utils/enum.js";
 import { findById } from "@/api/item.js";
 import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js";
+import axios from "axios";
+import MilkToken from "@/config/contract/MilkToken.json";
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 
 const vm = this;
 export default {
@@ -145,17 +161,41 @@ export default {
         keys: [],
       },
       userId: this.$store.state.user.id,
-      walletAddress: this.$store.state.walletAddress,
+      contract: "",
+      coinbaseAddress: "",
+      milkBalance: 0,
     };
   },
   methods: {
+    makeContract() {   
+      const Web3 = require('web3');
+      const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));   
+
+      let contract =  new web3.eth.Contract(MilkToken.abi, CASH_CONTRACT_ADDRESS);
+      this.contract = contract
+
+      web3.eth.getAccounts().then(res => {
+        console.log(res)
+        this.coinbaseAddress = res[0]
+      });
+    },    
+    async checkMilk() {
+      const milk = await this.contract.methods.balanceOf(this.$store.state.user.walletAddress).call();
+
+      this.milkBalance = (milk / 10**15).toLocaleString();
+      console.log(this.milkBalance)
+    },    
+    moveToWallet() {
+      this.$router.push("/mypage/wallet_info")
+    },
     getImg (name) {
       if (name) {
         return name;
       }
       return null;
     },
-    doPay() {
+    // 코인 베이스로 이동
+    async doPay() {
       
     },
     goChatting () {
@@ -201,6 +241,7 @@ export default {
         alert("DB에서 상품 상세 정보 조회를 가져올 수 없습니다.");
       }
     );
+    this.makeContract();
   },
 };
 </script>

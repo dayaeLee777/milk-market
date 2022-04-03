@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import { registerWallet } from "@/api/wallet.js";
 import Web3 from "web3";
 import axios from 'axios'
 import MyPageNav from "./MyPageNav.vue";

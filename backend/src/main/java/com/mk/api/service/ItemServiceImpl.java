@@ -127,6 +127,10 @@ public class ItemServiceImpl implements ItemService {
 		List<Item> itemList = itemRepository.findByUser(user);
 
 		for (Item item: itemList) {
+			// 진열중인 애들만 표기
+			if (item.getStatus() != Code.C01 ) {
+				continue;
+			}
 			Map<String, String> itemImageList = new HashMap<String, String>();
 			itemImageRepository.findByItem(item).forEach( file -> {
 				String originFileName = file.getOriginFileName();
@@ -168,6 +172,10 @@ public class ItemServiceImpl implements ItemService {
 
 
 		for(Item item : items){
+			// 진열중인 애들만 표기
+			if (item.getStatus() != Code.C01 ) {
+				continue;
+			}
 			Map<String, String> itemImageList = new HashMap<String, String>();
 			itemImageRepository.findByItem(item).forEach(file -> {
 
