@@ -22,7 +22,7 @@ public enum Code {
 	B14("위생/건강",true),
 	B15("임산부",true),
 	B16("유아침구",true),
-	C01("진열 중", true),
+	C01("판매 중", true),
 	C02("입금 완료", true),
 	C03("구매 확정", true),
 	C04("거래 취소", true);

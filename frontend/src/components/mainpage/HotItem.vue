@@ -1,16 +1,4 @@
 <template>
-  <!-- <div>
-    <header class="bg-image">
-      <div class="container">
-        <h1>우리동네 인기상품</h1>
-      </div>
-    </header>
-    <carousel-3d :width="500" :height="500">
-      <slide v-for="(slide, i) in slides" :index="i" :key="i">
-        <hot-item-slide />
-      </slide>
-    </carousel-3d>
-  </div> -->
   <div class="sect sect--padding-bottom">
     <div class="container">
       <div class="row row--center">
@@ -19,7 +7,7 @@
       </div>
       <carousel-3d :width="500" :height="500">
         <slide v-for="(slide, i) in slides" :index="i" :key="i">
-          <hot-item-slide />
+          <hot-item-slide :slide="slide" />
         </slide>
       </carousel-3d>
     </div>
@@ -29,6 +17,7 @@
 <script>
 import { Carousel3d, Slide } from "vue-carousel-3d";
 import HotItemSlide from "./HotItemSlide.vue";
+import { getHotItem } from "@/api/interest.js";
 
 export default {
   name: "HotItem",
@@ -41,6 +30,21 @@ export default {
     return {
       slides: 5,
     };
+  },
+  created() {
+    this.getHotItemList();
+  },
+  methods: {
+    getHotItemList() {
+      getHotItem(
+        (res) => {
+          this.slides = res.data;
+        },
+        (error) => {
+          console.error("에러 : " + error);
+        }
+      );
+    },
   },
 };
 </script>

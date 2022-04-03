@@ -3,8 +3,6 @@ package com.mk.api.controller;
 
 import java.util.List;
 
-import com.mk.api.dto.response.ItemGetListResponseDto;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,9 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mk.api.dto.request.ItemModifyRequestDto;
 import com.mk.api.dto.request.ItemRegisterRequestDto;
 import com.mk.api.dto.response.BaseResponseDto;
+import com.mk.api.dto.response.ItemGetListResponseDto;
 import com.mk.api.dto.response.ItemGetResponseDto;
 import com.mk.api.service.ItemService;
-import com.mk.db.code.Code;
 import com.mk.db.entity.Item;
 import com.mk.elastic.document.Itemsearch;
 import com.mk.elastic.search.SearchRequestDTO;
@@ -36,6 +34,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Slf4j
@@ -133,6 +132,16 @@ public class ItemController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
 	
+	@GetMapping("/pages")
+	@ApiOperation(value = "전체 페이지 수 불러오기", notes="<strong>전체 페이지 수를 불러옵니다.</strong>")
+	@ApiResponses({
+		@ApiResponse(code=200, message="정상적으로 조회하였습니다."),
+		@ApiResponse(code=204, message="조회를 실패했습니다.")
+	})
+	public int getPages(@RequestBody final SearchRequestDTO dto){
+			return itemSearchService.getSearchPages(dto);
+	}
+	
 	@PutMapping
 	@ApiOperation(value = "상품 수정하기", notes="<strong>작성한 상품을 수정한다.</strong>")
 	@ApiResponses({
@@ -142,8 +151,10 @@ public class ItemController {
 	public ResponseEntity<? extends BaseResponseDto> modify(
 			@ApiParam(value = "수정할 상품정보") @RequestPart(required = true) ItemModifyRequestDto itemModifyRequestDto,
 			@ApiParam(value="다중 파일 업로드") @RequestPart(required = false) List<MultipartFile> multipartFile){
-		if(itemService.modifyItem(itemModifyRequestDto, multipartFile) != null)
+		if(itemService.modifyItem(itemModifyRequestDto, multipartFile) != null) {
+			itemSearchService.modifyItemsearch(itemModifyRequestDto);
 			return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.of(HttpStatus.CREATED.value(), "Success"));
+		}
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
 	
@@ -155,8 +166,10 @@ public class ItemController {
 	})
 	public ResponseEntity<? extends BaseResponseDto> delete(
 			@PathVariable("itemId") @RequestBody @ApiParam(value = "삭제할 상품 ID ", required = true) String itemId){
-		if(itemService.deleteItem(itemId) != null)
+		if(itemService.deleteItem(itemId) != null) {
+			itemSearchService.deleteItemsearch(itemId);
 			return ResponseEntity.status(HttpStatus.ACCEPTED).body(BaseResponseDto.of(HttpStatus.ACCEPTED.value(), "Success"));
+		}
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
 

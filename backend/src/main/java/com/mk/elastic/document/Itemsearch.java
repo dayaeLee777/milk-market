@@ -1,5 +1,6 @@
 package com.mk.elastic.document;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.springframework.data.elasticsearch.annotations.Setting;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.mk.api.dto.request.ItemModifyRequestDto;
 import com.mk.db.code.Code;
 import com.mk.elastic.helper.Indices;
 
@@ -58,6 +60,28 @@ public class Itemsearch {
 	public void setRentDate(String rentStartDate, String rentEndDate) {
 		this.rentStartDate = rentStartDate;
 		this.rentEndDate = rentEndDate;
+	}
+	
+	public void modifyItemSearch(ItemModifyRequestDto itemModifyRequestDto) {
+		DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
+		
+		this.division = itemModifyRequestDto.getDivision();
+		this.itemName = itemModifyRequestDto.getItemName();
+		this.category = itemModifyRequestDto.getCategory();
+		this.price = itemModifyRequestDto.getPrice();
+		this.description = itemModifyRequestDto.getDescription();
+		
+		if(itemModifyRequestDto.getDivision() == Code.A01) {
+			this.rentStartDate = itemModifyRequestDto.getRentStartDate().format(rentDateTimeFormatter);
+			this.rentEndDate = itemModifyRequestDto.getRentEndDate().format(rentDateTimeFormatter);			
+		} else {
+			this.rentStartDate = null;
+			this.rentEndDate = null;			
+		}
+	}
+	
+	public void modifyItemSearchImages(Map<String, String> fileNameList) {
+		this.fileNameList = fileNameList;
 	}
 	
 }

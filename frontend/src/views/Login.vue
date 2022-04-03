@@ -1,7 +1,7 @@
 <template>
   <div class="sect sect--padding-top">
     <div class="container">
-    <h3 class="text-center">로그인</h3>
+      <h3 class="text-center">로그인</h3>
       <div class="row">
         <div class="site">
           <div id="login-form" class="col-md-6 mx-auto bg-white">
