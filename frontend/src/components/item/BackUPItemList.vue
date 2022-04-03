@@ -35,13 +35,13 @@
       <div id="myBtnContainer">
         <button class="btn active" @click="init">Show all</button>
         <select @change="filterSelection2($event)" class="btn">
-          <option value="" selected disabled hidden>상태</option>
+          <option value="0" selected>상태</option>
           <option value="A01">대여</option>
           <option value="A02">판매</option>
         </select>
 
         <select @change="filterSelection3($event)" class="btn">
-          <option selected disabled hidden>카테고리</option>
+          <option value="0" selected>카테고리</option>
           <option v-for="(name, value) in categorys" :key="value">
             {{ name }}
           </option>
@@ -91,7 +91,7 @@
 
 <script>
 import ItemEach from "@/components/item/ItemEach";
-import ItemCreate from "@/components/item/ItemCreate";
+import { findUser } from "@/api/user.js";
 import {
   findItemListByPage,
   getItemList,
@@ -100,13 +100,7 @@ import {
   getSearchItemByCategory,
   getSearchItemByBcode,
 } from "@/api/item.js";
-import {
-  filterSelection,
-  w3AddClass,
-  w3RemoveClass,
-  allList,
-} from "@/api/tap.js";
-// import { Code as categorys } from "@/utils/enum.js";
+import { allList } from "@/api/tap.js";
 
 var btnContainer = document.getElementById("myBtnContainer");
 var btns = document.getElementsByClassName("content");
@@ -126,7 +120,9 @@ export default {
     currentPageNum: 1,
     prev: true,
     next: false,
+    division: null,
     bcode: null,
+    changeCategory: null,
     sortBy: "regDate",
     order: "ASC",
     page: 0,
@@ -152,6 +148,7 @@ export default {
   }),
   mounted() {
     this.init();
+    this.findUser();
     console.log("마운트", this.contents);
     console.log("categorys", this.categorys);
     console.log("BackUp 콘솔");
@@ -164,6 +161,10 @@ export default {
     //초기 목록 불러오기, 전체 목록 불러오기
     init() {
       var vm = this;
+      this.changeCategory = null;
+      this.bcode = null;
+      this.division = null;
+
       allList(function (res) {
         vm.contents = res.data;
         console.log("init", vm.contents);
@@ -192,9 +193,13 @@ export default {
     //판매유무
     filterSelection2(event) {
       var vm = this;
-      var division = event.target.value;
+      this.division = event.target.value;
+      if (this.division === "0") {
+        this.division = null;
+      }
       getSearchItemByDivision(
-        division,
+        this.division,
+        this.changeCategory,
         this.bcode,
         this.sortBy,
         this.order,
@@ -214,13 +219,20 @@ export default {
       var vm = this;
       var category = event.target.value;
       console.log(category);
+      if (category === "0") {
+        this.changeCategory = null;
+      } else {
+        this.changeCategory = Object.keys(vm.categorys).find(
+          (key) => vm.categorys[key] === category
+        );
+      }
 
-      var changeCategory = Object.keys(vm.categorys).find(
-        (key) => vm.categorys[key] === category
-      );
-      console.log(changeCategory);
+      console.log("카테고리 클릭시");
+      console.log("상태 :" + this.division);
+      console.log("카테고리 : " + this.changeCategory);
       getSearchItemByCategory(
-        changeCategory,
+        this.changeCategory,
+        this.division,
         this.bcode,
         this.sortBy,
         this.order,
@@ -271,11 +283,19 @@ export default {
         }
       );
     },
+
     itemWrite() {
       // this.$router.push({
       //   name: "item.write",
       // });
       this.$router.push({ name: "item.create" });
+    },
+    findUser() {
+      var vm = this;
+      findUser(function (res) {
+        console.log("findUser" + res.data.bcode);
+        vm.$store.commit("setBcode", res.data.bcode);
+      });
     },
   },
 };

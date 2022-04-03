@@ -66,6 +66,7 @@ function getSearchItem(
 
 function getSearchItemByDivision(
   division,
+  category,
   bcode,
   sortBy,
   order,
@@ -76,6 +77,7 @@ function getSearchItemByDivision(
 ) {
   const ItemList = {
     division: division,
+    category: category,
     bcode: bcode,
     sortBy: sortBy,
     order: order,
@@ -93,6 +95,7 @@ function getSearchItemByDivision(
 //카테고리로 검색
 function getSearchItemByCategory(
   category,
+  division,
   bcode,
   sortBy,
   order,
@@ -103,6 +106,7 @@ function getSearchItemByCategory(
 ) {
   const ItemList = {
     category: category,
+    division: division,
     bcode: bcode,
     sortBy: sortBy,
     order: order,

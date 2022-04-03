@@ -76,30 +76,13 @@ export default {
           scope.$store.commit("setJWTToken", response.data.token);
           scope.$store.commit("setUserNickname", response.data.nickname);
           console.log("여기까지 넘어갑니다." + response.data.token);
-          findUser(
-            function (success) {
-              console.log("findBy User " + success.data.bcode);
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "로그인 성공",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-              scope.$store.commit("setBcode", success.data.bcode);
-            },
-            function (error) {
-              console.log(error);
-              console.log("api user : error");
-              // Swal.fire({
-              //   position: "center",
-              //   icon: "fail",
-              //   title: "로그인 실패",
-              //   showConfirmButton: false,
-              //   timer: 1500,
-              // });
-            }
-          );
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "로그인 성공",
+            showConfirmButton: false,
+            timer: 1500,
+          });
           scope.$router.push("/");
         },
         function (error) {

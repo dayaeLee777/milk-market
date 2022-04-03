@@ -41,8 +41,12 @@ export default new Vuex.Store({
     },
     logout(state) {
       state.isSigned = false;
+
       state.user.id = 0;
       state.user.walletAddress = null;
+      state.user.bcode = null;
+      state.user.JWTToken = null;
+      state.user.userNickname = null;
     },
   },
   getters: {
