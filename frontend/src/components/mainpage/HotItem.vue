@@ -1,16 +1,4 @@
 <template>
-  <!-- <div>
-    <header class="bg-image">
-      <div class="container">
-        <h1>우리동네 인기상품</h1>
-      </div>
-    </header>
-    <carousel-3d :width="500" :height="500">
-      <slide v-for="(slide, i) in slides" :index="i" :key="i">
-        <hot-item-slide />
-      </slide>
-    </carousel-3d>
-  </div> -->
   <div class="sect sect--padding-bottom">
     <div class="container">
       <div class="row row--center">
@@ -38,27 +26,23 @@ export default {
     Slide,
     HotItemSlide,
   },
-  data: () => ({
-    slides: 5,
-  }),
-  created() {
-    const bcode = this.$store.state.user.bcode;
-    this.getHotItemList(bcode);
+  data() {
+    return {
+      slides: 5,
+    };
   },
-  computed: {},
+  created() {
+    this.getHotItemList();
+  },
   methods: {
-    getHotItemList(bcode) {
-      var vm = this;
-      setTimeout(
-        getHotItem(
-          function (res) {
-            vm.slides = res.data;
-          },
-          function (error) {
-            console.error("에러 : " + error);
-          }
-        ),
-        0
+    getHotItemList() {
+      getHotItem(
+        (res) => {
+          this.slides = res.data;
+        },
+        (error) => {
+          console.error("에러 : " + error);
+        }
       );
     },
   },

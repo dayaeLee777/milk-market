@@ -33,8 +33,11 @@ public class SearchUtil {
 			QueryBuilder categoryQuery = null;
 			QueryBuilder bcodeQuery = null;
 
-			BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().must(searchQuery);
+			BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
 
+			if (searchQuery != null) {
+				boolQuery.must(searchQuery);
+			}
 			if (dto.getDivision() != null) {
 				divisionQuery = getQueryBuilder("division", dto.getDivision());
 				boolQuery.must(divisionQuery);
@@ -74,7 +77,11 @@ public class SearchUtil {
 			QueryBuilder categoryQuery = null;
 			QueryBuilder bcodeQuery = null;
 
-			BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().must(searchQuery);
+			BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
+
+			if (searchQuery != null) {
+				boolQuery.must(searchQuery);
+			}
 
 			if (dto.getDivision() != null) {
 				divisionQuery = getQueryBuilder("division", dto.getDivision());

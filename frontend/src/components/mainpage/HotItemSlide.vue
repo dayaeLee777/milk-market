@@ -92,12 +92,10 @@
 export default {
   name: "HotItemSlide",
   props: {
-    slide: Object,
+    slide: {},
   },
   data() {
-    return {
-      hasWallet: this.$store.state.user.walletAddress != null,
-    };
+    return {};
   },
   methods: {
     itemDetail(itemId) {

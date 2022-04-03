@@ -7,7 +7,7 @@ const instance = createInstance();
 
 function getHotItem(success, fail) {
   instance
-    .get("/api/interest/hotitem/")
+    .get("/api/interest/hotitem")
     .then(success)
     .catch(fail);
 }
