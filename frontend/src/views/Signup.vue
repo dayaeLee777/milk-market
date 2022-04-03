@@ -1,64 +1,93 @@
 <template>
   <div class="sect sect--padding-top">
     <div class="container">
-    <h3 class="text-center">회원 가입</h3>
       <div class="row">
-        <div  class="col-6 mx-auto bg-white">
-          <div class="">
-            <div class="form-group">
-              <label for="email">이메일</label>
-              <input
-                type="text"
-                class="form-control"
-                id="email"
-                v-model="user.email"
-                placeholder="이메일"
-              />
+        <div class="site">
+          <h1 class="row__title">Sign Up</h1>
+          <h2 class="row__sub">회원이 되어 우유마켓의 서비스를 이용하세요</h2>
+          <div class="row row--center">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+              <div class="signup-form">
+                <div class="form-group">
+                  <div class="form__field--half">
+                    <input
+                      type="text"
+                      class="form-control form__field form__text"
+                      id="email"
+                      v-model="user.email"
+                      placeholder="Email address"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form__field--half">
+                    <input
+                      type="text"
+                      class="form-control form__field form__text"
+                      id="name"
+                      v-model="user.name"
+                      placeholder="Nickname"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form__field--half">
+                    <input
+                      type="password"
+                      class="form-control form__field form__text"
+                      id="password"
+                      v-model="user.password"
+                      placeholder="Password"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form__field--half">
+                    <input
+                      type="password"
+                      class="form-control form__field form__text"
+                      id="password-confirm"
+                      v-model="user.passwordConfirm"
+                      placeholder="Password Confirm"
+                      @keydown.enter="register"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <!-- <div class="form__field--half"> -->
+                  <div class="row signup_row">
+                    <label for="location_btn">
+                      <div class="address_text">
+                        <input
+                          type="text"
+                          class="form__field form__text form-control"
+                          id="location"
+                          disabled="true"
+                          placeholder="동네인증을 위해 찾기 버튼을 눌러주세요"
+                        />
+                      </div>
+                      <div class="address_btn">
+                        <input
+                          type="button"
+                          class="form__field form__text form-control"
+                          id="location_btn"
+                          value="찾기"
+                          @click="execDaumPostcode()"
+                        />
+                      </div>
+                    </label>
+                  </div>
+                  <!-- </div> -->
+                </div>
+
+                <div class="form-group">
+                  <button type="submit" class="btn btn-width signup_btn" v-on:click="register">
+                    회원가입
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="name">닉네임</label>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                v-model="user.name"
-                placeholder="닉네임"
-              />
-            </div>
-            <div class="form-group">
-              <label for="password">비밀번호</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                v-model="user.password"
-                placeholder="비밀번호"
-              />
-            </div>
-            <div class="form-group">
-              <label for="password-confirm">비밀번호 확인</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password-confirm"
-                v-model="user.passwordConfirm"
-                placeholder="비밀번호 확인"
-                @keydown.enter="register"
-              />
-            </div>
-            <label for="location">주소</label>
-            <div class="d-flex form-group">
-              <input type="text" class="col-9 form-control" id="location" placeholder="주소" />
-              <input
-                type="button"
-                class="col-3 form-control"
-                value="찾기"
-                @click="execDaumPostcode()"
-              />
-            </div>
-            <button type="submit" class="btn btn-primary mt-3" v-on:click="register">
-              회원가입
-            </button>
           </div>
         </div>
       </div>
@@ -68,7 +97,7 @@
 
 <script>
 import { signup } from "../api/user.js";
-import Swal from 'sweetalert2/dist/sweetalert2.js'
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 export default {
   data() {
@@ -96,9 +125,8 @@ export default {
           this.user.bname,
           this.user.bcode,
           this.user.sigungu,
-          function (success) {
-            console.log(success)
-            vm.$router.push("/");
+          (success) => {
+            console.log(success);
             Swal.fire({
               position: "center",
               icon: "success",
@@ -106,20 +134,29 @@ export default {
               showConfirmButton: false,
               timer: 2000,
             });
+            this.$router.push("/login");
           },
-          function (error) {
+          (error) => {
             console.error(error);
+            Swal.fire({
+              position: "center",
+              icon: "error",
+              title: "회원가입 실패",
+              text: "필수 입력사항을 입력해주세요",
+              showConfirmButton: false,
+              timer: 2000,
+            });
           }
         );
       } else {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "회원가입 실패",
-            text: "비밀번호가 일치하지 않습니다",
-            showConfirmButton: false,
-            timer: 2000,
-          });
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "회원가입 실패",
+          text: "비밀번호가 일치하지 않습니다",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
     },
     execDaumPostcode() {
@@ -143,14 +180,30 @@ export default {
 #register-form {
   /* display: flex; */
   /* padding-top: 0px; */
-  align-content: center;
+  /* align-content: center;
   margin-bottom: 50px;
-  display: inline-block;
+  display: inline-block; */
 }
+.address_text {
+  width: 70%;
+  float: left;
+  padding-right: 5%;
+}
+
+.address_btn {
+  width: 30%;
+  float: left;
+}
+
 .row {
   /* display: flex; */
   /* padding-top: 0px; */
-  padding-block-start: 5px;
+  /* padding-block-start: 5px; */
   /* display: inline-block; */
+}
+
+.signup_btn {
+  width: 50%;
+  margin-top: 20px;
 }
 </style>

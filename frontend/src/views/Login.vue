@@ -4,7 +4,7 @@
       <div class="row">
         <div class="site">
           <h1 class="row__title">Login</h1>
-          <h2 class="row__sub">서비스 이용을 위해 로그인해주세요</h2>
+          <h2 class="row__sub">우유마켓 이용을 위해 로그인하세요</h2>
           <div class="row row--center">
             <div class="col-md-3"></div>
 
@@ -35,10 +35,12 @@
                 </div>
                 <div id="btn_span" />
                 <div class="form-group">
-                  <button type="submit" class="btn btn--width" @click="login">Login</button>
+                  <button type="submit" class="btn btn--width btn-blue login_btn" @click="login">
+                    Login
+                  </button>
                 </div>
                 <div class="form-group">
-                  <button class="btn btn--width" id="kakaobtn" @click="kakaoLogin">
+                  <button class="btn btn--width login_btn" id="kakaobtn" @click="kakaoLogin">
                     kakao Login
                   </button>
                 </div>
@@ -179,7 +181,7 @@ export default {
 };
 </script>
 
-<style>
+<style scope>
 .site {
   align-content: center;
   align-self: center;
@@ -193,21 +195,17 @@ export default {
   margin-bottom: 25px;
 }
 
-.btn--width {
+.login_btn {
   width: 100%;
 }
 
-.divider {
-  margin-top: 60px;
-}
-
 #kakaobtn {
-  color: black;
+  color: black !important;
   background-color: #feec34;
 }
 
 #kakaobtn:hover {
-  color: rgb(80, 28, 28);
+  color: rgb(80, 28, 28) !important;
   /* background-color: #feec34; */
 
   box-shadow: 0px 25px 18px -6px rgba(0, 0, 0, 0.2);
