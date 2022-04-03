@@ -1,9 +1,10 @@
 <template>
   <div class="sect sect--padding-top">
     <div class="container">
+    <h3 class="text-center">회원 가입</h3>
       <div class="row">
-        <div id="register-form" class="col-md-6 mx-auto bg-white">
-          <div class="mt-4">
+        <div  class="col-6 mx-auto bg-white">
+          <div class="">
             <div class="form-group">
               <label for="email">이메일</label>
               <input
@@ -76,6 +77,7 @@
 
 <script>
 import { signup } from "../api/user.js";
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 //여기서 변수 선언.
 
@@ -105,16 +107,30 @@ export default {
           this.user.bname,
           this.user.bcode,
           this.user.sigungu,
-          function () {
-            alert("회원가입이 완료되었습니다.");
+          function (success) {
+            console.log(success)
             vm.$router.push("/");
+            Swal.fire({
+              position: "center",
+              icon: "success",
+              title: "회원가입 성공",
+              showConfirmButton: false,
+              timer: 2000,
+            });
           },
           function (error) {
             console.error(error);
           }
         );
       } else {
-        alert("비밀번호가 일치하지 않습니다.");
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "회원가입 실패",
+            text: "비밀번호가 일치하지 않습니다",
+            showConfirmButton: false,
+            timer: 2000,
+          });
       }
     },
     execDaumPostcode() {
@@ -146,7 +162,6 @@ export default {
   /* display: flex; */
   /* padding-top: 0px; */
   padding-block-start: 5px;
-  margin-top: 50px;
   /* display: inline-block; */
 }
 </style>

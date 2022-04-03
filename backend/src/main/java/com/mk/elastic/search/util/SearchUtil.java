@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.client.core.CountRequest;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.Operator;
@@ -27,9 +28,6 @@ public class SearchUtil {
 			final int size = dto.getSize();
 			final int from = page <= 0 ? 0 : page * size;
 			
-//			SearchSourceBuilder builder = new SearchSourceBuilder().from(from).size(size)
-//					.postFilter(getQueryBuilder(dto));
-			
 			SearchSourceBuilder builder = new SearchSourceBuilder()
 					.postFilter(getQueryBuilder(dto));
 			
@@ -46,9 +44,8 @@ public class SearchUtil {
 			}
 
 			if (dto.getSortBy() != null) {
-				builder = builder.sort(dto.getSortBy(), dto.getOrder() != null ? dto.getOrder() : SortOrder.ASC);
+				builder = builder.sort(dto.getSortBy(), dto.getOrder() != null ? dto.getOrder() : SortOrder.DESC);
 			}
-			
 			builder = builder.from(from).size(size);
 
 			final SearchRequest request = new SearchRequest(indexName);
@@ -60,6 +57,35 @@ public class SearchUtil {
 			return null;
 		}
 	}
+	
+	public static CountRequest buildSearchRequestCount(final String indexName, final SearchRequestDTO dto) {
+		try {
+			
+			SearchSourceBuilder builder = new SearchSourceBuilder()
+					.postFilter(getQueryBuilder(dto));
+			
+			if(dto.getDivision() != null) {
+				builder = builder.postFilter(getQueryBuilder("division", dto.getDivision()));
+			}
+			
+			if(dto.getCategory() != null) {
+				builder = builder.postFilter(getQueryBuilder("category", dto.getCategory()));
+			}
+			
+			if(dto.getBcode() != null) {
+				builder = builder.postFilter(getQueryBuilder("bcode", dto.getBcode()));
+			}
+			builder.query(QueryBuilders.matchAllQuery());
+			CountRequest countRequest = new CountRequest(indexName);
+			countRequest.source(builder);
+			
+			return countRequest;
+		} catch (final Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 
 	public static SearchRequest buildSearchRequest(final String indexName, final String field, final Date date) {
 		try {
@@ -86,31 +112,7 @@ public class SearchUtil {
 			SearchSourceBuilder builder = new SearchSourceBuilder().postFilter(boolQuery);
 
 			if (dto.getSortBy() != null) {
-				builder = builder.sort(dto.getSortBy(), dto.getOrder() != null ? dto.getOrder() : SortOrder.ASC);
-			}
-
-			final SearchRequest request = new SearchRequest(indexName);
-			request.source(builder);
-
-			return request;
-		} catch (final Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public static SearchRequest buildSearchRequest(final String indexName, final SearchRequestDTO dto,
-			final Code division) {
-		try {
-			final QueryBuilder searchQuery = getQueryBuilder(dto);
-			final QueryBuilder divisionQuery = getQueryBuilder("division", division);
-
-//			final BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().must(searchQuery).must(divisionQuery);
-
-			SearchSourceBuilder builder = new SearchSourceBuilder().postFilter(searchQuery).postFilter(divisionQuery);
-
-			if (dto.getSortBy() != null) {
-				builder = builder.sort(dto.getSortBy(), dto.getOrder() != null ? dto.getOrder() : SortOrder.ASC);
+				builder = builder.sort(dto.getSortBy(), dto.getOrder() != null ? dto.getOrder() : SortOrder.DESC);
 			}
 
 			final SearchRequest request = new SearchRequest(indexName);

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h-breadcrumb></h-breadcrumb>
+    <!-- <h-breadcrumb></h-breadcrumb> -->
     <div class="container">
       <my-page-nav></my-page-nav>
       <div class="row">

@@ -1,10 +1,6 @@
 <template>
   <div>
-    <h-breadcrumb
-      title="상품 등록"
-      description="새로운 상품을 등록합니다."
-    ></h-breadcrumb>
-    <div class="container">
+    <div class="container mt-3">
       <div class="row">
         <div class="col-md-8 mx-auto">
           <div class="card">
@@ -279,6 +275,7 @@ export default {
 </script>
 
 <style>
+
 .image-area {
   border: 2px dashed #ced4da;
   padding: 1rem;
