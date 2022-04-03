@@ -2,8 +2,7 @@
 import { createInstance } from "./index.js";
 import store from "../store/index.js";
 const instance = createInstance();
-// const token = store.getters.getJWTToken;
-const token = localStorage.getItem("access-token");
+const token = store.getters.getJWTToken;
 function findUser(success, fail) {
   instance
     .get(`api/users/`, { headers: { Authorization: `Bearer ${token}` } })
@@ -44,7 +43,6 @@ function login(email, password, success, fail) {
 
   instance
     .post("api/users/login", JSON.stringify(body))
-    .then(success)
     .then(success)
     .catch(fail);
 }
