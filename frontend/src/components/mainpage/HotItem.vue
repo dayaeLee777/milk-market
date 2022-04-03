@@ -42,19 +42,23 @@ export default {
     slides: 5,
   }),
   created() {
-    this.getHotItemList();
-    console.log(this.slides);
+    const bcode = this.$store.state.user.bcode;
+    this.getHotItemList(bcode);
   },
+  computed: {},
   methods: {
-    getHotItemList() {
+    getHotItemList(bcode) {
       var vm = this;
-      getHotItem(
-        function (res) {
-          vm.slides = res.data;
-        },
-        function (error) {
-          console.error("에러 : " + error);
-        }
+      setTimeout(
+        getHotItem(
+          function (res) {
+            vm.slides = res.data;
+          },
+          function (error) {
+            console.error("에러 : " + error);
+          }
+        ),
+        0
       );
     },
   },

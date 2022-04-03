@@ -95,7 +95,9 @@ export default {
     slide: Object,
   },
   data() {
-    return {};
+    return {
+      hasWallet: this.$store.state.user.walletAddress != null,
+    };
   },
   methods: {
     itemDetail(itemId) {
@@ -117,24 +119,6 @@ export default {
 .hotitemslide * {
   box-sizing: border-box;
 }
-
-/* body,
-html {
-  font-family: "Roboto Slab", serif;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-}
-
-body {
-  background-color: #d2dbdd;
-  display: flex;
-  display: -webkit-flex;
-  -webkit-justify-content: center;
-  -webkit-align-items: center;
-  justify-content: center;
-} */
 </style>
 
 <style>
@@ -152,6 +136,10 @@ body {
 
 .hotitemslide .card__like {
   width: 18px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 13px;
+  vertical-align: middle;
+  margin-left: 5px;
 }
 
 .hotitemslide .card__clock {
@@ -167,6 +155,7 @@ body {
 }
 
 .hotitemslide .card__clock-info {
+  font-family: "Noto Sans KR", sans-serif;
   float: right;
 }
 

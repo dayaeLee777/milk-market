@@ -24,7 +24,7 @@ public interface InterestRepository extends JpaRepository<Interest, String> {
     @Query(value="SELECT * FROM interest GROUP BY item_id ORDER BY count(id) DESC LIMIT 5", nativeQuery = true)
     List<Interest> findHotItem();
     
-    @Query(value="SELECT i FROM interest i JOIN user u ON WHERE i.user_id=u.id AND u.bcode = :bcode GROUP BY item_id ORDER BY count(id) DESC LIMIT 5", nativeQuery = true)
+    @Query(value="SELECT * FROM interest i JOIN user u ON i.user_id=u.id WHERE u.bcode = :bcode GROUP BY i.item_id ORDER BY count(i.id) DESC LIMIT 5", nativeQuery = true)
     List<Interest> findHotItemBybcode(@Param("bcode") String bcode);
     
     long countByItem(Item item);

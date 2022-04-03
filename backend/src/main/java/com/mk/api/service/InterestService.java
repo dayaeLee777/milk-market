@@ -17,6 +17,4 @@ public interface InterestService {
     
     List<HotItemGetResponseDto> getHotItem();
     
-    List<HotItemGetResponseDto> getHotItem(String accessToken);
-    
 }
