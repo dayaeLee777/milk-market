@@ -2,10 +2,14 @@ package com.mk.api.controller;
 
 
 import com.mk.api.dto.response.BaseResponseDto;
+import com.mk.api.dto.response.HotItemGetResponseDto;
 import com.mk.api.dto.response.InterestGetListResponseDto;
 import com.mk.api.service.InterestService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,6 +74,19 @@ public class InterestController {
             @PathVariable("itemId") @RequestBody @ApiParam(value = "삭제할 관심상품ID ", required = true) String itemId){
         if(interestService.deleteInterest(itemId) != null)
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(BaseResponseDto.of(HttpStatus.ACCEPTED.value(), "Success"));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
+    }
+    
+    @GetMapping("/hotitem")
+    @ApiOperation(value = "인기상품 불러오기", notes="<strong>인기상품들을 불러온다.</strong>")
+    @ApiResponses({
+            @ApiResponse(code=200, message="인기상품을 정상적으로 조회하였습니다."),
+            @ApiResponse(code=204, message="인기상품 조회를 실패했습니다.")
+    })
+    public ResponseEntity<? extends BaseResponseDto> getHotItem(){
+    	List<HotItemGetResponseDto> hotItemGetResponseDtoList = interestService.getHotItem();
+        if(hotItemGetResponseDtoList !=null)
+            return (ResponseEntity<? extends BaseResponseDto>) ResponseEntity.status(HttpStatus.OK).body(hotItemGetResponseDtoList);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
     }
 

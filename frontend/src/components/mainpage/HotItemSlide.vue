@@ -7,29 +7,24 @@
             <path
               fill="#000000"
               d="M12.1,18.55L12,18.65L11.89,18.55C7.14,14.24 4,11.39 4,8.5C4,6.5 5.5,5 7.5,5C9.04,5 10.54,6 11.07,7.36H12.93C13.46,6 14.96,5 16.5,5C18.5,5 20,6.5 20,8.5C20,11.39 16.86,14.24 12.1,18.55M16.5,3C14.76,3 13.09,3.81 12,5.08C10.91,3.81 9.24,3 7.5,3C4.42,3 2,5.41 2,8.5C2,12.27 5.4,15.36 10.55,20.03L12,21.35L13.45,20.03C18.6,15.36 22,12.27 22,8.5C22,5.41 19.58,3 16.5,3Z"
-            />
-          </svg>
+            /></svg
+          ><span class="card__like">{{ slide.count }}</span>
           <div class="card__clock-info">
             <svg class="card__clock" viewBox="0 0 24 24">
               <path
                 d="M12,20A7,7 0 0,1 5,13A7,7 0 0,1 12,6A7,7 0 0,1 19,13A7,7 0 0,1 12,20M19.03,7.39L20.45,5.97C20,5.46 19.55,5 19.04,4.56L17.62,6C16.07,4.74 14.12,4 12,4A9,9 0 0,0 3,13A9,9 0 0,0 12,22C17,22 21,17.97 21,13C21,10.88 20.26,8.93 19.03,7.39M11,14H13V8H11M15,1H9V3H15V1Z"
               /></svg
-            ><span class="card__time">5 min</span>
+            ><span class="card__time">{{ slide.regDate }}</span>
           </div>
         </div>
-        <div class="card__img"></div>
-        <a href="#" class="card_link">
-          <div class="card__img--hover"></div>
-        </a>
+        <img class="card__img" :src="slide.files[0]" />
+        <div class="card_link" @click="itemDetail(slide.itemId)">
+          <img class="card__img--hover" :src="slide.files[0]" />
+        </div>
         <div class="card__info">
-          <span class="card__category">역삼동</span>
-          <h3 class="card__title">카시트 A급</h3>
+          <span class="card__category">{{ slide.bname }}</span>
+          <h3 class="card__title">{{ slide.itemName }}</h3>
           <div class="badges">
-            <!-- <span class="badge badge-pill badge-primary">판매</span>
-            <span class="badge badge-pill badge-info">유모차</span>
-            <span class="badge badge-pill badge-success">판매중</span> -->
-            <!-- <span class="badge">1</span>
-            <span class="badge badge-success">2</span>-->
             <span class="badge badge-warning">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +38,7 @@
                   d="M2.522 5H2a.5.5 0 0 0-.494.574l1.372 9.149A1.5 1.5 0 0 0 4.36 16h7.278a1.5 1.5 0 0 0 1.483-1.277l1.373-9.149A.5.5 0 0 0 14 5h-.522A5.5 5.5 0 0 0 2.522 5zm1.005 0a4.5 4.5 0 0 1 8.945 0H3.527zm9.892 1-1.286 8.574a.5.5 0 0 1-.494.426H4.36a.5.5 0 0 1-.494-.426L2.58 6h10.838z"
                 />
               </svg>
-              대여</span
+              {{ slide.division }}</span
             >
             <!-- <span class="badge badge-error">대여</span> -->
             <span class="badge badge-info"
@@ -62,7 +57,7 @@
                   d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z"
                 />
               </svg>
-              카시트</span
+              {{ slide.category }}</span
             >
             <span class="badge badge-inverse">
               <svg
@@ -81,10 +76,12 @@
                   d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"
                 />
               </svg>
-              판매중</span
+              {{ slide.status }}</span
             >
           </div>
-          <span class="card__by"><a href="#" class="card__author" title="author">100</a> Milk</span>
+          <span class="card__by"
+            ><a href="#" class="card__author" title="author">{{ slide.price }}</a> Milk</span
+          >
         </div>
       </article>
     </section>
@@ -94,6 +91,22 @@
 <script>
 export default {
   name: "HotItemSlide",
+  props: {
+    slide: Object,
+  },
+  data() {
+    return {
+      hasWallet: this.$store.state.user.walletAddress != null,
+    };
+  },
+  methods: {
+    itemDetail(itemId) {
+      this.$router.push({
+        name: "item.detail",
+        params: { id: this.slide.itemId },
+      });
+    },
+  },
 };
 </script>
 
@@ -106,24 +119,6 @@ export default {
 .hotitemslide * {
   box-sizing: border-box;
 }
-
-/* body,
-html {
-  font-family: "Roboto Slab", serif;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-}
-
-body {
-  background-color: #d2dbdd;
-  display: flex;
-  display: -webkit-flex;
-  -webkit-justify-content: center;
-  -webkit-align-items: center;
-  justify-content: center;
-} */
 </style>
 
 <style>
@@ -139,18 +134,12 @@ body {
   margin-left: 70px;
 }
 
-.hotitemslide .card--1 .card__img,
-.hotitemslide .card--1 .card__img--hover {
-  background-image: url("https://images.pexels.com/photos/45202/brownie-dessert-cake-sweet-45202.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260");
-}
-
-.hotitemslide .card--2 .card__img,
-.hotitemslide .card--2 .card__img--hover {
-  background-image: url("https://images.pexels.com/photos/307008/pexels-photo-307008.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260");
-}
-
 .hotitemslide .card__like {
   width: 18px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 13px;
+  vertical-align: middle;
+  margin-left: 5px;
 }
 
 .hotitemslide .card__clock {
@@ -166,6 +155,7 @@ body {
 }
 
 .hotitemslide .card__clock-info {
+  font-family: "Noto Sans KR", sans-serif;
   float: right;
 }
 

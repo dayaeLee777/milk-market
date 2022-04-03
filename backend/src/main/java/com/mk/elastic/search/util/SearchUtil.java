@@ -22,29 +22,37 @@ public class SearchUtil {
 	private SearchUtil() {
 	}
 
-	public static SearchRequest buildSearchRequest(final String indexName, final SearchRequestDTO dto) {
+	public static SearchRequest buildSearchRequest(String indexName, SearchRequestDTO dto) {
 		try {
 			final int page = dto.getPage();
 			final int size = dto.getSize();
 			final int from = page <= 0 ? 0 : page * size;
-			
-			SearchSourceBuilder builder = new SearchSourceBuilder()
-					.postFilter(getQueryBuilder(dto));
-			
-			if(dto.getDivision() != null) {
-				builder = builder.postFilter(getQueryBuilder("division", dto.getDivision()));
-			}
-			
-			if(dto.getCategory() != null) {
-				builder = builder.postFilter(getQueryBuilder("category", dto.getCategory()));
-			}
-			
-			if(dto.getBcode() != null) {
-				builder = builder.postFilter(getQueryBuilder("bcode", dto.getBcode()));
+
+			QueryBuilder searchQuery = getQueryBuilder(dto);
+			QueryBuilder divisionQuery = null;
+			QueryBuilder categoryQuery = null;
+			QueryBuilder bcodeQuery = null;
+
+			BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().must(searchQuery);
+
+			if (dto.getDivision() != null) {
+				divisionQuery = getQueryBuilder("division", dto.getDivision());
+				boolQuery.must(divisionQuery);
 			}
 
+			if (dto.getCategory() != null) {
+				categoryQuery = getQueryBuilder("category", dto.getCategory());
+				boolQuery.must(categoryQuery);
+			}
+
+			if (dto.getBcode() != null) {
+				bcodeQuery = getQueryBuilder("bcode", dto.getBcode());
+				boolQuery.must(bcodeQuery);
+			}
+
+			SearchSourceBuilder builder = new SearchSourceBuilder().postFilter(boolQuery);
 			if (dto.getSortBy() != null) {
-				builder = builder.sort(dto.getSortBy(), dto.getOrder() != null ? dto.getOrder() : SortOrder.DESC);
+				builder.sort(dto.getSortBy(), dto.getOrder() != null ? dto.getOrder() : SortOrder.DESC);
 			}
 			builder = builder.from(from).size(size);
 
@@ -57,35 +65,44 @@ public class SearchUtil {
 			return null;
 		}
 	}
-	
-	public static CountRequest buildSearchRequestCount(final String indexName, final SearchRequestDTO dto) {
+
+	public static CountRequest buildSearchRequestCount(String indexName, SearchRequestDTO dto) {
 		try {
-			
-			SearchSourceBuilder builder = new SearchSourceBuilder()
-					.postFilter(getQueryBuilder(dto));
-			
-			if(dto.getDivision() != null) {
-				builder = builder.postFilter(getQueryBuilder("division", dto.getDivision()));
+
+			QueryBuilder searchQuery = getQueryBuilder(dto);
+			QueryBuilder divisionQuery = null;
+			QueryBuilder categoryQuery = null;
+			QueryBuilder bcodeQuery = null;
+
+			BoolQueryBuilder boolQuery = QueryBuilders.boolQuery().must(searchQuery);
+
+			if (dto.getDivision() != null) {
+				divisionQuery = getQueryBuilder("division", dto.getDivision());
+				boolQuery.must(divisionQuery);
 			}
-			
-			if(dto.getCategory() != null) {
-				builder = builder.postFilter(getQueryBuilder("category", dto.getCategory()));
+
+			if (dto.getCategory() != null) {
+				categoryQuery = getQueryBuilder("category", dto.getCategory());
+				boolQuery.must(categoryQuery);
 			}
-			
-			if(dto.getBcode() != null) {
-				builder = builder.postFilter(getQueryBuilder("bcode", dto.getBcode()));
+
+			if (dto.getBcode() != null) {
+				bcodeQuery = getQueryBuilder("bcode", dto.getBcode());
+				boolQuery.must(bcodeQuery);
 			}
+
+			SearchSourceBuilder builder = new SearchSourceBuilder().postFilter(boolQuery);
+
 			builder.query(QueryBuilders.matchAllQuery());
 			CountRequest countRequest = new CountRequest(indexName);
 			countRequest.source(builder);
-			
+
 			return countRequest;
 		} catch (final Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
 
 	public static SearchRequest buildSearchRequest(final String indexName, final String field, final Date date) {
 		try {
@@ -129,7 +146,7 @@ public class SearchUtil {
 		if (dto == null) {
 			return null;
 		}
-		
+
 		final List<String> fields = dto.getFields();
 		if (CollectionUtils.isEmpty(fields)) {
 			return null;
@@ -150,11 +167,12 @@ public class SearchUtil {
 	private static QueryBuilder getQueryBuilder(final String field, final Date date) {
 		return QueryBuilders.rangeQuery(field).gte(date);
 	}
-	
-	private static QueryBuilder getQueryBuilder(final String field, final Code code) {
+
+	private static QueryBuilder getQueryBuilder(String field, Code code) {
 		return QueryBuilders.matchQuery(field, code).operator(Operator.AND);
 	}
-	private static QueryBuilder getQueryBuilder(final String field, final String bcode) {
+
+	private static QueryBuilder getQueryBuilder(String field, String bcode) {
 		return QueryBuilders.matchQuery(field, bcode).operator(Operator.AND);
 	}
 }
