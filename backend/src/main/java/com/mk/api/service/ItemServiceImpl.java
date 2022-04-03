@@ -9,6 +9,9 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import com.mk.db.entity.Order;
+import com.mk.db.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +40,8 @@ public class ItemServiceImpl implements ItemService {
 	private final ItemRepository itemRepository;
 
 	private final ItemImageRepository itemImageRepository;
+
+	private final OrderRepository orderRepository;
 
 	private final JwtTokenService jwtTokenService;
 
@@ -252,6 +257,30 @@ public class ItemServiceImpl implements ItemService {
 		return itemGetResponseDto;
 	}
 
+	@Override
+	public Boolean purchaseItem(String accessToken, String itemId) {
+		User user = jwtTokenService.convertTokenToUser(accessToken);
+		Item item = itemRepository.findById(itemId).orElse(null);
+		if (item == null) {
+			return false;
+		}
+		item.setStatus(Code.C02);
+		itemRepository.save(item);
+
+		Order order = Order.builder()
+				.division(item.getDivision())
+				.orderItemName(item.getItemName())
+				.category(item.getCategory())
+				.price(item.getPrice())
+				.description(item.getDescription())
+				.regDate(item.getRegDate())
+				.user(user)
+				.status(Code.C02)
+				.build();
+
+		orderRepository.save(order);
+		return true;
+	}
 
 	@Transactional
 	@Override

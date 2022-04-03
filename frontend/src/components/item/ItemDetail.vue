@@ -102,16 +102,17 @@
                       <div class="modal-body">
                         <div class="d-flex">
                           <div class="text-primary">현재 잔액: {{ milkBalance }}MILK</div>
-                          <button class="btn btn-secondary btn-sm ms-2" 
-                            data-bs-dismiss="modal"
-                            @click="moveToWallet">충전하기</button>
                         </div>
-                        <div v-if="(milkBalance - item.price) >= 0">
-                          <p>현재 상품 가격: {{ item.price }}</p>
-                          <p>구매 후 잔액: {{ milkBalance - item.price }}</p>
+                        <div v-if="(parseInt(milkBalance) - parseInt(item.price)) >= 0">
+                          <div class="mt-2">현재 상품 가격: {{ item.price }}MILK</div>
+                          <div class="mt-2 fw-bold">구매 후 잔액: {{ parseInt(milkBalance) - parseInt(item.price) }}MILK</div>
                         </div>
                         <div v-else>
                           <p calss="text-danger">MILK 잔액이 부족합니다!</p>
+                          <button class="btn btn-secondary btn-sm ms-2" 
+                            data-bs-dismiss="modal"
+                            @click="moveToWallet">충전하기!
+                          </button>
                         </div>
                       </div>
                       <div class="modal-footer">
@@ -183,7 +184,6 @@ export default {
       const milk = await this.contract.methods.balanceOf(this.$store.state.user.walletAddress).call();
 
       this.milkBalance = (milk / 10**15).toLocaleString();
-      console.log(this.milkBalance)
     },    
     moveToWallet() {
       this.$router.push("/mypage/wallet_info")
@@ -194,9 +194,38 @@ export default {
       }
       return null;
     },
+    purchase() {
+      const token = this.$store.state.user.JWTToken;
+      
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      axios({
+        url:`${API_BASE_URL}/item/purchase/${this.item.id}`,
+        method: 'post',
+        headers,
+      })
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+    },
     // 코인 베이스로 이동
     async doPay() {
-      
+      const Web3 = require('web3');
+      const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
+      const from = this.$store.state.user.walletAddress;
+      const to = this.coinbaseAddress;
+      const amount = this.item.price * (10**15);
+      const amountToBn = web3.utils.toBN(`${amount}`)
+      const approve = await this.contract.methods.approve(from, amountToBn).send({from: from});
+      const transfer = await this.contract.methods.transferFrom(from, to, amountToBn).send({from: from});
+
+      this.purchase();
     },
     goChatting () {
       console.log("채팅방으로 가는 버튼을 눌럿음")

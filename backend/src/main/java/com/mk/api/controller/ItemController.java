@@ -183,4 +183,21 @@ public class ItemController {
 		return itemSearchService.search(dto);
     }
 
+
+	@PostMapping("/purchase/{itemId}")
+	@ApiOperation(value="상품 구매", notes="<strong>해당 상품을 구매 처리 한다.</strong>")
+	@ApiResponses({
+		@ApiResponse(code=200, message="상품 구매가 정상적으로 이루어졌습니다.."),
+		@ApiResponse(code=204, message="구매 처리가 실패되었습니다.")
+	})
+	public ResponseEntity<? extends BaseResponseDto> purchaseItem (
+			@PathVariable("itemId") @RequestBody @ApiParam(value = "조회할 상품 ID", required = true) String itemId,
+			@ApiIgnore @RequestHeader("Authorization") String accessToken){
+
+		if (itemService.purchaseItem(accessToken, itemId)) {
+			return ResponseEntity.status(HttpStatus.OK).body(BaseResponseDto.of(HttpStatus.OK.value(), "Success"));
+		}
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
+	}
 }
