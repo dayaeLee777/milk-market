@@ -17,14 +17,14 @@
               <div class="modal-footer">
                 <button
                   type="button"
-                  class="btn btn-danger"
-                  @click="closeModal"
-                >닫기</button>
+                  class="btn btn-primary"
+                  @click="goChatting"
+                >Accept</button>
                 <button
                   type="button"
                   class="btn btn-primary"
-                  @click="goChatting"
-                >채팅룸 입장</button>
+                  @click="closeModal"
+                >Reject</button>
               </div>
             </div>
           </div>
@@ -42,14 +42,17 @@ export default {
   methods: {
     closeModal () {
       this.$store.dispatch('turnOFFNotification')
+      this.$resetFirebaseUserStatus(this.user.userNickname)
     },
     goChatting () {
       this.closeModal()
+      this.$store.dispatch('clearInterval')
       this.$router.push({ name: "room", params: { sessionId: this.sessionId } });
     }
   },
   computed: {
     ...mapState([
+      'user',
       'showModal',
       'isSigned',
       'sessionId',

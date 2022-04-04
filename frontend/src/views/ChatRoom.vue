@@ -47,7 +47,7 @@
       </div>
     </div>
     <button
-      class="btn btn-danger"
+      class="btn btn-primary"
       @click="goHome()"
     >나가기</button>
   </div>
@@ -97,6 +97,7 @@ export default {
     goHome () {
       this.$router.push('/')
       this.$resetFirebaseUserStatus(this.$store.state.user.userNickname)
+      this.$store.dispatch('setInterval', this.$store.state.user.userNickname)
     }
   },
 

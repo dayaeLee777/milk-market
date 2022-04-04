@@ -17,7 +17,9 @@ export default new Vuex.Store({
       JWTToken: null,
       userNickname: null,
       bcode: 0,
+      profileImage: "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
     },
+    interval: null,
     showModal: false,
     sessionId: '',
   },
@@ -45,6 +47,8 @@ export default new Vuex.Store({
       state.isSigned = false;
       state.showModal = false;
       state.sessionId = '';
+      state.interval = 'null';
+      state.profileImage = 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png'
       state.user = {
         id: null,
         walletAddress: null,
@@ -61,6 +65,12 @@ export default new Vuex.Store({
     },
     TURN_OFF_NOTIFICATION (state) {
       state.showModal = false
+    },
+    SET_INTERVAL (state, data) {
+      state.interval = data
+    },
+    CLEAR_INTERVAL (state) {
+      clearInterval(state.interval)
     }
   },
   getters: {
@@ -84,6 +94,20 @@ export default new Vuex.Store({
     getSessionId: function ({ commit }, sessionId) {
       commit('SET_SESSIONID', sessionId)
     },
+    setInterval: function ({ commit }, userNickname) {
+      commit('SET_INTERVAL', setInterval(() => {
+        db.collection('user').doc(userNickname).get().then((doc) => {
+          if (doc.exists) {
+            console.log('firebase!!!')
+            this.dispatch('turnOnNotification', doc.data().notification)
+            this.dispatch('getSessionId', doc.data().sessionId)
+          }
+        })
+      }, 6000))
+    },
+    clearInterval: function ({ commit }) {
+      commit('CLEAR_INTERVAL')
+    }
   },
   modules: {},
   plugins: [createPersistedState()],

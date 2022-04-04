@@ -133,7 +133,7 @@ export default {
           return response.nickname
         },
         function (response) {
-          setTimeout(() => { scope.$getFirebaseUserStatus(response) }, 3000)
+          scope.$store.dispatch('setInterval', response)
         },
         (error) => {
           console.error(error);

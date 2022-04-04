@@ -258,7 +258,7 @@ export default {
         )
       );
       const token = this.$store.state.user.JWTToken;
-
+      const Swal = require("sweetalert2");
       const headers = {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
@@ -273,7 +273,16 @@ export default {
         .then((res) => {
           console.log("성공");
           console.log(res);
-          this.$router.push("/shop");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "상품등록 성공",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          setTimeout(() => {
+            this.$router.push("/shop");
+          }, 2000);
         })
         .catch((err) => {
           console.log("실패");

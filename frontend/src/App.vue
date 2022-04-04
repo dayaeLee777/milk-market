@@ -14,7 +14,6 @@ import InvitationModal from './components/common/InvitationModal.vue';
 export default {
   components: { Hearder, InvitationModal },
   name: "App",
-
 };
 </script>
 <style>
