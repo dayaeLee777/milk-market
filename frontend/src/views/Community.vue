@@ -1,48 +1,11 @@
 <template>
-<<<<<<< HEAD
-  <div>
+  <div class="item-body">
     <header></header>
-    <h2>게시판 리스트</h2>
-=======
-  <div class="a">
-    <!-- <h-nav></h-nav> -->
     <!-- <h2>게시판 리스트</h2> -->
-
->>>>>>> feature/fe-BoardPage
     <div
       id="main-overview"
       class="container community"
     >
-      <!-- <div class="searchWrap">
-			  <input type="text" v-model="keyword" @keyup.enter="fnSearch" />
-        <a href="javascript:;" @click="fnSearch" class="btnSearch btn">검색</a>
-		  </div> -->
-
-      <!-- <form class="card card-sm"> -->
-
-        
-      <!-- <div class="card-body row no-gutters align-items-center">
-        <div class="col-auto">
-          <i class="fas fa-search h4 text-body"></i>
-        </div>
-        <div class="col">
-          <input
-            class="form-control form-control-lg form-control-borderless"
-            type="search"
-            v-model="keyword"
-            @keyup.enter="fnSearch"
-            placeholder="Search topics or keywords"
-          >
-        </div>
-        <div class="col-auto">
-          <button
-            class="btn btn-lg btn-success"
-            type="submit"
-            @click="fnSearch"
-          >Search</button>
-        </div>
-      </div> -->
-      <!-- </form> -->
 
       <table class="table">
         <thead>
@@ -135,6 +98,7 @@
       </div>
 
     </div>
+    
 
     <!-- <f-nav></f-nav> -->
   </div>
@@ -260,15 +224,8 @@ export default {
 }
 </script>
 
-<<<<<<< HEAD
 <style scoped>
   .community {
     height: 100vh;
   }
-=======
-<style>
-.a{
-  height: 85vh;
-}
->>>>>>> feature/fe-BoardPage
 </style>
