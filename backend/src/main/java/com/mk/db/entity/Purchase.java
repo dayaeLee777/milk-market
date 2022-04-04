@@ -2,7 +2,6 @@ package com.mk.db.entity;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -21,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @NoArgsConstructor
-public class Order extends BaseEntity{
+public class Purchase extends BaseEntity{
 
     @Enumerated(EnumType.STRING)
     private Code division;
@@ -49,10 +48,7 @@ public class Order extends BaseEntity{
     private User user;
 
 
-    @Column(name="del_yn", columnDefinition="BOOLEAN DEFAULT false")
-    private boolean delYn;
-
-    public Order(Code division, String orderItemName, Code category, Code status, int price, String description, LocalDateTime regDate, LocalDateTime rentStartDate, LocalDateTime rentEndDate, User user, boolean delYn) {
+    public Purchase(Code division, String orderItemName, Code category, Code status, int price, String description, LocalDateTime regDate, LocalDateTime rentStartDate, LocalDateTime rentEndDate, User user) {
         this.division = division;
         this.orderItemName = orderItemName;
         this.category = category;
@@ -63,7 +59,6 @@ public class Order extends BaseEntity{
         this.rentStartDate = rentStartDate;
         this.rentEndDate = rentEndDate;
         this.user = user;
-        this.delYn = delYn;
     }
 
     public void setRentDate(LocalDateTime rentStartDate, LocalDateTime rentEndDate) {
@@ -76,8 +71,6 @@ public class Order extends BaseEntity{
         this.status = status;
     }
 
-    public void deleteItem() {
-        this.delYn = true;
-    }
+
 
 }

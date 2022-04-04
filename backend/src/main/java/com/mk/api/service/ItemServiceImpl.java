@@ -9,9 +9,8 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
-import com.mk.db.entity.Order;
-import com.mk.db.repository.OrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.mk.db.entity.Purchase;
+import com.mk.db.repository.PurchaseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +40,7 @@ public class ItemServiceImpl implements ItemService {
 
 	private final ItemImageRepository itemImageRepository;
 
-	private final OrderRepository orderRepository;
+	private final PurchaseRepository purchaseRepository;
 
 	private final JwtTokenService jwtTokenService;
 
@@ -267,7 +266,7 @@ public class ItemServiceImpl implements ItemService {
 		item.setStatus(Code.C02);
 		itemRepository.save(item);
 
-		Order order = Order.builder()
+		Purchase purchase = Purchase.builder()
 				.division(item.getDivision())
 				.orderItemName(item.getItemName())
 				.category(item.getCategory())
@@ -278,7 +277,7 @@ public class ItemServiceImpl implements ItemService {
 				.status(Code.C02)
 				.build();
 
-		orderRepository.save(order);
+		purchaseRepository.save(purchase);
 		return true;
 	}
 

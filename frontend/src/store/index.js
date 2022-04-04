@@ -16,6 +16,7 @@ export default new Vuex.Store({
       walletAddress: null,
       JWTToken: null,
       userNickname: null,
+      profileImage: "",
       bcode: 0,
     },
   },
@@ -38,6 +39,9 @@ export default new Vuex.Store({
     },
     setUserNickname(state, userNickname) {
       state.user.userNickname = userNickname;
+    },
+    setProfileImage(state, profileImage) {
+      state.user.profileImage = profileImage;
     },
     logout(state) {
       state.isSigned = false;
