@@ -9,8 +9,6 @@ function allList(success, fail) {
     bcode: null,
     sortBy: "regDate",
     order: "ASC",
-    page: 0,
-    size: 12,
   };
   instance
     .post("/api/item/search", JSON.stringify(ItemList), {
