@@ -276,6 +276,21 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	public Boolean cancelPurchase(String accessToken, String itemId) {
+
+		Item item = itemRepository.findById(itemId).get();
+		User user = jwtTokenService.convertTokenToUser(accessToken);
+		if (item == null) {
+			return false;
+		}
+		item.setStatus(Code.C01);
+
+		itemRepository.save(item);
+
+		return true;
+	}
+
+	@Override
 	public List<ItemGetResponseDto> purchaseList(String accessToken) {
 		User user = jwtTokenService.convertTokenToUser(accessToken);
 		List<Purchase> purchaseList = purchaseRepository.findByUser(user);
@@ -284,6 +299,9 @@ public class ItemServiceImpl implements ItemService {
 		for (Purchase purchase: purchaseList) {
 
 			Item item = itemRepository.findById(purchase.getItemId()).get();
+			if (item.getStatus() == Code.C01 || item.getStatus() == Code.C04) {
+				continue;
+			}
 			Map<String, String> itemImageList = new HashMap<String, String>();
 			itemImageRepository.findByItem(item).forEach( file -> {
 				String originFileName = file.getOriginFileName();

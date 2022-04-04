@@ -7,23 +7,21 @@ import FNav from "./components/common/FNav.vue";
 import HBreadcumb from "./components/common/HBreadcrumb.vue";
 import firebase from 'firebase'
 import vuetify from "./plugins/vuetify";
-
-import firebase from "firebase";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 require("firebase/firestore");
 
-Vue.use(BootstrapVue);
-const config = {
-  apiKey: "AIzaSyAMpY-nVtLuHyM1GcnecPcZ8IBqIAShcvk",
-  authDomain: "milk-91702.firebaseapp.com",
-  projectId: "milk-91702",
-  storageBucket: "milk-91702.appspot.com",
-  messagingSenderId: "724283696048",
-  appId: "1:724283696048:web:7fd7ff6d4f203f1fd2ec75",
-  measurementId: "G-W5WLDZLQY2",
-};
+// Vue.use(BootstrapVue);
+// const config = {
+//   apiKey: "AIzaSyAMpY-nVtLuHyM1GcnecPcZ8IBqIAShcvk",
+//   authDomain: "milk-91702.firebaseapp.com",
+//   projectId: "milk-91702",
+//   storageBucket: "milk-91702.appspot.com",
+//   messagingSenderId: "724283696048",
+//   appId: "1:724283696048:web:7fd7ff6d4f203f1fd2ec75",
+//   measurementId: "G-W5WLDZLQY2",
+// };
 
 firebase.initializeApp(config);
 

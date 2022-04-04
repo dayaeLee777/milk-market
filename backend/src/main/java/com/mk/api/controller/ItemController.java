@@ -3,6 +3,7 @@ package com.mk.api.controller;
 
 import java.util.List;
 
+import com.google.api.Http;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -215,5 +216,22 @@ public class ItemController {
 			return ResponseEntity.status(HttpStatus.OK).body(ItemGetListResponseDto.builder().list(itemGetResponseDto).build());
 		}
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
+	}
+
+	@PostMapping("/purchase/cancel")
+	@ApiOperation(value="구매 취소", notes="<strong>구매를 취소한다.</strong>")
+	@ApiResponses({
+			@ApiResponse(code=200, message="구매 취소가 이루어졌습니다.."),
+			@ApiResponse(code=204, message="구매 취소 요청이 실패했습니다.")
+	})
+	public ResponseEntity<? extends BaseResponseDto> cancelPurchase (
+			@PathVariable("itemId") @RequestBody @ApiParam(value = "조회할 상품 ID", required = true) String itemId,
+			@ApiIgnore @RequestHeader("Authorization") String accessToken) {
+
+		if (itemService.cancelPurchase(accessToken, itemId)) {
+			return ResponseEntity.status(HttpStatus.OK).body(BaseResponseDto.of(HttpStatus.OK.value(), "Success"));
+		}
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
 	}
 }
