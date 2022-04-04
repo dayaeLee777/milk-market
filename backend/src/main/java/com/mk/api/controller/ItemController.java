@@ -132,7 +132,7 @@ public class ItemController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
 	
-	@GetMapping("/pages")
+	@PostMapping("/pages")
 	@ApiOperation(value = "전체 페이지 수 불러오기", notes="<strong>전체 페이지 수를 불러옵니다.</strong>")
 	@ApiResponses({
 		@ApiResponse(code=200, message="정상적으로 조회하였습니다."),

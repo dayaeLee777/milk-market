@@ -1,16 +1,16 @@
 <template>
-  <div>
-    <h-nav></h-nav>
-    <h2>게시판 상세정보</h2>
+  <div class="a">
+    <!-- <h-nav></h-nav>
+    <h2>게시판 상세정보</h2> -->
 
     <div
       id="main-overview"
       class="container"
     >
 
-      <a>{{$route.params.coId}}</a>
+      <!-- <a>{{$route.params.coId}}</a>
       <div></div>
-      <a>{{$route.params.userN}}</a>
+      <a>{{$route.params.userN}}</a> -->
       
       
       <fieldset :disabled="$route.params.userN!==$store.state.user.userNickname">
@@ -140,7 +140,7 @@
 
     </div>
 
-    <f-nav></f-nav>
+    <!-- <f-nav></f-nav> -->
   </div>
 </template>
 

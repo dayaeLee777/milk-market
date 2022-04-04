@@ -1,7 +1,14 @@
 <template>
+<<<<<<< HEAD
   <div>
     <header></header>
     <h2>게시판 리스트</h2>
+=======
+  <div class="a">
+    <!-- <h-nav></h-nav> -->
+    <!-- <h2>게시판 리스트</h2> -->
+
+>>>>>>> feature/fe-BoardPage
     <div
       id="main-overview"
       class="container community"
@@ -12,7 +19,9 @@
 		  </div> -->
 
       <!-- <form class="card card-sm"> -->
-      <div class="card-body row no-gutters align-items-center">
+
+        
+      <!-- <div class="card-body row no-gutters align-items-center">
         <div class="col-auto">
           <i class="fas fa-search h4 text-body"></i>
         </div>
@@ -32,7 +41,7 @@
             @click="fnSearch"
           >Search</button>
         </div>
-      </div>
+      </div> -->
       <!-- </form> -->
 
       <table class="table">
@@ -92,7 +101,7 @@
               class="page-link"
               href="#"
             >Previous</a></li>
-          <li class="page-item active"><a
+          <li class="page-item"><a
               class="page-link"
               @click="fnGetPageList(1)"
               href="#"
@@ -251,8 +260,15 @@ export default {
 }
 </script>
 
+<<<<<<< HEAD
 <style scoped>
   .community {
     height: 100vh;
   }
+=======
+<style>
+.a{
+  height: 85vh;
+}
+>>>>>>> feature/fe-BoardPage
 </style>

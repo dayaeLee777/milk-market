@@ -117,6 +117,9 @@
                 </div>
               </div> -->
               <button type="button" class="btn btn-primary" @click="save()">
+                
+                <!-- <router-view :key="$route.fullPath"/>
+                <router-link to ="/shop"/> -->
                 등록
               </button>
             </div>
@@ -132,6 +135,7 @@ import { create as createItem } from "@/api/item.js";
 import { registerItem } from "@/utils/itemInventory.js";
 import { API_BASE_URL } from "@/config/index.js";
 import axios from "axios";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 export default {
   name: "ItemCreate",
@@ -263,7 +267,16 @@ export default {
         .then((res) => {
           console.log("성공");
           console.log(res);
-          this.$router.push("/shop");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "상품등록 성공",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          setTimeout(() => {
+            this.$router.push("/shop");
+          }, 2000);
         })
         .catch((err) => {
           console.log("실패");

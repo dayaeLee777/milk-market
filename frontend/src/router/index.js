@@ -12,9 +12,9 @@ import ScTestPage from "@/views/ScTestPage.vue";
 import Map from "@/views/Map.vue";
 import Community from "@/views/Community.vue";
 // import CommunityWrite from "@/components/community/CommunityWrite.vue"
-import Swal from 'sweetalert2/dist/sweetalert2.js';
+import Swal from "sweetalert2/dist/sweetalert2.js";
 // import 'sweetalert2/src/sweetalert2.scss';
-
+import ShopTest from "@/components/item/BackUPItemList.vue";
 Vue.use(VueRouter);
 
 /**
@@ -25,6 +25,11 @@ const routes = [
     path: "/",
     name: "home",
     component: Home,
+  },
+  {
+    path: "/shoptest",
+    name: "shoptest",
+    component: ShopTest,
   },
   // 게시판
   {
@@ -55,8 +60,7 @@ const routes = [
   {
     path: "/register",
     name: "signup",
-    component: () => import("@/views/Signup.vue")
-
+    component: () => import("@/views/Signup.vue"),
   },
   {
     path: "/test",
@@ -64,19 +68,18 @@ const routes = [
     component: ScTestPage,
   },
   {
-    
     path: "/logout",
     name: "logout",
     beforeEnter(to, from, next) {
       store.commit("logout");
-      const Swal = require('sweetalert2');
+      const Swal = require("sweetalert2");
       Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: '로그아웃되었습니다.',
+        position: "center",
+        icon: "success",
+        title: "로그아웃되었습니다.",
         showConfirmButton: false,
-        timer: 1500
-      })
+        timer: 1500,
+      });
       next("/");
     },
   },
@@ -109,7 +112,7 @@ const routes = [
       },
       {
         path: "list",
-        component: () => import("@/components/shop/ShopItemList.vue"),
+        component: () => import("@/components/shop/ShopItem.vue"),
       },
     ],
     redirect: () => {
@@ -235,10 +238,8 @@ const router = new VueRouter({
   routes,
 });
 
-
 router.beforeEach((to, from, next) => {
-  
-  const Swal = require('sweetalert2');
+  const Swal = require("sweetalert2");
   let isSigned = store.state.isSigned;
   let isAvailableToGuest =
     ["/", "/login", "/register", "/test"].includes(to.path) ||
@@ -248,10 +249,10 @@ router.beforeEach((to, from, next) => {
   if (!isSigned && !isAvailableToGuest) {
     // alert("로그인을 하신 뒤에 사용이 가능합니다.");
     Swal.fire(
-      '로그인 후 이용 가능합니다!',
-      '로그인 페이지로 이동합니다.',
-      'info'
-    )
+      "로그인 후 이용 가능합니다!",
+      "로그인 페이지로 이동합니다.",
+      "info"
+    );
     next("/login");
   } else {
     next();

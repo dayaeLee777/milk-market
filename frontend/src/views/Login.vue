@@ -35,12 +35,20 @@
                 </div>
                 <div id="btn_span" />
                 <div class="form-group">
-                  <button type="submit" class="btn btn--width btn-blue login_btn" @click="login">
+                  <button
+                    type="submit"
+                    class="btn btn--width btn-blue login_btn"
+                    @click="login"
+                  >
                     Login
                   </button>
                 </div>
                 <div class="form-group">
-                  <button class="btn btn--width login_btn" id="kakaobtn" @click="kakaoLogin">
+                  <button
+                    class="btn btn--width login_btn"
+                    id="kakaobtn"
+                    @click="kakaoLogin"
+                  >
                     kakao Login
                   </button>
                 </div>
