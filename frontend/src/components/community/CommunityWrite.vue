@@ -1,5 +1,5 @@
 <template>
-  <div class="a">
+  <div class="item-body">
     <!-- <h-nav></h-nav>
     <h2>게시판 작성</h2> -->
 
