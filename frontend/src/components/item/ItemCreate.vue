@@ -127,6 +127,9 @@
                 class="btn btn-primary"
                 @click="save()"
               >
+
+                <!-- <router-view :key="$route.fullPath"/>
+                <router-link to ="/shop"/> -->
                 등록
               </button>
             </div>
@@ -142,6 +145,7 @@ import { create as createItem } from "@/api/item.js";
 import { registerItem } from "@/utils/itemInventory.js";
 import { API_BASE_URL } from "@/config/index.js";
 import axios from "axios";
+import Swal from "sweetalert2/dist/sweetalert2.js";
 
 export default {
   name: "ItemCreate",

@@ -103,6 +103,8 @@
 import { signup } from "../api/user.js";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
+//여기서 변수 선언.
+
 export default {
   data () {
     return {

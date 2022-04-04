@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h-nav></h-nav>
-    <h2>게시판 작성</h2>
+  <div class="item-body">
+    <!-- <h-nav></h-nav>
+    <h2>게시판 작성</h2> -->
 
     <div
       id="main-overview"
@@ -24,7 +24,7 @@
     </div>
 
     
-    <f-nav></f-nav>
+    <!-- <f-nav></f-nav> -->
   </div>
 </template>
 

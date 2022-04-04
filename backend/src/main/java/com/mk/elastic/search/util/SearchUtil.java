@@ -3,6 +3,7 @@ package com.mk.elastic.search.util;
 import java.util.Date;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.core.CountRequest;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -15,8 +16,10 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.util.CollectionUtils;
 
 import com.mk.db.code.Code;
+import com.mk.elastic.search.PagedRequestDTO;
 import com.mk.elastic.search.SearchRequestDTO;
 
+@Slf4j
 public class SearchUtil {
 
 	private SearchUtil() {
@@ -24,10 +27,11 @@ public class SearchUtil {
 
 	public static SearchRequest buildSearchRequest(String indexName, SearchRequestDTO dto) {
 		try {
-			final int page = dto.getPage();
+
+			final int page = 0;
 			final int size = dto.getSize();
 			final int from = page <= 0 ? 0 : page * size;
-
+			
 			QueryBuilder searchQuery = getQueryBuilder(dto);
 			QueryBuilder divisionQuery = null;
 			QueryBuilder categoryQuery = null;

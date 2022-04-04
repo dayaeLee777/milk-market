@@ -1,39 +1,11 @@
 <template>
-  <div>
+  <div class="item-body">
     <header></header>
-    <h2>게시판 리스트</h2>
+    <!-- <h2>게시판 리스트</h2> -->
     <div
       id="main-overview"
       class="container community"
     >
-      <!-- <div class="searchWrap">
-			  <input type="text" v-model="keyword" @keyup.enter="fnSearch" />
-        <a href="javascript:;" @click="fnSearch" class="btnSearch btn">검색</a>
-		  </div> -->
-
-      <!-- <form class="card card-sm"> -->
-      <div class="card-body row no-gutters align-items-center">
-        <div class="col-auto">
-          <i class="fas fa-search h4 text-body"></i>
-        </div>
-        <div class="col">
-          <input
-            class="form-control form-control-lg form-control-borderless"
-            type="search"
-            v-model="keyword"
-            @keyup.enter="fnSearch"
-            placeholder="Search topics or keywords"
-          >
-        </div>
-        <div class="col-auto">
-          <button
-            class="btn btn-lg btn-success"
-            type="submit"
-            @click="fnSearch"
-          >Search</button>
-        </div>
-      </div>
-      <!-- </form> -->
 
       <table class="table">
         <thead>
@@ -92,7 +64,7 @@
               class="page-link"
               href="#"
             >Previous</a></li>
-          <li class="page-item active"><a
+          <li class="page-item"><a
               class="page-link"
               @click="fnGetPageList(1)"
               href="#"
@@ -126,6 +98,7 @@
       </div>
 
     </div>
+    
 
     <!-- <f-nav></f-nav> -->
   </div>
