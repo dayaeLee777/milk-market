@@ -25,7 +25,11 @@ export default {
     ShopItemList,
     ShopItem,
   },
+  mounted () {
+    // this.$router.go("/shop/list");
+  },
 };
+
 </script>
 
 <style></style>

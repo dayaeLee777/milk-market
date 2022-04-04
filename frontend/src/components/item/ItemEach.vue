@@ -40,7 +40,7 @@ export default {
     itemDetail(itemId) {
       this.$router.push({
         name: "item.detail",
-        params: { id: this.content.id },
+        params: { id: itemId },
       });
     },
     contentImage() {
