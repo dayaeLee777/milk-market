@@ -9,8 +9,10 @@
         <div class="col mx-auto">
           <div class="card">
             <div class="card-header">거래 번호: {{ purchaseId }}</div>
-            <div class="card-body" style="z-index: 0;">
-              <step-flow :history="history"></step-flow>
+            <div
+              class="card-body"
+              style="z-index: 0;"
+            >
             </div>
           </div>
         </div>
@@ -20,14 +22,13 @@
 </template>
 
 <script>
-import StepFlow from "@/components/common/StepFlow";
 import { getHistory } from "@/api/purchase.js";
 import { getRecordNumber, getRecord } from "@/utils/purchaseRecord.js";
 
 export default {
   name: "EscrowHistory",
-  components: { StepFlow },
-  data() {
+  components: {},
+  data () {
     return {
       history: [],
       purchaseId: null,
@@ -47,17 +48,17 @@ export default {
     /**
      * TODO: PJTⅢ 과제3 Req.1-12 [이력 조회 요청]
      */
-    getHistoryByAPI() {
+    getHistoryByAPI () {
     },
     /**
      * TODO: PJTⅢ 과제3 Req.1-11 [직접 이력 조회]
      */
-    getHistoryByContract() {
+    getHistoryByContract () {
     },
     /**
      * 스마트 컨트랙트에서 가져온 timestamp를 yyyy-MM-dd hh:mm:ss 문자열로 변환
      */
-    formatDate(timestamp) {
+    formatDate (timestamp) {
       const date = new Date(timestamp * 1000);
       var year = date.getFullYear();
       var month = date.getMonth();
@@ -80,7 +81,7 @@ export default {
       );
     }
   },
-  created() {
+  created () {
     this.purchaseId = this.$route.params.id;
     this.escrowContractAddress = this.$route.params.escrowContractAddress;
     // TODO: Req.1-11 직접 이력 조회 과제 수행 후 주석 제거하여 확인

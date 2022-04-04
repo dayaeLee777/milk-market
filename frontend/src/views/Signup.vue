@@ -2,7 +2,10 @@
   <div class="sect sect--padding-top">
     <div class="container">
       <div class="row">
-        <div id="register-form" class="col-md-6 mx-auto bg-white">
+        <div
+          id="register-form"
+          class="col-md-6 mx-auto bg-white"
+        >
           <div class="mt-4">
             <div class="form-group">
               <label for="email">이메일</label>
@@ -47,7 +50,12 @@
             </div>
             <label for="location">주소</label>
             <div class="d-flex form-group">
-              <input type="text" class="col-9 form-control" id="location" placeholder="주소" />
+              <input
+                type="text"
+                class="col-9 form-control"
+                id="location"
+                placeholder="주소"
+              />
               <input
                 type="button"
                 class="col-3 form-control"
@@ -55,7 +63,11 @@
                 @click="execDaumPostcode()"
               />
             </div>
-            <button type="submit" class="btn btn-primary mt-3" v-on:click="register">
+            <button
+              type="submit"
+              class="btn btn-primary mt-3"
+              v-on:click="register"
+            >
               회원가입
             </button>
           </div>
@@ -69,7 +81,7 @@
 import { signup } from "../api/user.js";
 
 export default {
-  data() {
+  data () {
     return {
       user: {
         email: "",
@@ -83,9 +95,14 @@ export default {
     };
   },
   methods: {
-    register() {
+    register () {
       var vm = this;
-
+      db.collection('user').doc(this.user.name).set({
+        notification: false,
+        sessionId: '',
+      }).then(() => {
+        console.log('sucess')
+      })
       if (this.user.password === this.user.passwordConfirm) {
         signup(
           this.user.email,
@@ -106,7 +123,7 @@ export default {
         alert("비밀번호가 일치하지 않습니다.");
       }
     },
-    execDaumPostcode() {
+    execDaumPostcode () {
       const vm = this;
       new daum.Postcode({
         oncomplete: function (data) {

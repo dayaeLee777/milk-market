@@ -3,7 +3,10 @@
     <div class="container">
       <div class="row">
         <div class="site">
-          <div id="login-form" class="col-md-6 mx-auto bg-white">
+          <div
+            id="login-form"
+            class="col-md-6 mx-auto bg-white"
+          >
             <div class="form-group">
               <label for="email">아이디</label>
               <input
@@ -25,7 +28,11 @@
                 @keydown.enter="login"
               />
             </div>
-            <button type="submit" class="btn btn-primary" @click="login">로그인</button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              @click="login"
+            >로그인</button>
             <hr />
             <img
               src="https://blog.kakaocdn.net/dn/bYZZHh/btrfibui4Cj/DofAXcdzmQGCKkhTNUUAHk/img.png"
@@ -50,7 +57,7 @@ import { findByUserId as findWallet } from "../api/wallet.js";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 export default {
-  data() {
+  data () {
     return {
       user: {
         email: "",
@@ -59,7 +66,7 @@ export default {
     };
   },
   methods: {
-    login() {
+    login () {
       const scope = this;
       //함수 안에 함수를 쓸 때 this쓰면 바뀐다.
 
@@ -74,7 +81,11 @@ export default {
           scope.$store.commit("setJWTToken", response.data.token);
           scope.$store.commit("setUserNickname", response.data.nickname);
           console.log("여기까지 넘어갑니다." + response.data.token);
+          return response.data
+        },
+        function (response) {
           findUser(
+            response.token,
             function (success) {
               console.log("findBy User " + success.data.bcode);
               Swal.fire({
@@ -98,6 +109,10 @@ export default {
             }
           );
           scope.$router.push("/");
+          return response.nickname
+        },
+        function (response) {
+          setTimeout(() => { scope.$getFirebaseUserStatus(response) }, 3000)
         },
         function (error) {
           console.error(error);
@@ -113,7 +128,7 @@ export default {
         }
       );
     },
-    kakaoLogin() {
+    kakaoLogin () {
       window.Kakao.Auth.login({
         success: this.sendAccessToken,
       });
@@ -128,21 +143,21 @@ export default {
     //     }
     //   })
     // },
-    sendAccessToken(authObj) {
+    sendAccessToken (authObj) {
       let scope = this;
       sendAccessToken(
         authObj.access_token,
         function (res) {
           console.log(res);
           scope.$store.commit("setIsSigned", true);
-          scope.$router.push("/").catch(() => {});
+          scope.$router.push("/").catch(() => { });
         },
         function (err) {
           console.log(err);
         }
       );
     },
-    naverLogin() {
+    naverLogin () {
       var client_id = "QvNWqPgM7ebAubiDGxe8";
       var callbackUrl = "http://localhost:8080/api/oauth/naver";
       var url =

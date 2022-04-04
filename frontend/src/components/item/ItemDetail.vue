@@ -115,14 +115,19 @@ export default {
       }
       return null;
     },
-    doPay() {
-      
+    doPay () {
+
     },
     goChatting () {
-      console.log("채팅방으로 가는 버튼을 눌럿음")
       const A = this.item.userNickname > this.$store.state.user.userNickname ? this.$store.state.user.userNickname : this.item.userNickname;
       const B = this.item.userNickname > this.$store.state.user.userNickname ? this.item.userNickname : this.$store.state.user.userNickname;
-      this.$router.push({ name: "room", query: { userNickname: this.item.userNickname, sessionId: A + '1' + B } });
+      db.collection('user').doc(this.item.userNickname).update({
+        notification: true,
+        sessionId: A + '1' + B
+      }).then(() => {
+        console.log('sucess')
+      })
+      this.$router.push({ name: "room", params: { sessionId: A + '1' + B } });
     },
   },
   created () {

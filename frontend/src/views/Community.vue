@@ -1,8 +1,5 @@
 <template>
   <div>
-    <h-nav></h-nav>
-    <h2>게시판 리스트</h2>
-
     <div
       id="main-overview"
       class="container"

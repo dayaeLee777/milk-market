@@ -1,7 +1,5 @@
 <template>
   <div>
-    {{ $route.query.userNickname }}
-    {{ $route.query.sessionId }}
     <div class="chat_window">
       <div class="top_menu">
         <div class="buttons">
@@ -39,12 +37,19 @@
             placeholder="Type your message here..."
           />
         </div>
-        <div class="send_message">
+        <div
+          @click="saveMessage"
+          class="send_message"
+        >
           <div class="icon"></div>
           <div class="text">Send</div>
         </div>
       </div>
     </div>
+    <button
+      class="btn btn-danger"
+      @click="goHome()"
+    >나가기</button>
   </div>
 </template>
 
@@ -67,7 +72,7 @@ export default {
       box.scrollTop = box.scrollHeight
     },
     saveMessage () {
-      db.collection('chat').doc(this.$route.query.sessionId).collection('messages').add({
+      db.collection('chat').doc(this.$route.params.sessionId).collection('messages').add({
         message: this.message,
         author: this.$store.state.user.userNickname,
         createdAt: new Date()
@@ -78,7 +83,7 @@ export default {
     },
 
     fetchMessages () {
-      db.collection('chat').doc(this.$route.query.sessionId).collection('messages').orderBy('createdAt').onSnapshot((querySnapshot) => {
+      db.collection('chat').doc(this.$route.params.sessionId).collection('messages').orderBy('createdAt').onSnapshot((querySnapshot) => {
         let allMessages = []
         querySnapshot.forEach(doc => {
           allMessages.push(doc.data())
@@ -88,6 +93,10 @@ export default {
           this.scrollToBottom()
         }, 1000)
       })
+    },
+    goHome () {
+      this.$router.push('/')
+      this.$resetFirebaseUserStatus(this.$store.state.user.userNickname)
     }
   },
 
