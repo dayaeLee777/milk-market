@@ -1,10 +1,10 @@
 import store from "../store/index.js";
 import { createInstance } from "./index.js";
 
-
 // const token = store.getters.getJWTToken;
 const token = store.state.user.JWTToken;
 const instance = createInstance();
+const bcode = store.getters.getBcode;
 // function signup(email, nickName, password, success, fail) {
 //   const user = {
 //     email: email,
@@ -63,7 +63,115 @@ function getSearchItem(
     .then(success)
     .catch(fail);
 }
+//판매, 대여 여부로 검색
+function getSearchItemByDivision(
+  division,
+  category,
+  bcode,
+  sortBy,
+  order,
+  page,
+  size,
+  success,
+  fail
+) {
+  const ItemList = {
+    division: division,
+    category: category,
+    bcode: bcode,
+    sortBy: sortBy,
+    order: order,
+    page: page,
+    size: size,
+  };
 
+  instance
+    .post("/api/item/search", JSON.stringify(ItemList), {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then(success)
+    .catch(fail);
+}
+//카테고리로 검색
+function getSearchItemByCategory(
+  category,
+  division,
+  bcode,
+  sortBy,
+  order,
+  page,
+  size,
+  success,
+  fail
+) {
+  const ItemList = {
+    category: category,
+    division: division,
+    bcode: bcode,
+    sortBy: sortBy,
+    order: order,
+    page: page,
+    size: size,
+  };
+
+  instance
+    .post("/api/item/search", JSON.stringify(ItemList), {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+//우리동네 찾기
+function getSearchItemByBcode(
+  category,
+  division,
+  sortBy,
+  order,
+  page,
+  size,
+  success,
+  fail
+) {
+  console.log("bcode in getSearchItemByBcode" + bcode);
+  console.log("category in js : ", category);
+  console.log("division in js : ", division);
+  console.log("");
+  const ItemList = {
+    bcode: bcode,
+    category: category,
+    division: division,
+    sortBy: sortBy,
+    order: order,
+    page: page,
+    size: size,
+  };
+  instance
+    .post("/api/item/search", JSON.stringify(ItemList), {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+//전체 목록 찾기
+function getTotalPage(success, fail) {
+  console.log("bcode: " + bcode);
+  const ItemList = {
+    fields: [],
+    searchTerm: null,
+    bcode: null,
+    sortBy: "regDate",
+    order: "ASC",
+  };
+  console.log("get Total Page : ", token);
+  instance
+    .post("/api/item/pages", JSON.stringify(ItemList), {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then(success)
+    .catch(fail);
+}
 
 function findItemListByPage(pageNumber, success, fail) {
   const ItemList = {
@@ -175,4 +283,8 @@ export {
   findMySaleItems,
   getItemList,
   getSearchItem,
+  getSearchItemByDivision,
+  getSearchItemByCategory,
+  getSearchItemByBcode,
+  getTotalPage,
 };
