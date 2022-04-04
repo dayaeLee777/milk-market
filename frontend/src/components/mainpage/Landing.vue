@@ -9,7 +9,7 @@
               <h2 class="site__subtitle">Milk 토큰으로 거래하세요</h2>
               <div class="site__box-link">
                 <router-link to="/shop">
-                  <a class="btn btn--width">Shop</a>
+                  <a class="btn btn-blue btn--width">Shop</a>
                 </router-link>
                 <a class="btn btn--revert btn--width" href="">Contact</a>
               </div>
@@ -32,6 +32,10 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i");
 
+.btn .btn-blue {
+  color: #fff;
+}
+
 .mylanding .sect {
   padding: 90px 0;
   position: relative;
@@ -41,7 +45,7 @@ export default {
   padding-top: 90px;
 }
 
-.mylanding .btn {
+/* .mylanding .btn {
   background-color: #3a9fff;
   border-radius: 20px;
   padding: 10px 25px;
@@ -76,7 +80,7 @@ export default {
 
 .mylanding .btn--width {
   width: 120px;
-}
+} */
 
 .mylanding .site {
   text-align: center;
@@ -133,12 +137,12 @@ export default {
   .mylanding .site__img {
     margin-top: 30px;
   }
-  .mylanding .btn {
+  /* .mylanding .btn {
     font-size: 12px;
     padding: 8px 8px;
   }
   .mylanding .btn--width {
     width: 100px;
-  }
+  } */
 }
 </style>
