@@ -3,40 +3,60 @@
     <div class="container">
       <div class="row">
         <div class="site">
-          <div id="login-form" class="col-md-6 mx-auto bg-white">
-            <div class="form-group">
-              <label for="email">아이디</label>
-              <input
-                type="text"
-                class="form-control"
-                id="email"
-                v-model="user.email"
-                placeholder="이메일"
-              />
-            </div>
-            <div class="form-group">
-              <label for="password">비밀번호</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                v-model="user.password"
-                placeholder="비밀번호"
-                @keydown.enter="login"
-              />
-            </div>
-            <button type="submit" class="btn btn-primary" @click="login">로그인</button>
-            <hr />
-            <img
-              src="https://blog.kakaocdn.net/dn/bYZZHh/btrfibui4Cj/DofAXcdzmQGCKkhTNUUAHk/img.png"
-              @click="kakaoLogin"
-              style="width: 200px"
-            />
-            <!-- <img
+          <h1 class="row__title">Login</h1>
+          <h2 class="row__sub">우유마켓 이용을 위해 로그인하세요</h2>
+          <div class="row row--center">
+            <div class="col-md-3"></div>
+
+            <div class="col-md-6">
+              <div id="login-form">
+                <div class="form-group">
+                  <div class="form__field--half">
+                    <input
+                      type="text"
+                      class="form__field form__text form-control"
+                      id="email"
+                      v-model="user.email"
+                      placeholder="Email address"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form__field--half">
+                    <input
+                      type="password"
+                      class="form__field form__text form-control"
+                      id="password"
+                      v-model="user.password"
+                      placeholder="Password"
+                      @keydown.enter="login"
+                    />
+                  </div>
+                </div>
+                <div id="btn_span" />
+                <div class="form-group">
+                  <button type="submit" class="btn btn--width btn-blue login_btn" @click="login">
+                    Login
+                  </button>
+                </div>
+                <div class="form-group">
+                  <button class="btn btn--width login_btn" id="kakaobtn" @click="kakaoLogin">
+                    kakao Login
+                  </button>
+                </div>
+                <!-- <hr class="divider" />
+                <img
+                  src="https://blog.kakaocdn.net/dn/bYZZHh/btrfibui4Cj/DofAXcdzmQGCKkhTNUUAHk/img.png"
+                  @click="kakaoLogin"
+                  style="width: 400px"
+                /> -->
+                <!-- <img
             src="https://static.nid.naver.com/oauth/big_g.PNG?version=js-2.0.1"
             @click="naverLogin"
             style="width : 200px;"
           > -->
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -161,9 +181,39 @@ export default {
 };
 </script>
 
-<style>
+<style scope>
 .site {
   align-content: center;
   align-self: center;
+}
+
+#login-form {
+  height: 450px;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.login_btn {
+  width: 100%;
+}
+
+#kakaobtn {
+  color: black !important;
+  background-color: #feec34;
+}
+
+#kakaobtn:hover {
+  color: rgb(80, 28, 28) !important;
+  /* background-color: #feec34; */
+
+  box-shadow: 0px 25px 18px -6px rgba(0, 0, 0, 0.2);
+  background-color: #faed63;
+  /* color: #fff; */
+}
+
+#btn_span {
+  height: 20px;
 }
 </style>

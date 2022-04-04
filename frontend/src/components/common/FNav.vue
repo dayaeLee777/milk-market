@@ -104,7 +104,7 @@ export default {
 
 /* @import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i'); */
 
-.footer {
+/* .footer {
   background-color: #1f4467;
   height: 10vh;
 }
@@ -156,5 +156,5 @@ export default {
     font-size: 16px;
     margin-left: 5px;
   }
-}
+} */
 </style>
