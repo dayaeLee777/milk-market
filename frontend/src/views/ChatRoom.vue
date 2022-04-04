@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import firebase from 'firebase'
 
 export default {
   name: 'PrivateChat',
@@ -95,10 +97,28 @@ export default {
       })
     },
     goHome () {
+      this.resetFirebaseUserStatus(this.$route.params.sessionId)
       this.$router.push('/')
-      this.$resetFirebaseUserStatus(this.$store.state.user.userNickname)
-      this.$store.dispatch('setInterval', this.$store.state.user.userNickname)
+      this.$store.dispatch('setInterval', this.user.userNickname)
+    },
+    resetFirebaseUserStatus (sessionId) {
+      this.chatRooms.forEach((obj) => {
+        if (obj.sessionId === sessionId) {
+          db.collection('user').doc(this.user.userNickname).update({
+            chatRooms: firebase.firestore.FieldValue.arrayRemove(obj)
+          }).then(() => {
+            console.log('remove')
+          })
+        }
+      })
+
     }
+  },
+  computed: {
+    ...mapState([
+      'user',
+      'chatRooms',
+    ]),
   },
 
   created () {

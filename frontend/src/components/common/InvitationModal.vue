@@ -11,19 +11,21 @@
               <div class="modal-header">
                 <h5 class="modal-title">채팅룸 입장</h5>
               </div>
-              <div class="modal-body">
-
-              </div>
-              <div class="modal-footer">
+              <div
+                v-for="(chatRoom, index) in chatRooms"
+                :key="index"
+                class="modal-footer p-0 mx-auto"
+              >
+                <h5>채팅 요청 : {{ chatRoom.userNickname }}</h5>
                 <button
                   type="button"
                   class="btn btn-primary"
-                  @click="goChatting"
+                  @click="goChatting(chatRoom.sessionId)"
                 >Accept</button>
                 <button
                   type="button"
                   class="btn btn-primary"
-                  @click="closeModal"
+                  @click="closeModal(chatRoom)"
                 >Reject</button>
               </div>
             </div>
@@ -35,19 +37,27 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 import { mapState } from 'vuex'
 
 export default {
 
   methods: {
-    closeModal () {
+    closeModal (chatRoom) {
       this.$store.dispatch('turnOFFNotification')
-      this.$resetFirebaseUserStatus(this.user.userNickname)
+      this.resetFirebaseUserStatus(chatRoom)
     },
-    goChatting () {
-      this.closeModal()
+    goChatting (sessionId) {
+      this.$store.dispatch('turnOFFNotification')
       this.$store.dispatch('clearInterval')
-      this.$router.push({ name: "room", params: { sessionId: this.sessionId } });
+      this.$router.push({ name: "room", params: { sessionId: sessionId } });
+    },
+    resetFirebaseUserStatus (chatRoom) {
+      db.collection('user').doc(this.user.userNickname).update({
+        chatRooms: firebase.firestore.FieldValue.arrayRemove(chatRoom)
+      }).then(() => {
+        console.log('remove')
+      })
     }
   },
   computed: {
@@ -55,7 +65,7 @@ export default {
       'user',
       'showModal',
       'isSigned',
-      'sessionId',
+      'chatRooms',
     ]),
   },
 }

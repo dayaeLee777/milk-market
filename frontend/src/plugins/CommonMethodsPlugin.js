@@ -11,12 +11,17 @@ CommonMethodsPlugin.install = function (Vue) {
     })
   }
   Vue.prototype.$resetFirebaseUserStatus = function (userNickname) {
-    db.collection('user').doc(userNickname).set({
-      notification: false,
-      sessionId: '',
-    }).then(() => {
-      console.log('sucess')
-    })
+    // db.collection('user').doc(userNickname).get().then((doc) => {
+    //   if (doc.exists) {
+    //     console.log('firebase!!!')
+    //     console.log(doc.data().chatRooms)
+    //     const notification = doc.data().chatRooms.some((obj) => {
+    //       return obj.notification
+    //     })
+    //     this.dispatch('turnOnNotification', notification)
+    //     this.dispatch('getChatRooms', doc.data().chatRooms)
+    //   }
+    // })
   }
 }
 export default CommonMethodsPlugin

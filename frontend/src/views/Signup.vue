@@ -123,8 +123,7 @@ export default {
     register () {
       var vm = this;
       db.collection('user').doc(this.user.name).set({
-        notification: false,
-        sessionId: '',
+        chatRooms: [],
       }).then(() => {
         console.log('sucess')
       })

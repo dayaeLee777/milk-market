@@ -1,9 +1,12 @@
 <template>
-  <div>   
+  <div>
     <div class="container mt-5">
       <div class="row">
         <div class="col-md-8 mx-auto">
-          <div class="card" id="item-detail"> 
+          <div
+            class="card"
+            id="item-detail"
+          >
             <div class="card-body">
               <div class="form-group">
                 <h3>
@@ -62,48 +65,96 @@
                   >채팅하기</button>
                 </div>
                 <div v-if="item.division === 'A01'">
-                  <button class="btn btn-lg btn-primary"
-                     data-bs-toggle="modal" data-bs-target="#rentModal">
-                     대여하기
-                     </button>
+                  <button
+                    class="btn btn-lg btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#rentModal"
+                  >
+                    대여하기
+                  </button>
                 </div>
                 <div v-else>
-                  <button class="btn btn-lg btn-primary" 
-                    data-bs-toggle="modal" data-bs-target="#purchaseModal">
+                  <button
+                    class="btn btn-lg btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#purchaseModal"
+                  >
                     구매하기
-                    </button>
+                  </button>
                 </div>
-                <div class="modal fade" id="rentModal" tabindex="-1" aria-labelledby="rentModalLabel" aria-hidden="true">
+                <div
+                  class="modal fade"
+                  id="rentModal"
+                  tabindex="-1"
+                  aria-labelledby="rentModalLabel"
+                  aria-hidden="true"
+                >
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="rentModalLabel">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5
+                          class="modal-title"
+                          id="rentModalLabel"
+                        >Modal title</h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
                       </div>
                       <div class="modal-body">
                         ...
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >Close</button>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                        >Save changes</button>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="modal fade" id="purchaseModal" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+                <div
+                  class="modal fade"
+                  id="purchaseModal"
+                  tabindex="-1"
+                  aria-labelledby="purchaseModalLabel"
+                  aria-hidden="true"
+                >
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="purchaseModalLabel">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5
+                          class="modal-title"
+                          id="purchaseModalLabel"
+                        >Modal title</h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
                       </div>
                       <div class="modal-body">
                         ...
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >Close</button>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                        >Save changes</button>
                       </div>
                     </div>
                   </div>
@@ -119,9 +170,12 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 import { Code } from "@/utils/enum.js";
 import { findById } from "@/api/item.js";
 import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js";
+import { mapState } from 'vuex'
+
 
 const vm = this;
 export default {
@@ -161,14 +215,20 @@ export default {
     goChatting () {
       const A = this.item.userNickname > this.$store.state.user.userNickname ? this.$store.state.user.userNickname : this.item.userNickname;
       const B = this.item.userNickname > this.$store.state.user.userNickname ? this.item.userNickname : this.$store.state.user.userNickname;
+
       db.collection('user').doc(this.item.userNickname).update({
-        notification: true,
-        sessionId: A + '1' + B
+        chatRooms: firebase.firestore.FieldValue.arrayUnion({ notification: true, itemName: this.item.itemName, userNickname: this.user.userNickname, sessionId: A + '1' + B })
       }).then(() => {
         console.log('sucess')
       })
+
       this.$router.push({ name: "room", params: { sessionId: A + '1' + B } });
     },
+  },
+  computed: {
+    ...mapState([
+      'user',
+    ]),
   },
   created () {
     console.log("created");

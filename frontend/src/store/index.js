@@ -21,7 +21,7 @@ export default new Vuex.Store({
     },
     interval: null,
     showModal: false,
-    sessionId: '',
+    chatRooms: [],
   },
   mutations: {
     setBcode (state, bcode) {
@@ -49,9 +49,8 @@ export default new Vuex.Store({
     logout (state) {
       state.isSigned = false;
       state.showModal = false;
-      state.sessionId = '';
+      state.chatRooms = [];
       state.interval = 'null';
-      state.profileImage = 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png'
       state.user = {
         id: null,
         walletAddress: null,
@@ -64,8 +63,8 @@ export default new Vuex.Store({
     TURN_ON_NOTIFICATION (state, data) {
       state.showModal = data
     },
-    SET_SESSIONID (state, data) {
-      state.sessionId = data
+    SET_CHATROOMS (state, data) {
+      state.chatRooms = data
     },
     TURN_OFF_NOTIFICATION (state) {
       state.showModal = false
@@ -95,16 +94,19 @@ export default new Vuex.Store({
     turnOFFNotification: function ({ commit }) {
       commit('TURN_OFF_NOTIFICATION')
     },
-    getSessionId: function ({ commit }, sessionId) {
-      commit('SET_SESSIONID', sessionId)
+    getChatRooms: function ({ commit }, chatRooms) {
+      commit('SET_CHATROOMS', chatRooms)
     },
     setInterval: function ({ commit }, userNickname) {
       commit('SET_INTERVAL', setInterval(() => {
         db.collection('user').doc(userNickname).get().then((doc) => {
           if (doc.exists) {
             console.log('firebase!!!')
-            this.dispatch('turnOnNotification', doc.data().notification)
-            this.dispatch('getSessionId', doc.data().sessionId)
+            const notification = doc.data().chatRooms.some((obj) => {
+              return obj.notification
+            })
+            this.dispatch('turnOnNotification', notification)
+            this.dispatch('getChatRooms', doc.data().chatRooms)
           }
         })
       }, 6000))
