@@ -166,7 +166,7 @@ function getTotalPage(success, fail) {
   };
   console.log("get Total Page : ", token);
   instance
-    .post("/api/item/pages", JSON.stringify(ItemList), {
+    .post("/api/item/search", JSON.stringify(ItemList), {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then(success)
