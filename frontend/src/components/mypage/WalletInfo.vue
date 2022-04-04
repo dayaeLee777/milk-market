@@ -33,8 +33,8 @@
                 <div v-if="isAuthorized">
                   <p class="text-primary fw-bold">PrivateKey 인증 완료</p>
                 </div>
-                <div v-else>
-                  <button type="button" class="btn btn-secondary mt-1"
+                <div v-else class="d-flex align-items-center">
+                  <button type="button" class="btn btn-primary btn-sm"
                   data-bs-toggle="modal" data-bs-target="#exampleModal"
                   >privateKey 인증</button>
                   <span class="text-danger fw-bold" id="warn-wallet">※ 개인키 인증이 필요합니다.</span>
@@ -401,6 +401,20 @@ export default {
 <style>
 #mywallet-info th {
   text-align: left;
+}
+.wallet-btn {
+  font-size: 12px;
+  color: aliceblue;
+  background-color: #4a4879;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 25px;
+  border-color: #45436d;
+  border-style: solid;
+  border-radius: 20px;
+  margin-right: 3px;
 }
 #warn-wallet {
   font-size: 8px;

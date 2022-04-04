@@ -248,6 +248,7 @@ export default {
       const transfer = await this.contract.methods.transferFrom(from, to, amountToBn).send({from: from});
 
       this.purchase();
+      this.$router.push({ name: "mypage.items" })
     },
     goChatting () {
       console.log("채팅방으로 가는 버튼을 눌럿음")

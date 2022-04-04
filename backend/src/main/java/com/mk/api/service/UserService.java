@@ -1,9 +1,6 @@
 package com.mk.api.service;
 
-import com.mk.api.dto.request.LoginReq;
-import com.mk.api.dto.request.UpdatePasswordReq;
-import com.mk.api.dto.request.UserDTO;
-import com.mk.api.dto.request.WalletReq;
+import com.mk.api.dto.request.*;
 import com.mk.config.JwtTokenProvider;
 import com.mk.db.entity.User;
 import com.mk.db.repository.UserRepository;
@@ -172,10 +169,24 @@ public class UserService {
 		}
     }
 
+	public boolean updateLocation(String accessToken, LocationReq locationReq) {
+		User user = jwtTokenService.convertTokenToUser(accessToken);
+		if (user == null) {
+			return false;
+		}
+		user.setBcode(locationReq.getBcode());
+		user.setBname(locationReq.getBname());
+		user.setSigungu(locationReq.getSigungu());
+		userRepository.save(user);
+		return true;
+	}
+
 	public String getNickname(String email) {
 		Optional<User> user = userRepository.findByEmail(email);
 		if(user.isPresent() && user.get().isDelYn() == false)
 			return user.get().getNickname();
 		return null;
 	}
+
+
 }

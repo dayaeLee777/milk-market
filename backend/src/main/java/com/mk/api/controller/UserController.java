@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.google.api.Http;
+import com.mk.api.dto.request.LocationReq;
 import io.swagger.v3.oas.annotations.headers.Header;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -118,6 +120,9 @@ public class UserController {
 //		if (user == null) return false;
 //		return Integer.parseInt(id) == user.getId();
 //	}
+
+
+
 	
 	@PostMapping("/profileImage")
 	@ApiOperation(value = "프로필 이미지 업로드")
@@ -131,5 +136,20 @@ public class UserController {
 		profileImageService.uploadProfileImg(accessToken, multipartFile);
 		return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.of(HttpStatus.CREATED.value(), "Success"));
 	}
-	
+
+	@PutMapping("/address/update")
+	@ApiOperation(value = "프로필 주소 업데이트")
+	@ApiResponses({
+			@ApiResponse(code=201, message="정상적으로 주소가 수정 되었습니다."),
+			@ApiResponse(code=409, message="업데이트에 실패 했습니다.")
+	})
+	public ResponseEntity<? extends BaseResponseDto> updateLocation(
+			@ApiIgnore @RequestHeader("Authorization") String accessToken,
+			@RequestBody LocationReq locationReq){
+
+		if (userService.updateLocation(accessToken, locationReq)) {
+			return ResponseEntity.status(HttpStatus.OK).body(BaseResponseDto.of(HttpStatus.OK.value(), "Success"));
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
+	}
 }
