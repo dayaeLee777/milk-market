@@ -105,9 +105,10 @@
                         <div class="d-flex">
                           <div class="text-primary">현재 잔액: {{ milkBalance }}MILK</div>
                         </div>
-                        <div v-if="(parseInt(milkBalance) - parseInt(item.price)) >= 0">
+                        <div v-if="(milkBalance - item.price) >= 0">
+                          <div></div>
                           <div class="mt-2">현재 상품 가격: {{ item.price }}MILK</div>
-                          <div class="mt-2 fw-bold">구매 후 잔액: {{ parseInt(milkBalance) - parseInt(item.price) }}MILK</div>
+                          <div class="mt-2 fw-bold">구매 후 잔액: {{ milkBalance - item.price }}MILK</div>
                         </div>
                         <div v-else>
                           <p calss="text-danger">MILK 잔액이 부족합니다!</p>
@@ -185,7 +186,7 @@ export default {
     async checkMilk() {
       const milk = await this.contract.methods.balanceOf(this.$store.state.user.walletAddress).call();
 
-      this.milkBalance = (milk / 10**15).toLocaleString();
+      this.milkBalance = (milk / 10**15);
     },    
     moveToWallet() {
       this.$router.push("/mypage/wallet_info")

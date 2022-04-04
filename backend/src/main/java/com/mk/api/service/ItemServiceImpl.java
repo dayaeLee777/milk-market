@@ -284,7 +284,6 @@ public class ItemServiceImpl implements ItemService {
 			return false;
 		}
 		item.setStatus(Code.C01);
-
 		itemRepository.save(item);
 
 		return true;
