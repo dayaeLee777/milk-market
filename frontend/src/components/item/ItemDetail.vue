@@ -1,13 +1,9 @@
 <template>
-  <div>
-    <h-breadcrumb
-      title="상품 상세 보기"
-      description="등록된 상품의 상세 내역을 볼 수 있습니다."
-    ></h-breadcrumb>
-    <div class="container">
+  <div>   
+    <div class="container mt-5">
       <div class="row">
         <div class="col-md-8 mx-auto">
-          <div class="card">
+          <div class="card" id="item-detail"> 
             <div class="card-body">
               <div class="form-group">
                 <h3>
@@ -23,12 +19,13 @@
                 <img
                   class="center"
                   :src="getImg(item.files[imgName])"
-                  style="max-width: 100%; height: auto"
+                  id="item-detail-img"
+                  style="max-width: 100%;"
                 />
               </div>
               <!--v-for-->
               <div class="form-group">
-                <h4 class="alert alert-primary">{{ item.price }} CASH</h4>
+                <h4 class="alert alert-primary">{{ item.price }} MILK</h4>
               </div>
               <div class="form-group">
                 <label
@@ -65,11 +62,53 @@
                   >채팅하기</button>
                 </div>
                 <div v-if="item.division === 'A01'">
-                  <button class="btn btn-lg btn-primary">대여하기</button>
+                  <button class="btn btn-lg btn-primary"
+                     data-bs-toggle="modal" data-bs-target="#rentModal">
+                     대여하기
+                     </button>
                 </div>
                 <div v-else>
-                  <button class="btn btn-lg btn-primary">구매하기</button>
+                  <button class="btn btn-lg btn-primary" 
+                    data-bs-toggle="modal" data-bs-target="#purchaseModal">
+                    구매하기
+                    </button>
                 </div>
+                <div class="modal fade" id="rentModal" tabindex="-1" aria-labelledby="rentModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="rentModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        ...
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal fade" id="purchaseModal" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="purchaseModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        ...
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -106,6 +145,7 @@ export default {
         keys: [],
       },
       userId: this.$store.state.user.id,
+      walletAddress: this.$store.state.walletAddress,
     };
   },
   methods: {
@@ -174,5 +214,8 @@ export default {
 img.center {
   display: block;
   margin: 2rem auto;
+}
+#item-detail-img {
+  height: 200px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container">
+    <div class="container mt-3">
       <div class="row">
         <div class="col-md-8 mx-auto">
           <div class="card">

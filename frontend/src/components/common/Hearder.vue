@@ -138,7 +138,7 @@ export default {
         });
     },
   },
-  mounted() {
+  created() {
     this.UserInfo();
   },
 };
@@ -148,7 +148,7 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i");
 
 #headernav .collapse {
-  display: block !important;
+  display: block;
 }
 
 #headernav .btn {
@@ -195,7 +195,7 @@ export default {
   list-style: none;
 }
 #headernav .header__menu {
-  float: right !important;
+  float: right t;
 }
 #headernav .header__el {
   padding: 0 0px;
@@ -225,7 +225,7 @@ export default {
 }
 #headernav .header__link {
   color: #1f4568;
-  font-size: 14px;
+  font-size: 16px;
   text-decoration-line: none;
 }
 #headernav .header__link:hover {
@@ -233,12 +233,12 @@ export default {
   color: #3a9fff;
   text-decoration-line: none;
 }
-#headernav .navbar-toggle .icon-bar {
+/* #headernav .navbar-toggle .icon-bar {
   background-color: #8198ae;
 }
 #headernav .navbar-toggle {
-  margin: 5px 0 !important;
-}
+  margin: 5px 0;
+} */
 
 #headernav .btn--up {
   position: absolute;
@@ -256,7 +256,7 @@ export default {
 </style>
 
 <style>
-body {
+/* body {
   margin: 0;
   padding: 0;
   font-family: "Lato", sans-serif;
@@ -268,18 +268,18 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-}
+} */
 
 @media screen and (max-width: 1024px) {
   #headernav .collapse {
     display: none;
   }
-  #headernav .navbar-toggle {
+  /* #headernav .navbar-toggle {
     margin: 0;
     display: inline-block;
     margin-right: 10px;
     margin-top: 10px;
-  }
+  } */
   #headernav .header__container {
     width: 100%;
     padding: 0;

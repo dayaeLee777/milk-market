@@ -73,7 +73,7 @@ const routes = [
       Swal.fire({
         position: 'center',
         icon: 'success',
-        title: '정상적으로 로그아웃되었습니다.',
+        title: '로그아웃되었습니다.',
         showConfirmButton: false,
         timer: 1500
       })

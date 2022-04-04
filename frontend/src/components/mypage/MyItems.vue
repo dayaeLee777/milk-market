@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h-breadcrumb
-    ></h-breadcrumb>
+    <!-- <h-breadcrumb
+    ></h-breadcrumb> -->
     <div class="container">
       <my-page-nav></my-page-nav>
       <div id="my-item" class="row">
@@ -9,7 +9,7 @@
         <div 
           v-for="item in saleItems"
           :key="item.itemId"
-          class="d-flex justify-content-start mt-3"
+          class="d-flex justify-content-start align-items-center mt-2 my-items"
           >
           <div>
             <div
@@ -52,11 +52,14 @@ import { getLocalImg } from "@/utils/imgLoader.js";
 import { getPrice, deregisterItem } from "@/utils/itemInventory.js";
 import axios from 'axios'
 import { API_BASE_URL, BLOCKCHAIN_URL } from "@/config/index.js"
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import MyEscrow from './MyEscrow.vue';
 
 export default {
   name: "MyItems",
   components: {
-    MyPageNav
+    MyPageNav,
+    MyEscrow,
   },
   data() {
     return {
@@ -110,9 +113,14 @@ export default {
   text-align: center;
 }
 .item-img {
-  height: 200px;
-  width: 250px;
-  cursor: pointer;
+  height: 80px;
+}
+.my-items {
+  height: 100px;
+  width: 450px;
+  background-color: beige;
+  border-color: black;
+  border-width: 1px;
 }
 /* .badge-primary {
   color: #fff;

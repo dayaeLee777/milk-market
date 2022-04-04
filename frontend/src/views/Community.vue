@@ -1,8 +1,10 @@
 <template>
   <div>
+    <header></header>
+    <h2>게시판 리스트</h2>
     <div
       id="main-overview"
-      class="container"
+      class="container community"
     >
       <!-- <div class="searchWrap">
 			  <input type="text" v-model="keyword" @keyup.enter="fnSearch" />
@@ -125,7 +127,7 @@
 
     </div>
 
-    <f-nav></f-nav>
+    <!-- <f-nav></f-nav> -->
   </div>
 </template>
 
@@ -250,4 +252,7 @@ export default {
 </script>
 
 <style scoped>
+.community {
+  height: 100vh;
+}
 </style>

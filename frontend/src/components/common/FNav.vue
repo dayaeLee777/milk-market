@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="container">
-      <div class="row">
+      <div class="row pt-4">
         <div class="col-md-2 col-xs-6">
           <img class="footer__img" src="https://image.ibb.co/kcVou6/path3000.png" />
           <h1 class="footer__title">Milk<span class="footer__light">Market</span></h1>
@@ -104,9 +104,9 @@ export default {
 
 /* @import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i'); */
 
-.footer {
+/* .footer {
   background-color: #1f4467;
-  padding: 40px 0;
+  height: 10vh;
 }
 
 .footer__title {
@@ -156,5 +156,5 @@ export default {
     font-size: 16px;
     margin-left: 5px;
   }
-}
+} */
 </style>

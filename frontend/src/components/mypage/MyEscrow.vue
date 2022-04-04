@@ -1,13 +1,9 @@
 <template>
   <div class="sect sect--padding-bottom">
     <div class="container">
-      <div class="row row--center">
-        <h1 class="row__title">우리동네 인기상품</h1>
-        <h2 class="row__sub">관심등록이 많은 Top5 상품을 확인하세요</h2>
-      </div>
       <carousel-3d :width="500" :height="500">
         <slide v-for="(slide, i) in slides" :index="i" :key="i">
-          <hot-item-slide :slide="slide" />
+          <my-item-slide />
         </slide>
       </carousel-3d>
     </div>
@@ -16,35 +12,20 @@
 
 <script>
 import { Carousel3d, Slide } from "vue-carousel-3d";
-import HotItemSlide from "./HotItemSlide.vue";
-import { getHotItem } from "@/api/interest.js";
+import MyItemSlide from "./MyItemSlide.vue";
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 export default {
-  name: "HotItem",
+  name: "MyEscrow",
   components: {
     Carousel3d,
     Slide,
-    HotItemSlide,
+    MyItemSlide,
   },
   data() {
     return {
       slides: 5,
     };
-  },
-  created() {
-    this.getHotItemList();
-  },
-  methods: {
-    getHotItemList() {
-      getHotItem(
-        (res) => {
-          this.slides = res.data;
-        },
-        (error) => {
-          console.error("에러 : " + error);
-        }
-      );
-    },
   },
 };
 </script>

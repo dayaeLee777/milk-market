@@ -43,13 +43,15 @@ export default new Vuex.Store({
     },
     logout (state) {
       state.isSigned = false;
-      state.user.id = 0;
-      state.user.userNickname = null;
-      state.user.JWTToken = null;
-      state.user.bcode = 0;
-      state.user.walletAddress = null;
       state.showModal = false;
       state.sessionId = '';
+      state.user = {
+        id: null,
+        walletAddress: null,
+        JWTToken: null,
+        userNickname: null,
+        bcode: null,
+      }
     },
     TURN_ON_NOTIFICATION (state, data) {
       state.showModal = data

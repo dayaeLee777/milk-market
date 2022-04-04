@@ -9,9 +9,6 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
-import com.mk.api.dto.response.ItemGetListResponseDto;
-import com.mk.db.entity.ItemImage;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mk.api.dto.request.ItemModifyRequestDto;
 import com.mk.api.dto.request.ItemRegisterRequestDto;
+import com.mk.api.dto.response.ItemGetListResponseDto;
 import com.mk.api.dto.response.ItemGetResponseDto;
 import com.mk.db.code.Code;
 import com.mk.db.entity.Item;
@@ -29,6 +27,7 @@ import com.mk.db.repository.ItemImageRepository;
 import com.mk.db.repository.ItemRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service("ItemService")
@@ -135,7 +134,6 @@ public class ItemServiceImpl implements ItemService {
 				itemImageList.put(originFileName, itemImageService.getImagePath(newFileName));
 			});
 			DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
-			DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
 
 			ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder()
 					.itemId(item.getId())

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h-breadcrumb
-    ></h-breadcrumb>
+    <!-- <h-breadcrumb
+    ></h-breadcrumb> -->
     <div class="container">
       <my-page-nav></my-page-nav>
       <div id="my-item" class="row">
@@ -324,6 +324,7 @@ import { getLocalImg } from "@/utils/imgLoader.js";
 import { getPrice, deregisterItem } from "@/utils/itemInventory.js";
 import axios from 'axios'
 import { API_BASE_URL, BLOCKCHAIN_URL } from "@/config/index.js"
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 export default {
   name: "MyItems",
