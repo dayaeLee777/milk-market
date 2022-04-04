@@ -29,4 +29,7 @@ public class CommentGetResponseDto extends BaseResponseDto {
 	@ApiModelProperty(name="등록일시", example="2022-01-27 10:08:12")
 	private String regTime;
 	
+	@ApiModelProperty(name="프로필 이미지", example="http://~~")
+	private String profileImage;
+	
 }

@@ -15,6 +15,7 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.util.CollectionUtils;
 
 import com.mk.db.code.Code;
+import com.mk.elastic.search.PagedRequestDTO;
 import com.mk.elastic.search.SearchRequestDTO;
 
 public class SearchUtil {
@@ -25,9 +26,9 @@ public class SearchUtil {
 	public static SearchRequest buildSearchRequest(String indexName, SearchRequestDTO dto) {
 		try {
 			final int page = dto.getPage();
-			final int size = dto.getSize();
+			final int size = dto.getSize() <= 0  ? dto.getDefaultSize() : dto.getSize();
 			final int from = page <= 0 ? 0 : page * size;
-
+			
 			QueryBuilder searchQuery = getQueryBuilder(dto);
 			QueryBuilder divisionQuery = null;
 			QueryBuilder categoryQuery = null;
