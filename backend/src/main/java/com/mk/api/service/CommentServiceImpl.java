@@ -68,6 +68,7 @@ public class CommentServiceImpl implements CommentService {
 				.userNickname(comment.getUser().getNickname())
 				.content(comment.getContent())
 				.regTime(comment.getRegTime().format(dateTimeFormatter))
+				.profileImage(comment.getUser().getProfileImage())
 				.build();
 		
 		return commentGetResponseDto;
@@ -92,6 +93,7 @@ public class CommentServiceImpl implements CommentService {
 					.userNickname(comment.getUser().getNickname())
 					.content(comment.getContent())
 					.regTime(comment.getRegTime().format(dateTimeFormatter))
+					.profileImage(comment.getUser().getProfileImage())
 					.build();
 			
 			commentList.add(commentGetResponseDto);
