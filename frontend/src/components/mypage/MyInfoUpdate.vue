@@ -30,7 +30,7 @@
             <div v-else>
               <div class="image_inner_container">
                 <img
-                  src="../../../public/images/ompang2.png"
+                  src="../../../public/images/default.png"
                   alt="profile-img"
                   class="profile-img"
                 />

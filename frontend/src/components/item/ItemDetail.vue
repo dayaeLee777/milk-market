@@ -202,12 +202,13 @@ export default {
       }
 
       axios({
-        url:`${API_BASE_URL}/item/purchase/${this.item.id}`,
+        url:`${API_BASE_URL}/api/item/purchase/${this.item.id}`,
         method: 'post',
         headers,
       })
       .then(res => {
         console.log(res)
+        console.log("성공!")
       })
       .catch(err => {
         console.log(err)

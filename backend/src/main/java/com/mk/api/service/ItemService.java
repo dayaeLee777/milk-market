@@ -20,6 +20,8 @@ public interface ItemService {
 
 	Boolean purchaseItem(String accessToken, String itemId);
 
+	List<ItemGetResponseDto> purchaseList(String accessToken);
+
 	Item modifyItem(ItemModifyRequestDto itemModifyRequestDto, List<MultipartFile> multipartFile);
 
 	Item deleteItem(String itemId);

@@ -93,8 +93,8 @@ export default {
   }),
   mounted() {
     this.itemList();
-
     console.log("마운트 되자마자 보여주는 콘솔");
+    location.replace(location.href);
   },
   updated() {
     this.currentPageActive(this.prevPageNum, this.currentPageNum);

@@ -194,10 +194,26 @@ public class ItemController {
 			@PathVariable("itemId") @RequestBody @ApiParam(value = "조회할 상품 ID", required = true) String itemId,
 			@ApiIgnore @RequestHeader("Authorization") String accessToken){
 
+
 		if (itemService.purchaseItem(accessToken, itemId)) {
 			return ResponseEntity.status(HttpStatus.OK).body(BaseResponseDto.of(HttpStatus.OK.value(), "Success"));
 		}
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
+	}
+
+	@GetMapping("/purchase/list")
+	@ApiOperation(value="구매 이력 조회", notes="<strong>구매 이력을 조회 한다.</strong>")
+	@ApiResponses({
+			@ApiResponse(code=200, message="조회가 정상적으로 이루어졌습니다.."),
+			@ApiResponse(code=204, message="구매이력 조회를 실패했습니다.")
+	})
+	public ResponseEntity<? extends  BaseResponseDto> purchaseList (@ApiIgnore @RequestHeader("Authorization") String accessToken) {
+		List<ItemGetResponseDto> itemGetResponseDto = itemService.purchaseList(accessToken);
+
+		if (itemGetResponseDto != null) {
+			return ResponseEntity.status(HttpStatus.OK).body(ItemGetListResponseDto.builder().list(itemGetResponseDto).build());
+		}
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
 }

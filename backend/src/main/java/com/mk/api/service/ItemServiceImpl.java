@@ -267,18 +267,51 @@ public class ItemServiceImpl implements ItemService {
 		itemRepository.save(item);
 
 		Purchase purchase = Purchase.builder()
-				.division(item.getDivision())
 				.orderItemName(item.getItemName())
-				.category(item.getCategory())
-				.price(item.getPrice())
-				.description(item.getDescription())
-				.regDate(item.getRegDate())
+				.itemId(item.getId())
 				.user(user)
-				.status(Code.C02)
 				.build();
-
 		purchaseRepository.save(purchase);
 		return true;
+	}
+
+	@Override
+	public List<ItemGetResponseDto> purchaseList(String accessToken) {
+		User user = jwtTokenService.convertTokenToUser(accessToken);
+		List<Purchase> purchaseList = purchaseRepository.findByUser(user);
+		List<ItemGetResponseDto> itemGetResponseDtos = new ArrayList<>();
+
+		for (Purchase purchase: purchaseList) {
+
+			Item item = itemRepository.findById(purchase.getItemId()).get();
+			Map<String, String> itemImageList = new HashMap<String, String>();
+			itemImageRepository.findByItem(item).forEach( file -> {
+				String originFileName = file.getOriginFileName();
+				String newFileName = file.getNewFileName();
+
+				itemImageList.put(originFileName, itemImageService.getImagePath(newFileName));
+			});
+
+			DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+			ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder()
+					.itemId(item.getId())
+					.status(item.getStatus())
+					.userId(item.getUser().getUsername())
+					.userNickname(item.getUser().getNickname())
+					.division(item.getDivision())
+					.itemName(item.getItemName())
+					.category(item.getCategory())
+					.price(item.getPrice())
+					.description(item.getDescription())
+					.regDate(item.getRegDate().format(regDateFormatter))
+					.bcode(item.getUser().getBcode())
+					.bname(item.getUser().getBname())
+					.files(itemImageList)
+					.build();
+			itemGetResponseDtos.add(itemGetResponseDto);
+		}
+
+		return itemGetResponseDtos;
 	}
 
 	@Transactional

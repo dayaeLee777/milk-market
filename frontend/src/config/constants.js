@@ -9,11 +9,11 @@ export const CATEGORIES = {
 
 export const ITEM_STATUS = {
     ONSALE: {
-        symbol: "S",
+        symbol: "C01",
         explanation: "판매중"
     },
     CONFIRMED: {
-        symbol: "C",
+        symbol: "C02",
         explanation: "판매완료(구매확정)"
     },
     CANCELED: {
@@ -26,9 +26,9 @@ export const ITEM_STATUS = {
     },
     symbolToStatus(symbol) {
         switch (symbol) {
-            case "S":
+            case "C01":
                 return this.ONSALE;
-            case "C":
+            case "C02":
                 return this.CONFIRMED;
             case "X":
                 return this.CANCELED;
