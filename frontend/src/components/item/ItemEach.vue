@@ -1,8 +1,8 @@
 <template>
   <div
-    class="card h-100"
+    class="card h-100 content"
     @click="itemDetail(content.id)"
-    style="cursor: pointer"
+    style="cursor: pointer width: 100%"
   >
     <img
       v-if="!contentImage()"
@@ -55,7 +55,7 @@ export default {
 
 <style scoped>
 img.card-img-top {
-  width: 286px;
+  /* width: 286px; */
   height: 150px;
   object-fit: cover;
 }

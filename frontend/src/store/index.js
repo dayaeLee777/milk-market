@@ -47,7 +47,7 @@ export default new Vuex.Store({
         JWTToken: null,
         userNickname: null,
         bcode: null,
-      }
+      };
     },
   },
   getters: {

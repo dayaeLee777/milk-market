@@ -35,12 +35,20 @@
                 </div>
                 <div id="btn_span" />
                 <div class="form-group">
-                  <button type="submit" class="btn btn--width btn-blue login_btn" @click="login">
+                  <button
+                    type="submit"
+                    class="btn btn--width btn-blue login_btn"
+                    @click="login"
+                  >
                     Login
                   </button>
                 </div>
                 <div class="form-group">
-                  <button class="btn btn--width login_btn" id="kakaobtn" @click="kakaoLogin">
+                  <button
+                    class="btn btn--width login_btn"
+                    id="kakaobtn"
+                    @click="kakaoLogin"
+                  >
                     kakao Login
                   </button>
                 </div>
@@ -93,6 +101,7 @@ export default {
           scope.$store.commit("setWalletAddress", response.data.address);
           scope.$store.commit("setJWTToken", response.data.token);
           scope.$store.commit("setUserNickname", response.data.nickname);
+          scope.$store.commit("setProfileImage", response.data.profileImage);
           console.log("여기까지 넘어갑니다." + response.data.token);
           return response.data.token;
         },

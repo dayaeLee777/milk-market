@@ -4,9 +4,14 @@
       <div class="container header__container">
         <router-link class="navbar-brand" to="/">
           <div class="header__logo">
-            <img class="header__img" src="https://image.ibb.co/kcVou6/path3000.png" />
+            <img
+              class="header__img"
+              src="https://image.ibb.co/kcVou6/path3000.png"
+            />
             <!-- <img class="header__img" src="../../../public/images/favicon.png" /> -->
-            <h1 class="header__title">Milk<span class="header__light">Market</span></h1>
+            <h1 class="header__title">
+              Milk<span class="header__light">Market</span>
+            </h1>
           </div>
         </router-link>
         <button
@@ -77,14 +82,21 @@
                 </div>
               </li> -->
               <li class="header__el header__el--white">
-                <router-link class="nav-link" to="/login" v-if="!$store.state.isSigned">
+                <router-link
+                  class="nav-link"
+                  to="/login"
+                  v-if="!$store.state.isSigned"
+                >
                   <a class="btn btn--white">Sign In</a>
                 </router-link>
                 <router-link class="nav-link" to="/logout" v-else>
                   <a class="btn btn--white">Log out</a>
                 </router-link>
               </li>
-              <li class="header__el header__el--blue" v-if="!$store.state.isSigned">
+              <li
+                class="header__el header__el--blue"
+                v-if="!$store.state.isSigned"
+              >
                 <router-link class="nav-link" to="/register">
                   <a class="btn btn--blue">Sign Up</a>
                 </router-link>
@@ -119,7 +131,7 @@ export default {
       const token = this.$store.state.user.JWTToken;
       const decode = jwt_decode(token);
       console.log(decode.sub);
-
+      console.log(" 헤더 : ");
       const headers = {
         Authorization: `Bearer ${token}`,
       };
