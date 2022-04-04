@@ -63,7 +63,7 @@ function getSearchItem(
     .then(success)
     .catch(fail);
 }
-
+//판매, 대여 여부로 검색
 function getSearchItemByDivision(
   division,
   category,
@@ -134,6 +134,25 @@ function getSearchItemByBcode(sortBy, order, page, size, success, fail) {
   };
   instance
     .post("/api/item/search", JSON.stringify(ItemList), {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+//전체 목록 찾기
+function getTotalPage(success, fail) {
+  console.log("bcode: " + bcode);
+  const ItemList = {
+    fields: [],
+    searchTerm: null,
+    bcode: null,
+    sortBy: "regDate",
+    order: "ASC",
+  };
+  console.log("get Total Page : ", token);
+  instance
+    .post("/api/item/pages", JSON.stringify(ItemList), {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then(success)
@@ -253,4 +272,5 @@ export {
   getSearchItemByDivision,
   getSearchItemByCategory,
   getSearchItemByBcode,
+  getTotalPage,
 };

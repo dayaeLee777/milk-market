@@ -71,6 +71,14 @@
         <item-each :content="content"></item-each>
       </div> -->
       </div>
+
+      <!-- 페이지네이션 -->
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="my-table"
+      ></b-pagination>
     </div>
 
     <!--상품 등록-->
@@ -99,6 +107,7 @@ import {
   getSearchItemByDivision,
   getSearchItemByCategory,
   getSearchItemByBcode,
+  getTotalPage,
 } from "@/api/item.js";
 import { allList } from "@/api/tap.js";
 
@@ -115,9 +124,8 @@ export default {
     contents: [
       // { item_img: 'https://www.ktong.kr/wp-content/uploads/2020/08/%EC%82%AC%EA%B3%BC-%EB%8B%A4%EC%9D%B4%EC%96%B4%ED%8A%B8-5%EC%9D%BC%EA%B0%84%EC%9D%98-%EA%B8%B0%EC%A0%81%EC%9D%84-%EA%B2%BD%ED%97%98%ED%95%98%EC%84%B8%EC%9A%94.jpg', item_name: '사과', item_introduce: '맛있는 사과 팔아요' },
     ],
-    totalPages: 0,
-    prevPageNum: 1,
-    currentPageNum: 1,
+    perPage: 12,
+    currentPage: 1,
     prev: true,
     next: false,
     division: null,
@@ -149,9 +157,16 @@ export default {
   mounted() {
     this.init();
     this.findUser();
+    this.getTotalPage();
     console.log("마운트", this.contents);
     console.log("categorys", this.categorys);
     console.log("BackUp 콘솔");
+  },
+  computed: {
+    rows() {
+      console.log("computed : " + this.contents.length);
+      return this.contents.length;
+    },
   },
   updated() {
     console.log("업데이트", this.contents);
@@ -247,8 +262,11 @@ export default {
         }
       );
     },
+
+    //우리동네 찾기
     filterSelection4() {
       var vm = this;
+      console.log("findUser를 호출합니다.");
       getSearchItemByBcode(
         this.sortBy,
         this.order,
@@ -263,6 +281,7 @@ export default {
         }
       );
     },
+
     allList,
     fnSearch() {
       // this.paging.page = 1;
@@ -284,6 +303,24 @@ export default {
       );
     },
 
+    getTotalPage() {
+      var vm = this;
+      getTotalPage(
+        function (success) {
+          console.log("success", success);
+          vm.getTotalPage = success.data;
+          console.log("getTotalPage : ", vm.getTotalPage);
+        },
+        function (error) {
+          console.log("전체페이지 불러오기 실패");
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      );
+    },
+
+    //아이템 등록
     itemWrite() {
       // this.$router.push({
       //   name: "item.write",
@@ -292,10 +329,16 @@ export default {
     },
     findUser() {
       var vm = this;
-      findUser(function (res) {
-        console.log("findUser" + res.data.bcode);
-        vm.$store.commit("setBcode", res.data.bcode);
-      });
+      findUser(
+        function (res) {
+          console.log("findUser" + res.data.bcode);
+          vm.$store.commit("setBcode", res.data.bcode);
+        },
+        function (error) {
+          console.log("findUser Error");
+          console.error(error);
+        }
+      );
     },
   },
 };
