@@ -3,14 +3,14 @@
     <div class="container mt-5">
       <div class="row">
         <div class="col-md-8 mx-auto">
-          <div class="card" id="item-detail"> 
+          <div class="card detail-box" id="item-detail"> 
             <div class="card-body">
               <div class="form-group">
-                <h3>
+                <h5>
                   <!--search 완성 되면 실행해보기-->
                   <a href="">{{ item.category }}</a> >
                   {{ item.itemName }}
-                </h3>
+                </h5>
               </div>
               <div
                 v-for="imgName in item.keys"
@@ -58,17 +58,19 @@
                 <div>
                   <button
                     @click="goChatting"
-                    class="btn btn-lg btn-primary"
+                    class="btn btn-sm btn-primary"
                   >채팅하기</button>
                 </div>
                 <div v-if="item.division === 'A01'">
-                  <button class="btn btn-lg btn-primary"
+                  <button class="btn btn-sm btn-primary" @click="registInterest">관심상품 등록</button>
+                  <button class="btn btn-sm btn-primary"
                      data-bs-toggle="modal" data-bs-target="#rentModal">
                      대여하기
                      </button>
                 </div>
                 <div v-else>
-                  <button class="btn btn-lg btn-primary"
+                  <button class="btn btn-sm btn-primary" @click="registInterest">관심상품 등록</button>
+                  <button class="btn btn-sm  btn-primary"
                     @click="checkMilk()" 
                     data-bs-toggle="modal" data-bs-target="#purchaseModal">
                     구매하기
@@ -194,6 +196,25 @@ export default {
       }
       return null;
     },
+    registInterest() {
+      const token = this.$store.state.user.JWTToken;
+      
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      axios({
+        url: `${API_BASE_URL}/api/interest/${this.item.id}`,
+        method: 'post',
+        headers,
+      })
+      .then( res => {
+        console.log(res)
+      })
+      .catch( err => {
+        console.log(err)
+      })
+    },
     purchase() {
       const token = this.$store.state.user.JWTToken;
       
@@ -280,6 +301,9 @@ export default {
 img.center {
   display: block;
   margin: 2rem auto;
+}
+.detail-box {
+  height: 90vh;
 }
 #item-detail-img {
   height: 200px;

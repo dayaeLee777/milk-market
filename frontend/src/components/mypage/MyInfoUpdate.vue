@@ -91,9 +91,10 @@
             <div v-else>
               <div 
                 v-for="community in communityList"
-                :key="community.communityId">
-                <span class="my-content"
-                  @click="moveToCommuniy(community.communityId, community.userNickname)">제목: {{ community.title }}</span>
+                :key="community.communityId"
+                class="my-content">
+                <span
+                  @click="moveToCommunity(community.communityId, community.userNickname)">제목: {{ community.title }}</span>
               </div>
             </div>
           </div>
@@ -101,6 +102,16 @@
             <h3 class="text-center">나의 wish 리스트</h3>
             <div v-if="!mywishList.length">
               <h4>아직 찜한 아이템이 없어요!</h4>
+            </div>
+            <div v-else>
+              <div 
+                v-for="wish in mywishList"
+                :key="wish.itemId"
+                @click="moveToItem(wish.itemId)"
+                class="my-content">
+                <span>상품 명: {{ wish.itemName }}</span>
+
+              </div>
             </div>
           </div>
         </div>
@@ -234,7 +245,7 @@ export default {
         this.communityList = res.data.communityGetResponselist;
       })
       .catch( err => {
-        consoel.log(err)
+        console.log(err)
       })
     },
     getWishList() {
@@ -250,11 +261,11 @@ export default {
         headers,
       })
       .then( res => {
-        console.log(res.data)
-        
+        // console.log(res.data.interestListResponseDto)
+        this.mywishList = res.data.interestListResponseDto;
       })
       .catch( err => {
-        consoel.log(err)
+        console.log(err)
       })
     },
     selectProfile() {
@@ -300,6 +311,9 @@ export default {
     },    
     moveToCommunity(communityId, userNickname) {
       this.$router.push({name: 'communityDetail', params: { coId: communityId, userN: userNickname }})
+    },
+    moveToItem(itemId) {
+      this.$router.push({name: 'item.detail', params: {id: itemId}})
     }
   },
   mounted() {
