@@ -10,7 +10,7 @@
 
       <!-- <a>{{$route.params.coId}}</a>
       <div></div>
-      <a>{{$route.params.userN}}</a> -->
+      <a>{{$store.state.user.profileImage}}</a> -->
       
       
       <fieldset :disabled="$route.params.userN!==$store.state.user.userNickname">
@@ -114,7 +114,7 @@
               <div 
               v-for="(comment, idx) in comments" :key="idx" class="d-flex mb-4 ml-4 mt-4">
                 <div class="flex-shrink-0">
-                  <img class="rounded-circle" src = "https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="...">
+                  <img class="rounded-circle" :src = "comment.profileImage" alt="..." style="width:50px">
                 </div>
                 <div class="ms-3">
                   <div class="fw-bold">
@@ -156,6 +156,7 @@ export default {
       comments:[],
       commentContent:'',
       disabled:false,
+      profileImage:'',
     };
   },
   mounted () {
@@ -250,11 +251,13 @@ export default {
         // userNickname : this.comments.userNickname,
         userNickname : this.$store.state.user.userNickname, //이 부분을 스토어에 닉네임을 담아서 끌어오면됨
         content : this.commentContent,
+        profileImage : this.$store.state.user.profileImage,
       }
 
       const data = {
         communityId : this.$route.params.coId, //스토어
         content : this.commentContent,
+        profileImage : this.$store.state.user.profileImage, //이미지
       }
 
       axios({

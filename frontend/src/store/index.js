@@ -17,6 +17,7 @@ export default new Vuex.Store({
       JWTToken: null,
       userNickname: null,
       bcode: 0,
+      profileImage: 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png',
     },
   },
   mutations: {
@@ -39,6 +40,9 @@ export default new Vuex.Store({
     setUserNickname(state, userNickname) {
       state.user.userNickname = userNickname;
     },
+    setUserProfileImage(state, profileImage) {
+      state.user.profileImage = profileImage;
+    },
     logout(state) {
       state.isSigned = false;
       state.user = {
@@ -46,6 +50,7 @@ export default new Vuex.Store({
         walletAddress: null,
         JWTToken: null,
         userNickname: null,
+        profileImage: 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png',
         bcode: null,
       };
     },
