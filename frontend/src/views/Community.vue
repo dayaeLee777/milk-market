@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <h-nav></h-nav>
-    <h2>게시판 리스트</h2>
+  <div class="a">
+    <!-- <h-nav></h-nav> -->
+    <!-- <h2>게시판 리스트</h2> -->
 
     <div
       id="main-overview"
@@ -13,7 +13,9 @@
 		  </div> -->
 
       <!-- <form class="card card-sm"> -->
-      <div class="card-body row no-gutters align-items-center">
+
+        
+      <!-- <div class="card-body row no-gutters align-items-center">
         <div class="col-auto">
           <i class="fas fa-search h4 text-body"></i>
         </div>
@@ -33,7 +35,7 @@
             @click="fnSearch"
           >Search</button>
         </div>
-      </div>
+      </div> -->
       <!-- </form> -->
 
       <table class="table">
@@ -93,7 +95,7 @@
               class="page-link"
               href="#"
             >Previous</a></li>
-          <li class="page-item active"><a
+          <li class="page-item"><a
               class="page-link"
               @click="fnGetPageList(1)"
               href="#"
@@ -128,7 +130,7 @@
 
     </div>
 
-    <f-nav></f-nav>
+    <!-- <f-nav></f-nav> -->
   </div>
 </template>
 
@@ -252,5 +254,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+.a{
+  height: 85vh;
+}
 </style>

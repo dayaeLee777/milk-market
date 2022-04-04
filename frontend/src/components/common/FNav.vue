@@ -106,7 +106,24 @@ export default {
 
 .footer {
   background-color: #1f4467;
-  padding: 40px 0;
+  /* padding: 40px 0; */
+
+  position:relative;
+  bottom:0;
+  width:100%;
+  height:70px;
+  padding-bottom: 50px;   
+  padding-top: 50px; 
+
+  /* background-color: #1f4467; */
+  /* padding: 40px 0; */
+
+  /* position:fixed;
+  bottom:0;
+  width:100%;
+  height:120px; */
+
+  
 }
 
 .footer__title {

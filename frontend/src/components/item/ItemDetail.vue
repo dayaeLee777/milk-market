@@ -4,6 +4,7 @@
       title="상품 상세 보기"
       description="등록된 상품의 상세 내역을 볼 수 있습니다."
     ></h-breadcrumb>
+    
     <div class="container">
       <div class="row">
         <div class="col-md-8 mx-auto">
