@@ -30,7 +30,11 @@
             <div v-else>
               <div class="image_inner_container">
                 <img
+<<<<<<< HEAD
                   src="../../../public/images/default.png"
+=======
+                  src="https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
+>>>>>>> 312831f6959376975a3482388f0ef511e9fe0de2
                   alt="profile-img"
                   class="profile-img"
                 />
@@ -221,6 +225,9 @@ export default {
           this.user.nickName = res.data.nickname;
           this.user.email = res.data.email;
           this.user.profileImage = res.data.profileImage;
+          // this.$route.push({ name: "communityDetail", params: { profileImage: res.data.profileImage} })
+          //vuex 저장 코드를 넣는곳
+          this.$store.commit('setUserProfileImage', res.data.profileImage);
           this.user.sigungu = res.data.sigungu;
           this.user.bname = res.data.bname;
         })
@@ -290,6 +297,7 @@ export default {
       })
         .then((res) => {
           console.log(res);
+
           // 새로고침할때 이거 쓰자.
           this.$router.go();
         })
