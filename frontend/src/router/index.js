@@ -13,7 +13,6 @@ import Community from "@/views/Community.vue";
 // import CommunityWrite from "@/components/community/CommunityWrite.vue"
 import Swal from "sweetalert2/dist/sweetalert2.js";
 // import 'sweetalert2/src/sweetalert2.scss';
-import ShopTest from "@/components/item/BackUPItemList.vue";
 Vue.use(VueRouter);
 
 /**
@@ -25,11 +24,7 @@ const routes = [
     name: "home",
     component: Home,
   },
-  {
-    path: "/shoptest",
-    name: "shoptest",
-    component: ShopTest,
-  },
+
   // 게시판
   {
     path: "/community",
@@ -69,7 +64,7 @@ const routes = [
   {
     path: "/logout",
     name: "logout",
-    beforeEnter (to, from, next) {
+    beforeEnter(to, from, next) {
       store.commit("logout");
       const Swal = require("sweetalert2");
       Swal.fire({
@@ -96,22 +91,6 @@ const routes = [
     children: [
       {
         path: "",
-        component: () => import("@/components/shop/All.vue"),
-      },
-      {
-        path: "digital",
-        component: () => import("@/components/shop/Digital.vue"),
-      },
-      {
-        path: "child",
-        component: () => import("@/components/shop/Child.vue"),
-      },
-      {
-        path: "hobby",
-        component: () => import("@/components/shop/Hobby.vue"),
-      },
-      {
-        path: "list",
         component: () => import("@/components/shop/ShopItem.vue"),
       },
     ],
@@ -168,6 +147,11 @@ const routes = [
         name: "item.detail",
         path: "detail/:id",
         component: () => import("../components/item/ItemDetail.vue"),
+      },
+      {
+        name: "item.detail3",
+        path: "detail3/:id",
+        component: () => import("../components/item/ItemDetail3.vue"),
       },
       {
         name: "item.purchase",

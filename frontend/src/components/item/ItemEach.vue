@@ -101,6 +101,7 @@ export default {
   methods: {
     itemDetail(itemId) {
       this.$router.push({
+        // name: "item.detail",
         name: "item.detail",
         params: { id: itemId },
       });

@@ -1,215 +1,203 @@
 <template>
-  <div>
-    <div class="container mt-5">
-      <div class="row">
-        <div class="col-md-8 mx-auto">
-          <div
-            class="card detail-box"
-            id="item-detail"
-          >
-            <div class="card-body">
-              <div class="form-group">
-                <h5>
-                  <!--search 완성 되면 실행해보기-->
-                  <router-link :to="{
+  <div class="container" style="margin-top: 80px">
+    <div class="col-lg-8 border p-3 main-section bg-white">
+      <div class="row m-0">
+        <div class="col-lg-4 left-side-product-box pb-3">
+          <img
+            :src="getImg(item.files[item.keys[0]])"
+            id="item-detail-img"
+            style="max-width: 100%"
+            class="border p-3"
+          />
+          <span class="sub-img" v-if="item.keys.length > 1">
+            <img
+              v-for="imgName in item.keys.slice(1)"
+              :key="imgName"
+              :src="getImg(item.files[imgName])"
+              class="border p-2"
+            />
+          </span>
+        </div>
+        <div class="col-lg-8">
+          <div class="right-side-pro-detail border p-3 m-0">
+            <div class="row">
+              <div class="col-lg-12">
+                <span>Title</span>
+                <p class="m-0 p-0">{{ item.itemName }}</p>
+              </div>
+              <div class="col-lg-12">
+                <span class="m-0 p-0 price-pro">MILK</span>
+                <p class="m-0 p-0">{{ item.price }}</p>
+                <hr class="p-0 m-0" />
+              </div>
+              <div class="col-lg-12 pt-2">
+                <span>Product Detail</span>
+                <span>
+                  <p v-if="item.description.length > 0">
+                    {{ item.description }}
+                  </p>
+                  <p v-else>-</p>
+                </span>
+                <hr class="m-0 pt-2 mt-2" />
+              </div>
+              <div class="col-lg-12">
+                <p class="tag-section">
+                  <span>Category : </span>
+                  <router-link
+                    :to="{
                       name: 'shop',
                       query: { category: `${item.category}` },
-                    }">{{ item.category }}</router-link>
+                    }"
+                    ><p>{{ item.category }}</p></router-link
                   >
-                  {{ item.itemName }}
-                </h5>
-              </div>
-              <div
-                v-for="imgName in item.keys"
-                :key="imgName.id"
-              >
-                <img
-                  class="center"
-                  :src="getImg(item.files[imgName])"
-                  id="item-detail-img"
-                  style="max-width: 100%"
-                />
-              </div>
-              <!--v-for-->
-              <div class="form-group">
-                <h4 class="alert alert-primary">{{ item.price }} MILK</h4>
-              </div>
-              <div class="form-group">
-                <label
-                  id="user"
-                  class="text-secondary"
-                >판매자</label>
-                <p>
-                  {{ item.userNickname }}
-                  <!-- ({{ item.seller.email }}) -->
                 </p>
               </div>
-              <div class="form-group">
-                <label class="text-secondary">상품 등록일</label>
-                <p>{{ item.regDate }}</p>
+              <div class="col-lg-12">
+                <span>판매자 :</span>
+                <p>
+                  {{ item.userNickname }}
+                </p>
               </div>
-              <div class="form-group">
-                <label
-                  id="explanation"
-                  class="text-secondary"
-                >상품 설명</label>
-                <p v-if="item.description.length > 0">{{ item.description }}</p>
-                <p v-else>-</p>
-              </div>
+              <div class="col-lg-12 mt-3" v-if="userId !== item.userId">
+                <div class="row">
+                  <div class="pb-2">
+                    <button @click="goChatting" class="btn btn-sm btn-primary">
+                      채팅하기
+                    </button>
 
-              <!-- 사용자와 판매자가 다르면 구매하기 버튼 생성! 대여 A01, 구매 A02-->
-              <div
-                class="d-flex justify-content-between"
-                v-if="userId !== item.userId"
-              >
-                <div>
-                  <button
-                    @click="goChatting"
-                    class="btn btn-sm btn-primary"
-                  >
-                    채팅하기
-                  </button>
-                </div>
-                <div v-if="item.division === 'A01'">
-                  <button
-                    class="btn btn-sm btn-primary"
-                    @click="registInterest"
-                  >
-                    관심상품 등록
-                  </button>
-                  <button
-                    class="btn btn-sm btn-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#rentModal"
-                  >
-                    대여하기
-                  </button>
-                </div>
-                <div v-else>
-                  <button
-                    class="btn btn-sm btn-primary"
-                    @click="registInterest"
-                  >
-                    관심상품 등록
-                  </button>
-                  <button
-                    class="btn btn-sm btn-primary"
-                    @click="checkMilk()"
-                    data-bs-toggle="modal"
-                    data-bs-target="#purchaseModal"
-                  >
-                    구매하기
-                  </button>
-                </div>
-                <div
-                  class="modal fade"
-                  id="rentModal"
-                  tabindex="-1"
-                  aria-labelledby="rentModalLabel"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5
-                          class="modal-title"
-                          id="rentModalLabel"
-                        >
-                          Modal title
-                        </h5>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body">...</div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-secondary"
-                          data-bs-dismiss="modal"
-                        >
-                          Close
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-primary"
-                        >
-                          Save changes
-                        </button>
+                    <span v-if="item.division === 'A01'">
+                      <button
+                        class="btn btn-sm btn-primary"
+                        @click="registInterest"
+                      >
+                        관심상품 등록
+                      </button>
+                      <button
+                        class="btn btn-sm btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#rentModal"
+                      >
+                        대여하기
+                      </button>
+                    </span>
+                    <span v-else>
+                      <button
+                        class="btn btn-sm btn-primary"
+                        @click="registInterest"
+                      >
+                        관심상품 등록
+                      </button>
+                      <button
+                        class="btn btn-sm btn-primary"
+                        @click="checkMilk()"
+                        data-bs-toggle="modal"
+                        data-bs-target="#purchaseModal"
+                      >
+                        구매하기
+                      </button>
+                    </span>
+                    <div
+                      class="modal fade"
+                      id="rentModal"
+                      tabindex="-1"
+                      aria-labelledby="rentModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="rentModalLabel">
+                              Modal title
+                            </h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">...</div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              Close
+                            </button>
+                            <button type="button" class="btn btn-primary">
+                              Save changes
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
 
-                <div
-                  class="modal fade"
-                  id="purchaseModal"
-                  tabindex="-1"
-                  aria-labelledby="purchaseModalLabel"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5
-                          class="modal-title"
-                          id="purchaseModalLabel"
-                        >
-                          Modal title
-                        </h5>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="d-flex">
-                          <div class="text-primary">
-                            현재 잔액: {{ milkBalance }}MILK
+                    <div
+                      class="modal fade"
+                      id="purchaseModal"
+                      tabindex="-1"
+                      aria-labelledby="purchaseModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="purchaseModalLabel">
+                              Modal title
+                            </h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="d-flex">
+                              <div class="text-primary">
+                                현재 잔액: {{ milkBalance }}MILK
+                              </div>
+                            </div>
+                            <div v-if="milkBalance - item.price >= 0">
+                              <div></div>
+                              <div class="mt-2">
+                                현재 상품 가격: {{ item.price }}MILK
+                              </div>
+                              <div class="mt-2 fw-bold">
+                                구매 후 잔액: {{ milkBalance - item.price }}MILK
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p calss="text-danger">MILK 잔액이 부족합니다!</p>
+                              <button
+                                class="btn btn-secondary btn-sm ms-2"
+                                data-bs-dismiss="modal"
+                                @click="moveToWallet"
+                              >
+                                충전하기!
+                              </button>
+                            </div>
+                          </div>
+                          <div class="modal-body">...</div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-primary"
+                              data-bs-dismiss="modal"
+                              @click="doPay"
+                            >
+                              결재하기
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              취소
+                            </button>
                           </div>
                         </div>
-                        <div v-if="milkBalance - item.price >= 0">
-                          <div></div>
-                          <div class="mt-2">
-                            현재 상품 가격: {{ item.price }}MILK
-                          </div>
-                          <div class="mt-2 fw-bold">
-                            구매 후 잔액: {{ milkBalance - item.price }}MILK
-                          </div>
-                        </div>
-                        <div v-else>
-                          <p calss="text-danger">MILK 잔액이 부족합니다!</p>
-                          <button
-                            class="btn btn-secondary btn-sm ms-2"
-                            data-bs-dismiss="modal"
-                            @click="moveToWallet"
-                          >
-                            충전하기!
-                          </button>
-                        </div>
-                      </div>
-                      <div class="modal-body">...</div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-primary"
-                          data-bs-dismiss="modal"
-                          @click="doPay"
-                        >
-                          결재하기
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-secondary"
-                          data-bs-dismiss="modal"
-                        >
-                          취소
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -219,14 +207,30 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class=".right-side-pro-detail col-lg-12 text-center pt-3">
+          <span>More Product</span>
+        </div>
+      </div>
+      <div class="row mt-3 p-0 text-center pro-box-section">
+        <div
+          class="col-lg-3 pb-2"
+          v-for="(sitem, index) in suggest"
+          :key="index"
+        >
+          <div class="pro-box border p-0 m-0" @click="itemDetail(sitem.id)">
+            <img :src="sitem.files[sitem.keys[0]]" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from "firebase";
 import { Code } from "@/utils/enum.js";
-import { findById } from "@/api/item.js";
+import { findById, getSearchItemByCategory } from "@/api/item.js";
 import {
   API_BASE_URL,
   BLOCKCHAIN_URL,
@@ -234,13 +238,10 @@ import {
 } from "@/config/index.js";
 import axios from "axios";
 import MilkToken from "@/config/contract/MilkToken.json";
-import Swal from "sweetalert2/dist/sweetalert2.js";
-import { mapState } from 'vuex'
-
-const vm = this;
+import { mapState } from "vuex";
 export default {
   name: "ItemDetail",
-  data () {
+  data() {
     return {
       item: {
         id: "",
@@ -259,13 +260,23 @@ export default {
         keys: [],
       },
       userId: this.$store.state.user.id,
+      suggest: [],
       contract: "",
       coinbaseAddress: "",
       milkBalance: 0,
     };
   },
   methods: {
-    makeContract () {
+    itemDetail(itemId) {
+      console.log("이동 : ");
+      console.log("sitem.id : " + itemId);
+      this.$router.push({
+        // name: "item.detail",
+        name: "item.detail",
+        params: { id: itemId },
+      });
+    },
+    makeContract() {
       const Web3 = require("web3");
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
 
@@ -280,23 +291,23 @@ export default {
         this.coinbaseAddress = res[0];
       });
     },
-    async checkMilk () {
+    async checkMilk() {
       const milk = await this.contract.methods
         .balanceOf(this.$store.state.user.walletAddress)
         .call();
 
       this.milkBalance = milk / 10 ** 15;
     },
-    moveToWallet () {
+    moveToWallet() {
       this.$router.push("/mypage/wallet_info");
     },
-    getImg (name) {
+    getImg(name) {
       if (name) {
         return name;
       }
       return null;
     },
-    registInterest () {
+    registInterest() {
       const token = this.$store.state.user.JWTToken;
 
       const headers = {
@@ -315,7 +326,7 @@ export default {
           console.log(err);
         });
     },
-    purchase () {
+    purchase() {
       const token = this.$store.state.user.JWTToken;
 
       const headers = {
@@ -336,7 +347,7 @@ export default {
         });
     },
     // 코인 베이스로 이동
-    async doPay () {
+    async doPay() {
       const Web3 = require("web3");
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
       const from = this.$store.state.user.walletAddress;
@@ -353,25 +364,37 @@ export default {
       this.purchase();
       this.$router.push({ name: "mypage.items" });
     },
-    goChatting () {
-      const A = this.item.userNickname > this.$store.state.user.userNickname ? this.$store.state.user.userNickname : this.item.userNickname;
-      const B = this.item.userNickname > this.$store.state.user.userNickname ? this.item.userNickname : this.$store.state.user.userNickname;
+    goChatting() {
+      const A =
+        this.item.userNickname > this.$store.state.user.userNickname
+          ? this.$store.state.user.userNickname
+          : this.item.userNickname;
+      const B =
+        this.item.userNickname > this.$store.state.user.userNickname
+          ? this.item.userNickname
+          : this.$store.state.user.userNickname;
 
-      db.collection('user').doc(this.item.userNickname).update({
-        chatRooms: firebase.firestore.FieldValue.arrayUnion({ notification: true, itemName: this.item.itemName, userNickname: this.user.userNickname, sessionId: A + '1' + B })
-      }).then(() => {
-        console.log('sucess')
-      })
+      db.collection("user")
+        .doc(this.item.userNickname)
+        .update({
+          chatRooms: firebase.firestore.FieldValue.arrayUnion({
+            notification: true,
+            itemName: this.item.itemName,
+            userNickname: this.user.userNickname,
+            sessionId: A + "1" + B,
+          }),
+        })
+        .then(() => {
+          console.log("sucess");
+        });
 
-      this.$router.push({ name: "room", params: { sessionId: A + '1' + B } });
+      this.$router.push({ name: "room", params: { sessionId: A + "1" + B } });
     },
   },
   computed: {
-    ...mapState([
-      'user',
-    ]),
+    ...mapState(["user"]),
   },
-  created () {
+  created() {
     console.log("created");
     this.item.id = this.$route.params.id;
     console.log(this.item.id);
@@ -400,6 +423,47 @@ export default {
         vm.item.rentEndDate = result.rentendDate ? result.rentEndDate : "";
         vm.item.files = result.files;
         vm.item.keys = Object.keys(vm.item.files);
+        console.log(vm.item.keys);
+        return result;
+      },
+      (result) => {
+        console.log("추천상품 data", result);
+        getSearchItemByCategory(
+          result.category,
+          result.division,
+          result.bcode,
+          "regDate",
+          null,
+          null,
+          4,
+          function (success) {
+            console.log("success", success);
+            var result = success.data; //배열
+            console.log(result);
+            console.log(result[0].id);
+            result.forEach((value, index, array) => {
+              var object = new Object();
+              object.id = value.id;
+              object.files = value.fileNameList;
+              object.keys = Object.keys(object.files);
+              vm.suggest.push(object);
+              console.log("suggest[]: " + index, vm.suggest);
+              console.log("object:", object);
+              //   console.log(value.id);
+              //   console.log(value.fileNameList);
+              //   console.log(Object.keys(value.fileNameList));
+              //   vm.suggest[index].id = value.id;
+              //   console.log("vm.suggest[]" + index, vm.suggest[index].id);
+              //   vm.suggest[index].files = value.fileNameList;
+              //   vm.suggest[index].keys = Object.keys(vm.suggest[index].files);
+            });
+
+            console.log("추천", vm.suggest);
+          },
+          function (fail) {
+            console.log("추천상품 오류 : ", fail);
+          }
+        );
       },
       function (error) {
         console.error(error);
@@ -412,15 +476,67 @@ export default {
 };
 </script>
 
-<style>
-img.center {
-  display: block;
-  margin: 2rem auto;
+<style scoped>
+body {
+  font-family: "Roboto Condensed", sans-serif;
+  /* font-family: "Black Han Sans", sans-serif; */
+  /* font-family: "Noto Sans KR", sans-serif; */
+  background-color: #f5f5f5;
 }
-.detail-box {
-  height: 90vh;
+button .chatting {
+  float: left;
+  margin-right: 0px;
 }
-#item-detail-img {
+.hedding {
+  font-size: 20px;
+  color: #ab8181;
+}
+
+.main-section {
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  transform: translate(-50%, 5%);
+}
+
+.left-side-product-box img {
+  width: 100%;
+}
+
+.left-side-product-box .sub-img img {
+  margin-top: 5px;
+  width: 83px;
+  height: 100px;
+}
+
+.right-side-pro-detail span {
+  font-family: "Black Han Sans", sans-serif;
+  font-size: 15px;
+}
+
+.right-side-pro-detail p {
+  font-size: 25px;
+  color: #070707;
+}
+
+.right-side-pro-detail .price-pro {
+  color: #e45641;
+}
+
+.right-side-pro-detail .tag-section {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 18px;
+  color: #5d4c46;
+}
+
+.pro-box-section .pro-box img {
+  width: 100%;
   height: 200px;
+}
+
+@media (min-width: 360px) and (max-width: 640px) {
+  .pro-box-section .pro-box img {
+    height: auto;
+  }
 }
 </style>
