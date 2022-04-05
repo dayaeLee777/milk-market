@@ -106,7 +106,7 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 //여기서 변수 선언.
 
 export default {
-  data() {
+  data () {
     return {
       user: {
         email: "",
@@ -120,9 +120,13 @@ export default {
     };
   },
   methods: {
-    register() {
+    register () {
       var vm = this;
-
+      db.collection('user').doc(this.user.name).set({
+        chatRooms: [],
+      }).then(() => {
+        console.log('sucess')
+      })
       if (this.user.password === this.user.passwordConfirm) {
         signup(
           this.user.email,
@@ -165,7 +169,7 @@ export default {
         });
       }
     },
-    execDaumPostcode() {
+    execDaumPostcode () {
       const vm = this;
       new daum.Postcode({
         oncomplete: function (data) {

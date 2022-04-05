@@ -1,7 +1,5 @@
 <template>
   <div>
-    {{ $route.params.userNickname }}
-    {{ $route.params.sessionId }}
     <div class="chat_window">
       <div class="top_menu">
         <div class="buttons">
@@ -39,16 +37,25 @@
             placeholder="Type your message here..."
           />
         </div>
-        <div class="send_message">
+        <div
+          @click="saveMessage"
+          class="send_message"
+        >
           <div class="icon"></div>
           <div class="text">Send</div>
         </div>
       </div>
     </div>
+    <button
+      class="btn btn-primary"
+      @click="goHome()"
+    >나가기</button>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import firebase from 'firebase'
 
 export default {
   name: 'PrivateChat',
@@ -88,7 +95,30 @@ export default {
           this.scrollToBottom()
         }, 1000)
       })
+    },
+    goHome () {
+      this.resetFirebaseUserStatus(this.$route.params.sessionId)
+      this.$router.push('/')
+      this.$store.dispatch('setInterval', this.user.userNickname)
+    },
+    resetFirebaseUserStatus (sessionId) {
+      this.chatRooms.forEach((obj) => {
+        if (obj.sessionId === sessionId) {
+          db.collection('user').doc(this.user.userNickname).update({
+            chatRooms: firebase.firestore.FieldValue.arrayRemove(obj)
+          }).then(() => {
+            console.log('remove')
+          })
+        }
+      })
+
     }
+  },
+  computed: {
+    ...mapState([
+      'user',
+      'chatRooms',
+    ]),
   },
 
   created () {

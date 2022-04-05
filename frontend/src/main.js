@@ -2,9 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import HNav from "./components/common/HNav.vue";
 import FNav from "./components/common/FNav.vue";
-import HBreadcumb from "./components/common/HBreadcrumb.vue";
 import firebase from 'firebase'
 import vuetify from "./plugins/vuetify";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
@@ -12,7 +10,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 require("firebase/firestore");
 
+
 Vue.use(BootstrapVue);
+
 const config = {
   apiKey: "AIzaSyAMpY-nVtLuHyM1GcnecPcZ8IBqIAShcvk",
   authDomain: "milk-91702.firebaseapp.com",
@@ -49,7 +49,6 @@ new Vue({
   render: (h) => h(App),
 }).$mount("#app");
 
-Vue.component("HNav", HNav);
+
 Vue.component("FNav", FNav);
-Vue.component("HBreadcrumb", HBreadcumb);
 Vue.use(IconsPlugin);

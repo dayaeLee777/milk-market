@@ -6,8 +6,7 @@ import store from "@/store";
 import Shop from "@/views/Shop.vue";
 import MyPage from "@/views/MyPage.vue";
 import Item from "@/views/Item.vue";
-import Explorer from "@/views/Explorer.vue";
-import Escrow from "@/views/Escrow.vue";
+
 import ScTestPage from "@/views/ScTestPage.vue";
 import Map from "@/views/Map.vue";
 import Community from "@/views/Community.vue";
@@ -38,7 +37,7 @@ const routes = [
     component: Community,
   },
   {
-    path: "/room",
+    path: "/room/",
     name: "room",
     component: () => import("@/views/ChatRoom.vue"),
   },
@@ -70,7 +69,7 @@ const routes = [
   {
     path: "/logout",
     name: "logout",
-    beforeEnter(to, from, next) {
+    beforeEnter (to, from, next) {
       store.commit("logout");
       const Swal = require("sweetalert2");
       Swal.fire({
@@ -177,60 +176,6 @@ const routes = [
       },
     ],
   },
-  {
-    name: "escrow",
-    path: "/escrow",
-    component: Escrow,
-    children: [
-      {
-        name: "escrow.purchase.detail",
-        path: "purchase/detail",
-        component: () => import("@/components/escrow/PurchaseTxDetail.vue"),
-      },
-      {
-        name: "escrow.sale.detail",
-        path: "sale/detail",
-        component: () => import("@/components/escrow/SaleTxDetail.vue"),
-      },
-      {
-        name: "escrow.history",
-        path: "history/:id",
-        component: () => import("@/components/escrow/EscrowHistory.vue"),
-      },
-    ],
-  },
-  {
-    name: "explorer",
-    path: "/explorer",
-    component: Explorer,
-    children: [
-      {
-        name: "explorer.dashboard",
-        path: "dashboard",
-        component: () => import("../components/explorer/Dashboard.vue"),
-      },
-      {
-        name: "explorer.block",
-        path: "blocks",
-        component: () => import("../components/explorer/BlockListView.vue"),
-      },
-      {
-        name: "explorer.block.detail",
-        path: "block/:blockNumber",
-        component: () => import("../components/explorer/BlockDetail.vue"),
-      },
-      {
-        name: "explorer.tx",
-        path: "txes",
-        component: () => import("../components/explorer/TxListView.vue"),
-      },
-      {
-        name: "explorer.tx.detail",
-        path: "tx/:hash",
-        component: () => import("../components/explorer/TxDetail.vue"),
-      },
-    ],
-  },
 ];
 
 const router = new VueRouter({
@@ -245,7 +190,7 @@ router.beforeEach((to, from, next) => {
   let isAvailableToGuest =
     ["/", "/login", "/register", "/test"].includes(to.path) ||
     to.path.startsWith("/explorer");
-
+  // this.$getFirebaseUserStatus(this.$store.state.userNickname)
   // 로그인도 하지 않았고 게스트에게 허용된 주소가 아니라면 로그인 화면으로 이동한다.
   if (!isSigned && !isAvailableToGuest) {
     // alert("로그인을 하신 뒤에 사용이 가능합니다.");

@@ -78,7 +78,7 @@ import { findByUserId as findWallet } from "../api/wallet.js";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 export default {
-  data() {
+  data () {
     return {
       user: {
         email: "",
@@ -87,7 +87,7 @@ export default {
     };
   },
   methods: {
-    login() {
+    login () {
       const scope = this;
       //함수 안에 함수를 쓸 때 this쓰면 바뀐다.
 
@@ -102,13 +102,12 @@ export default {
           scope.$store.commit("setJWTToken", response.data.token);
           scope.$store.commit("setUserNickname", response.data.nickname);
           console.log("여기까지 넘어갑니다." + response.data.token);
-          console.log("여기까지 넘어갑니다. 프로필이미지" + response.data.profileImage);
-          return response.data.token;
+          return response.data
         },
-        (response) => {
+        function (response) {
           findUser(
-            response,
-            (success) => {
+            response.token,
+            function (success) {
               console.log("findBy User " + success.data.bcode);
               Swal.fire({
                 position: "center",
@@ -130,7 +129,11 @@ export default {
               });
             }
           );
-          this.$router.push("/");
+          scope.$router.push("/");
+          return response.nickname
+        },
+        function (response) {
+          scope.$store.dispatch('setInterval', response)
         },
         (error) => {
           console.error(error);
@@ -146,7 +149,7 @@ export default {
         }
       );
     },
-    kakaoLogin() {
+    kakaoLogin () {
       window.Kakao.Auth.login({
         success: this.sendAccessToken,
       });
@@ -161,21 +164,21 @@ export default {
     //     }
     //   })
     // },
-    sendAccessToken(authObj) {
+    sendAccessToken (authObj) {
       let scope = this;
       sendAccessToken(
         authObj.access_token,
         function (res) {
           console.log(res);
           scope.$store.commit("setIsSigned", true);
-          scope.$router.push("/").catch(() => {});
+          scope.$router.push("/").catch(() => { });
         },
         function (err) {
           console.log(err);
         }
       );
     },
-    naverLogin() {
+    naverLogin () {
       var client_id = "QvNWqPgM7ebAubiDGxe8";
       var callbackUrl = "http://localhost:8080/api/oauth/naver";
       var url =

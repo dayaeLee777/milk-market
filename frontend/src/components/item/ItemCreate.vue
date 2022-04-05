@@ -68,7 +68,10 @@
                   placeholder=""
                 ></textarea>
               </div>
-              <div v-if="item.division === 'A01'" class="form-group">
+              <div
+                v-if="item.division === 'A01'"
+                class="form-group"
+              >
                 <label id="rentStartDate">대여 시작 날짜</label>
                 <input
                   type="datetime-local"
@@ -77,7 +80,10 @@
                   v-model="item.rentStartDate"
                 />
               </div>
-              <div v-if="item.division === 'A01'" class="form-group">
+              <div
+                v-if="item.division === 'A01'"
+                class="form-group"
+              >
                 <label id="rentEndDate">대여 종료 날짜</label>
                 <input
                   type="datetime-local"
@@ -116,8 +122,12 @@
                   />
                 </div>
               </div> -->
-              <button type="button" class="btn btn-primary" @click="save()">
-                
+              <button
+                type="button"
+                class="btn btn-primary"
+                @click="save()"
+              >
+
                 <!-- <router-view :key="$route.fullPath"/>
                 <router-link to ="/shop"/> -->
                 등록
@@ -139,7 +149,7 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 
 export default {
   name: "ItemCreate",
-  data() {
+  data () {
     return {
       item: {
         itemName: "",
@@ -169,7 +179,7 @@ export default {
   },
   methods: {
     // 상품을 등록한다.
-    save() {
+    save () {
       const vm = this;
       this.isCreating = true; // 아이템 등록 중임을 화면에 표시, 등록이 끝나면 false로 변경
       if (this.item.division === "A01") {
@@ -219,18 +229,18 @@ export default {
     //   this.item.imgName = files[0].name;
     // },
 
-    selectFile() {
+    selectFile () {
       this.image = this.$refs.itemImage.files;
       console.log(this.image);
     },
-    changeDateFormat(date) {
+    changeDateFormat (date) {
       if (date) {
         return date.substring(0, 10) + " " + date.substring(11, 16);
       } else {
         return null;
       }
     },
-    sendData() {
+    sendData () {
       const formdata = new FormData();
 
       if (this.image) {
@@ -252,7 +262,7 @@ export default {
         )
       );
       const token = this.$store.state.user.JWTToken;
-
+      const Swal = require("sweetalert2");
       const headers = {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
@@ -288,7 +298,6 @@ export default {
 </script>
 
 <style>
-
 .image-area {
   border: 2px dashed #ced4da;
   padding: 1rem;
