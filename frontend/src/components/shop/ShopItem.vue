@@ -79,7 +79,7 @@
         :per-page="perPage"
       ></b-pagination>
     </div>
-
+    <p>라우트 쿼리{{ $route.query.category }}</p>
     <!--상품 등록-->
     <div class="row">
       <div id="footer">
@@ -154,7 +154,14 @@ export default {
     },
   }),
   mounted() {
-    this.init();
+    var category = this.$route.query.category;
+    console.log(category);
+    if (category !== undefined) {
+      this.filterSelection5(category);
+    } else {
+      this.init();
+    }
+
     // this.findUser();
     this.getTotalPage();
     console.log("마운트", this.contents);
@@ -294,6 +301,31 @@ export default {
         },
         function (error) {
           console.error("우리동네 에러 :" + error);
+        }
+      );
+    },
+    filterSelection5(category) {
+      var vm = this;
+      console.log(category);
+      this.changeCategory = Object.keys(vm.categorys).find(
+        (key) => vm.categorys[key] === category
+      );
+      console.log("카테고리 클릭시");
+      console.log("카테고리 : " + this.changeCategory);
+      getSearchItemByCategory(
+        this.changeCategory,
+        this.division,
+        this.bcode,
+        this.sortBy,
+        this.order,
+        this.page,
+        this.size,
+        function (res) {
+          vm.contents = res.data;
+          console.log("카테고리 함수", vm.contents);
+        },
+        function (error) {
+          console.error("카테고리 에러 :" + error);
         }
       );
     },
