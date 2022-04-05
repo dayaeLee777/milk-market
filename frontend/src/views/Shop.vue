@@ -1,10 +1,6 @@
 <template>
-  <div class="item-body">
-    <header></header>
-
-    <!-- <item-list style="margin-top: 100px"></item-list> -->
+  <div>
     <shop-item></shop-item>
-    <!-- <f-nav></f-nav> -->
   </div>
 </template>
 

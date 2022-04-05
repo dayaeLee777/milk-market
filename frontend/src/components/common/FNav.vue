@@ -50,10 +50,4 @@ export default {
 </script>
 
 <style scoped>
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> 0d9502a8a991e225a90958d82c8ce1411168bec3
 </style>
