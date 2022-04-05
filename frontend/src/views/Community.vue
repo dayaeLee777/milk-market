@@ -59,7 +59,7 @@
 
         <ul
           class="pagination"
-          style="justify-content : center"
+          style="justify-content : center; margin-top : 50px;"
         >
           <li class="page-item disabled"><a
               class="page-link"
