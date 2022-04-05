@@ -1,6 +1,5 @@
 <template>
   <div class="item-body">
-    <header></header>
     <router-view></router-view>
   </div>
 </template>
@@ -10,8 +9,7 @@ export default {};
 </script>
 
 <style>
-  .item-body {
-    height: 120vh;
-  }
-
+.item-body {
+  height: 120vh;
+}
 </style>
