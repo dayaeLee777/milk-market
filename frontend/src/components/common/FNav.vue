@@ -3,8 +3,13 @@
     <div class="container">
       <div class="row pt-4">
         <div class="col-md-2 col-xs-6">
-          <img class="footer__img" src="https://image.ibb.co/kcVou6/path3000.png" />
-          <h1 class="footer__title">Milk<span class="footer__light">Market</span></h1>
+          <img
+            class="footer__img"
+            src="https://image.ibb.co/kcVou6/path3000.png"
+          />
+          <h1 class="footer__title">
+            Milk<span class="footer__light">Market</span>
+          </h1>
         </div>
         <div class="col-md-10 col-xs-6">
           <div class="footer__social">
@@ -35,49 +40,6 @@
       </div>
     </div>
   </footer>
-  <!-- <div class="container-fluid bg-secondary fixed-bottom">
-    <div class="row p-2 justify-content-center">
-      <div class>
-        <img
-          @click="returnHome()"
-          class="navbar"
-          src="../../../public/images/home.png"
-          alt="home"
-        />
-      </div>
-      <div>
-        <img
-          @click="openBoard()"
-          class="navbar"
-          src="../../../public/images/board.png"
-          alt="board"
-        />
-      </div>
-      <div>
-        <img
-          @click="openMap()"
-          class="navbar"
-          src="../../../public/images/location.png"
-          alt="location"
-        />
-      </div>
-      <div>
-        <img
-          class="navbar"
-          src="../../../public/images/chat.png"
-          alt="chat"
-        />
-      </div>
-      <div>
-        <img
-          class="navbar"
-          src="../../../public/images/info.png"
-          alt="info"
-        />
-      </div> -->
-  <!-- </div>
-  </div> -->
-  <!-- <div></div> -->
 </template>
 
 <script>
@@ -97,5 +59,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div id="main-overview" class="container">
+  <div id="main-overview">
     <!-- 검색 -->
 
     <div
@@ -50,26 +50,12 @@
         <button class="btn" @click="filterSelection4">우리동네</button>
       </div>
       <div class="row">
-        <!-- <div class="column nature">
-        <div class="content">
-          <img
-            src="https://3.bp.blogspot.com/-ZKBbW7TmQD4/U6P_DTbE2MI/AAAAAAAADjg/wdhBRyLv5e8/s1600/noimg.gif"
-            alt="Mountains"
-            style="width: 100%"
-          />
-          <h4>Mountains</h4>
-          <p>Lorem ipsum dolor..</p>
-        </div>
-      </div> -->
         <div class="row row-cols-2 row-cols-md-4 g-5">
           <div v-if="contents.length === 0">등록된 상품이 없습니다.</div>
           <div class="col" v-for="(content, index) in lists" :key="index">
             <item-each :content="content"></item-each>
           </div>
         </div>
-        <!-- <div class="column" v-for="(content, index) in contents" :key="index">
-        <item-each :content="content"></item-each>
-      </div> -->
       </div>
 
       <!-- 페이지네이션 -->
@@ -79,7 +65,6 @@
         :per-page="perPage"
       ></b-pagination>
     </div>
-    <p>라우트 쿼리{{ $route.query.category }}</p>
     <!--상품 등록-->
     <div class="row">
       <div id="footer">
@@ -98,7 +83,6 @@
 
 <script>
 import ItemEach from "@/components/item/ItemEach";
-import { findUser } from "@/api/user.js";
 import {
   findItemListByPage,
   getItemList,
@@ -110,10 +94,6 @@ import {
 } from "@/api/item.js";
 import { allList } from "@/api/tap.js";
 
-var btnContainer = document.getElementById("myBtnContainer");
-var btns = document.getElementsByClassName("content");
-
-console.log(btns);
 export default {
   components: {
     ItemEach,
@@ -164,9 +144,6 @@ export default {
 
     // this.findUser();
     this.getTotalPage();
-    console.log("마운트", this.contents);
-    console.log("categorys", this.categorys);
-    console.log("BackUp 콘솔");
   },
   computed: {
     rows() {
@@ -370,24 +347,8 @@ export default {
 
     //아이템 등록
     itemWrite() {
-      // this.$router.push({
-      //   name: "item.write",
-      // });
       this.$router.push({ name: "item.create" });
     },
-    // findUser() {
-    //   var vm = this;
-    //   findUser(
-    //     function (res) {
-    //       console.log("findUser" + res.data.bcode);
-    //       vm.$store.commit("setBcode", res.data.bcode);
-    //     },
-    //     function (error) {
-    //       console.log("findUser Error");
-    //       console.error(error);
-    //     }
-    //   );
-    // },
   },
 };
 </script>
