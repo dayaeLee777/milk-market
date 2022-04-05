@@ -30,6 +30,7 @@
 
 <script>
 import axios from 'axios';
+import { API_BASE_URL } from "@/config/index.js";
 
 export default {
   name: "commnunityWrite",
@@ -54,7 +55,7 @@ export default {
       }
 
       axios({
-        url : `http://localhost:8080/api/community`,
+        url : `${API_BASE_URL}/api/community`,
         method: 'post',
         headers,
         data,
