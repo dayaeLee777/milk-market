@@ -83,25 +83,28 @@
         </div>
         <hr>
         <div class="d-flex justify-content-around">
-          <div>
-            <h3 class="text-center">내가 작성한 글</h3>
+          <div class="profile-content">
+            <h3 class="text-center my-5">내가 작성한 글</h3>
             <div v-if="!communityList.length">
-              <h4>아직 작성한 글이 없습니다!!</h4>
+              <h4 class="text-center">아직 작성한 글이 없습니다!!</h4>
             </div>
             <div v-else>
               <div 
                 v-for="community in communityList"
                 :key="community.communityId"
                 class="my-content">
-                <span
-                  @click="moveToCommunity(community.communityId, community.userNickname)">제목: {{ community.title }}</span>
+                <div class="d-flex"
+                  @click="moveToCommunity(community.communityId, community.userNickname)">
+                  제목: {{ community.title }}
+                </div>
+              
               </div>
             </div>
           </div>
-          <div>
-            <h3 class="text-center">나의 wish 리스트</h3>
+          <div class="profile-content">
+            <h3 class="text-center my-5">나의 wish 리스트</h3>
             <div v-if="!mywishList.length">
-              <h4>아직 찜한 아이템이 없어요!</h4>
+              <h4 class="text-center">아직 찜한 아이템이 없어요!</h4>
             </div>
             <div v-else>
               <div 
@@ -366,6 +369,9 @@ export default {
 </script>
 
 <style>
+.profile-content{
+  width: 400px;
+}
 .profile-img {
   height: 200px;
   width: 180px;
@@ -377,6 +383,7 @@ export default {
 }
 .my-content {
   font-size: 20px;
+  margin: 15px;
   cursor: pointer;
 }
 .profile-info {

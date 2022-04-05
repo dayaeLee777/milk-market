@@ -8,7 +8,7 @@
         </div>
         <div class="card__info">
           <h3 class="card__title">{{ slide.itemName }}</h3>
-          <div class="badges">
+          <div class="badges d-flex justify-content-between">
             <!-- <span class="badge badge-error">대여</span> -->
             <span class="badge badge-inverse">
               <svg
@@ -33,8 +33,31 @@
             <span v-if="slide.status === `C02`">
               결제 완료
             </span>
+            <span v-if="slide.status === `C03`">
+              구매자 수령 완료
+            </span>            
+            </span>
+            <span
+              v-if="slide.status === `C01` || slide.status === `C02`" 
+              class="badge badge-error py-1"
+              @click="deleteItem(slide.itemId)">
+              판매 취소
+            </span>
+            <span
+              v-if="slide.status === `C03`"
+              class="badge badge-success py-1"
+              @click="endEscrow(slide.itemId, slide.price)"
+              >
+            판매자 확인
             </span>
           </div>
+          <span
+            class="badges"
+            v-if="slide.status === `C03`">
+            <span class="badge badge-warn text-danger">
+              ※확인처리를 통해 판매금 수령이 가능합니다.
+            </span>
+          </span>            
         </div>
       </article>
     </section>
@@ -58,6 +81,41 @@ export default {
     return {};
   },
   methods: {
+    deleteItem(itemId) {
+      const token = this.$store.state.user.JWTToken;
+
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      axios({
+        url: `${API_BASE_URL}/api/item/delete/${itemId}`,
+        method: 'put',
+        headers,
+      })
+      .then( res => {
+          Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "판매 취소 처리 완료",
+          showConfirmButton: false,
+          timer: 1500,
+        });   
+      })
+      .catch( err => {
+          Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "다시 시도해주세요",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+
+    },
+    endEscrow(itemId, price) {
+      this.$emit('end-escrow', itemId, price);
+    },
     itemDetail(itemId) {
       this.$router.push({
         name: "item.detail",
@@ -81,13 +139,13 @@ export default {
 .hotitemslide .cards {
   color: black;
   font-family: "Roboto Slab", serif;
-  width: 80%;
+  width: 75%;
   display: flex;
   display: -webkit-flex;
   justify-content: center;
   -webkit-justify-content: center;
   /* max-width: 820px; */
-  margin-left: 70px;
+  margin-left: 50px;
 }
 
 .hotitemslide .card__like {
@@ -215,7 +273,7 @@ export default {
   margin-right: 3px;
   padding: 2px 6px 1px;
   font-family: "Noto Sans KR", sans-serif;
-  font-size: 4px;
+  font-size: 5px;
   font-weight: bold;
   white-space: nowrap;
   color: #ffffff;
@@ -258,5 +316,11 @@ export default {
 }
 .badges .badge-inverse:hover {
   background-color: #2974bb;
+}
+.badges .badge-warn {
+  background-color: #fff4b3;
+}
+.badges .badge-warn:hover {
+  background-color: #d9c44e;
 }
 </style>

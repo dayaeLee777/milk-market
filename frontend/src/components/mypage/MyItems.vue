@@ -4,8 +4,8 @@
     ></h-breadcrumb> -->
     <div class="container">
       <my-page-nav></my-page-nav>
-      <div class="row my-items">
-        <h4 class="mt-5 text-center">판매 중인 아이템</h4>
+      <div class="row my-items mt-5">
+        <h4 class="mt-5 text-center item-title">판매 중인 아이템</h4>
         <div v-if="saleItems.length">
           <div class="caros-box">
             <carousel-3d :width="400" :height="280" :controls-visible="true">
@@ -14,7 +14,8 @@
                   :slide="item"
                   :contract="contract"
                   :coinbase="coinbaseAddress"
-                  :walletAddress="user.walletAddress"/>
+                  :walletAddress="user.walletAddress"
+                  @end-escrow="receiveMilk" />
               </slide>
             </carousel-3d>
           </div>
@@ -23,7 +24,7 @@
           <h5 class="text-center">현재 판매중인 상품이 없어요!</h5>
         </div>
         <div>
-        <h4 class="mt-5 text-center">내가 구매중인 상품</h4>
+        <h4 class="mt-5 text-center item-title">내가 구매중인 상품</h4>
           <div v-if="purchaseTx.length">
             <div class="caros-box">
               <carousel-3d :width="400" :height="280" :controls-visible="true">
@@ -33,8 +34,9 @@
                     :contract="contract"
                     :coinbase="coinbaseAddress"
                     :walletAddress="user.walletAddress" 
-                    @confirm-purchase="confirm"
+                    @confirm-purchase="confirmPurchase"
                     />
+                    <!-- @받을땐 케밥케이스, 실행하는 메서드는 카멜케이스 -->
                 </slide>  
               </carousel-3d>
             </div>
@@ -44,15 +46,6 @@
           </div>
         </div>
         
-      </div>
-      <div v-if="confirmModal">  
-        <div class="modal">
-          <div class="overlay">
-            <div class="modal-card">
-              테스트!
-            </div>
-          </div>
-        </div>
       </div>
     </div>  
   </div>  
@@ -92,12 +85,82 @@ export default {
       itemStatus: "",
       contract: "",
       coinbaseAddress: "",
-      confirmModal: false,
     };
   },
   methods: {
-    confirm() {
-      this.confirmModal = true;
+    receiveMilk(itemId, price) {
+      this.refund(price);
+      this.deleteItem(itemId);
+    },
+    deleteItem(itemId) {
+      const token = this.user.token;
+
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      axios({
+        url: `${API_BASE_URL}/api/item/delete/${itemId}`,
+        method: 'put',
+        headers,
+      })
+      .then( res => {
+        console.log(res)
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "수령 완료!",
+          showConfirmButton: false,
+          timer: 1500,
+        });   
+        setTimeout( () => {
+          this.$router.push({ name: "mypage.items" });
+        }, 1500);      
+      })
+      .catch( err => {
+        console.log(err)
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "다시 시도해주세요",
+          showConfirmButton: false,
+          timer: 1500,
+        });        
+      })      
+    },
+    confirmPurchase(itemId) {
+      const token = this.user.token;
+
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      axios({
+        url: `${API_BASE_URL}/api/item/purchase/confirm/${itemId}`,
+        method: 'post',
+        headers,
+      })
+      .then( res => {
+          Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "구매 확정 완료!",
+          showConfirmButton: false,
+          timer: 1500,
+        }) 
+        setTimeout( () => {
+          this.$router.push({ name: "mypage.items" });
+        }, 1500);
+      })
+      .catch( err => {
+        Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "다시 시도해주세요",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+      });
     },
     makeContract() {
       const Web3 = require('web3');
@@ -112,6 +175,7 @@ export default {
     },
     fetchMyProduct() {
       const token = this.user.token;
+
       const headers = {
         Authorization: `Bearer ${token}`
       }
@@ -124,8 +188,6 @@ export default {
       .then( res => {
         console.log(res.data.list)
         this.saleItems = res.data.list
-
-        
       })
       .catch( err => {
         console.log(err)
@@ -164,8 +226,6 @@ export default {
       const approve = await this.contract.methods.approve(from, amountToBn).send({from: from});
       const transfer = await this.contract.methods.transferFrom(from, to, amountToBn).send({from: from});
 
-      this.$router.go();
-
     },
     cancelPurchase(price, itemId) {
       const token = this.user.token;
@@ -179,14 +239,17 @@ export default {
         headers,
       })
       .then( res => {
-          Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "구매 취소 완료!",
-          showConfirmButton: false,
-          timer: 1500,
-        });   
-          this.refund(price);
+        this.refund(price);
+        Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "구매 취소 완료!",
+        showConfirmButton: false,
+        timer: 1500,
+        });
+        setTimeout(() => {
+          this.$router.push({ name: "mypage.items" });
+        }, 1500);   
       })
       .catch( err => {
           Swal.fire({
@@ -219,6 +282,18 @@ export default {
 .caros-box {
   height: 32vh; 
 }
+.item-title {
+  color: rgb(48, 47, 50);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 38px;
+  margin-left: 550px;
+  background-color: #7975f0;
+  border-radius: 20px;
+  box-shadow: 1.2px 1.2px 2px 2px rgba(53, 52, 52, 0.844);
+}
 .table td,
 .table tr {
   text-align: center;
@@ -229,47 +304,6 @@ export default {
 }
 .my-items {
   font-family: "Black Han Sans", sans-serif;
-}
-.escrow-btn {
-  font-size: 12px;
-  color: aliceblue;
-  background-color: #4a4879;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80px;
-  height: 25px;
-  border-color: #45436d;
-  border-style: solid;
-  border-radius: 20px;
-  margin-right: 3px;
-}
-.close-btn {
-  font-size: 12px;
-  color: aliceblue;
-  background-color: #eb459f;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80px;
-  height: 25px;
-  border-color: #7f4264;
-  border-style: solid;
-  border-radius: 20px;
-  margin-right: 3px;
-}
-.escrow-state {
-  font-size: 12px;
-  color: aliceblue;
-  background-color: #5865f2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80px;
-  height: 25px;
-  border-color: #5865f2;
-  border-style: solid;
-  border-radius: 20px;
 }
 
 .modal

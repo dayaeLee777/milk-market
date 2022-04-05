@@ -115,50 +115,7 @@
                           class="modal-title"
                           id="rentModalLabel"
                         >
-                          Modal title
-                        </h5>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body">...</div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-secondary"
-                          data-bs-dismiss="modal"
-                        >
-                          Close
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-primary"
-                        >
-                          Save changes
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  class="modal fade"
-                  id="purchaseModal"
-                  tabindex="-1"
-                  aria-labelledby="purchaseModalLabel"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5
-                          class="modal-title"
-                          id="purchaseModalLabel"
-                        >
-                          Modal title
+                          결제
                         </h5>
                         <button
                           type="button"
@@ -193,7 +150,7 @@
                           </button>
                         </div>
                       </div>
-                      <div class="modal-body">...</div>
+                      <div class="modal-body">  </div>
                       <div class="modal-footer">
                         <button
                           type="button"
@@ -201,7 +158,78 @@
                           data-bs-dismiss="modal"
                           @click="doPay"
                         >
-                          결재하기
+                          결제하기
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          취소
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="modal fade"
+                  id="purchaseModal"
+                  tabindex="-1"
+                  aria-labelledby="purchaseModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5
+                          class="modal-title"
+                          id="purchaseModalLabel"
+                        >
+                          결제
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="d-flex">
+                          <div class="text-primary">
+                            현재 잔액: {{ milkBalance }}MILK
+                          </div>
+                        </div>
+                        <div v-if="milkBalance - item.price >= 0">
+                          <div></div>
+                          <div class="mt-2">
+                            현재 상품 가격: {{ item.price }}MILK
+                          </div>
+                          <div class="mt-2 fw-bold">
+                            구매 후 잔액: {{ milkBalance - item.price }}MILK
+                          </div>
+                        </div>
+                        <div v-else>
+                          <p calss="text-danger">MILK 잔액이 부족합니다!</p>
+                          <button
+                            class="btn btn-secondary btn-sm ms-2"
+                            data-bs-dismiss="modal"
+                            @click="moveToWallet"
+                          >
+                            충전하기!
+                          </button>
+                        </div>
+                      </div>
+                      <div class="modal-body">  </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          data-bs-dismiss="modal"
+                          @click="doPay"
+                        >
+                          결제하기
                         </button>
                         <button
                           type="button"
@@ -329,10 +357,22 @@ export default {
       })
         .then((res) => {
           console.log(res);
-          console.log("성공!");
+          Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "구매 성공",
+          showConfirmButton: false,
+          timer: 1500,
+        });   
         })
         .catch((err) => {
-          console.log(err);
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "다시 시도해주세요",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         });
     },
     // 코인 베이스로 이동
@@ -351,7 +391,7 @@ export default {
         .send({ from: from });
 
       this.purchase();
-      this.$router.push({ name: "mypage.items" });
+      this.$router.push({ name: "shop" });
     },
     goChatting () {
       const A = this.item.userNickname > this.$store.state.user.userNickname ? this.$store.state.user.userNickname : this.item.userNickname;

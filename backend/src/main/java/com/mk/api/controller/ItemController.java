@@ -209,6 +209,17 @@ public class ItemController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
 
+	@PostMapping("/purchase/confirm/{itemId}")
+	public ResponseEntity<? extends BaseResponseDto> purchaseConfirm(
+			@PathVariable("itemId") @RequestBody @ApiParam(value = "조회할 상품 ID", required = true) String itemId,
+			@ApiIgnore @RequestHeader("Authorization") String accessToken) {
+
+		if (itemService.purchaseConfirm(accessToken, itemId)) {
+			return ResponseEntity.status(HttpStatus.OK).body(BaseResponseDto.of(HttpStatus.OK.value(), "Success"));
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
+	}
+
 	@DeleteMapping("/cancel/{itemId}")
 	@ApiOperation(value="구매 취소", notes="<strong>구매를 취소한다.</strong>")
 	@ApiResponses({

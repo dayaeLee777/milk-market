@@ -33,12 +33,17 @@
             <span v-if="slide.status === `C02`">
               결제 완료
             </span>
+            <span v-if="slide.status === `C03`">
+              구매 확정
+            </span>            
             </span>
-            <div class="badges">
+            <div
+              v-if="slide.status === `C01` || slide.status === `C02`" 
+              class="badges">
               <span 
                 class="badge badge-info"
                 @click="confirm(slide.itemId)">
-                구매 확정
+                수령 확인
               </span>
               <span class="badge badge-error"
                 @click="cancelPurchase(slide.price, slide.itemId)"

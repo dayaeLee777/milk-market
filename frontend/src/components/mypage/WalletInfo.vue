@@ -86,7 +86,7 @@
                 </td>
               </tr>
               <tr>
-                <th>내 지갑주소</th>
+                <th>지갑주소</th>
                 <td class="text-right">{{ walletAddress }}</td>
                 <!-- <th>ETH 충전 횟수</th>
                 <td class="text-right">{{ wallet["receivingCount"] }}회</td> -->
@@ -101,7 +101,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body d-flex flex-column">
-                    <p class="eth-font">현재 환율: 1ETH = {{ ethPrice.toLocaleString() }}</p>
+                    <p class="eth-font">현재 환율: 1ETH = {{ ethPrice.toLocaleString() }}원</p>
                     <div class="d-flex align-items-center">
                       <label for="won">충전할 ETH: </label>
                       <input type="number" step="0.001" class="form-control col-3 ms-3" id="won" v-model="amountCharge">
@@ -163,7 +163,7 @@ export default {
       coinbaseAddress: "",
       contract: "",
       amountCharge: 0,
-      ethPrice: 3972000, // 크롤링으로 받아오는걸로
+      ethPrice: 4304000, // 크롤링으로 받아오는걸로
     };
   },
   computed: {
@@ -267,6 +267,14 @@ export default {
           this.fetchEtherBalance();
         })
         this.chargeMilk();
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "MILK 충전이 성공!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+           
      }
 
 
@@ -362,6 +370,9 @@ export default {
 </script>
 
 <style>
+th {
+  width: 150px;
+}
 #mywallet-info th {
   text-align: left;
 }

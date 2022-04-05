@@ -30,6 +30,7 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { API_BASE_URL } from "@/config/index.js";
 
 export default {
@@ -61,12 +62,24 @@ export default {
         data,
       })
       .then((res)=>{
-        console.log("글 등록 성공");
+          Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "게시글 작성 완료",
+          showConfirmButton: false,
+          timer: 1500,
+          });   
         this.$router.push("/community")
       })
       .catch((err)=>{
         console.log(err);
-        console.log("글 등록 실패");
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "다시 시도해주세요",
+            showConfirmButton: false,
+            timer: 1500,
+          });
       })
 
       

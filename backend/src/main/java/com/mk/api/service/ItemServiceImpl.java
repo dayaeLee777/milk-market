@@ -130,6 +130,9 @@ public class ItemServiceImpl implements ItemService {
 		List<Item> itemList = itemRepository.findByUser(user);
 
 		for (Item item: itemList) {
+			if (item.isDelYn()) {
+				continue;
+			}
 			Map<String, String> itemImageList = new HashMap<String, String>();
 			itemImageRepository.findByItem(item).forEach( file -> {
 				String originFileName = file.getOriginFileName();
@@ -221,7 +224,6 @@ public class ItemServiceImpl implements ItemService {
 
 		if (item == null)
 			return null;
-
 		Map<String, String> itemImageList = new HashMap<String, String>();
 
 		itemImageRepository.findByItem(item).forEach(file -> {
@@ -273,6 +275,19 @@ public class ItemServiceImpl implements ItemService {
 				.user(user)
 				.build();
 		purchaseRepository.save(purchase);
+		return true;
+	}
+
+	@Override
+	public Boolean purchaseConfirm(String accessToken, String itemId) {
+		User user = jwtTokenService.convertTokenToUser(accessToken);
+		Item item = itemRepository.findById(itemId).orElse(null);
+		if (item == null) {
+			return false;
+		}
+		item.setStatus(Code.C03);
+		itemRepository.save(item);
+
 		return true;
 	}
 
