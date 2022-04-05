@@ -6,8 +6,6 @@ import store from "@/store";
 import Shop from "@/views/Shop.vue";
 import MyPage from "@/views/MyPage.vue";
 import Item from "@/views/Item.vue";
-import Explorer from "@/views/Explorer.vue";
-import Escrow from "@/views/Escrow.vue";
 import ScTestPage from "@/views/ScTestPage.vue";
 import Map from "@/views/Map.vue";
 import Community from "@/views/Community.vue";
@@ -173,60 +171,6 @@ const routes = [
         name: "item.purchase",
         path: "purchase/:id",
         component: () => import("../components/item/ItemPurchase.vue"),
-      },
-    ],
-  },
-  {
-    name: "escrow",
-    path: "/escrow",
-    component: Escrow,
-    children: [
-      {
-        name: "escrow.purchase.detail",
-        path: "purchase/detail",
-        component: () => import("@/components/escrow/PurchaseTxDetail.vue"),
-      },
-      {
-        name: "escrow.sale.detail",
-        path: "sale/detail",
-        component: () => import("@/components/escrow/SaleTxDetail.vue"),
-      },
-      {
-        name: "escrow.history",
-        path: "history/:id",
-        component: () => import("@/components/escrow/EscrowHistory.vue"),
-      },
-    ],
-  },
-  {
-    name: "explorer",
-    path: "/explorer",
-    component: Explorer,
-    children: [
-      {
-        name: "explorer.dashboard",
-        path: "dashboard",
-        component: () => import("../components/explorer/Dashboard.vue"),
-      },
-      {
-        name: "explorer.block",
-        path: "blocks",
-        component: () => import("../components/explorer/BlockListView.vue"),
-      },
-      {
-        name: "explorer.block.detail",
-        path: "block/:blockNumber",
-        component: () => import("../components/explorer/BlockDetail.vue"),
-      },
-      {
-        name: "explorer.tx",
-        path: "txes",
-        component: () => import("../components/explorer/TxListView.vue"),
-      },
-      {
-        name: "explorer.tx.detail",
-        path: "tx/:hash",
-        component: () => import("../components/explorer/TxDetail.vue"),
       },
     ],
   },

@@ -2,7 +2,6 @@
   <div>
     <!-- <h-breadcrumb
     ></h-breadcrumb> -->
-    
     <div class="container">
       <my-page-nav></my-page-nav>
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -350,42 +349,6 @@ export default {
         });
       })
     },
-    kakaoPay() {
-
-      // 문서보고도 혼자서 이렇게 할 줄 알아야 한다 ㅠ
-      let headers = {
-            'Authorization': 'KakaoAK '+'32486cdd0cf1d8255805865d025b7cd4',
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-        };
-
-        let params = {
-            'cid': 'TC0ONETIME', // 테스트 코드
-            'partner_order_id': '423423',
-            'partner_user_id': '123',
-            'item_name': '물품',
-            'quantity': 1,
-            'total_amount': 20000,
-            'vat_amount': 200,
-            'tax_free_amount': 0,
-            'approval_url': 'http://localhost:8083/mypage/wallet_info',
-            'fail_url': 'http://localhost:8083/mypage/wallet_info',
-            'cancel_url': 'http://localhost:8083/mypage/wallet_info',
-        };
-
-        axios({
-          url:'/v1/payment/ready',
-          method: 'POST',
-          headers: headers,
-          form: params          
-        })
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-
-    }
   },
   mounted() {
     this.milkBalnce();

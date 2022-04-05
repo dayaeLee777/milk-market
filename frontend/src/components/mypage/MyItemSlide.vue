@@ -107,23 +107,6 @@ export default {
   box-sizing: border-box;
 }
 
-/* body,
-html {
-  font-family: "Roboto Slab", serif;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-}
-
-body {
-  background-color: #d2dbdd;
-  display: flex;
-  display: -webkit-flex;
-  -webkit-justify-content: center;
-  -webkit-align-items: center;
-  justify-content: center;
-} */
 </style>
 
 <style>
