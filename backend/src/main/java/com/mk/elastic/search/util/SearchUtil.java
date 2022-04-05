@@ -3,7 +3,6 @@ package com.mk.elastic.search.util;
 import java.util.Date;
 import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.core.CountRequest;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -16,8 +15,9 @@ import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.util.CollectionUtils;
 
 import com.mk.db.code.Code;
-import com.mk.elastic.search.PagedRequestDTO;
 import com.mk.elastic.search.SearchRequestDTO;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class SearchUtil {
@@ -29,19 +29,27 @@ public class SearchUtil {
 		try {
 
 			final int page = 0;
-			final int size = dto.getSize();
+			final int size = dto.getSize() <= 0 ? dto.getDefaultSize() : dto.getSize();
 			final int from = page <= 0 ? 0 : page * size;
-			
+
 			QueryBuilder searchQuery = getQueryBuilder(dto);
 			QueryBuilder divisionQuery = null;
 			QueryBuilder categoryQuery = null;
 			QueryBuilder bcodeQuery = null;
+			QueryBuilder statusQuery = null;
+
+			if (dto.getStatus() == null)
+				statusQuery = getQueryBuilder("status", Code.C01);
+			else
+				statusQuery = getQueryBuilder("status", dto.getStatus());
 
 			BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
+			boolQuery.must(statusQuery);
 
 			if (searchQuery != null) {
 				boolQuery.must(searchQuery);
 			}
+			
 			if (dto.getDivision() != null) {
 				divisionQuery = getQueryBuilder("division", dto.getDivision());
 				boolQuery.must(divisionQuery);

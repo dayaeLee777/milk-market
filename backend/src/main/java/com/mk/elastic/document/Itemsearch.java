@@ -39,6 +39,9 @@ public class Itemsearch {
 
 	@Enumerated(EnumType.STRING)
 	private Code category;
+
+	@Enumerated(EnumType.STRING)
+	private Code status;
 	
 	private int price;
 	
