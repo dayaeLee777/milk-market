@@ -23,7 +23,7 @@
             v-for="(content, idx) in contents"
             :key="idx"
           >
-            <td @click="fnBoardDetail(content.communityId, content.userNickname)">{{content.title}}</td>
+            <td class="text-center" style="width:50%" @click="fnBoardDetail(content.communityId, content.userNickname)">{{content.title}}</td>
             <td @click="fnBoardDetail(content.communityId, content.userNickname)">{{content.userNickname}}</td>
             <td @click="fnBoardDetail(content.communityId, content.userNickname)">{{content.regTime}}</td>
             <td @click="fnBoardDetail(content.communityId, content.userNickname)">{{content.hit}}</td>
