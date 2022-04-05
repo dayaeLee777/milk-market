@@ -15,7 +15,7 @@
             <th scope="col">아이디</th>
             <th scope="col">날짜</th>
             <th scope="col">조회수</th>
-            <th scope="col">삭제</th>
+            <!-- <th scope="col">삭제</th> -->
           </tr>
         </thead>
         <tbody>
@@ -24,21 +24,22 @@
             :key="idx"
           >
             <td @click="fnBoardDetail(content.communityId, content.userNickname)">{{content.title}}</td>
-            <td>{{content.userNickname}}</td>
-            <td>{{content.regTime}}</td>
-            <td>{{content.hit}}</td>
-            <td>
+            <td @click="fnBoardDetail(content.communityId, content.userNickname)">{{content.userNickname}}</td>
+            <td @click="fnBoardDetail(content.communityId, content.userNickname)">{{content.regTime}}</td>
+            <td @click="fnBoardDetail(content.communityId, content.userNickname)">{{content.hit}}</td>
+            <!-- <td> -->
               <!-- <button type="button" class="btn btn-danger" @click ="communityWrite">
                 삭제
               </button> -->
-              <button
+
+              <!-- <button
                 @click="deleteCommunity(content.communityId, content.userNickname)"
                 v-if="$store.state.user.userNickname === content.userNickname"
                 type="button"
                 class="btn-close"
                 aria-label="Close"
-              ></button>
-            </td>
+              ></button> -->
+            <!-- </td> -->
           </tr>
           <tr v-if="contents.length == 0">
             <td colspan="4">데이터가 없습니다.</td>
