@@ -1,5 +1,5 @@
 <template>
-  <div class="row sub-nav mt-5">
+  <div class="row sub-nav mt-2">
     <div class="col-md-6">
       <nav class="nav nav-pills nav-fill">
         <router-link
@@ -20,13 +20,13 @@
           class="nav-item nav-link"
           v-bind:class="{ active: viewName == 'mypage.update' }"
           :to="{ name: 'mypage.update' }"
-          >My 프로필</router-link
+          >프로필</router-link
         >
         <router-link
           class="nav-item nav-link"
           v-bind:class="{ active: viewName == 'mypage.items' }"
           :to="{ name: 'mypage.items' }"
-          >My 거래내역</router-link
+          >거래내역</router-link
         >
         <!-- <router-link
         class="nav-item nav-link"

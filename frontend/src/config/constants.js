@@ -8,21 +8,21 @@ export const CATEGORIES = {
 };
 
 export const ITEM_STATUS = {
-    ONSALE: {
+    "C01": {
         symbol: "C01",
         explanation: "판매중"
     },
-    CONFIRMED: {
+    "C02": {
         symbol: "C02",
-        explanation: "판매완료(구매확정)"
+        explanation: "입금 완료"
     },
-    CANCELED: {
-        symbol: "X",
-        explanation: "취소됨"
+    "C03": {
+        symbol: "C03",
+        explanation: "구매 확정"
     },
-    DELETED: {
-        symbol: "N",
-        explanation: "삭제됨"
+    "C04": {
+        symbol: "C04",
+        explanation: "거래 취소"
     },
     symbolToStatus(symbol) {
         switch (symbol) {

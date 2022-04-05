@@ -101,7 +101,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body d-flex flex-column">
-                    <p class="eth-font">현재 환율: 1ETH = \  {{ ethPrice.toLocaleString() }}</p>
+                    <p class="eth-font">현재 환율: 1ETH = {{ ethPrice.toLocaleString() }}</p>
                     <div class="d-flex align-items-center">
                       <label for="won">충전할 ETH: </label>
                       <input type="number" step="0.001" class="form-control col-3 ms-3" id="won" v-model="amountCharge">
