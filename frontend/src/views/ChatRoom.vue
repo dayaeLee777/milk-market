@@ -21,7 +21,7 @@
         >
           <div class="chat-avatar">
             <div class="avatar">
-              <img :src="[message.author === $store.state.user.userNickname ? user.profileImage : profileImage]">
+              <img :src="[message.author === $store.state.user.userNickname ? user.profileImage : $route.params.profileImage]">
             </div>
           </div>
           <div class="chat-body">
@@ -65,7 +65,6 @@ export default {
       message: null,
       messages: [],
       authUser: {},
-      profileImage: ''
     }
   },
 
@@ -113,13 +112,6 @@ export default {
         }
       })
     },
-    setProfileImage (sessionId) {
-      this.chatRooms.forEach((obj) => {
-        if (obj.sessionId === sessionId) {
-          this.profileImage = obj.profileImage
-        }
-      })
-    }
   },
   computed: {
     ...mapState([
@@ -130,7 +122,6 @@ export default {
 
   created () {
     this.fetchMessages()
-    this.setProfileImage(this.$route.params.sessionId)
   },
 }
 </script>

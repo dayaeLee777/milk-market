@@ -250,6 +250,7 @@ export default {
         itemName: "",
         category: "",
         price: "",
+        profileImage: "",
         description: "",
         regDate: "",
         position: "",
@@ -363,7 +364,7 @@ export default {
         console.log('sucess')
       })
 
-      this.$router.push({ name: "room", params: { sessionId: A + '1' + B } });
+      this.$router.push({ name: "room", params: { sessionId: A + '1' + B, profileImage: this.item.profileImage } });
     },
   },
   computed: {
@@ -390,6 +391,7 @@ export default {
         vm.item.category = Code[vm.item.category];
         vm.item.description = result.description ? result.description : "";
         vm.item.price = result.price;
+        vm.item.profileImage = result.profileImage;
         vm.item.userId = result.userId;
         vm.item.userNickname = result.userNickname;
         vm.item.division = result.division;
