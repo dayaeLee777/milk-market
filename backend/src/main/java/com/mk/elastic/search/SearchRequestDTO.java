@@ -27,4 +27,6 @@ public class SearchRequestDTO extends PagedRequestDTO {
     
     private String bcode;
     
+    private Code status;
+    
 }
