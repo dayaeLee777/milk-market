@@ -278,6 +278,7 @@ export default {
         itemName: "",
         category: "",
         price: "",
+        profileImage: "",
         description: "",
         regDate: "",
         position: "",
@@ -398,12 +399,12 @@ export default {
       const B = this.item.userNickname > this.$store.state.user.userNickname ? this.item.userNickname : this.$store.state.user.userNickname;
 
       db.collection('user').doc(this.item.userNickname).update({
-        chatRooms: firebase.firestore.FieldValue.arrayUnion({ notification: true, itemName: this.item.itemName, userNickname: this.user.userNickname, sessionId: A + '1' + B })
+        chatRooms: firebase.firestore.FieldValue.arrayUnion({ notification: true, itemName: this.item.itemName, userNickname: this.user.userNickname, sessionId: A + '1' + B, profileImage: this.user.profileImage })
       }).then(() => {
         console.log('sucess')
       })
 
-      this.$router.push({ name: "room", params: { sessionId: A + '1' + B } });
+      this.$router.push({ name: "room", params: { sessionId: A + '1' + B, profileImage: this.item.profileImage } });
     },
   },
   computed: {
@@ -430,6 +431,7 @@ export default {
         vm.item.category = Code[vm.item.category];
         vm.item.description = result.description ? result.description : "";
         vm.item.price = result.price;
+        vm.item.profileImage = result.profileImage;
         vm.item.userId = result.userId;
         vm.item.userNickname = result.userNickname;
         vm.item.division = result.division;
