@@ -93,6 +93,7 @@ const routes = [
     name: "shop",
     path: "/shop",
     component: Shop,
+    props: true,
     children: [
       {
         path: "",
