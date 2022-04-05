@@ -2,7 +2,6 @@
   <div>
     <landing />
     <hot-item style="margin-top: 100px"></hot-item>
-    <step-flow></step-flow>
   </div>
 </template>
 
