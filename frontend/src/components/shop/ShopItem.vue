@@ -63,6 +63,7 @@
         v-model="currentPage"
         :total-rows="rows"
         :per-page="perPage"
+        style="justify-content: center"
       ></b-pagination>
     </div>
     <!--상품 등록-->

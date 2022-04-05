@@ -1,6 +1,6 @@
 <template>
-  <div class="hotitemslide" @click="itemDetail(content.id)">
-    <section class="cards">
+  <div class="hotitemslide">
+    <section class="cards" @click="itemDetail(content.id)">
       <article class="card card--2">
         <img
           v-if="!contentImage()"
@@ -125,69 +125,194 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap");
 @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
 @import url(//fonts.googleapis.com/css?family=Open+Sans:400,700,800,300);
-
-.carousel-3d-container .carousel-3d-slide {
-  border: 0;
-  background: transparent;
-  align-content: center;
-  width: 90%;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
+@import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
+.hotitemslide * {
+  box-sizing: border-box;
+}
+.hotitemslide.cards {
+  color: black;
+  font-family: "Roboto Slab", serif;
+  width: 100%;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: center;
+  -webkit-justify-content: center;
+  /* max-width: 820px; */
+  margin-left: 50px;
+}
+section.cards {
+  width: 100%;
+  margin: 0;
+}
+.hotitemslide .card__like {
+  width: 18px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 13px;
+  vertical-align: middle;
+  margin-left: 5px;
 }
 
-.sect .container {
-  margin: 0 auto;
-  width: 90%;
-  max-width: 900px;
+.hotitemslide .card__clock {
+  width: 15px;
+  vertical-align: middle;
+  fill: #ad7d52;
+}
+.hotitemslide .card__time {
+  font-size: 12px;
+  color: #ad7d52;
+  vertical-align: middle;
+  margin-left: 5px;
 }
 
-.sect {
-  padding: 90px 0;
+.hotitemslide .card__clock-info {
+  font-family: "Noto Sans KR", sans-serif;
+  float: right;
+}
+
+.hotitemslide .card__img {
+  visibility: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 235px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.hotitemslide .card__info-hover {
+  position: absolute;
+  padding: 16px;
+  width: 100%;
+  opacity: 0;
+  top: 0;
+}
+
+.hotitemslide .card__img--hover {
+  transition: 0.2s all ease-out;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  position: absolute;
+  height: 235px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  top: 0;
+}
+.hotitemslide .card {
+  margin: 25px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0, 1);
+  background-color: #fff;
+  width: 80%;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 13px 10px -7px rgba(0, 0, 0, 0.1);
+}
+.hotitemslide .card:hover {
+  box-shadow: 0px 30px 18px -8px rgba(0, 0, 0, 0.1);
+  transform: scale(1.1, 1.1);
+}
+
+.hotitemslide .card__info {
+  z-index: 2;
+  background-color: #fff;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  padding: 16px 24px 24px 24px;
+}
+
+.hotitemslide .card__category {
+  /* font-family: "Noto Sans KR", sans-serif; */
+  font-family: "Jua", sans-serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+  font-weight: 500;
+  color: #868686;
+}
+
+.hotitemslide .card__title {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-family: "Black Han Sans", sans-serif;
+}
+
+.hotitemslide .card__by {
+  font-size: 12px;
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+}
+
+.hotitemslide .card__author {
+  font-weight: 600;
+  text-decoration: none;
+  color: #ad7d52;
+}
+
+.hotitemslide .card:hover .card__img--hover {
+  height: 100%;
+  opacity: 0.3;
+}
+
+.hotitemslide .card:hover .card__info {
+  background-color: transparent;
   position: relative;
 }
 
-.sect--padding-bottom {
-  padding-bottom: 115px;
+.hotitemslide .card:hover .card__info-hover {
+  opacity: 1;
 }
 
-.row--center {
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.row__title {
-  margin-top: 0px;
-  text-align: center;
-  font-family: "Black Han Sans", sans-serif;
-  font-size: 30px;
-  color: #1f4568;
-}
-
-.row__sub {
-  text-align: center;
-  font-size: 22px;
-  color: #8198ae;
-  margin: 15px 0 40px 0;
+.badges .badge {
+  margin-right: 5px;
+  padding: 4px 10px 2px;
   font-family: "Noto Sans KR", sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  white-space: nowrap;
+  color: #ffffff;
+  background-color: #999999;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
 }
-
-@media screen and (max-width: 1024px) {
+.badges .badge:hover {
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
 }
-
-@media screen and (max-width: 991px) {
+.badges .badge-error {
+  background-color: #f0423f;
 }
-
-@media screen and (max-width: 767px) {
+.badges .badge-error:hover {
+  background-color: #953b39;
 }
-
-@media screen and (max-width: 480px) {
-  .sect {
-    padding: 20px 0;
-  }
-  .row__sub {
-    font-size: 16px;
-  }
-  .row__title {
-    font-size: 20px;
-    margin-bottom: 5px;
-  }
+.badges .badge-warning {
+  background-color: #8a3aff;
+}
+.badges .badge-warning:hover {
+  background-color: #692bc5;
+}
+.badges .badge-success {
+  background-color: #468847;
+}
+.badges .badge-success:hover {
+  background-color: #356635;
+}
+.badges .badge-info {
+  background-color: #6f79ff;
+}
+.badges .badge-info:hover {
+  background-color: #454cac;
+}
+.badges .badge-inverse {
+  background-color: #3a9fff;
+}
+.badges .badge-inverse:hover {
+  background-color: #2974bb;
 }
 </style>
