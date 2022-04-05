@@ -4,7 +4,6 @@
 
     <!-- <item-list style="margin-top: 100px"></item-list> -->
     <shop-item></shop-item>
-    <step-flow></step-flow>
     <!-- <f-nav></f-nav> -->
   </div>
 </template>
