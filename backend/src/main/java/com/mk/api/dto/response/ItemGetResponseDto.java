@@ -63,6 +63,9 @@ public class ItemGetResponseDto extends BaseResponseDto {
 	@ApiModelProperty(name="파일", example="orginFile, 파일 URL")
 	private Map<String, String> files;
 	
+	@ApiModelProperty(name="유저 프로필 이미지", example="http://~~~")
+	private String profileImage;
+	
 	public void setRentDate(String rentStartDate, String rentEndDate) {
 		this.rentStartDate = rentStartDate;
 		this.rentEndDate = rentEndDate;
