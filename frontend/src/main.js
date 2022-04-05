@@ -11,7 +11,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 require("firebase/firestore");
 
-Vue.use(CommonMethodsPlugin);
+
 Vue.use(BootstrapVue);
 
 const config = {

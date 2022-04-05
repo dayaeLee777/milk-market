@@ -110,7 +110,7 @@ export default new Vuex.Store({
             this.dispatch('getChatRooms', doc.data().chatRooms)
           }
         })
-      }, 6000))
+      }, 10000))
     },
     clearInterval: function ({ commit }) {
       commit('CLEAR_INTERVAL')
