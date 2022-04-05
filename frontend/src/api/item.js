@@ -5,18 +5,7 @@ import { createInstance } from "./index.js";
 const token = store.state.user.JWTToken;
 const instance = createInstance();
 const bcode = store.getters.getBcode;
-// function signup(email, nickName, password, success, fail) {
-//   const user = {
-//     email: email,
-//     nickname: nickName,
-//     password: password,
-//   };
 
-//   instance
-//     .post("api/users/signup", JSON.stringify(user))
-//     .then(success)
-//     .catch(fail);
-// }
 function findAll(success, fail) {
   instance.get("/api/item/").then(success).catch(fail);
 }
