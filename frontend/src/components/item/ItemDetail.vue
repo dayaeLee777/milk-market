@@ -4,16 +4,16 @@
       <div class="row">
         <div class="col-md-8 mx-auto">
           <div
-            class="card"
+            class="card detail-box"
             id="item-detail"
           >
             <div class="card-body">
               <div class="form-group">
-                <h3>
+                <h5>
                   <!--search 완성 되면 실행해보기-->
                   <a href="">{{ item.category }}</a> >
                   {{ item.itemName }}
-                </h3>
+                </h5>
               </div>
               <div
                 v-for="imgName in item.keys"
@@ -61,12 +61,16 @@
                 <div>
                   <button
                     @click="goChatting"
-                    class="btn btn-lg btn-primary"
+                    class="btn btn-sm btn-primary"
                   >채팅하기</button>
                 </div>
                 <div v-if="item.division === 'A01'">
                   <button
-                    class="btn btn-lg btn-primary"
+                    class="btn btn-sm btn-primary"
+                    @click="registInterest"
+                  >관심상품 등록</button>
+                  <button
+                    class="btn btn-sm btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#rentModal"
                   >
@@ -75,7 +79,12 @@
                 </div>
                 <div v-else>
                   <button
-                    class="btn btn-lg btn-primary"
+                    class="btn btn-sm btn-primary"
+                    @click="registInterest"
+                  >관심상품 등록</button>
+                  <button
+                    class="btn btn-sm  btn-primary"
+                    @click="checkMilk()"
                     data-bs-toggle="modal"
                     data-bs-target="#purchaseModal"
                   >
@@ -143,18 +152,36 @@
                         ></button>
                       </div>
                       <div class="modal-body">
-                        ...
+                        <div class="d-flex">
+                          <div class="text-primary">현재 잔액: {{ milkBalance }}MILK</div>
+                        </div>
+                        <div v-if="(milkBalance - item.price) >= 0">
+                          <div></div>
+                          <div class="mt-2">현재 상품 가격: {{ item.price }}MILK</div>
+                          <div class="mt-2 fw-bold">구매 후 잔액: {{ milkBalance - item.price }}MILK</div>
+                        </div>
+                        <div v-else>
+                          <p calss="text-danger">MILK 잔액이 부족합니다!</p>
+                          <button
+                            class="btn btn-secondary btn-sm ms-2"
+                            data-bs-dismiss="modal"
+                            @click="moveToWallet"
+                          >충전하기!
+                          </button>
+                        </div>
                       </div>
                       <div class="modal-footer">
                         <button
                           type="button"
-                          class="btn btn-secondary"
+                          class="btn btn-primary"
                           data-bs-dismiss="modal"
-                        >Close</button>
+                          @click="doPay"
+                        >결재하기</button>
                         <button
                           type="button"
-                          class="btn btn-primary"
-                        >Save changes</button>
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >취소</button>
                       </div>
                     </div>
                   </div>
@@ -174,6 +201,9 @@ import firebase from 'firebase'
 import { Code } from "@/utils/enum.js";
 import { findById } from "@/api/item.js";
 import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js";
+import axios from "axios";
+import MilkToken from "@/config/contract/MilkToken.json";
+import Swal from 'sweetalert2/dist/sweetalert2.js';
 import { mapState } from 'vuex'
 
 
@@ -199,18 +229,91 @@ export default {
         keys: [],
       },
       userId: this.$store.state.user.id,
-      walletAddress: this.$store.state.walletAddress,
+      contract: "",
+      coinbaseAddress: "",
+      milkBalance: 0,
     };
   },
   methods: {
+    makeContract () {
+      const Web3 = require('web3');
+      const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
+
+      let contract = new web3.eth.Contract(MilkToken.abi, CASH_CONTRACT_ADDRESS);
+      this.contract = contract
+
+      web3.eth.getAccounts().then(res => {
+        console.log(res)
+        this.coinbaseAddress = res[0]
+      });
+    },
+    async checkMilk () {
+      const milk = await this.contract.methods.balanceOf(this.$store.state.user.walletAddress).call();
+
+      this.milkBalance = (milk / 10 ** 15);
+    },
+    moveToWallet () {
+      this.$router.push("/mypage/wallet_info")
+    },
     getImg (name) {
       if (name) {
         return name;
       }
       return null;
     },
-    doPay () {
+    registInterest () {
+      const token = this.$store.state.user.JWTToken;
 
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      axios({
+        url: `${API_BASE_URL}/api/interest/${this.item.id}`,
+        method: 'post',
+        headers,
+      })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    purchase () {
+      const token = this.$store.state.user.JWTToken;
+
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      axios({
+        url: `${API_BASE_URL}/api/item/purchase/${this.item.id}`,
+        method: 'post',
+        headers,
+      })
+        .then(res => {
+          console.log(res)
+          console.log("성공!")
+        })
+        .catch(err => {
+          console.log(err)
+        })
+
+    },
+    // 코인 베이스로 이동
+    async doPay () {
+      const Web3 = require('web3');
+      const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
+      const from = this.$store.state.user.walletAddress;
+      const to = this.coinbaseAddress;
+      const amount = this.item.price * (10 ** 15);
+      const amountToBn = web3.utils.toBN(`${amount}`)
+      const approve = await this.contract.methods.approve(from, amountToBn).send({ from: from });
+      const transfer = await this.contract.methods.transferFrom(from, to, amountToBn).send({ from: from });
+
+      this.purchase();
+      this.$router.push({ name: "mypage.items" })
     },
     goChatting () {
       const A = this.item.userNickname > this.$store.state.user.userNickname ? this.$store.state.user.userNickname : this.item.userNickname;
@@ -266,6 +369,7 @@ export default {
         alert("DB에서 상품 상세 정보 조회를 가져올 수 없습니다.");
       }
     );
+    this.makeContract();
   },
 };
 </script>
@@ -274,6 +378,9 @@ export default {
 img.center {
   display: block;
   margin: 2rem auto;
+}
+.detail-box {
+  height: 90vh;
 }
 #item-detail-img {
   height: 200px;

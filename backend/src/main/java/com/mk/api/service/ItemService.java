@@ -10,6 +10,7 @@ import com.mk.api.dto.request.ItemModifyRequestDto;
 import com.mk.api.dto.request.ItemRegisterRequestDto;
 import com.mk.api.dto.response.ItemGetResponseDto;
 import com.mk.db.entity.Item;
+import org.web3j.abi.datatypes.Bool;
 
 public interface ItemService {
 
@@ -17,6 +18,11 @@ public interface ItemService {
 
 	ItemGetResponseDto getItem(String itemId);
 
+	Boolean purchaseItem(String accessToken, String itemId);
+
+	Boolean cancelPurchase(String accessToken, String itemId);
+
+	List<ItemGetResponseDto> purchaseList(String accessToken);
 
 	Item modifyItem(ItemModifyRequestDto itemModifyRequestDto, List<MultipartFile> multipartFile);
 

@@ -3,18 +3,10 @@ package com.mk.api.controller;
 
 import java.util.List;
 
+import com.google.api.Http;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mk.api.dto.request.ItemModifyRequestDto;
@@ -183,4 +175,54 @@ public class ItemController {
 		return itemSearchService.search(dto);
     }
 
+
+	@PostMapping("/purchase/{itemId}")
+	@ApiOperation(value="상품 구매", notes="<strong>해당 상품을 구매 처리 한다.</strong>")
+	@ApiResponses({
+		@ApiResponse(code=200, message="상품 구매가 정상적으로 이루어졌습니다.."),
+		@ApiResponse(code=204, message="구매 처리가 실패되었습니다.")
+	})
+	public ResponseEntity<? extends BaseResponseDto> purchaseItem (
+			@PathVariable("itemId") @RequestBody @ApiParam(value = "조회할 상품 ID", required = true) String itemId,
+			@ApiIgnore @RequestHeader("Authorization") String accessToken){
+
+
+		if (itemService.purchaseItem(accessToken, itemId)) {
+			return ResponseEntity.status(HttpStatus.OK).body(BaseResponseDto.of(HttpStatus.OK.value(), "Success"));
+		}
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
+	}
+
+	@GetMapping("/purchase/list")
+	@ApiOperation(value="구매 이력 조회", notes="<strong>구매 이력을 조회 한다.</strong>")
+	@ApiResponses({
+			@ApiResponse(code=200, message="조회가 정상적으로 이루어졌습니다.."),
+			@ApiResponse(code=204, message="구매이력 조회를 실패했습니다.")
+	})
+	public ResponseEntity<? extends  BaseResponseDto> purchaseList (@ApiIgnore @RequestHeader("Authorization") String accessToken) {
+		List<ItemGetResponseDto> itemGetResponseDto = itemService.purchaseList(accessToken);
+
+		if (itemGetResponseDto != null) {
+			return ResponseEntity.status(HttpStatus.OK).body(ItemGetListResponseDto.builder().list(itemGetResponseDto).build());
+		}
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
+	}
+
+	@DeleteMapping("/cancel/{itemId}")
+	@ApiOperation(value="구매 취소", notes="<strong>구매를 취소한다.</strong>")
+	@ApiResponses({
+			@ApiResponse(code=200, message="구매 취소가 이루어졌습니다.."),
+			@ApiResponse(code=204, message="구매 취소 요청이 실패했습니다.")
+	})
+	public ResponseEntity<? extends BaseResponseDto> cancelPurchase (
+			@PathVariable("itemId") @RequestBody @ApiParam(value = "조회할 상품 ID", required = true) String itemId,
+			@ApiIgnore @RequestHeader("Authorization") String accessToken) {
+
+		if (itemService.cancelPurchase(accessToken, itemId)) {
+			return ResponseEntity.status(HttpStatus.OK).body(BaseResponseDto.of(HttpStatus.OK.value(), "Success"));
+		}
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(BaseResponseDto.of(HttpStatus.BAD_REQUEST.value(), "Fail"));
+	}
 }

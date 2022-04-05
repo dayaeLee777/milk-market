@@ -30,7 +30,7 @@
             <div v-else>
               <div class="image_inner_container">
                 <img
-                  src="https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
+                  src="../../../public/images/default.png"
                   alt="profile-img"
                   class="profile-img"
                 />
@@ -73,7 +73,7 @@
                   </div>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">변경</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="updateLocation">변경</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                   </div>
                 </div>
@@ -91,9 +91,10 @@
             <div v-else>
               <div 
                 v-for="community in communityList"
-                :key="community.communityId">
-                <span class="my-content"
-                  @click="moveToCommuniy(community.communityId, community.userNickname)">제목: {{ community.title }}</span>
+                :key="community.communityId"
+                class="my-content">
+                <span
+                  @click="moveToCommunity(community.communityId, community.userNickname)">제목: {{ community.title }}</span>
               </div>
             </div>
           </div>
@@ -101,6 +102,15 @@
             <h3 class="text-center">나의 wish 리스트</h3>
             <div v-if="!mywishList.length">
               <h4>아직 찜한 아이템이 없어요!</h4>
+            </div>
+            <div v-else>
+              <div 
+                v-for="wish in mywishList"
+                :key="wish.itemId"
+                @click="moveToItem(wish.itemId)"
+                class="my-content">
+                <span>상품 명: {{ wish.itemName }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -184,6 +194,7 @@ export default {
         profileImage: "",
         sigungu: "",
         bname: "",
+        bcode: "",
       },
       image: "",
       communityList: [],
@@ -237,7 +248,7 @@ export default {
         this.communityList = res.data.communityGetResponselist;
       })
       .catch( err => {
-        consoel.log(err)
+        console.log(err)
       })
     },
     getWishList() {
@@ -253,11 +264,11 @@ export default {
         headers,
       })
       .then( res => {
-        console.log(res.data)
-        
+        // console.log(res.data.interestListResponseDto)
+        this.mywishList = res.data.interestListResponseDto;
       })
       .catch( err => {
-        consoel.log(err)
+        console.log(err)
       })
     },
     selectProfile() {
@@ -282,9 +293,15 @@ export default {
       })
         .then((res) => {
           console.log(res);
-
+          Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "프로필 변경 성공",
+          showConfirmButton: false,
+          timer: 1500,
+          }); 
           // 새로고침할때 이거 쓰자.
-          this.$router.go();
+          this.fetchUserInfo();
         })
         .catch((err) => {
           console.log(err);
@@ -298,12 +315,46 @@ export default {
           document.getElementById("location").value = addr;
           vm.user.bname = data.bname;
           vm.user.sigungu = data.sigungu;
+          vm.user.bcode = data.bcode;
           console.log(vm.user);
         },
       }).open();
     },    
     moveToCommunity(communityId, userNickname) {
       this.$router.push({name: 'communityDetail', params: { coId: communityId, userN: userNickname }})
+    },
+    moveToItem(itemId) {
+      this.$router.push({name: 'item.detail', params: {id: itemId}})
+    },
+    updateLocation() {
+      const token = this.$store.state.user.JWTToken;
+
+      const headers  = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      axios({
+        url: `${API_BASE_URL}/api/users/address/update`,
+        method: 'put',
+        headers,
+        data: {
+          bcode: this.user.bcode,
+          bname: this.user.bname,
+          sigungu: this.user.sigungu,
+        }
+      })
+      .then( res => {
+          Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "주소가 변경되었어요!",
+          showConfirmButton: false,
+          timer: 1500,
+        }); 
+      })
+      .catch( err => {
+        console.log(err)
+      }) 
     }
   },
   mounted() {

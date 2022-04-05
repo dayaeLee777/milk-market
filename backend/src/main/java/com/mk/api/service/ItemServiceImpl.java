@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import com.mk.db.entity.Purchase;
+import com.mk.db.repository.PurchaseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +39,8 @@ public class ItemServiceImpl implements ItemService {
 	private final ItemRepository itemRepository;
 
 	private final ItemImageRepository itemImageRepository;
+
+	private final PurchaseRepository purchaseRepository;
 
 	private final JwtTokenService jwtTokenService;
 
@@ -166,6 +170,10 @@ public class ItemServiceImpl implements ItemService {
 
 
 		for(Item item : items){
+			// 진열중인 애들만 표기
+			if (item.getStatus() != Code.C01 ) {
+				continue;
+			}
 			Map<String, String> itemImageList = new HashMap<String, String>();
 			itemImageRepository.findByItem(item).forEach(file -> {
 
@@ -248,6 +256,80 @@ public class ItemServiceImpl implements ItemService {
 		return itemGetResponseDto;
 	}
 
+	@Override
+	public Boolean purchaseItem(String accessToken, String itemId) {
+		User user = jwtTokenService.convertTokenToUser(accessToken);
+		Item item = itemRepository.findById(itemId).orElse(null);
+		if (item == null) {
+			return false;
+		}
+		item.setStatus(Code.C02);
+		itemRepository.save(item);
+
+		Purchase purchase = Purchase.builder()
+				.orderItemName(item.getItemName())
+				.itemId(item.getId())
+				.user(user)
+				.build();
+		purchaseRepository.save(purchase);
+		return true;
+	}
+
+	@Override
+	public Boolean cancelPurchase(String accessToken, String itemId) {
+
+		Item item = itemRepository.findById(itemId).get();
+		User user = jwtTokenService.convertTokenToUser(accessToken);
+		if (item == null) {
+			return false;
+		}
+		item.setStatus(Code.C01);
+		itemRepository.save(item);
+
+		return true;
+	}
+
+	@Override
+	public List<ItemGetResponseDto> purchaseList(String accessToken) {
+		User user = jwtTokenService.convertTokenToUser(accessToken);
+		List<Purchase> purchaseList = purchaseRepository.findByUser(user);
+		List<ItemGetResponseDto> itemGetResponseDtos = new ArrayList<>();
+
+		for (Purchase purchase: purchaseList) {
+
+			Item item = itemRepository.findById(purchase.getItemId()).get();
+			if (item.getStatus() == Code.C01 || item.getStatus() == Code.C04) {
+				continue;
+			}
+			Map<String, String> itemImageList = new HashMap<String, String>();
+			itemImageRepository.findByItem(item).forEach( file -> {
+				String originFileName = file.getOriginFileName();
+				String newFileName = file.getNewFileName();
+
+				itemImageList.put(originFileName, itemImageService.getImagePath(newFileName));
+			});
+
+			DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
+			ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder()
+					.itemId(item.getId())
+					.status(item.getStatus())
+					.userId(item.getUser().getUsername())
+					.userNickname(item.getUser().getNickname())
+					.division(item.getDivision())
+					.itemName(item.getItemName())
+					.category(item.getCategory())
+					.price(item.getPrice())
+					.description(item.getDescription())
+					.regDate(item.getRegDate().format(regDateFormatter))
+					.bcode(item.getUser().getBcode())
+					.bname(item.getUser().getBname())
+					.files(itemImageList)
+					.build();
+			itemGetResponseDtos.add(itemGetResponseDto);
+		}
+
+		return itemGetResponseDtos;
+	}
 
 	@Transactional
 	@Override

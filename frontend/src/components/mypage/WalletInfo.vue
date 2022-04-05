@@ -33,8 +33,8 @@
                 <div v-if="isAuthorized">
                   <p class="text-primary fw-bold">PrivateKey 인증 완료</p>
                 </div>
-                <div v-else>
-                  <button type="button" class="btn btn-secondary mt-1"
+                <div v-else class="d-flex align-items-center">
+                  <button type="button" class="btn btn-primary btn-sm"
                   data-bs-toggle="modal" data-bs-target="#exampleModal"
                   >privateKey 인증</button>
                   <span class="text-danger fw-bold" id="warn-wallet">※ 개인키 인증이 필요합니다.</span>
@@ -107,6 +107,8 @@
                       <label for="won">충전할 ETH: </label>
                       <input type="number" step="0.001" class="form-control col-3 ms-3" id="won" v-model="amountCharge">
                       <span>ETH</span>
+                      <!-- <button class="btn btn-secondary btn-sm ms-2" @click="addCharge(0.1)">0.1</button>
+                      <button class="btn btn-secondary btn-sm ms-2" @click="addCharge(0.01)">0.01</button> -->
                     </div>
                     <p class="mt-3 fw-bold">결제 금액: {{ (amountCharge * ethPrice).toLocaleString() }}원</p>
                   </div>
@@ -126,12 +128,7 @@
 </template>
 
 <script>
-import * as walletService from "@/api/wallet.js";
-import { findById } from "@/api/user.js";
-import { createWeb3 } from "@/utils/itemInventory.js";
-import { buyCash, getBalance } from "@/utils/cashContract.js";
 import MyPageNav from "./MyPageNav.vue";
-import { ethToWei } from "@/utils/ethereumUnitUtils.js";
 import BN from "bn.js";
 import MilkToken from "@/config/contract/MilkToken.json"
 import axios from 'axios'
@@ -176,6 +173,9 @@ export default {
     }
   },
   methods: {
+    addCharge(n) {
+      this.amountCharge += n
+    },
     makeContract() {
       const Web3 = require('web3');
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
@@ -401,6 +401,20 @@ export default {
 <style>
 #mywallet-info th {
   text-align: left;
+}
+.wallet-btn {
+  font-size: 12px;
+  color: aliceblue;
+  background-color: #4a4879;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 25px;
+  border-color: #45436d;
+  border-style: solid;
+  border-radius: 20px;
+  margin-right: 3px;
 }
 #warn-wallet {
   font-size: 8px;
