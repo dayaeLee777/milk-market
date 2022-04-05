@@ -164,6 +164,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
 		System.out.println(item.getRegDate());
 		Itemsearch itemSearch = Itemsearch.builder().id(itemId).division(item.getDivision())
+				.status(item.getStatus())
 				.itemName(item.getItemName()).category(item.getCategory()).price(item.getPrice())
 				.description(item.getDescription()).bcode(item.getUser().getBcode()).bname(item.getUser().getBname())
 				.regDate(date).fileNameList(itemImageList).build();

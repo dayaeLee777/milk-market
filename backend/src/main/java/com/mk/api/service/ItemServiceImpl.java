@@ -247,6 +247,7 @@ public class ItemServiceImpl implements ItemService {
 				.bcode(item.getUser().getBcode())
 				.bname(item.getUser().getBname())
 				.files(itemImageList)
+				.profileImage(item.getUser().getProfileImage())
 				.build();
 
 		if (item.getDivision() == Code.A01)
