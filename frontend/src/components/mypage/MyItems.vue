@@ -7,7 +7,14 @@
       <div id="my-item" class="row">
         <h4 class="col-8 mt-5">판매 중인 My 아이템</h4>
         <div v-if="saleItems.length">
-          <div 
+          <div class="d-flex">
+            <carousel-3d :width="500" :height="500">
+              <slide v-for="(item, i) in saleItems" :index="i" :key="i">
+                <my-item-slide :slide="item" />
+              </slide>
+            </carousel-3d>
+          </div>
+          <!-- <div 
             v-for="item in saleItems"
             :key="item.itemId"
             class="d-flex justify-content-start align-items-center mt-2 my-items"
@@ -31,7 +38,7 @@
             </div>
             <div>
             </div>
-          </div>
+          </div> -->
         </div>
         <div v-else>
           <h5>현재 판매중인 상품이 없어요!</h5>
@@ -84,18 +91,18 @@
 
 <script>
 import MyPageNav from "./MyPageNav.vue";
-import { ITEM_STATUS, ESCROW_STATE } from "@/config/constants.js";
 import axios from 'axios'
-import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js"
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import MyEscrow from './MyEscrow.vue';
 import MilkToken from "@/config/contract/MilkToken.json";
+import MyItemSlide from "./MyItemSlide.vue"
+import { ITEM_STATUS, ESCROW_STATE } from "@/config/constants.js";
+import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js"
 
 export default {
   name: "MyItems",
   components: {
     MyPageNav,
-    MyEscrow,
+    MyItemSlide,
   },
   data() {
     return {
@@ -232,6 +239,7 @@ export default {
 }
 .item-img {
   height: 80px;
+  cursor: pointer;
 }
 .my-items {
   height: 120px;
