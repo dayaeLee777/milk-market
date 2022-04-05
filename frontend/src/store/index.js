@@ -16,7 +16,6 @@ export default new Vuex.Store({
       walletAddress: null,
       JWTToken: null,
       userNickname: null,
-      profileImage: "",
       bcode: 0,
       profileImage: 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png',
     },

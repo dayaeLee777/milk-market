@@ -116,6 +116,7 @@ export default {
                 showConfirmButton: false,
                 timer: 1500,
               });
+              scope.$store.commit('setUserProfileImage', success.data.profileImage);
               scope.$store.commit("setBcode", success.data.bcode);
             },
             (error) => {

@@ -1,11 +1,15 @@
 <template>
-  <div>
+  <div class="a123">
     <div class="chat_window">
       <div class="top_menu">
-        <div class="buttons">
-          <div class="button close"></div>
-          <div class="button minimize"></div>
-          <div class="button maximize"></div>
+        <div
+          style="margin-left: 750px;"
+          class="buttons"
+        >
+          <div
+            class="button close"
+            @click="goHome()"
+          ></div>
         </div>
         <div class="title">Chat</div>
       </div>
@@ -17,7 +21,7 @@
         >
           <div class="chat-avatar">
             <div class="avatar">
-              <img src="https://bootdey.com/img/Content/avatar/avatar1.png">
+              <img :src="[message.author === $store.state.user.userNickname ? user.profileImage : profileImage]">
             </div>
           </div>
           <div class="chat-body">
@@ -46,10 +50,6 @@
         </div>
       </div>
     </div>
-    <button
-      class="btn btn-primary"
-      @click="goHome()"
-    >나가기</button>
   </div>
 </template>
 
@@ -64,7 +64,8 @@ export default {
     return {
       message: null,
       messages: [],
-      authUser: {}
+      authUser: {},
+      profileImage: ''
     }
   },
 
@@ -111,7 +112,13 @@ export default {
           })
         }
       })
-
+    },
+    setProfileImage (sessionId) {
+      this.chatRooms.forEach((obj) => {
+        if (obj.sessionId === sessionId) {
+          this.profileImage = obj.profileImage
+        }
+      })
     }
   },
   computed: {
@@ -123,6 +130,7 @@ export default {
 
   created () {
     this.fetchMessages()
+    this.setProfileImage(this.$route.params.sessionId)
   },
 }
 </script>
@@ -130,6 +138,10 @@ export default {
 <style scoped>
 * {
   box-sizing: border-box;
+}
+
+.a123 {
+  height: 1000px;
 }
 
 body {
@@ -159,12 +171,12 @@ body {
   box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
 }
 .top_menu .buttons {
-  margin: 3px 0 0 20px;
+  margin: 0px 0 0 20px;
   position: absolute;
 }
 .top_menu .buttons .button {
-  width: 16px;
-  height: 16px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: inline-block;
   margin-right: 10px;

@@ -358,7 +358,7 @@ export default {
       const B = this.item.userNickname > this.$store.state.user.userNickname ? this.item.userNickname : this.$store.state.user.userNickname;
 
       db.collection('user').doc(this.item.userNickname).update({
-        chatRooms: firebase.firestore.FieldValue.arrayUnion({ notification: true, itemName: this.item.itemName, userNickname: this.user.userNickname, sessionId: A + '1' + B })
+        chatRooms: firebase.firestore.FieldValue.arrayUnion({ notification: true, itemName: this.item.itemName, userNickname: this.user.userNickname, sessionId: A + '1' + B, profileImage: this.user.profileImage })
       }).then(() => {
         console.log('sucess')
       })
