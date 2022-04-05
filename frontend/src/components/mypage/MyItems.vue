@@ -4,79 +4,55 @@
     ></h-breadcrumb> -->
     <div class="container">
       <my-page-nav></my-page-nav>
-      <div id="my-item" class="row">
-        <h4 class="col-8 mt-5">판매 중인 My 아이템</h4>
+      <div class="row my-items">
+        <h4 class="mt-5 text-center">판매 중인 아이템</h4>
         <div v-if="saleItems.length">
-          <div 
-            v-for="item in saleItems"
-            :key="item.itemId"
-            class="d-flex justify-content-start align-items-center mt-2 my-items"
-            >
-            <div>
-              <div
-                v-for="(imgName, idx) in item.files"
-                :key="idx"
-                class="d-flex">
-                <img :src="imgName" alt="itemImg" @click="moveToDetail(item.itemId)" class="item-img">
-              </div>  
-            </div>
-            <div class="ms-5">
-              <h5>상품명: {{ item.itemName }}</h5>
-              <div v-if="item.status === `C01`">
-                <p class="escrow-state">판매 중</p>
-              </div>
-              <div v-if="item.status === `C02`">
-                <p class="escrow-state">결제 완료</p>
-              </div>
-            </div>
-            <div>
-            </div>
+          <div class="caros-box">
+            <carousel-3d :width="400" :height="280" :controls-visible="true">
+              <slide v-for="(item, i) in saleItems" :index="i" :key="i">
+                <my-item-slide 
+                  :slide="item"
+                  :contract="contract"
+                  :coinbase="coinbaseAddress"
+                  :walletAddress="user.walletAddress"/>
+              </slide>
+            </carousel-3d>
           </div>
         </div>
         <div v-else>
-          <h5>현재 판매중인 상품이 없어요!</h5>
+          <h5 class="text-center">현재 판매중인 상품이 없어요!</h5>
         </div>
-        <h4 class="col-12 mt-5">내가 판매한 거래</h4>
-          <div v-if="saleTx.length">
-            
-          </div>
-          <div v-else>
-            <h5>아직 판매한 상품이 없어요!</h5>
-          </div>
-        <h4 class="col-8 mt-5">내가 구매한 거래</h4>
+        <div>
+        <h4 class="mt-5 text-center">내가 구매중인 상품</h4>
           <div v-if="purchaseTx.length">
-            <div 
-              v-for="item in purchaseTx"
-              :key="item.itemId"
-              class="d-flex justify-content-start align-items-center mt-2 my-items"
-              >
-              <div>
-                <div
-                  v-for="(imgName, idx) in item.files"
-                  :key="idx"
-                  class="d-flex">
-                  <img :src="imgName" alt="itemImg" @click="moveToDetail(item.itemId)" class="item-img">
-                </div>  
-              </div>
-              <div class="ms-5">
-                <h5>상품명: {{ item.itemName }}</h5>
-                <div v-if="item.status === `C02`">
-                  <p class="escrow-state">결재 완료</p>
-                  <div class="d-flex">
-                    <button class="escrow-btn">구매 확정</button>
-                    <button class="close-btn" @click="cancelPurchase(item.price, item.itemId)">구매 취소</button>
-                  </div>
-                </div>
-              </div>
-              <div>
-              </div>
-            </div>        
+            <div class="caros-box">
+              <carousel-3d :width="400" :height="280" :controls-visible="true">
+                <slide v-for="(item, i) in purchaseTx" :index="i" :key="i">
+                  <my-purchase-slide 
+                    :slide="item"
+                    :contract="contract"
+                    :coinbase="coinbaseAddress"
+                    :walletAddress="user.walletAddress" 
+                    @confirm-purchase="confirm"
+                    />
+                </slide>  
+              </carousel-3d>
+            </div>
           </div>
           <div v-else>
-            <h5>아직 구매한 상품이 없어요!</h5>
+            <h5 class="text-center">아직 구매한 상품이 없어요!</h5>
           </div>
+        </div>
         
-
+      </div>
+      <div v-if="confirmModal">  
+        <div class="modal">
+          <div class="overlay">
+            <div class="modal-card">
+              테스트!
+            </div>
+          </div>
+        </div>
       </div>
     </div>  
   </div>  
@@ -84,18 +60,23 @@
 
 <script>
 import MyPageNav from "./MyPageNav.vue";
-import { ITEM_STATUS, ESCROW_STATE } from "@/config/constants.js";
 import axios from 'axios'
-import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js"
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import MyEscrow from './MyEscrow.vue';
 import MilkToken from "@/config/contract/MilkToken.json";
+import MyItemSlide from "./MyItemSlide.vue"
+import MyPurchaseSlide from "./MyPurchaseSlide.vue"
+import { Carousel3d, Slide } from "vue-carousel-3d";
+import { ITEM_STATUS, ESCROW_STATE } from "@/config/constants.js";
+import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js"
 
 export default {
   name: "MyItems",
   components: {
     MyPageNav,
-    MyEscrow,
+    MyItemSlide,
+    MyPurchaseSlide,
+    Carousel3d,
+    Slide,
   },
   data() {
     return {
@@ -111,9 +92,13 @@ export default {
       itemStatus: "",
       contract: "",
       coinbaseAddress: "",
+      confirmModal: false,
     };
   },
   methods: {
+    confirm() {
+      this.confirmModal = true;
+    },
     makeContract() {
       const Web3 = require('web3');
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
@@ -226,24 +211,24 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
+@import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
+
+.caros-box {
+  height: 32vh; 
+}
 .table td,
 .table tr {
   text-align: center;
 }
 .item-img {
   height: 80px;
+  cursor: pointer;
 }
 .my-items {
-  height: 120px;
-  width: 450px;
-  background-color: beige;
-  border-style: solid;
-  border-color: black;
-  border-width: 1px;
-  padding: 10px;
-  border-radius: 20px;
-  /* 각각 x축, y축, blur, spread */
-  box-shadow: 1.5px 1.5px 2px 1.5px gray;
+  font-family: "Black Han Sans", sans-serif;
 }
 .escrow-btn {
   font-size: 12px;
@@ -286,24 +271,26 @@ export default {
   border-style: solid;
   border-radius: 20px;
 }
-/* .badge-primary {
-  color: #fff;
-  background-color: #007bff;
+
+.modal
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
-.badge-info {
-  color: #fff;
-  background-color: #17a2b8;
-}
-.btn-show-history {
-  background-color: #5c130e;
-  color: white;
-}
-hr {
-  border: 0;
-  clear: both;
-  display: block;
-  width: 96%;
+.overlay{
+  opacity: 0.4;
   background-color: black;
-  height: 2px;
-} */
+}
+.modal-card {
+  position: relative;
+  margin: auto;
+  margin-top: 30px;
+  padding: 20px;
+  background-color: white;
+  z-index: 10;
+  opacity: 1;
+}
 </style>

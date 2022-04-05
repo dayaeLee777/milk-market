@@ -6,7 +6,6 @@ import store from "@/store";
 import Shop from "@/views/Shop.vue";
 import MyPage from "@/views/MyPage.vue";
 import Item from "@/views/Item.vue";
-
 import ScTestPage from "@/views/ScTestPage.vue";
 import Map from "@/views/Map.vue";
 import Community from "@/views/Community.vue";
