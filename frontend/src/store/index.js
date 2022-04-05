@@ -20,32 +20,38 @@ export default new Vuex.Store({
       bcode: 0,
       profileImage: 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png',
     },
+    interval: null,
+    showModal: false,
+    chatRooms: [],
   },
   mutations: {
-    setBcode(state, bcode) {
+    setBcode (state, bcode) {
       state.user.bcode = bcode;
       console.log("여기는 세팅 : " + state.user.bcode);
     },
-    setIsSigned(state, isSigned) {
+    setIsSigned (state, isSigned) {
       state.isSigned = isSigned;
     },
-    setUserId(state, id) {
+    setUserId (state, id) {
       state.user.id = id;
     },
-    setWalletAddress(state, address) {
+    setWalletAddress (state, address) {
       state.user.walletAddress = address;
     },
-    setJWTToken(state, token) {
+    setJWTToken (state, token) {
       state.user.JWTToken = token;
     },
-    setUserNickname(state, userNickname) {
+    setUserNickname (state, userNickname) {
       state.user.userNickname = userNickname;
     },
-    setUserProfileImage(state, profileImage) {
+    setUserProfileImage (state, profileImage) {
       state.user.profileImage = profileImage;
     },
-    logout(state) {
+    logout (state) {
       state.isSigned = false;
+      state.showModal = false;
+      state.chatRooms = [];
+      state.interval = 'null';
       state.user = {
         id: null,
         walletAddress: null,
@@ -55,6 +61,21 @@ export default new Vuex.Store({
         bcode: null,
       };
     },
+    TURN_ON_NOTIFICATION (state, data) {
+      state.showModal = data
+    },
+    SET_CHATROOMS (state, data) {
+      state.chatRooms = data
+    },
+    TURN_OFF_NOTIFICATION (state) {
+      state.showModal = false
+    },
+    SET_INTERVAL (state, data) {
+      state.interval = data
+    },
+    CLEAR_INTERVAL (state) {
+      clearInterval(state.interval)
+    }
   },
   getters: {
     getJWTToken: function (state) {
@@ -67,7 +88,34 @@ export default new Vuex.Store({
       return state.user.bcode;
     },
   },
-  actions: {},
+  actions: {
+    turnOnNotification: function ({ commit }, notification) {
+      commit('TURN_ON_NOTIFICATION', notification)
+    },
+    turnOFFNotification: function ({ commit }) {
+      commit('TURN_OFF_NOTIFICATION')
+    },
+    getChatRooms: function ({ commit }, chatRooms) {
+      commit('SET_CHATROOMS', chatRooms)
+    },
+    setInterval: function ({ commit }, userNickname) {
+      commit('SET_INTERVAL', setInterval(() => {
+        db.collection('user').doc(userNickname).get().then((doc) => {
+          if (doc.exists) {
+            console.log('firebase!!!')
+            const notification = doc.data().chatRooms.some((obj) => {
+              return obj.notification
+            })
+            this.dispatch('turnOnNotification', notification)
+            this.dispatch('getChatRooms', doc.data().chatRooms)
+          }
+        })
+      }, 10000))
+    },
+    clearInterval: function ({ commit }) {
+      commit('CLEAR_INTERVAL')
+    }
+  },
   modules: {},
   plugins: [createPersistedState()],
 });

@@ -36,7 +36,7 @@ const routes = [
     component: Community,
   },
   {
-    path: "/room",
+    path: "/room/",
     name: "room",
     component: () => import("@/views/ChatRoom.vue"),
   },
@@ -68,7 +68,7 @@ const routes = [
   {
     path: "/logout",
     name: "logout",
-    beforeEnter(to, from, next) {
+    beforeEnter (to, from, next) {
       store.commit("logout");
       const Swal = require("sweetalert2");
       Swal.fire({
@@ -189,7 +189,7 @@ router.beforeEach((to, from, next) => {
   let isAvailableToGuest =
     ["/", "/login", "/register", "/test"].includes(to.path) ||
     to.path.startsWith("/explorer");
-
+  // this.$getFirebaseUserStatus(this.$store.state.userNickname)
   // 로그인도 하지 않았고 게스트에게 허용된 주소가 아니라면 로그인 화면으로 이동한다.
   if (!isSigned && !isAvailableToGuest) {
     // alert("로그인을 하신 뒤에 사용이 가능합니다.");

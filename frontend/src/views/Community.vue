@@ -225,7 +225,7 @@ export default {
 </script>
 
 <style scoped>
-  .community {
-    height: 100vh;
-  }
+.community {
+  height: 100vh;
+}
 </style>

@@ -3,23 +3,26 @@
     <div class="container mt-5">
       <div class="row">
         <div class="col-md-8 mx-auto">
-          <div class="card detail-box" id="item-detail">
+          <div
+            class="card detail-box"
+            id="item-detail"
+          >
             <div class="card-body">
               <div class="form-group">
                 <h5>
                   <!--search 완성 되면 실행해보기-->
-                  <router-link
-                    :to="{
+                  <router-link :to="{
                       name: 'shop',
                       query: { category: `${item.category}` },
-                    }"
-                    >{{ item.category }}</router-link
-                  >
+                    }">{{ item.category }}</router-link>
                   >
                   {{ item.itemName }}
                 </h5>
               </div>
-              <div v-for="imgName in item.keys" :key="imgName.id">
+              <div
+                v-for="imgName in item.keys"
+                :key="imgName.id"
+              >
                 <img
                   class="center"
                   :src="getImg(item.files[imgName])"
@@ -32,7 +35,10 @@
                 <h4 class="alert alert-primary">{{ item.price }} MILK</h4>
               </div>
               <div class="form-group">
-                <label id="user" class="text-secondary">판매자</label>
+                <label
+                  id="user"
+                  class="text-secondary"
+                >판매자</label>
                 <p>
                   {{ item.userNickname }}
                   <!-- ({{ item.seller.email }}) -->
@@ -43,7 +49,10 @@
                 <p>{{ item.regDate }}</p>
               </div>
               <div class="form-group">
-                <label id="explanation" class="text-secondary">상품 설명</label>
+                <label
+                  id="explanation"
+                  class="text-secondary"
+                >상품 설명</label>
                 <p v-if="item.description.length > 0">{{ item.description }}</p>
                 <p v-else>-</p>
               </div>
@@ -54,7 +63,10 @@
                 v-if="userId !== item.userId"
               >
                 <div>
-                  <button @click="goChatting" class="btn btn-sm btn-primary">
+                  <button
+                    @click="goChatting"
+                    class="btn btn-sm btn-primary"
+                  >
                     채팅하기
                   </button>
                 </div>
@@ -99,7 +111,10 @@
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="rentModalLabel">
+                        <h5
+                          class="modal-title"
+                          id="rentModalLabel"
+                        >
                           Modal title
                         </h5>
                         <button
@@ -118,7 +133,10 @@
                         >
                           Close
                         </button>
-                        <button type="button" class="btn btn-primary">
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                        >
                           Save changes
                         </button>
                       </div>
@@ -136,7 +154,10 @@
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="purchaseModalLabel">
+                        <h5
+                          class="modal-title"
+                          id="purchaseModalLabel"
+                        >
                           Modal title
                         </h5>
                         <button
@@ -203,6 +224,7 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 import { Code } from "@/utils/enum.js";
 import { findById } from "@/api/item.js";
 import {
@@ -213,11 +235,12 @@ import {
 import axios from "axios";
 import MilkToken from "@/config/contract/MilkToken.json";
 import Swal from "sweetalert2/dist/sweetalert2.js";
+import { mapState } from 'vuex'
 
 const vm = this;
 export default {
   name: "ItemDetail",
-  data() {
+  data () {
     return {
       item: {
         id: "",
@@ -242,7 +265,7 @@ export default {
     };
   },
   methods: {
-    makeContract() {
+    makeContract () {
       const Web3 = require("web3");
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
 
@@ -257,23 +280,23 @@ export default {
         this.coinbaseAddress = res[0];
       });
     },
-    async checkMilk() {
+    async checkMilk () {
       const milk = await this.contract.methods
         .balanceOf(this.$store.state.user.walletAddress)
         .call();
 
       this.milkBalance = milk / 10 ** 15;
     },
-    moveToWallet() {
+    moveToWallet () {
       this.$router.push("/mypage/wallet_info");
     },
-    getImg(name) {
+    getImg (name) {
       if (name) {
         return name;
       }
       return null;
     },
-    registInterest() {
+    registInterest () {
       const token = this.$store.state.user.JWTToken;
 
       const headers = {
@@ -292,7 +315,7 @@ export default {
           console.log(err);
         });
     },
-    purchase() {
+    purchase () {
       const token = this.$store.state.user.JWTToken;
 
       const headers = {
@@ -313,7 +336,7 @@ export default {
         });
     },
     // 코인 베이스로 이동
-    async doPay() {
+    async doPay () {
       const Web3 = require("web3");
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
       const from = this.$store.state.user.walletAddress;
@@ -330,26 +353,25 @@ export default {
       this.purchase();
       this.$router.push({ name: "mypage.items" });
     },
-    goChatting() {
-      console.log("채팅방으로 가는 버튼을 눌럿음");
-      const A =
-        this.item.userNickname > this.$store.state.user.userNickname
-          ? this.$store.state.user.userNickname
-          : this.item.userNickname;
-      const B =
-        this.item.userNickname > this.$store.state.user.userNickname
-          ? this.item.userNickname
-          : this.$store.state.user.userNickname;
-      this.$router.push({
-        name: "room",
-        params: {
-          userNickname: this.item.userNickname,
-          sessionId: A + "1" + B,
-        },
-      });
+    goChatting () {
+      const A = this.item.userNickname > this.$store.state.user.userNickname ? this.$store.state.user.userNickname : this.item.userNickname;
+      const B = this.item.userNickname > this.$store.state.user.userNickname ? this.item.userNickname : this.$store.state.user.userNickname;
+
+      db.collection('user').doc(this.item.userNickname).update({
+        chatRooms: firebase.firestore.FieldValue.arrayUnion({ notification: true, itemName: this.item.itemName, userNickname: this.user.userNickname, sessionId: A + '1' + B })
+      }).then(() => {
+        console.log('sucess')
+      })
+
+      this.$router.push({ name: "room", params: { sessionId: A + '1' + B } });
     },
   },
-  created() {
+  computed: {
+    ...mapState([
+      'user',
+    ]),
+  },
+  created () {
     console.log("created");
     this.item.id = this.$route.params.id;
     console.log(this.item.id);
