@@ -73,7 +73,7 @@
                   </div>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">변경</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="updateLocation">변경</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                   </div>
                 </div>
@@ -110,7 +110,6 @@
                 @click="moveToItem(wish.itemId)"
                 class="my-content">
                 <span>상품 명: {{ wish.itemName }}</span>
-
               </div>
             </div>
           </div>
@@ -195,6 +194,7 @@ export default {
         profileImage: "",
         sigungu: "",
         bname: "",
+        bcode: "",
       },
       image: "",
       communityList: [],
@@ -221,6 +221,9 @@ export default {
           this.user.nickName = res.data.nickname;
           this.user.email = res.data.email;
           this.user.profileImage = res.data.profileImage;
+          // this.$route.push({ name: "communityDetail", params: { profileImage: res.data.profileImage} })
+          //vuex 저장 코드를 넣는곳
+          this.$store.commit('setUserProfileImage', res.data.profileImage);
           this.user.sigungu = res.data.sigungu;
           this.user.bname = res.data.bname;
         })
@@ -290,8 +293,15 @@ export default {
       })
         .then((res) => {
           console.log(res);
+          Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "프로필 변경 성공",
+          showConfirmButton: false,
+          timer: 1500,
+          }); 
           // 새로고침할때 이거 쓰자.
-          this.$router.go();
+          this.fetchUserInfo();
         })
         .catch((err) => {
           console.log(err);
@@ -305,6 +315,7 @@ export default {
           document.getElementById("location").value = addr;
           vm.user.bname = data.bname;
           vm.user.sigungu = data.sigungu;
+          vm.user.bcode = data.bcode;
           console.log(vm.user);
         },
       }).open();
@@ -314,6 +325,36 @@ export default {
     },
     moveToItem(itemId) {
       this.$router.push({name: 'item.detail', params: {id: itemId}})
+    },
+    updateLocation() {
+      const token = this.$store.state.user.JWTToken;
+
+      const headers  = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      axios({
+        url: `${API_BASE_URL}/api/users/address/update`,
+        method: 'put',
+        headers,
+        data: {
+          bcode: this.user.bcode,
+          bname: this.user.bname,
+          sigungu: this.user.sigungu,
+        }
+      })
+      .then( res => {
+          Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "주소가 변경되었어요!",
+          showConfirmButton: false,
+          timer: 1500,
+        }); 
+      })
+      .catch( err => {
+        console.log(err)
+      }) 
     }
   },
   mounted() {

@@ -64,7 +64,7 @@
                   <p class="escrow-state">결재 완료</p>
                   <div class="d-flex">
                     <button class="escrow-btn">구매 확정</button>
-                    <button class="close-btn">구매 취소</button>
+                    <button class="close-btn" @click="cancelPurchase(item.price, item.itemId)">구매 취소</button>
                   </div>
                 </div>
               </div>
@@ -83,20 +83,13 @@
 </template>
 
 <script>
-import { findMySaleItems, remove } from "@/api/item.js";
-import {
-  findMySalePurchases as findSaleTx,
-  findMyPurchases as findPurchaseTx,
-  checkDeposit
-} from "@/api/purchase.js";
 import MyPageNav from "./MyPageNav.vue";
 import { ITEM_STATUS, ESCROW_STATE } from "@/config/constants.js";
-import { getLocalImg } from "@/utils/imgLoader.js";
-import { getPrice, deregisterItem } from "@/utils/itemInventory.js";
 import axios from 'axios'
-import { API_BASE_URL, BLOCKCHAIN_URL } from "@/config/index.js"
+import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js"
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import MyEscrow from './MyEscrow.vue';
+import MilkToken from "@/config/contract/MilkToken.json";
 
 export default {
   name: "MyItems",
@@ -116,9 +109,22 @@ export default {
       purchaseTx: [], // 내가 구매한 거래
       saleItems: [], // 판매 상품
       itemStatus: "",
+      contract: "",
+      coinbaseAddress: "",
     };
   },
   methods: {
+    makeContract() {
+      const Web3 = require('web3');
+      const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
+      let contract =  new web3.eth.Contract(MilkToken.abi, CASH_CONTRACT_ADDRESS);
+      this.contract = contract;
+
+      web3.eth.getAccounts().then(res => {
+        console.log(res)
+        this.coinbaseAddress = res[0]
+      });
+    },
     fetchMyProduct() {
       const token = this.user.token;
       const headers = {
@@ -162,9 +168,56 @@ export default {
     moveToDetail(itemId) {
       this.$router.push({name: 'item.detail', params: { id: itemId }})
     },
+    async refund(price) {
+      const Web3 = require('web3');
+      const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
+      const from = this.coinbaseAddress;
+      const to = this.user.walletAddress;
+      const amount = price * (10**15);
+      const amountToBn = web3.utils.toBN(`${amount}`)
 
+      const approve = await this.contract.methods.approve(from, amountToBn).send({from: from});
+      const transfer = await this.contract.methods.transferFrom(from, to, amountToBn).send({from: from});
+
+      this.$router.go();
+
+    },
+    cancelPurchase(price, itemId) {
+      const token = this.user.token;
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      axios({
+        url: `${API_BASE_URL}/api/item/cancel/${itemId}`,
+        method: 'delete',
+        headers,
+      })
+      .then( res => {
+          Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "구매 취소 완료!",
+          showConfirmButton: false,
+          timer: 1500,
+        });   
+          this.refund(price);
+      })
+      .catch( err => {
+          Swal.fire({
+            position: "center",
+            icon: "fail",
+            title: "다시 시도해주세요",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+      })
+
+
+    },
   },
   mounted() {
+    this.makeContract();
     this.fetchMyProduct();
     this.fetchMyPurchase();
     this.itemStatus = ITEM_STATUS;

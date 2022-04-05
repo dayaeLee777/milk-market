@@ -6,16 +6,7 @@ import java.util.List;
 import com.google.api.Http;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mk.api.dto.request.ItemModifyRequestDto;
@@ -218,7 +209,7 @@ public class ItemController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(BaseResponseDto.of(HttpStatus.NO_CONTENT.value(), "Fail"));
 	}
 
-	@PostMapping("/purchase/cancel")
+	@DeleteMapping("/cancel/{itemId}")
 	@ApiOperation(value="구매 취소", notes="<strong>구매를 취소한다.</strong>")
 	@ApiResponses({
 			@ApiResponse(code=200, message="구매 취소가 이루어졌습니다.."),
