@@ -2,15 +2,7 @@
   <div id="main-overview" class="container">
     <!-- 검색 -->
 
-    <div
-      class="
-        card-body
-        row
-        no-gutters
-        align-items-center
-        justify-content-md-center
-      "
-    >
+    <div class="card-body row no-gutters align-items-center justify-content-md-center">
       <div class="col-auto">
         <i class="fas fa-search h4 text-body"></i>
       </div>
@@ -24,9 +16,7 @@
         />
       </div>
       <div class="col-auto">
-        <button class="btn btn-lg btn-success" type="submit" @click="fnSearch">
-          Search
-        </button>
+        <button class="btn btn-lg btn-success" type="submit" @click="fnSearch">Search</button>
       </div>
     </div>
 
@@ -69,12 +59,7 @@
     <!--상품 등록-->
     <div class="row">
       <div id="footer">
-        <button
-          type="button"
-          class="btn btn-primary"
-          @click="itemWrite"
-          style="float: right"
-        >
+        <button type="button" class="btn btn-primary" @click="itemWrite" style="float: right">
           상품등록
         </button>
       </div>
@@ -111,8 +96,8 @@ export default {
     division: null,
     bcode: null,
     changeCategory: null,
-    sortBy: "regDate",
-    order: "ASC",
+    sortBy: "regDateTime",
+    order: null,
     page: 0,
     size: 12,
     categorys: {
@@ -154,10 +139,7 @@ export default {
     lists() {
       const items = this.contents;
       // Return just page of items needed
-      return items.slice(
-        (this.currentPage - 1) * this.perPage,
-        this.currentPage * this.perPage
-      );
+      return items.slice((this.currentPage - 1) * this.perPage, this.currentPage * this.perPage);
     },
   },
   updated() {
@@ -285,9 +267,7 @@ export default {
     filterSelection5(category) {
       var vm = this;
       console.log(category);
-      this.changeCategory = Object.keys(vm.categorys).find(
-        (key) => vm.categorys[key] === category
-      );
+      this.changeCategory = Object.keys(vm.categorys).find((key) => vm.categorys[key] === category);
       console.log("카테고리 클릭시");
       console.log("카테고리 : " + this.changeCategory);
       getSearchItemByCategory(

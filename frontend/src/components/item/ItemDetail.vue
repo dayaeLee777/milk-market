@@ -61,15 +61,10 @@
               <div class="col-lg-12 mt-3" v-if="userId !== item.userId">
                 <div class="row">
                   <div class="pb-2">
-                    <button @click="goChatting" class="btn btn-sm btn-primary">
-                      채팅하기
-                    </button>
+                    <button @click="goChatting" class="btn btn-sm btn-primary">채팅하기</button>
 
                     <span v-if="item.division === 'A01'">
-                      <button
-                        class="btn btn-sm btn-primary"
-                        @click="registInterest"
-                      >
+                      <button class="btn btn-sm btn-primary" @click="registInterest">
                         관심상품 등록
                       </button>
                       <button
@@ -81,10 +76,7 @@
                       </button>
                     </span>
                     <span v-else>
-                      <button
-                        class="btn btn-sm btn-primary"
-                        @click="registInterest"
-                      >
+                      <button class="btn btn-sm btn-primary" @click="registInterest">
                         관심상품 등록
                       </button>
                       <button
@@ -94,7 +86,7 @@
                         data-bs-target="#purchaseModal"
                       >
                         구매하기
-                      </button>                      
+                      </button>
                     </span>
                   </div>
                 </div>
@@ -109,157 +101,109 @@
         </div>
       </div>
       <div class="row mt-3 p-0 text-center pro-box-section">
-        <div
-          class="col-lg-3 pb-2"
-          v-for="(sitem, index) in suggest"
-          :key="index"
-        >
+        <div class="col-lg-3 pb-2" v-for="(sitem, index) in suggest" :key="index">
           <div class="pro-box border p-0 m-0" @click="itemDetail(sitem.id)">
             <img :src="sitem.files[sitem.keys[0]]" />
           </div>
         </div>
       </div>
     </div>
-        <div
-          class="modal fade"
-          id="rentModal"
-          tabindex="-1"
-          aria-labelledby="rentModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5
-                  class="modal-title"
-                  id="rentModalLabel"
-                >
-                  결제
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <div class="d-flex">
-                  <div class="text-primary">
-                    현재 잔액: {{ milkBalance }}MILK
-                  </div>
-                </div>
-                <div v-if="milkBalance - item.price >= 0">
-                  <div></div>
-                  <div class="mt-2">
-                    현재 상품 가격: {{ item.price }}MILK
-                  </div>
-                  <div class="mt-2 fw-bold">
-                    구매 후 잔액: {{ milkBalance - item.price }}MILK
-                  </div>
-                </div>
-                <div v-else>
-                  <p calss="text-danger">MILK 잔액이 부족합니다!</p>
-                  <button
-                    class="btn btn-secondary btn-sm ms-2"
-                    data-bs-dismiss="modal"
-                    @click="moveToWallet"
-                  >
-                    충전하기!
-                  </button>
-                </div>
-              </div>
-              <div class="modal-body">  </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-dismiss="modal"
-                  @click="doPay"
-                >
-                  결제하기
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  취소
-                </button>
-              </div>
+    <div
+      class="modal fade"
+      id="rentModal"
+      tabindex="-1"
+      aria-labelledby="rentModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rentModalLabel">결제</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex">
+              <div class="text-primary">현재 잔액: {{ milkBalance }}MILK</div>
             </div>
+            <div v-if="milkBalance - item.price >= 0">
+              <div></div>
+              <div class="mt-2">현재 상품 가격: {{ item.price }}MILK</div>
+              <div class="mt-2 fw-bold">구매 후 잔액: {{ milkBalance - item.price }}MILK</div>
+            </div>
+            <div v-else>
+              <p calss="text-danger">MILK 잔액이 부족합니다!</p>
+              <button
+                class="btn btn-secondary btn-sm ms-2"
+                data-bs-dismiss="modal"
+                @click="moveToWallet"
+              >
+                충전하기!
+              </button>
+            </div>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="doPay">
+              결제하기
+            </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
           </div>
         </div>
-        <div
-          class="modal fade"
-          id="purchaseModal"
-          tabindex="-1"
-          aria-labelledby="purchaseModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5
-                  class="modal-title"
-                  id="purchaseModalLabel"
-                >
-                  결제
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div class="modal-body">
-                <div class="d-flex">
-                  <div class="text-primary">
-                    현재 잔액: {{ milkBalance }}MILK
-                  </div>
-                </div>
-                <div v-if="milkBalance - item.price >= 0">
-                  <div></div>
-                  <div class="mt-2">
-                    현재 상품 가격: {{ item.price }}MILK
-                  </div>
-                  <div class="mt-2 fw-bold">
-                    구매 후 잔액: {{ milkBalance - item.price }}MILK
-                  </div>
-                </div>
-                <div v-else>
-                  <p calss="text-danger">MILK 잔액이 부족합니다!</p>
-                  <button
-                    class="btn btn-secondary btn-sm ms-2"
-                    data-bs-dismiss="modal"
-                    @click="moveToWallet"
-                  >
-                    충전하기!
-                  </button>
-                </div>
-              </div>
-              <div class="modal-body">  </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-dismiss="modal"
-                  @click="doPay"
-                >
-                  결제하기
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  취소
-                </button>
-              </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="purchaseModal"
+      tabindex="-1"
+      aria-labelledby="purchaseModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="purchaseModalLabel">결제</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex">
+              <div class="text-primary">현재 잔액: {{ milkBalance }}MILK</div>
+            </div>
+            <div v-if="milkBalance - item.price >= 0">
+              <div></div>
+              <div class="mt-2">현재 상품 가격: {{ item.price }}MILK</div>
+              <div class="mt-2 fw-bold">구매 후 잔액: {{ milkBalance - item.price }}MILK</div>
+            </div>
+            <div v-else>
+              <p calss="text-danger">MILK 잔액이 부족합니다!</p>
+              <button
+                class="btn btn-secondary btn-sm ms-2"
+                data-bs-dismiss="modal"
+                @click="moveToWallet"
+              >
+                충전하기!
+              </button>
             </div>
           </div>
-        </div>    
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="doPay">
+              결제하기
+            </button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -267,11 +211,7 @@
 import firebase from "firebase";
 import { Code } from "@/utils/enum.js";
 import { findById, getSearchItemByCategory } from "@/api/item.js";
-import {
-  API_BASE_URL,
-  BLOCKCHAIN_URL,
-  CASH_CONTRACT_ADDRESS,
-} from "@/config/index.js";
+import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js";
 import axios from "axios";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import MilkToken from "@/config/contract/MilkToken.json";
@@ -308,20 +248,19 @@ export default {
     itemDetail(itemId) {
       console.log("이동 : ");
       console.log("sitem.id : " + itemId);
-      this.$router.push({
-        // name: "item.detail",
-        name: "item.detail",
-        params: { id: itemId },
-      }).catch(() => {});
+      this.$router
+        .push({
+          // name: "item.detail",
+          name: "item.detail",
+          params: { id: itemId },
+        })
+        .catch(() => {});
     },
     makeContract() {
       const Web3 = require("web3");
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
 
-      let contract = new web3.eth.Contract(
-        MilkToken.abi,
-        CASH_CONTRACT_ADDRESS
-      );
+      let contract = new web3.eth.Contract(MilkToken.abi, CASH_CONTRACT_ADDRESS);
       this.contract = contract;
 
       web3.eth.getAccounts().then((res) => {
@@ -418,9 +357,7 @@ export default {
       const to = this.coinbaseAddress;
       const amount = this.item.price * 10 ** 15;
       const amountToBn = web3.utils.toBN(`${amount}`);
-      const approve = await this.contract.methods
-        .approve(from, amountToBn)
-        .send({ from: from });
+      const approve = await this.contract.methods.approve(from, amountToBn).send({ from: from });
       const transfer = await this.contract.methods
         .transferFrom(from, to, amountToBn)
         .send({ from: from });
@@ -489,9 +426,7 @@ export default {
         vm.item.userNickname = result.userNickname;
         vm.item.division = result.division;
         vm.item.regDate = result.regDate;
-        vm.item.rentStartDate = result.rentStartDate
-          ? result.rentStartDate
-          : "";
+        vm.item.rentStartDate = result.rentStartDate ? result.rentStartDate : "";
         vm.item.rentEndDate = result.rentendDate ? result.rentEndDate : "";
         vm.item.files = result.files;
         vm.item.keys = Object.keys(vm.item.files);
@@ -504,7 +439,7 @@ export default {
           result.category,
           result.division,
           result.bcode,
-          "regDate",
+          "regDateTime",
           null,
           null,
           4,

@@ -7,8 +7,8 @@ const instance = createInstance();
 function allList (success, fail) {
   const ItemList = {
     bcode: null,
-    sortBy: "regDate",
-    order: "ASC",
+    sortBy: "regDateTime",
+    order: null,
   };
   instance
     .post("/api/item/search", JSON.stringify(ItemList), {
