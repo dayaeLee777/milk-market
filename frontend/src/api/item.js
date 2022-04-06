@@ -183,12 +183,13 @@ function findItemsByOwner(userId, success, fail) {
     .catch(fail);
 }
 
-function findById(itemId, success, fail) {
+function findById(itemId, success, success2, fail) {
   instance
     .get("/api/item/" + itemId, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then(success)
+    .then(success2)
     .catch(fail);
 }
 
