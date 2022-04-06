@@ -30,6 +30,9 @@
 		"regDate": {
 			"type": "date"
 		},
+		"regDateTime": {
+			"type": "text"
+		},
 		"rentStartDate": {
 			"type": "text"
 		},

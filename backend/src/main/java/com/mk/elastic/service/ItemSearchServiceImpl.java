@@ -157,8 +157,8 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 			String newFilename = file.getNewFileName();
 			itemImageList.put(originFilename, itemImageService.getImagePath(newFilename));
 		});
-
-		DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
+		
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
 
 		Date date = Date.from(item.getRegDate().atZone(ZoneId.systemDefault()).toInstant());
 
@@ -167,11 +167,11 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 				.status(item.getStatus())
 				.itemName(item.getItemName()).category(item.getCategory()).price(item.getPrice())
 				.description(item.getDescription()).bcode(item.getUser().getBcode()).bname(item.getUser().getBname())
-				.regDate(date).fileNameList(itemImageList).build();
+				.regDate(date).regDateTime(item.getRegDate().toString()).fileNameList(itemImageList).build();
 
 		if (item.getDivision() == Code.A01)
-			itemSearch.setRentDate(item.getRentStartDate().format(rentDateTimeFormatter),
-					item.getRentEndDate().format(rentDateTimeFormatter));
+			itemSearch.setRentDate(item.getRentStartDate().format(dateTimeFormatter),
+					item.getRentEndDate().format(dateTimeFormatter));
 
 		return index(itemSearch);
 	}

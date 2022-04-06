@@ -67,7 +67,10 @@ public class SearchUtil {
 
 			SearchSourceBuilder builder = new SearchSourceBuilder().postFilter(boolQuery);
 			if (dto.getSortBy() != null) {
-				builder.sort(dto.getSortBy(), dto.getOrder() != null ? dto.getOrder() : SortOrder.DESC);
+				SortOrder sortOrder = SortOrder.DESC;
+				if(dto.getOrder() != null && dto.getOrder().toString().toUpperCase().equals("ASC"))
+					sortOrder = SortOrder.ASC;
+				builder.sort(dto.getSortBy().toString(), sortOrder);
 			}
 			builder = builder.from(from).size(size);
 

@@ -162,8 +162,8 @@ function getTotalPage (success, fail) {
     fields: [],
     searchTerm: null,
     bcode: null,
-    sortBy: "regDate",
-    order: "ASC",
+    sortBy: "regDateTime",
+    order: null,
   };
   instance
     .post("/api/item/search", JSON.stringify(ItemList), {
