@@ -1,6 +1,6 @@
 import store from "../store/index.js";
 import { createInstance } from "./index.js";
-const token = store.getters.getJWTToken;
+const token = store.state.user.JWTToken;
 const instance = createInstance();
 const bcode = store.getters.getBcode;
 function allList(success, fail) {
@@ -8,7 +8,6 @@ function allList(success, fail) {
   const ItemList = {
     bcode: null,
     sortBy: "regDate",
-    order: "ASC",
   };
   instance
     .post("/api/item/search", JSON.stringify(ItemList), {

@@ -65,187 +65,139 @@
                       채팅하기
                     </button>
 
-              <!-- 사용자와 판매자가 다르면 구매하기 버튼 생성! 대여 A01, 구매 A02-->
-              <div
-                class="d-flex justify-content-between"
-                v-if="userId !== item.userId"
-              >
-                <div>
-                  <button
-                    @click="goChatting"
-                    class="btn btn-sm btn-primary"
-                  >
-                    채팅하기
-                  </button>
-                </div>
-                <div v-if="item.division === 'A01'">
-                  <button
-                    class="btn btn-sm btn-primary"
-                    @click="registInterest"
-                  >
-                    관심상품 등록
-                  </button>
-                  <button
-                    class="btn btn-sm btn-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#rentModal"
-                  >
-                    대여하기
-                  </button>
-                </div>
-                <div v-else>
-                  <button
-                    class="btn btn-sm btn-primary"
-                    @click="registInterest"
-                  >
-                    관심상품 등록
-                  </button>
-                  <button
-                    class="btn btn-sm btn-primary"
-                    @click="checkMilk()"
-                    data-bs-toggle="modal"
-                    data-bs-target="#purchaseModal"
-                  >
-                    구매하기
-                  </button>
-                </div>
-                <div
-                  class="modal fade"
-                  id="rentModal"
-                  tabindex="-1"
-                  aria-labelledby="rentModalLabel"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5
-                          class="modal-title"
-                          id="rentModalLabel"
-                        >
-                          결제
-                        </h5>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="d-flex">
-                          <div class="text-primary">
-                            현재 잔액: {{ milkBalance }}MILK
+                    <span v-if="item.division === 'A01'">
+                      <button
+                        class="btn btn-sm btn-primary"
+                        @click="registInterest"
+                      >
+                        관심상품 등록
+                      </button>
+                      <button
+                        class="btn btn-sm btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#rentModal"
+                      >
+                        대여하기
+                      </button>
+                    </span>
+                    <span v-else>
+                      <button
+                        class="btn btn-sm btn-primary"
+                        @click="registInterest"
+                      >
+                        관심상품 등록
+                      </button>
+                      <button
+                        class="btn btn-sm btn-primary"
+                        @click="checkMilk()"
+                        data-bs-toggle="modal"
+                        data-bs-target="#purchaseModal"
+                      >
+                        구매하기
+                      </button>
+                    </span>
+                    <div
+                      class="modal fade"
+                      id="rentModal"
+                      tabindex="-1"
+                      aria-labelledby="rentModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="rentModalLabel">
+                              Modal title
+                            </h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">...</div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              Close
+                            </button>
+                            <button type="button" class="btn btn-primary">
+                              Save changes
+                            </button>
                           </div>
                         </div>
-                        <div v-if="milkBalance - item.price >= 0">
-                          <div></div>
-                          <div class="mt-2">
-                            현재 상품 가격: {{ item.price }}MILK
-                          </div>
-                          <div class="mt-2 fw-bold">
-                            구매 후 잔액: {{ milkBalance - item.price }}MILK
-                          </div>
-                        </div>
-                        <div v-else>
-                          <p calss="text-danger">MILK 잔액이 부족합니다!</p>
-                          <button
-                            class="btn btn-secondary btn-sm ms-2"
-                            data-bs-dismiss="modal"
-                            @click="moveToWallet"
-                          >
-                            충전하기!
-                          </button>
-                        </div>
-                      </div>
-                      <div class="modal-body">  </div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-primary"
-                          data-bs-dismiss="modal"
-                          @click="doPay"
-                        >
-                          결제하기
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-secondary"
-                          data-bs-dismiss="modal"
-                        >
-                          취소
-                        </button>
                       </div>
                     </div>
-                  </div>
-                </div>
 
-                <div
-                  class="modal fade"
-                  id="purchaseModal"
-                  tabindex="-1"
-                  aria-labelledby="purchaseModalLabel"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5
-                          class="modal-title"
-                          id="purchaseModalLabel"
-                        >
-                          결제
-                        </h5>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="d-flex">
-                          <div class="text-primary">
-                            현재 잔액: {{ milkBalance }}MILK
+                    <div
+                      class="modal fade"
+                      id="purchaseModal"
+                      tabindex="-1"
+                      aria-labelledby="purchaseModalLabel"
+                      aria-hidden="true"
+                    >
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="purchaseModalLabel">
+                              Modal title
+                            </h5>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="d-flex">
+                              <div class="text-primary">
+                                현재 잔액: {{ milkBalance }}MILK
+                              </div>
+                            </div>
+                            <div v-if="milkBalance - item.price >= 0">
+                              <div></div>
+                              <div class="mt-2">
+                                현재 상품 가격: {{ item.price }}MILK
+                              </div>
+                              <div class="mt-2 fw-bold">
+                                구매 후 잔액: {{ milkBalance - item.price }}MILK
+                              </div>
+                            </div>
+                            <div v-else>
+                              <p calss="text-danger">MILK 잔액이 부족합니다!</p>
+                              <button
+                                class="btn btn-secondary btn-sm ms-2"
+                                data-bs-dismiss="modal"
+                                @click="moveToWallet"
+                              >
+                                충전하기!
+                              </button>
+                            </div>
+                          </div>
+                          <div class="modal-body">...</div>
+                          <div class="modal-footer">
+                            <button
+                              type="button"
+                              class="btn btn-primary"
+                              data-bs-dismiss="modal"
+                              @click="doPay"
+                            >
+                              결재하기
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                            >
+                              취소
+                            </button>
                           </div>
                         </div>
-                        <div v-if="milkBalance - item.price >= 0">
-                          <div></div>
-                          <div class="mt-2">
-                            현재 상품 가격: {{ item.price }}MILK
-                          </div>
-                          <div class="mt-2 fw-bold">
-                            구매 후 잔액: {{ milkBalance - item.price }}MILK
-                          </div>
-                        </div>
-                        <div v-else>
-                          <p calss="text-danger">MILK 잔액이 부족합니다!</p>
-                          <button
-                            class="btn btn-secondary btn-sm ms-2"
-                            data-bs-dismiss="modal"
-                            @click="moveToWallet"
-                          >
-                            충전하기!
-                          </button>
-                        </div>
-                      </div>
-                      <div class="modal-body">  </div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-primary"
-                          data-bs-dismiss="modal"
-                          @click="doPay"
-                        >
-                          결제하기
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-secondary"
-                          data-bs-dismiss="modal"
-                        >
-                          취소
-                        </button>
                       </div>
                     </div>
                   </div>
@@ -390,12 +342,12 @@ export default {
         .then((res) => {
           console.log(res);
           Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "구매 성공",
-          showConfirmButton: false,
-          timer: 1500,
-        });   
+            position: "center",
+            icon: "success",
+            title: "구매 성공",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         })
         .catch((err) => {
           Swal.fire({
@@ -435,7 +387,6 @@ export default {
           ? this.item.userNickname
           : this.$store.state.user.userNickname;
 
-<<<<<<< HEAD
       db.collection("user")
         .doc(this.item.userNickname)
         .update({
@@ -444,22 +395,20 @@ export default {
             itemName: this.item.itemName,
             userNickname: this.user.userNickname,
             sessionId: A + "1" + B,
+            profileImage: this.user.profileImage,
           }),
         })
         .then(() => {
           console.log("sucess");
         });
 
-      this.$router.push({ name: "room", params: { sessionId: A + "1" + B } });
-=======
-      db.collection('user').doc(this.item.userNickname).update({
-        chatRooms: firebase.firestore.FieldValue.arrayUnion({ notification: true, itemName: this.item.itemName, userNickname: this.user.userNickname, sessionId: A + '1' + B, profileImage: this.user.profileImage })
-      }).then(() => {
-        console.log('sucess')
-      })
-
-      this.$router.push({ name: "room", params: { sessionId: A + '1' + B, profileImage: this.item.profileImage } });
->>>>>>> develop
+      this.$router.push({
+        name: "room",
+        params: {
+          sessionId: A + "1" + B,
+          profileImage: this.item.profileImage,
+        },
+      });
     },
   },
   computed: {
