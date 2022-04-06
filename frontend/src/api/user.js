@@ -1,6 +1,6 @@
 // userService.js
 import { createInstance } from "./index.js";
-import store from "@/store";
+import store from "../store/index.js";;
 
 
 const instance = createInstance();

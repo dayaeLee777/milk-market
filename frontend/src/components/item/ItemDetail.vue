@@ -63,7 +63,6 @@
                   <div class="pb-2">
                     <button @click="goChatting" class="btn btn-sm btn-primary">채팅하기</button>
                     <div v-if="item.status === 'C01'">
-
                       <span v-if="item.division === 'A01'">
                         <button class="btn btn-sm btn-primary" @click="registInterest">
                           관심상품 등록
