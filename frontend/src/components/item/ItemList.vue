@@ -2,15 +2,7 @@
   <div id="main-overview" class="container">
     <!-- 검색 -->
 
-    <div
-      class="
-        card-body
-        row
-        no-gutters
-        align-items-center
-        justify-content-md-center
-      "
-    >
+    <div class="card-body row no-gutters align-items-center justify-content-md-center">
       <div class="col-auto">
         <i class="fas fa-search h4 text-body"></i>
       </div>
@@ -24,9 +16,7 @@
         />
       </div>
       <div class="col-auto">
-        <button class="btn btn-lg btn-success" type="submit" @click="fnSearch">
-          Search
-        </button>
+        <button class="btn btn-lg btn-success" type="submit" @click="fnSearch">Search</button>
       </div>
     </div>
 
@@ -36,30 +26,19 @@
       </div>
     </div>
     <div id="footer">
-      <button
-        type="button"
-        class="btn btn-primary"
-        @click="itemWrite"
-        style="float: right"
-      >
+      <button type="button" class="btn btn-primary" @click="itemWrite" style="float: right">
         상품등록
       </button>
 
       <ul id="pagination" class="pagination" style="justify-content: center">
         <li class="page-item" v-bind:class="{ disabled: prev }">
-          <a class="page-link" @click="prevPage(currentPageNum)" href="#"
-            >Previous</a
-          >
+          <a class="page-link" @click="prevPage(currentPageNum)" href="#">Previous</a>
         </li>
         <li class="page-item" v-for="number in totalPages" :key="number">
-          <a class="page-link" @click="getItemByPage(number)" href="#">{{
-            number
-          }}</a>
+          <a class="page-link" @click="getItemByPage(number)" href="#">{{ number }}</a>
         </li>
         <li class="page-item" v-bind:class="{ disabled: next }">
-          <a class="page-link" @click="nextPage(currentPageNum)" href="#"
-            >Next</a
-          >
+          <a class="page-link" @click="nextPage(currentPageNum)" href="#">Next</a>
         </li>
       </ul>
     </div>
@@ -86,8 +65,8 @@ export default {
     prev: true,
     next: false,
     bcode: null,
-    sortBy: "regDate",
-    order: "ASC",
+    sortBy: "regDateTime",
+    order: null,
     page: 0,
     size: 12,
   }),

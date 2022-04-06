@@ -108,7 +108,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
@@ -128,7 +128,6 @@ export default {
   display: -webkit-flex;
   justify-content: center;
   -webkit-justify-content: center;
-  /* max-width: 820px; */
   margin-left: 70px;
 }
 

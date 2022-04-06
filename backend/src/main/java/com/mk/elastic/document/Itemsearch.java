@@ -54,6 +54,8 @@ public class Itemsearch {
     @JsonFormat(pattern = "yyyy-MM-dd")
 	private Date regDate;
 
+	private String regDateTime;
+
 	private String rentStartDate;
 
 	private String rentEndDate;

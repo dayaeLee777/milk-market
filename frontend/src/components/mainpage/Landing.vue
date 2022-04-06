@@ -89,6 +89,7 @@ export default {
   font-size: 30px;
   margin: 0;
   text-align: center;
+  color: #1f4568;
   font-family: "Black Han Sans", sans-serif;
 }
 

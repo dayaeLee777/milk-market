@@ -1,5 +1,7 @@
 package com.mk.elastic.service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -12,10 +14,10 @@ import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import com.mk.elastic.helper.Indices;
-import com.mk.elastic.helper.Util;
 
 import lombok.RequiredArgsConstructor;
 
@@ -35,7 +37,17 @@ public class IndexServiceImpl implements IndexService {
 
 	@Override
 	public void recreateIndices(boolean deleteExisting) {
-		final String settings = Util.loadAsString("static/es-settings.json");
+		
+
+			String settings = null;
+			try {
+				final InputStream resource = new ClassPathResource("static/es-settings.json").getInputStream();
+				settings = new String(resource.readAllBytes());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		
+//		final String settings = Util.loadAsString("static/es-settings.json");
 
 		if (settings == null) {
 			LOG.error("Failed to load index settings");
@@ -70,7 +82,16 @@ public class IndexServiceImpl implements IndexService {
 	}
 
 	private String loadMappings(String indexName) {
-		final String mappings = Util.loadAsString("static/mappings/" + indexName + ".json");
+		
+		String mappings = null;
+		try {
+			final InputStream resource = new ClassPathResource("static/mappings/" + indexName + ".json").getInputStream();
+			mappings = new String(resource.readAllBytes());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+//		final String mappings = Util.loadAsString("static/mappings/" + indexName + ".json");
 		if (mappings == null) {
 			LOG.error("Failed to load mappings for index with name '{}'", indexName);
 			return null;

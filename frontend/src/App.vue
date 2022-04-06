@@ -235,8 +235,8 @@ body {
 }
 
 .btn {
-  background-color: #3a9fff;
-  border-radius: 20px;
+  background-color: #3a9fff !important;
+  border-radius: 20px !important;
   padding: 10px 25px;
   color: #ffffff !important;
   box-shadow: 0px 18px 13px -6px rgba(0, 0, 0, 0.2);
@@ -249,9 +249,9 @@ body {
 }
 
 .btn:hover {
-  box-shadow: 0px 25px 18px -6px rgba(0, 0, 0, 0.2);
-  background-color: #63b2fc;
-  color: #fff;
+  box-shadow: 0px 25px 18px -6px rgba(0, 0, 0, 0.2) !important;
+  background-color: #63b2fc !important;
+  color: #fff !important;
 }
 
 .price-box__wrap:hover .btn {
@@ -259,17 +259,17 @@ body {
 }
 
 .btn--revert {
-  background-color: transparent;
+  background-color: transparent !important;
   color: #8198ae !important;
-  box-shadow: none;
-  border: 1px solid #c9d9e9;
+  box-shadow: none !important;
+  border: 1px solid #c9d9e9 !important;
 }
 
 .btn--revert:hover {
-  background-color: transparent;
+  background-color: transparent !important;
   color: #1f4568 !important;
   box-shadow: none;
-  border: 1px solid #8198ae;
+  border: 1px solid #8198ae !important;
 }
 
 .btn--purple {
@@ -458,6 +458,7 @@ body {
 .site__title {
   font-size: 30px;
   margin: 0;
+  color: #1f4568;
   text-align: center;
   font-family: "Black Han Sans", sans-serif;
 }
@@ -710,7 +711,6 @@ body {
 }
 
 .form__field--half:first-of-type {
-  /* padding-right:15px; */
 }
 
 .form__textarea {

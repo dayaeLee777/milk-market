@@ -35,20 +35,12 @@
                 </div>
                 <div id="btn_span" />
                 <div class="form-group">
-                  <button
-                    type="submit"
-                    class="btn btn--width btn-blue login_btn"
-                    @click="login"
-                  >
+                  <button type="submit" class="btn btn--width btn-blue login_btn" @click="login">
                     Login
                   </button>
                 </div>
                 <div class="form-group">
-                  <button
-                    class="btn btn--width login_btn"
-                    id="kakaobtn"
-                    @click="kakaoLogin"
-                  >
+                  <button class="btn btn--width login_btn" id="kakaobtn" @click="kakaoLogin">
                     kakao Login
                   </button>
                 </div>
@@ -79,7 +71,7 @@ import { findByUserId as findWallet } from "../api/wallet.js";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
 export default {
-  data () {
+  data() {
     return {
       user: {
         email: "",
@@ -88,7 +80,7 @@ export default {
     };
   },
   methods: {
-    login () {
+    login() {
       const scope = this;
       //함수 안에 함수를 쓸 때 this쓰면 바뀐다.
 
@@ -103,7 +95,7 @@ export default {
           scope.$store.commit("setJWTToken", response.data.token);
           scope.$store.commit("setUserNickname", response.data.nickname);
           console.log("여기까지 넘어갑니다." + response.data.token);
-          return response.data
+          return response.data;
         },
         function (response) {
           findUser(
@@ -117,7 +109,7 @@ export default {
                 showConfirmButton: false,
                 timer: 1500,
               });
-              scope.$store.commit('setUserProfileImage', success.data.profileImage);
+              scope.$store.commit("setUserProfileImage", success.data.profileImage);
               scope.$store.commit("setBcode", success.data.bcode);
             },
             (error) => {
@@ -132,10 +124,10 @@ export default {
             }
           );
           scope.$router.push("/");
-          return response.nickname
+          return response.nickname;
         },
         function (response) {
-          scope.$store.dispatch('setInterval', response)
+          scope.$store.dispatch("setInterval", response);
         },
         (error) => {
           console.error(error);
@@ -151,7 +143,7 @@ export default {
         }
       );
     },
-    kakaoLogin () {
+    kakaoLogin() {
       window.Kakao.Auth.login({
         success: this.sendAccessToken,
       });
@@ -166,14 +158,14 @@ export default {
     //     }
     //   })
     // },
-    sendAccessToken (authObj) {
+    sendAccessToken(authObj) {
       let scope = this;
       sendAccessToken(
         authObj.access_token,
         function (res) {
           console.log(res);
           scope.$store.commit("setIsSigned", true);
-          scope.$router.push("/").catch(() => { });
+          scope.$router.push("/").catch(() => {});
         },
         function (err) {
           console.log(err);
@@ -204,7 +196,7 @@ export default {
 
 #kakaobtn {
   color: black !important;
-  background-color: #feec34;
+  background-color: #feec34 !important;
 }
 
 #kakaobtn:hover {
