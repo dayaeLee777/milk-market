@@ -1,8 +1,10 @@
 // userService.js
 import { createInstance } from "./index.js";
-import store from "../store/index.js";
+import store from "@/store";
+
+
 const instance = createInstance();
-const token = store.getters.getJWTToken;
+
 function findUser (token, success, fail) {
   instance
     .get(`api/users/`, { headers: { Authorization: `Bearer ${token}` } })

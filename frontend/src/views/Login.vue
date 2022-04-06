@@ -172,17 +172,6 @@ export default {
         }
       );
     },
-    naverLogin() {
-      var client_id = "QvNWqPgM7ebAubiDGxe8";
-      var callbackUrl = `${API_BASE_URL}/api/oauth/naver`;
-      var url =
-        "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=" +
-        client_id +
-        "&redirect_uri=" +
-        callbackUrl +
-        "&state=1234";
-      window.location.replace(url);
-    },
   },
 };
 </script>

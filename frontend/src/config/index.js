@@ -1,19 +1,18 @@
 /**
  * TODO: 개발 및 배포 환경 에 맞추어 아래의 상수들을 지정합니다.
  */
-// const API_BASE_URL = "http://j6a504.p.ssafy.io";
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = "http://j6a504.p.ssafy.io";
+// const API_BASE_URL = "http://localhost:8080";
 const BLOCKCHAIN_URL = "http://localhost:8545";
 const BLOCKCHAIN_WEBSOCKET_URL = "ws://127.0.0.1:8545";
 const ITEM_INVENTORY_CONTRACT_ADDRESS =
     "0xab5E7ead7f2512235833B498934fE32111B094Ef";
 // 토큰
-const CASH_CONTRACT_ADDRESS = "0x73c9ED3B2168DeB8f249c767571B89CbF55A47F5";
+    const CASH_CONTRACT_ADDRESS = "0x73c9ED3B2168DeB8f249c767571B89CbF55A47F5";
 
-// 에스크로
-const PURCHASE_RECORD_CONTRACT_ADDRESS =
-    "0x1D05e8627cC82606784903a50F048b8603E4dD69";
-
+    // 에스크로
+    const PURCHASE_RECORD_CONTRACT_ADDRESS =
+        "0x1D05e8627cC82606784903a50F048b8603E4dD69";
 export {
     API_BASE_URL,
     BLOCKCHAIN_URL,
