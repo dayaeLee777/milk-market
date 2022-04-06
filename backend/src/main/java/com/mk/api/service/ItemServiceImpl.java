@@ -317,6 +317,9 @@ public class ItemServiceImpl implements ItemService {
 			if (item.getStatus() == Code.C01 || item.getStatus() == Code.C04) {
 				continue;
 			}
+			if (item.isDelYn()) {
+				continue;
+			}
 			Map<String, String> itemImageList = new HashMap<String, String>();
 			itemImageRepository.findByItem(item).forEach( file -> {
 				String originFileName = file.getOriginFileName();
