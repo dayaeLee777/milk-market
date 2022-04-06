@@ -13,7 +13,7 @@
             </div>
             <div class="modal-body">
               <p>지갑 비밀번호 입력</p>
-              <input type="text" class="form-control" v-model="wallet.privateKey">
+              <input type="password" class="form-control" v-model="wallet.privateKey">
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" @click="checkPrivateKey" data-bs-dismiss="modal">확인</button>

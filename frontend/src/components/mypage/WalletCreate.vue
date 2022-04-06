@@ -40,7 +40,7 @@
                   아직 지갑이 없네요! 지갑을 생성하세요.
                 </h5>
                 <p>비밀번호 입력</p>
-                <input type="text" class="form-control" v-model="pw">
+                <input type="password" class="form-control" v-model="pw">
                 <a
                   href="#"
                   v-on:click="createWallet"
@@ -60,6 +60,7 @@
 import Web3 from "web3";
 import axios from 'axios'
 import MyPageNav from "./MyPageNav.vue";
+import MilkToken from "@/config/contract/MilkToken.json"
 import { BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS, API_BASE_URL } from "@/config/index.js";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 
@@ -84,7 +85,7 @@ export default {
       const Web3 = require('web3');
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));   
 
-      let contract =  new web3.eth.Contract(MilkToken.abi, this.contractAdress);
+      let contract =  new web3.eth.Contract(MilkToken.abi, CASH_CONTRACT_ADDRESS);
       this.contract = contract
       
     },

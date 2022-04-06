@@ -6,7 +6,7 @@
       <my-page-nav></my-page-nav>
       <div class="my-items mt-5">
         <div class="item-body">
-          <h4 class="mt-5 item-title">판매 중인 아이템</h4>
+          <h4 class="mt-5 item-title">판매 중인 상품</h4>
           <div v-if="saleItems.length">
             <div class="caros-box">
               <carousel-3d :width="400" :height="280" :controls-visible="true">
