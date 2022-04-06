@@ -118,6 +118,7 @@ export default {
           timer: 1500,
         });   
           this.refund(price);
+          this.$router.go();
       })
       .catch( err => {
           Swal.fire({
