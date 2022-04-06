@@ -61,15 +61,11 @@
               <div class="col-lg-12 mt-3" v-if="userId !== item.userId">
                 <div class="row">
                   <div class="pb-2">
-                    <button @click="goChatting" class="btn btn-sm btn-primary">
-                      채팅하기
-                    </button>
+                    <button @click="goChatting" class="btn btn-sm btn-primary">채팅하기</button>
                     <div v-if="item.status === 'C01'">
+
                       <span v-if="item.division === 'A01'">
-                        <button
-                          class="btn btn-sm btn-primary"
-                          @click="registInterest"
-                        >
+                        <button class="btn btn-sm btn-primary" @click="registInterest">
                           관심상품 등록
                         </button>
                         <button
@@ -81,10 +77,7 @@
                         </button>
                       </span>
                       <span v-else>
-                        <button
-                          class="btn btn-sm btn-primary"
-                          @click="registInterest"
-                        >
+                        <button class="btn btn-sm btn-primary" @click="registInterest">
                           관심상품 등록
                         </button>
                         <button
@@ -94,7 +87,7 @@
                           data-bs-target="#purchaseModal"
                         >
                           구매하기
-                        </button>                      
+                        </button>
                       </span>
                     </div>
                   </div>
