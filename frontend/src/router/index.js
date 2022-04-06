@@ -12,7 +12,6 @@ import Community from "@/views/Community.vue";
 // import CommunityWrite from "@/components/community/CommunityWrite.vue"
 import Swal from "sweetalert2/dist/sweetalert2.js";
 // import 'sweetalert2/src/sweetalert2.scss';
-import ShopTest from "@/components/item/BackUPItemList.vue";
 Vue.use(VueRouter);
 
 /**
@@ -24,11 +23,7 @@ const routes = [
     name: "home",
     component: Home,
   },
-  {
-    path: "/shoptest",
-    name: "shoptest",
-    component: ShopTest,
-  },
+
   // 게시판
   {
     path: "/community",
@@ -68,7 +63,7 @@ const routes = [
   {
     path: "/logout",
     name: "logout",
-    beforeEnter (to, from, next) {
+    beforeEnter(to, from, next) {
       store.commit("logout");
       const Swal = require("sweetalert2");
       Swal.fire({
@@ -91,6 +86,16 @@ const routes = [
     name: "shop",
     path: "/shop",
     component: Shop,
+    props: true,
+    children: [
+      {
+        path: "",
+        component: () => import("@/components/shop/ShopItem.vue"),
+      },
+    ],
+    redirect: () => {
+      return "/shop";
+    },
   },
   {
     name: "mypage",
@@ -163,6 +168,7 @@ router.beforeEach((to, from, next) => {
   let isAvailableToGuest =
     ["/", "/login", "/register", "/test"].includes(to.path) ||
     to.path.startsWith("/explorer");
+  // this.$getFirebaseUserStatus(this.$store.state.userNickname)
   // 로그인도 하지 않았고 게스트에게 허용된 주소가 아니라면 로그인 화면으로 이동한다.
   if (!isSigned && !isAvailableToGuest) {
     // alert("로그인을 하신 뒤에 사용이 가능합니다.");

@@ -101,9 +101,10 @@ export default {
   methods: {
     itemDetail(itemId) {
       this.$router.push({
+        // name: "item.detail",
         name: "item.detail",
         params: { id: itemId },
-      });
+      }).catch(() => {});
     },
     contentImage() {
       this.key = Object.keys(this.content.fileNameList)[0];
