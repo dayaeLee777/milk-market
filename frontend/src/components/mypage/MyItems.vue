@@ -4,79 +4,48 @@
     ></h-breadcrumb> -->
     <div class="container">
       <my-page-nav></my-page-nav>
-      <div id="my-item" class="row">
-        <h4 class="col-8 mt-5">판매 중인 My 아이템</h4>
+      <div class="row my-items mt-5">
+        <h4 class="mt-5 text-center item-title">판매 중인 아이템</h4>
         <div v-if="saleItems.length">
-          <div 
-            v-for="item in saleItems"
-            :key="item.itemId"
-            class="d-flex justify-content-start align-items-center mt-2 my-items"
-            >
-            <div>
-              <div
-                v-for="(imgName, idx) in item.files"
-                :key="idx"
-                class="d-flex">
-                <img :src="imgName" alt="itemImg" @click="moveToDetail(item.itemId)" class="item-img">
-              </div>  
-            </div>
-            <div class="ms-5">
-              <h5>상품명: {{ item.itemName }}</h5>
-              <div v-if="item.status === `C01`">
-                <p class="escrow-state">판매 중</p>
-              </div>
-              <div v-if="item.status === `C02`">
-                <p class="escrow-state">결제 완료</p>
-              </div>
-            </div>
-            <div>
-            </div>
+          <div class="caros-box">
+            <carousel-3d :width="400" :height="280" :controls-visible="true">
+              <slide v-for="(item, i) in saleItems" :index="i" :key="i">
+                <my-item-slide 
+                  :slide="item"
+                  :contract="contract"
+                  :coinbase="coinbaseAddress"
+                  :walletAddress="user.walletAddress"
+                  @end-escrow="receiveMilk" />
+              </slide>
+            </carousel-3d>
           </div>
         </div>
         <div v-else>
-          <h5>현재 판매중인 상품이 없어요!</h5>
+          <h5 class="text-center">현재 판매중인 상품이 없어요!</h5>
         </div>
-        <h4 class="col-12 mt-5">내가 판매한 거래</h4>
-          <div v-if="saleTx.length">
-            
-          </div>
-          <div v-else>
-            <h5>아직 판매한 상품이 없어요!</h5>
-          </div>
-        <h4 class="col-8 mt-5">내가 구매한 거래</h4>
+        <div>
+        <h4 class="mt-5 text-center item-title">내가 구매중인 상품</h4>
           <div v-if="purchaseTx.length">
-            <div 
-              v-for="item in purchaseTx"
-              :key="item.itemId"
-              class="d-flex justify-content-start align-items-center mt-2 my-items"
-              >
-              <div>
-                <div
-                  v-for="(imgName, idx) in item.files"
-                  :key="idx"
-                  class="d-flex">
-                  <img :src="imgName" alt="itemImg" @click="moveToDetail(item.itemId)" class="item-img">
-                </div>  
-              </div>
-              <div class="ms-5">
-                <h5>상품명: {{ item.itemName }}</h5>
-                <div v-if="item.status === `C02`">
-                  <p class="escrow-state">결재 완료</p>
-                  <div class="d-flex">
-                    <button class="escrow-btn">구매 확정</button>
-                    <button class="close-btn" @click="cancelPurchase(item.price, item.itemId)">구매 취소</button>
-                  </div>
-                </div>
-              </div>
-              <div>
-              </div>
-            </div>        
+            <div class="caros-box">
+              <carousel-3d :width="400" :height="280" :controls-visible="true">
+                <slide v-for="(item, i) in purchaseTx" :index="i" :key="i">
+                  <my-purchase-slide 
+                    :slide="item"
+                    :contract="contract"
+                    :coinbase="coinbaseAddress"
+                    :walletAddress="user.walletAddress" 
+                    @confirm-purchase="confirmPurchase"
+                    />
+                    <!-- @받을땐 케밥케이스, 실행하는 메서드는 카멜케이스 -->
+                </slide>  
+              </carousel-3d>
+            </div>
           </div>
           <div v-else>
-            <h5>아직 구매한 상품이 없어요!</h5>
+            <h5 class="text-center">아직 구매한 상품이 없어요!</h5>
           </div>
+        </div>
         
-
       </div>
     </div>  
   </div>  
@@ -84,18 +53,23 @@
 
 <script>
 import MyPageNav from "./MyPageNav.vue";
-import { ITEM_STATUS, ESCROW_STATE } from "@/config/constants.js";
 import axios from 'axios'
-import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js"
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import MyEscrow from './MyEscrow.vue';
 import MilkToken from "@/config/contract/MilkToken.json";
+import MyItemSlide from "./MyItemSlide.vue"
+import MyPurchaseSlide from "./MyPurchaseSlide.vue"
+import { Carousel3d, Slide } from "vue-carousel-3d";
+import { ITEM_STATUS, ESCROW_STATE } from "@/config/constants.js";
+import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js"
 
 export default {
   name: "MyItems",
   components: {
     MyPageNav,
-    MyEscrow,
+    MyItemSlide,
+    MyPurchaseSlide,
+    Carousel3d,
+    Slide,
   },
   data() {
     return {
@@ -114,6 +88,80 @@ export default {
     };
   },
   methods: {
+    receiveMilk(itemId, price) {
+      this.refund(price);
+      this.deleteItem(itemId);
+    },
+    deleteItem(itemId) {
+      const token = this.user.token;
+
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      axios({
+        url: `${API_BASE_URL}/api/item/delete/${itemId}`,
+        method: 'put',
+        headers,
+      })
+      .then( res => {
+        console.log(res)
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "수령 완료!",
+          showConfirmButton: false,
+          timer: 1500,
+        });   
+        setTimeout( () => {
+          this.$router.push({ name: "mypage.items" });
+        }, 1500);      
+      })
+      .catch( err => {
+        console.log(err)
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "다시 시도해주세요",
+          showConfirmButton: false,
+          timer: 1500,
+        });        
+      })      
+    },
+    confirmPurchase(itemId) {
+      const token = this.user.token;
+
+      const headers = {
+        Authorization: `Bearer ${token}`
+      }
+
+      axios({
+        url: `${API_BASE_URL}/api/item/purchase/confirm/${itemId}`,
+        method: 'post',
+        headers,
+      })
+      .then( res => {
+          Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "구매 확정 완료!",
+          showConfirmButton: false,
+          timer: 1500,
+        }) 
+        setTimeout( () => {
+          this.$router.push({ name: "mypage.items" });
+        }, 1500);
+      })
+      .catch( err => {
+        Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "다시 시도해주세요",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+      });
+    },
     makeContract() {
       const Web3 = require('web3');
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
@@ -127,6 +175,7 @@ export default {
     },
     fetchMyProduct() {
       const token = this.user.token;
+
       const headers = {
         Authorization: `Bearer ${token}`
       }
@@ -139,8 +188,6 @@ export default {
       .then( res => {
         console.log(res.data.list)
         this.saleItems = res.data.list
-
-        
       })
       .catch( err => {
         console.log(err)
@@ -179,8 +226,6 @@ export default {
       const approve = await this.contract.methods.approve(from, amountToBn).send({from: from});
       const transfer = await this.contract.methods.transferFrom(from, to, amountToBn).send({from: from});
 
-      this.$router.go();
-
     },
     cancelPurchase(price, itemId) {
       const token = this.user.token;
@@ -194,14 +239,17 @@ export default {
         headers,
       })
       .then( res => {
-          Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "구매 취소 완료!",
-          showConfirmButton: false,
-          timer: 1500,
-        });   
-          this.refund(price);
+        this.refund(price);
+        Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "구매 취소 완료!",
+        showConfirmButton: false,
+        timer: 1500,
+        });
+        setTimeout(() => {
+          this.$router.push({ name: "mypage.items" });
+        }, 1500);   
       })
       .catch( err => {
           Swal.fire({
@@ -226,84 +274,57 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
+@import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
+
+.caros-box {
+  height: 32vh; 
+}
+.item-title {
+  color: rgb(48, 47, 50);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 38px;
+  margin-left: 550px;
+  background-color: #7975f0;
+  border-radius: 20px;
+  box-shadow: 1.2px 1.2px 2px 2px rgba(53, 52, 52, 0.844);
+}
 .table td,
 .table tr {
   text-align: center;
 }
 .item-img {
   height: 80px;
+  cursor: pointer;
 }
 .my-items {
-  height: 120px;
-  width: 450px;
-  background-color: beige;
-  border-style: solid;
-  border-color: black;
-  border-width: 1px;
-  padding: 10px;
-  border-radius: 20px;
-  /* 각각 x축, y축, blur, spread */
-  box-shadow: 1.5px 1.5px 2px 1.5px gray;
+  font-family: "Black Han Sans", sans-serif;
 }
-.escrow-btn {
-  font-size: 12px;
-  color: aliceblue;
-  background-color: #4a4879;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80px;
-  height: 25px;
-  border-color: #45436d;
-  border-style: solid;
-  border-radius: 20px;
-  margin-right: 3px;
+
+.modal
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
 }
-.close-btn {
-  font-size: 12px;
-  color: aliceblue;
-  background-color: #eb459f;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80px;
-  height: 25px;
-  border-color: #7f4264;
-  border-style: solid;
-  border-radius: 20px;
-  margin-right: 3px;
-}
-.escrow-state {
-  font-size: 12px;
-  color: aliceblue;
-  background-color: #5865f2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80px;
-  height: 25px;
-  border-color: #5865f2;
-  border-style: solid;
-  border-radius: 20px;
-}
-/* .badge-primary {
-  color: #fff;
-  background-color: #007bff;
-}
-.badge-info {
-  color: #fff;
-  background-color: #17a2b8;
-}
-.btn-show-history {
-  background-color: #5c130e;
-  color: white;
-}
-hr {
-  border: 0;
-  clear: both;
-  display: block;
-  width: 96%;
+.overlay{
+  opacity: 0.4;
   background-color: black;
-  height: 2px;
-} */
+}
+.modal-card {
+  position: relative;
+  margin: auto;
+  margin-top: 30px;
+  padding: 20px;
+  background-color: white;
+  z-index: 10;
+  opacity: 1;
+}
 </style>

@@ -12,6 +12,9 @@
 		"category": {
 			"type": "text"
 		},
+		"status": {
+			"type": "text"
+		},
 		"price": {
 			"type": "integer"
 		},

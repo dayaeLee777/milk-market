@@ -2,7 +2,6 @@
   <div>
     <!-- <h-breadcrumb
     ></h-breadcrumb> -->
-    
     <div class="container">
       <my-page-nav></my-page-nav>
       <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -87,7 +86,7 @@
                 </td>
               </tr>
               <tr>
-                <th>내 지갑주소</th>
+                <th>지갑주소</th>
                 <td class="text-right">{{ walletAddress }}</td>
                 <!-- <th>ETH 충전 횟수</th>
                 <td class="text-right">{{ wallet["receivingCount"] }}회</td> -->
@@ -102,7 +101,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body d-flex flex-column">
-                    <p class="eth-font">현재 환율: 1ETH = \  {{ ethPrice.toLocaleString() }}</p>
+                    <p class="eth-font">현재 환율: 1ETH = {{ ethPrice.toLocaleString() }}원</p>
                     <div class="d-flex align-items-center">
                       <label for="won">충전할 ETH: </label>
                       <input type="number" step="0.001" class="form-control col-3 ms-3" id="won" v-model="amountCharge">
@@ -164,7 +163,7 @@ export default {
       coinbaseAddress: "",
       contract: "",
       amountCharge: 0,
-      ethPrice: 3972000, // 크롤링으로 받아오는걸로
+      ethPrice: 4304000, // 크롤링으로 받아오는걸로
     };
   },
   computed: {
@@ -268,6 +267,14 @@ export default {
           this.fetchEtherBalance();
         })
         this.chargeMilk();
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "MILK 충전이 성공!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+           
      }
 
 
@@ -350,42 +357,6 @@ export default {
         });
       })
     },
-    kakaoPay() {
-
-      // 문서보고도 혼자서 이렇게 할 줄 알아야 한다 ㅠ
-      let headers = {
-            'Authorization': 'KakaoAK '+'32486cdd0cf1d8255805865d025b7cd4',
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
-        };
-
-        let params = {
-            'cid': 'TC0ONETIME', // 테스트 코드
-            'partner_order_id': '423423',
-            'partner_user_id': '123',
-            'item_name': '물품',
-            'quantity': 1,
-            'total_amount': 20000,
-            'vat_amount': 200,
-            'tax_free_amount': 0,
-            'approval_url': 'http://localhost:8083/mypage/wallet_info',
-            'fail_url': 'http://localhost:8083/mypage/wallet_info',
-            'cancel_url': 'http://localhost:8083/mypage/wallet_info',
-        };
-
-        axios({
-          url:'/v1/payment/ready',
-          method: 'POST',
-          headers: headers,
-          form: params          
-        })
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-
-    }
   },
   mounted() {
     this.milkBalnce();
@@ -399,6 +370,9 @@ export default {
 </script>
 
 <style>
+th {
+  width: 150px;
+}
 #mywallet-info th {
   text-align: left;
 }

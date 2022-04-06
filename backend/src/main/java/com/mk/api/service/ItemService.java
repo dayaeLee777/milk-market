@@ -20,7 +20,10 @@ public interface ItemService {
 
 	Boolean purchaseItem(String accessToken, String itemId);
 
+	Boolean purchaseConfirm(String accessToken, String itemId);
+
 	Boolean cancelPurchase(String accessToken, String itemId);
+
 
 	List<ItemGetResponseDto> purchaseList(String accessToken);
 

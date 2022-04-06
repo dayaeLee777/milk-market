@@ -11,7 +11,7 @@
         <thead>
           <tr>
             <!-- <th scope="col">no</th> -->
-            <th scope="col">제목</th>
+            <th class="text-center" scope="col">제목</th>
             <th scope="col">아이디</th>
             <th scope="col">날짜</th>
             <th scope="col">조회수</th>
@@ -59,7 +59,7 @@
 
         <ul
           class="pagination"
-          style="justify-content : center"
+          style="justify-content : center; margin-top : 50px;"
         >
           <li class="page-item disabled"><a
               class="page-link"

@@ -74,6 +74,7 @@
 
 <script>
 import { login, sendAccessToken, findUser } from "../api/user.js";
+import { API_BASE_URL } from "@/config/index.js";
 import { findByUserId as findWallet } from "../api/wallet.js";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 
@@ -116,6 +117,7 @@ export default {
                 showConfirmButton: false,
                 timer: 1500,
               });
+              scope.$store.commit('setUserProfileImage', success.data.profileImage);
               scope.$store.commit("setBcode", success.data.bcode);
             },
             (error) => {
@@ -180,7 +182,7 @@ export default {
     },
     naverLogin () {
       var client_id = "QvNWqPgM7ebAubiDGxe8";
-      var callbackUrl = "http://localhost:8080/api/oauth/naver";
+      var callbackUrl = `${API_BASE_URL}/api/oauth/naver`;
       var url =
         "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=" +
         client_id +

@@ -20,7 +20,7 @@
                 <button
                   type="button"
                   class="btn btn-primary"
-                  @click="goChatting(chatRoom.sessionId)"
+                  @click="goChatting(chatRoom)"
                 >Accept</button>
                 <button
                   type="button"
@@ -47,10 +47,10 @@ export default {
       this.$store.dispatch('turnOFFNotification')
       this.resetFirebaseUserStatus(chatRoom)
     },
-    goChatting (sessionId) {
+    goChatting (chatRoom) {
       this.$store.dispatch('turnOFFNotification')
       this.$store.dispatch('clearInterval')
-      this.$router.push({ name: "room", params: { sessionId: sessionId } });
+      this.$router.push({ name: "room", params: { sessionId: chatRoom.sessionId, profileImage: chatRoom.profileImage } });
     },
     resetFirebaseUserStatus (chatRoom) {
       db.collection('user').doc(this.user.userNickname).update({
