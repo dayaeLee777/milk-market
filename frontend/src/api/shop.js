@@ -1,14 +1,12 @@
-import store from "../store/index.js";
+import store from "@/store";
 import { createInstance } from "./index.js";
-const token = store.getters.getJWTToken;
 const instance = createInstance();
-const bcode = store.getters.getBcode;
+
 // const bcode = store.state.user.bcode;
 
-function getItemList(sortBy, order, page, size, success, fail) {
-  console.log("bcode: " + bcode);
+function getItemList (sortBy, order, page, size, success, fail) {
   const ItemList = {
-    bcode: bcode,
+    bcode: store.state.user.bcode,
     sortBy: sortBy,
     order: order,
     page: page,
@@ -16,13 +14,16 @@ function getItemList(sortBy, order, page, size, success, fail) {
   };
   instance
     .post("/api/item/search", JSON.stringify(ItemList), {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${store.state.user.JWTToken
+          }`
+      },
     })
     .then(success)
     .catch(fail);
 }
 
-function getSearchItem(
+function getSearchItem (
   keyword,
   bcode,
   sortBy,
@@ -44,15 +45,18 @@ function getSearchItem(
 
   instance
     .post("/api/item/search", JSON.stringify(ItemList), {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${store.state.user.JWTToken
+          }`
+      },
     })
     .then(success)
     .catch(fail);
 }
 
-function findItemListByPage(pageNumber, success, fail) {
+function findItemListByPage (pageNumber, success, fail) {
   const ItemList = {
-    bcode: bcode,
+    bcode: store.state.user.bcode,
     sortBy: sortBy,
     order: order,
     page: pageNumber,

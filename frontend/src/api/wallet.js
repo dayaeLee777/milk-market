@@ -4,33 +4,33 @@ import Web3 from "web3";
 
 const instance = createInstance();
 
-function findAddressById(id, success, fail) {
+function findAddressById (id, success, fail) {
   instance
     .get("/api/wallets/of/" + id)
-    .then(function(response) {
+    .then(function (response) {
       success(response.data["address"]);
     })
     .catch(fail);
 }
 
-function findByUserId(id, success, fail) {
+function findByUserId (id, success, fail) {
   instance
     .get("/api/wallets/of/" + id)
     .then(success)
     .catch(fail);
 }
 
-function isValidPrivateKey(userId, privateKey, success) {
+function isValidPrivateKey (userId, privateKey, success) {
   var web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
   var account = web3.eth.accounts.privateKeyToAccount(privateKey);
 
-  findByUserId(userId, function(response) {
+  findByUserId(userId, function (response) {
     var address = response.data["address"];
     success(account && account.address == address);
   });
 }
 
-function registerWallet(userId, walletAddress, success, fail) {
+function registerWallet (userId, walletAddress, success, fail) {
   const body = {
     ownerId: userId,
     address: walletAddress
@@ -42,7 +42,7 @@ function registerWallet(userId, walletAddress, success, fail) {
     .catch(fail);
 }
 
-function chargeEther(walletAddress, success, fail) {
+function chargeEther (walletAddress, success, fail) {
   instance
     .put("/api/wallets/" + walletAddress)
     .then(success)

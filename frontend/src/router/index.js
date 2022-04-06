@@ -91,32 +91,6 @@ const routes = [
     name: "shop",
     path: "/shop",
     component: Shop,
-    props: true,
-    children: [
-      {
-        path: "",
-        component: () => import("@/components/shop/All.vue"),
-      },
-      {
-        path: "digital",
-        component: () => import("@/components/shop/Digital.vue"),
-      },
-      {
-        path: "child",
-        component: () => import("@/components/shop/Child.vue"),
-      },
-      {
-        path: "hobby",
-        component: () => import("@/components/shop/Hobby.vue"),
-      },
-      {
-        path: "list",
-        component: () => import("@/components/shop/ShopItem.vue"),
-      },
-    ],
-    redirect: () => {
-      return "/shop";
-    },
   },
   {
     name: "mypage",
@@ -189,7 +163,6 @@ router.beforeEach((to, from, next) => {
   let isAvailableToGuest =
     ["/", "/login", "/register", "/test"].includes(to.path) ||
     to.path.startsWith("/explorer");
-  // this.$getFirebaseUserStatus(this.$store.state.userNickname)
   // 로그인도 하지 않았고 게스트에게 허용된 주소가 아니라면 로그인 화면으로 이동한다.
   if (!isSigned && !isAvailableToGuest) {
     // alert("로그인을 하신 뒤에 사용이 가능합니다.");
