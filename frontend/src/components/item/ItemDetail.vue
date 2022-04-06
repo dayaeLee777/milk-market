@@ -62,32 +62,32 @@
                 <div class="row">
                   <div class="pb-2">
                     <button @click="goChatting" class="btn btn-sm btn-primary">채팅하기</button>
-  
-                        <span v-if="item.division === 'A01'">
-                          <button class="btn btn-sm btn-primary" @click="registInterest">
-                            관심상품 등록
-                          </button>
-                          <button
-                            class="btn btn-sm btn-primary"
-                            data-bs-toggle="modal"
-                            data-bs-target="#rentModal"
-                          >
-                            대여하기
-                          </button>
-                        </span>
-                        <span v-else>
-                        <button class="btn btn-sm btn-primary" @click="registInterest">
-                          관심상품 등록
-                        </button>
-                        <button
-                          class="btn btn-sm btn-primary"
-                          @click="checkMilk()"
-                          data-bs-toggle="modal"
-                          data-bs-target="#purchaseModal"
-                        >
-                          구매하기
-                        </button>
-                        </span>
+                    <span v-if="item.division === 'A01'">
+                      <button class="btn btn-sm btn-primary" @click="registInterest">
+                        관심상품 등록
+                      </button>
+                      <button
+                        class="btn btn-sm btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#rentModal"
+                        @click="checkMilk()"
+                      >
+                        대여하기
+                      </button>
+                      </span>
+                      <span v-else>
+                      <button class="btn btn-sm btn-primary" @click="registInterest">
+                        관심상품 등록
+                      </button>
+                      <button
+                        class="btn btn-sm btn-primary"
+                        @click="checkMilk()"
+                        data-bs-toggle="modal"
+                        data-bs-target="#purchaseModal"
+                      >
+                        구매하기
+                      </button>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -130,21 +130,21 @@
             <div class="d-flex">
               <div class="text-primary">현재 잔액: {{ milkBalance }}MILK</div>
             </div>
-            <div v-if="milkBalance - item.price >= 0">
-              <div></div>
-              <div class="mt-2">현재 상품 가격: {{ item.price }}MILK</div>
-              <div class="mt-2 fw-bold">구매 후 잔액: {{ milkBalance - item.price }}MILK</div>
-            </div>
-            <div v-else>
-              <p calss="text-danger">MILK 잔액이 부족합니다!</p>
-              <button
-                class="btn btn-secondary btn-sm ms-2"
-                data-bs-dismiss="modal"
-                @click="moveToWallet"
-              >
-                충전하기!
-              </button>
-            </div>
+              <div v-if="milkBalance - item.price >= 0">
+                <div></div>
+                <div class="mt-2">현재 상품 가격: {{ item.price }}MILK</div>
+                <div class="mt-2 fw-bold">구매 후 잔액: {{ milkBalance - item.price }}MILK</div>
+              </div>
+              <div v-else>
+                <p calss="text-danger">MILK 잔액이 부족합니다!</p>
+                <button
+                  class="btn btn-secondary btn-sm ms-2"
+                  data-bs-dismiss="modal"
+                  @click="moveToWallet"
+                >
+                  충전하기!
+                </button>
+              </div>
           </div>
           <div class="modal-body"></div>
           <div class="modal-footer">
@@ -155,55 +155,55 @@
           </div>
         </div>
       </div>
-    </div>
-    <div
-      class="modal fade"
-      id="purchaseModal"
-      tabindex="-1"
-      aria-labelledby="purchaseModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="purchaseModalLabel">결제</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="d-flex">
-              <div class="text-primary">현재 잔액: {{ milkBalance }}MILK</div>
-            </div>
-            <div v-if="milkBalance - item.price >= 0">
-              <div></div>
-              <div class="mt-2">현재 상품 가격: {{ item.price }}MILK</div>
-              <div class="mt-2 fw-bold">구매 후 잔액: {{ milkBalance - item.price }}MILK</div>
-            </div>
-            <div v-else>
-              <p calss="text-danger">MILK 잔액이 부족합니다!</p>
+      </div>
+      <div
+        class="modal fade"
+        id="purchaseModal"
+        tabindex="-1"
+        aria-labelledby="purchaseModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="purchaseModalLabel">결제</h5>
               <button
-                class="btn btn-secondary btn-sm ms-2"
+                type="button"
+                class="btn-close"
                 data-bs-dismiss="modal"
-                @click="moveToWallet"
-              >
-                충전하기!
-              </button>
+                aria-label="Close"
+              ></button>
             </div>
-          </div>
-          <div class="modal-body"></div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="doPay">
-              결제하기
-            </button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            <div class="modal-body">
+              <div class="d-flex">
+                <div class="text-primary">현재 잔액: {{ milkBalance }}MILK</div>
+              </div>
+              <div v-if="milkBalance - item.price >= 0">
+                <div></div>
+                <div class="mt-2">현재 상품 가격: {{ item.price }}MILK</div>
+                <div class="mt-2 fw-bold">구매 후 잔액: {{ milkBalance - item.price }}MILK</div>
+              </div>
+              <div v-else>
+                <p calss="text-danger">MILK 잔액이 부족합니다!</p>
+                <button
+                  class="btn btn-secondary btn-sm ms-2"
+                  data-bs-dismiss="modal"
+                  @click="moveToWallet"
+                >
+                  충전하기!
+                </button>
+              </div>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="doPay">
+                결제하기
+              </button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
   </div>
 </template>
 

@@ -101,6 +101,7 @@ export default {
           showConfirmButton: false,
           timer: 1500,
         });   
+        this.$router.go();
       })
       .catch( err => {
           Swal.fire({
@@ -179,7 +180,7 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
   width: 100%;
-  height: 90px;
+  height: 140px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 }
@@ -199,7 +200,7 @@ export default {
   background-repeat: no-repeat;
   width: 100%;
   position: absolute;
-  height: 90px;
+  height: 140px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   top: 0;
@@ -256,7 +257,7 @@ export default {
 }
 
 .hotitemslide .card:hover .card__img--hover {
-  height: 100px;
+  height: 160px;
   opacity: 0.3;
 }
 
