@@ -40,7 +40,7 @@
                   아직 지갑이 없네요! 지갑을 생성하세요.
                 </h5>
                 <p>비밀번호 입력</p>
-                <input type="text" class="form-control" v-model="pw">
+                <input type="password" class="form-control" v-model="pw">
                 <a
                   href="#"
                   v-on:click="createWallet"
