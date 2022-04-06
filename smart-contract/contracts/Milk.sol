@@ -67,9 +67,8 @@ contract Milk {
     event LogPaymentProduct(address _manager, uint _id); // 금액 정산시 발생
     event LogCancelProduct(address _manager, uint _id); // 금액 환불시 발생
     
-    constructor() public {
+    constructor() {
         owner = msg.sender;
-
     }
 //상품 구입시, 금액이 소유자 계정으로 이동
     //매개변수로 계정, 이름, 닉네임, 이메일, 집주소, 코인을 이용

@@ -1,4 +1,4 @@
-import store from "@/store";
+import store from "../store/index.js";
 import { createInstance } from "./index.js";
 
 
@@ -19,8 +19,7 @@ function getItemList (bcode, sortBy, order, page, size, success, fail) {
   instance
     .post("/api/item/search", JSON.stringify(ItemList), {
       headers: {
-        Authorization: `Bearer ${store.state.user.JWTToken
-          }`
+        Authorization: `Bearer ${store.state.user.JWTToken}`
       },
     })
     .then(success)
@@ -49,8 +48,7 @@ function getSearchItem (
   instance
     .post("/api/item/search", JSON.stringify(ItemList), {
       headers: {
-        Authorization: `Bearer ${store.state.user.JWTToken
-          }`
+        Authorization: `Bearer ${store.state.user.JWTToken}`
       },
     })
     .then(success)
@@ -162,8 +160,8 @@ function getTotalPage (success, fail) {
     fields: [],
     searchTerm: null,
     bcode: null,
-    sortBy: "regDate",
-    order: "ASC",
+    sortBy: "regDateTime",
+    order: null,
   };
   instance
     .post("/api/item/search", JSON.stringify(ItemList), {
