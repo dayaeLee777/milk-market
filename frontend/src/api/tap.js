@@ -1,10 +1,10 @@
-import store from "../store/index.js";
+import store from "@/store";
 import { createInstance } from "./index.js";
-const token = store.getters.getJWTToken;
+
+
 const instance = createInstance();
-const bcode = store.getters.getBcode;
-function allList(success, fail) {
-  console.log("bcode: " + bcode);
+
+function allList (success, fail) {
   const ItemList = {
     bcode: null,
     sortBy: "regDate",
@@ -12,13 +12,16 @@ function allList(success, fail) {
   };
   instance
     .post("/api/item/search", JSON.stringify(ItemList), {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        Authorization: `Bearer ${store.state.user.JWTToken
+          }`
+      },
     })
     .then(success)
     .catch(fail);
 }
 
-function filterSelection(c) {
+function filterSelection (c) {
   var x, i;
   x = document.getElementsByClassName("column");
   if (c == "all") c = "";
@@ -30,7 +33,7 @@ function filterSelection(c) {
 }
 
 // Show filtered elements
-function w3AddClass(element, name) {
+function w3AddClass (element, name) {
   var i, arr1, arr2;
   arr1 = element.className.split(" ");
   arr2 = name.split(" ");
@@ -42,7 +45,7 @@ function w3AddClass(element, name) {
 }
 
 // Hide elements that are not selected
-function w3RemoveClass(element, name) {
+function w3RemoveClass (element, name) {
   var i, arr1, arr2;
   arr1 = element.className.split(" ");
   arr2 = name.split(" ");
