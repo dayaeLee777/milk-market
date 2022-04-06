@@ -312,7 +312,7 @@ export default {
         // name: "item.detail",
         name: "item.detail",
         params: { id: itemId },
-      });
+      }).catch(() => {});
     },
     makeContract() {
       const Web3 = require("web3");
