@@ -711,7 +711,6 @@ body {
 }
 
 .form__field--half:first-of-type {
-  /* padding-right:15px; */
 }
 
 .form__textarea {
