@@ -62,20 +62,20 @@
                 <div class="row">
                   <div class="pb-2">
                     <button @click="goChatting" class="btn btn-sm btn-primary">채팅하기</button>
-                    <div v-if="item.status === 'C01'">
-                      <span v-if="item.division === 'A01'">
-                        <button class="btn btn-sm btn-primary" @click="registInterest">
-                          관심상품 등록
-                        </button>
-                        <button
-                          class="btn btn-sm btn-primary"
-                          data-bs-toggle="modal"
-                          data-bs-target="#rentModal"
-                        >
-                          대여하기
-                        </button>
-                      </span>
-                      <span v-else>
+  
+                        <span v-if="item.division === 'A01'">
+                          <button class="btn btn-sm btn-primary" @click="registInterest">
+                            관심상품 등록
+                          </button>
+                          <button
+                            class="btn btn-sm btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#rentModal"
+                          >
+                            대여하기
+                          </button>
+                        </span>
+                        <span v-else>
                         <button class="btn btn-sm btn-primary" @click="registInterest">
                           관심상품 등록
                         </button>
@@ -87,8 +87,7 @@
                         >
                           구매하기
                         </button>
-                      </span>
-                    </div>
+                        </span>
                   </div>
                 </div>
               </div>
