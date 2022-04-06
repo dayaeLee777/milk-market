@@ -70,36 +70,38 @@
                     채팅하기
                   </button>
                 </div>
-                <div v-if="item.division === 'A01'">
-                  <button
-                    class="btn btn-sm btn-primary"
-                    @click="registInterest"
-                  >
-                    관심상품 등록
-                  </button>
-                  <button
-                    class="btn btn-sm btn-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#rentModal"
-                  >
-                    대여하기
-                  </button>
-                </div>
-                <div v-else>
-                  <button
-                    class="btn btn-sm btn-primary"
-                    @click="registInterest"
-                  >
-                    관심상품 등록
-                  </button>
-                  <button
-                    class="btn btn-sm btn-primary"
-                    @click="checkMilk()"
-                    data-bs-toggle="modal"
-                    data-bs-target="#purchaseModal"
-                  >
-                    구매하기
-                  </button>
+                <div v-if="item.status === `C01`">
+                  <div v-if="item.division === 'A01'">
+                    <button
+                      class="btn btn-sm btn-primary"
+                      @click="registInterest"
+                    >
+                      관심상품 등록
+                    </button>
+                    <button
+                      class="btn btn-sm btn-primary"
+                      data-bs-toggle="modal"
+                      data-bs-target="#rentModal"
+                    >
+                      대여하기
+                    </button>
+                  </div>
+                  <div v-else>
+                    <button
+                      class="btn btn-sm btn-primary"
+                      @click="registInterest"
+                    >
+                      관심상품 등록
+                    </button>
+                    <button
+                      class="btn btn-sm btn-primary"
+                      @click="checkMilk()"
+                      data-bs-toggle="modal"
+                      data-bs-target="#purchaseModal"
+                    >
+                      구매하기
+                    </button>
+                  </div>
                 </div>
                 <div
                   class="modal fade"
@@ -286,6 +288,7 @@ export default {
         rentEndDate: "",
         files: [],
         keys: [],
+        status: "",
       },
       userId: this.$store.state.user.id,
       contract: "",
@@ -442,6 +445,7 @@ export default {
         vm.item.rentEndDate = result.rentendDate ? result.rentEndDate : "";
         vm.item.files = result.files;
         vm.item.keys = Object.keys(vm.item.files);
+        vm.item.status = result.status;
       },
       function (error) {
         console.error(error);

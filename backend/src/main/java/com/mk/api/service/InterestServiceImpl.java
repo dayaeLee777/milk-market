@@ -47,12 +47,6 @@ public class InterestServiceImpl implements InterestService {
 		User user = jwtTokenService.convertTokenToUser(accessToken);
 		Item item = itemRepository.findById(itemId).orElse(null);
 		Interest interestItem = interestRepository.findByItemAndDelYn(item, false);
-		if (interestItem != null) {
-
-			interestItem.toogleInterest();
-			return interestRepository.save(interestItem);
-
-		}
 
 		// 사용자가 없거나 삭제한 멤버일 경우
 		if (user == null || user.isDelYn() == true) {
@@ -66,6 +60,7 @@ public class InterestServiceImpl implements InterestService {
 		}
 		if (interestRepository.findByUserAndDelYnAndItem(user, false, item) != null) {
 			log.info("이미 같은 상품 관심 등록");
+			// 이미 관심 상품이 있을 경우는 관심 여부를 변경
 			return null;
 		}
 

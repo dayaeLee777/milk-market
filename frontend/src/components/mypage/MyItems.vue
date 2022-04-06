@@ -4,27 +4,29 @@
     ></h-breadcrumb> -->
     <div class="container">
       <my-page-nav></my-page-nav>
-      <div class="row my-items mt-5">
-        <h4 class="mt-5 text-center item-title">판매 중인 아이템</h4>
-        <div v-if="saleItems.length">
-          <div class="caros-box">
-            <carousel-3d :width="400" :height="280" :controls-visible="true">
-              <slide v-for="(item, i) in saleItems" :index="i" :key="i">
-                <my-item-slide 
-                  :slide="item"
-                  :contract="contract"
-                  :coinbase="coinbaseAddress"
-                  :walletAddress="user.walletAddress"
-                  @end-escrow="receiveMilk" />
-              </slide>
-            </carousel-3d>
+      <div class="my-items mt-5">
+        <div class="item-body">
+          <h4 class="mt-5 item-title">판매 중인 아이템</h4>
+          <div v-if="saleItems.length">
+            <div class="caros-box">
+              <carousel-3d :width="400" :height="280" :controls-visible="true">
+                <slide v-for="(item, i) in saleItems" :index="i" :key="i">
+                  <my-item-slide 
+                    :slide="item"
+                    :contract="contract"
+                    :coinbase="coinbaseAddress"
+                    :walletAddress="user.walletAddress"
+                    @end-escrow="receiveMilk" />
+                </slide>
+              </carousel-3d>
+            </div>
+          </div>
+          <div v-else>
+            <h5 class="text-center">현재 판매중인 상품이 없어요!</h5>
           </div>
         </div>
-        <div v-else>
-          <h5 class="text-center">현재 판매중인 상품이 없어요!</h5>
-        </div>
-        <div>
-        <h4 class="mt-5 text-center item-title">내가 구매중인 상품</h4>
+        <div class="item-body">
+        <h4 class="mt-5 item-title">내가 구매중인 상품</h4>
           <div v-if="purchaseTx.length">
             <div class="caros-box">
               <carousel-3d :width="400" :height="280" :controls-visible="true">
@@ -114,7 +116,7 @@ export default {
           timer: 1500,
         });   
         setTimeout( () => {
-          this.$router.push({ name: "mypage.items" });
+          this.$router.go();
         }, 1500);      
       })
       .catch( err => {
@@ -149,7 +151,7 @@ export default {
           timer: 1500,
         }) 
         setTimeout( () => {
-          this.$router.push({ name: "mypage.items" });
+          this.$router.go();
         }, 1500);
       })
       .catch( err => {
@@ -248,7 +250,7 @@ export default {
         timer: 1500,
         });
         setTimeout(() => {
-          this.$router.push({ name: "mypage.items" });
+          this.$router.go();
         }, 1500);   
       })
       .catch( err => {
@@ -281,6 +283,9 @@ export default {
 
 .caros-box {
   height: 32vh; 
+}
+.item-body {
+  height: 45vh;
 }
 .item-title {
   color: rgb(48, 47, 50);
