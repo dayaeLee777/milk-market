@@ -83,24 +83,9 @@
         </div>
         <hr>
         <div class="d-flex justify-content-around">
-          <div class="profile-content">
-            <h3 class="text-center my-5">내가 작성한 글</h3>
-            <div v-if="!communityList.length">
-              <h4 class="text-center">아직 작성한 글이 없습니다!!</h4>
-            </div>
-            <div v-else>
-              <div 
-                v-for="community in communityList"
-                :key="community.communityId"
-                class="my-content">
-                <div class="d-flex"
-                  @click="moveToCommunity(community.communityId, community.userNickname)">
-                  제목: {{ community.title }}
-                </div>
-              
-              </div>
-            </div>
-          </div>
+          <my-community
+            :communities="communities"
+          ></my-community>
           <div class="profile-content">
             <h3 class="text-center my-5">나의 wish 리스트</h3>
             <div v-if="!mywishList.length">
@@ -173,8 +158,10 @@
 </template>
 <script>
 import MyPageNav from "./MyPageNav.vue";
-import axios from "axios";
+import MyWish from "./MyWish.vue";
+import MyCommunity from "./MyCommunity.vue"
 import jwt_decode from "jwt-decode";
+import axios from "axios";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import {
   BLOCKCHAIN_URL,
@@ -185,6 +172,8 @@ import {
 export default {
   components: {
     MyPageNav,
+    MyCommunity,
+    MyWish,
   },
   data() {
     return {
@@ -200,7 +189,7 @@ export default {
         bcode: "",
       },
       image: "",
-      communityList: [],
+      communities: [],
       mywishList: [],
     };
   },
@@ -248,7 +237,7 @@ export default {
       })
       .then( res => {
         // console.log(res.data.communityGetResponselist)
-        this.communityList = res.data.communityGetResponselist;
+        this.communities = res.data.communityGetResponselist;
       })
       .catch( err => {
         console.log(err)
@@ -323,9 +312,6 @@ export default {
         },
       }).open();
     },    
-    moveToCommunity(communityId, userNickname) {
-      this.$router.push({name: 'communityDetail', params: { coId: communityId, userN: userNickname }})
-    },
     moveToItem(itemId) {
       this.$router.push({name: 'item.detail', params: {id: itemId}})
     },
