@@ -1,37 +1,36 @@
 <template>
-  <div>
-    <div class="container mt-3">
-      <div class="row">
-        <div class="col-md-8 mx-auto">
-          <div class="card">
-            <div class="card-body">
-              <div class="form-group">
-                <label id="name">상품 이름</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="name"
-                  v-model="item.itemName"
-                />
-              </div>
-              <div class="form-group">
-                <label id="division">구분</label>
-                <select
-                  class="form-control"
-                  id="division"
-                  v-model="item.division"
-                >
+  <div class="sect sect-community">
+    <div class="container">
+      <div class="row row--center">
+        <h1 class="row__title">우유마켓 상품등록</h1>
+        <h2 class="row__sub">거래하고싶은 상품을 등록하세요</h2>
+      </div>
+      <div class="row row--center">
+        <div class="col-2"></div>
+        <div id="community-form" class="col-8">
+          <div class="form-group">
+            <div class="form__field--half">
+              <input
+                type="text"
+                class="form__field form__text form-control mb-3"
+                id="name"
+                v-model="item.itemName"
+                placeholder="상품 이름을 입력하세요"
+              />
+            </div>
+            <div class="form-group">
+              <div class="form__field--half">
+                <select class="form__field form__select" id="division" v-model="item.division">
+                  <option selected value>거래 구분(대여, 판매)를 선택하세요</option>
                   <option value="A01">대여</option>
                   <option value="A02">판매</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label id="category">카테고리</label>
-                <select
-                  class="form-control"
-                  id="category"
-                  v-model="item.category"
-                >
+            </div>
+            <div class="form-group">
+              <div class="form__field--half">
+                <select class="form__field form__select" id="category" v-model="item.category">
+                  <option selected value>카테고리를 선택하세요</option>
                   <option value="B01">신생아</option>
                   <option value="B02">유모차</option>
                   <option value="B03">카시트</option>
@@ -50,50 +49,50 @@
                   <option value="B16">유아침구</option>
                 </select>
               </div>
-              <div class="form-group">
-                <label id="price">가격 <b>(MILK)</b></label>
+            </div>
+            <div class="form-group">
+              <div class="form__field--half">
                 <input
                   type="number"
-                  class="form-control"
+                  class="form__field form__text form-control"
                   id="price"
                   v-model="item.price"
+                  placeholder="원하는 거래가격(milk)을 입력하세요"
                 />
               </div>
-              <div class="form-group">
-                <label id="description">상품 설명</label>
+            </div>
+            <div class="form-group">
+              <div class="form__field--half">
                 <textarea
-                  class="form-control"
+                  class="form__field form__textarea"
                   id="description"
                   v-model="item.description"
-                  placeholder=""
+                  placeholder="상품에 대한 설명을 입력하세요"
                 ></textarea>
               </div>
-              <div
-                v-if="item.division === 'A01'"
-                class="form-group"
-              >
-                <label id="rentStartDate">대여 시작 날짜</label>
-                <input
-                  type="datetime-local"
-                  class="form-control"
-                  id="rentStartDate"
-                  v-model="item.rentStartDate"
-                />
-              </div>
-              <div
-                v-if="item.division === 'A01'"
-                class="form-group"
-              >
-                <label id="rentEndDate">대여 종료 날짜</label>
-                <input
-                  type="datetime-local"
-                  class="form-control"
-                  id="rentEndDate"
-                  v-model="item.rentEndDate"
-                />
-              </div>
-              <div class="form-group">
-                <label id="image-upload">이미지 첨부</label>
+            </div>
+            <div v-if="item.division === 'A01'" class="form-group">
+              <label id="rentStartDate">대여시작일</label>
+              <input
+                type="datetime-local"
+                class="form-control"
+                id="rentStartDate"
+                v-model="item.rentStartDate"
+                placeholder="대여시작일"
+              />
+            </div>
+            <div v-if="item.division === 'A01'" class="form-group">
+              <label id="rentEndDate">대여종료일</label>
+              <input
+                type="datetime-local"
+                class="form-control"
+                id="rentEndDate"
+                v-model="item.rentEndDate"
+                placeholder="대여종료일"
+              />
+            </div>
+            <div class="form-group">
+              <div class="form__field--half">
                 <input
                   type="file"
                   multiple
@@ -103,33 +102,9 @@
                   @change="selectFile()"
                 />
               </div>
-              <!-- <div class="form-group">
-                <label id="image-upload">이미지 첨부</label>
-                <input
-                  id="upload"
-                  type="file"
-                  class="form-control"
-                  style="height: auto;"
-                  @change="onFileChange"
-                />
-                <div class="image-area mt-4">
-                  <img
-                    id="imageResult"
-                    :src="imgLocalPath"
-                    alt=""
-                    class="img-fluid rounded shadow-sm mx-auto d-block"
-                    style="max-height: 500px;"
-                  />
-                </div>
-              </div> -->
-              <button
-                type="button"
-                class="btn btn-primary"
-                @click="save()"
-              >
-
-                <!-- <router-view :key="$route.fullPath"/>
-                <router-link to ="/shop"/> -->
+            </div>
+            <div class="form-group">
+              <button type="button" class="btn btn--width" style="float: right" @click="save()">
                 등록
               </button>
             </div>
@@ -149,7 +124,7 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 
 export default {
   name: "ItemCreate",
-  data () {
+  data() {
     return {
       item: {
         itemName: "",
@@ -179,7 +154,7 @@ export default {
   },
   methods: {
     // 상품을 등록한다.
-    save () {
+    save() {
       const vm = this;
       this.isCreating = true; // 아이템 등록 중임을 화면에 표시, 등록이 끝나면 false로 변경
       if (this.item.division === "A01") {
@@ -229,18 +204,18 @@ export default {
     //   this.item.imgName = files[0].name;
     // },
 
-    selectFile () {
+    selectFile() {
       this.image = this.$refs.itemImage.files;
       console.log(this.image);
     },
-    changeDateFormat (date) {
+    changeDateFormat(date) {
       if (date) {
         return date.substring(0, 10) + " " + date.substring(11, 16);
       } else {
         return null;
       }
     },
-    sendData () {
+    sendData() {
       const formdata = new FormData();
 
       if (this.image) {
@@ -319,5 +294,10 @@ export default {
 .image-area img {
   z-index: 2;
   position: relative;
+}
+</style>
+<style scoped>
+.form__textarea {
+  height: 100px !important;
 }
 </style>

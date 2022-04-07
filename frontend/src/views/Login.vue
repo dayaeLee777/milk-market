@@ -44,17 +44,6 @@
                     kakao Login
                   </button>
                 </div>
-                <!-- <hr class="divider" />
-                <img
-                  src="https://blog.kakaocdn.net/dn/bYZZHh/btrfibui4Cj/DofAXcdzmQGCKkhTNUUAHk/img.png"
-                  @click="kakaoLogin"
-                  style="width: 400px"
-                /> -->
-                <!-- <img
-            src="https://static.nid.naver.com/oauth/big_g.PNG?version=js-2.0.1"
-            @click="naverLogin"
-            style="width : 200px;"
-          > -->
               </div>
             </div>
           </div>
