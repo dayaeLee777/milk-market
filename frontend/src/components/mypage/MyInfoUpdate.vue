@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id="profile-body">
     <!-- <h-breadcrumb></h-breadcrumb> -->
-    <div class="container" id="profile-body">
+    <div class="container">
       <my-page-nav></my-page-nav>
       <div class="d-flex flex-column">
         <div
@@ -45,7 +45,7 @@
               프로필 변경
             </button>
           </div>
-          <div class="ms-5">
+          <div style="margin-left: 50px">
             <p class="profile-info">이메일 : {{ user.email }}</p>
             <p class="profile-info">닉네임: {{ user.nickName }}</p>
             <div class="d-flex align-items-center">
@@ -85,22 +85,12 @@
         <div class="d-flex justify-content-around">
           <my-community
             :communities="communities"
+            @move-to-community="moveToCommunity"
           ></my-community>
-          <div class="profile-content">
-            <h3 class="text-center my-5">나의 wish 리스트</h3>
-            <div v-if="!mywishList.length">
-              <h4 class="text-center">아직 찜한 아이템이 없어요!</h4>
-            </div>
-            <div v-else>
-              <div 
-                v-for="wish in mywishList"
-                :key="wish.itemId"
-                @click="moveToItem(wish.itemId)"
-                class="my-content">
-                <span>상품 명: {{ wish.itemName }}</span>
-              </div>
-            </div>
-          </div>
+          <my-wish
+            :mywish-list="mywishList"
+            @move-to-item-detail="moveToItem"
+          ></my-wish>
         </div>
       </div>
       <div class="d-flex justify-content-start"></div>
@@ -315,6 +305,9 @@ export default {
     moveToItem(itemId) {
       this.$router.push({name: 'item.detail', params: {id: itemId}})
     },
+    moveToCommunity(communityId, userNickname) {
+      this.$router.push({name: 'communityDetail', params: { coId: communityId, userN: userNickname }})
+    },    
     updateLocation() {
       const token = this.$store.state.user.JWTToken;
 
@@ -355,8 +348,17 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
+@import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
+
+#profile-body {
+  font-family: "Noto Sans KR", sans-serif;
+}
 .profile-content{
-  width: 400px;
+  width: 450px;
+  height: 470px;
 }
 .profile-img {
   height: 200px;
@@ -368,9 +370,11 @@ export default {
   font-size: 10px;
 }
 .my-content {
-  font-size: 20px;
   margin: 15px;
   cursor: pointer;
+  background-color: #e9ecf3;
+  border-radius: 20px;
+  box-shadow: 1px 1px 1.5px 1px gray;
 }
 .profile-info {
   font-size: 18px;

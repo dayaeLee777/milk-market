@@ -1,19 +1,35 @@
 <template>
   <div class="profile-content">
     <h3 class="text-center my-5">내가 작성한 글</h3>
-    <div v-if="!communities.length">
-      <h4 class="text-center">아직 작성한 글이 없습니다!!</h4>
-    </div>
-    <div v-else>
-      <div 
-        v-for="community in communities"
-        :key="community.communityId"
-        class="my-content">
-        <div class="d-flex"
-          @click="moveToCommunity(community.communityId, community.userNickname)">
-          제목: {{ community.title }}
-        </div>
+    <div class="my-content-body">
+      <div v-if="!communities.length">
+        <h4 class="text-center">아직 작성한 글이 없습니다!!</h4>
       </div>
+      <div v-else>
+        <div 
+          v-for="community in paginatedData"
+          :key="community.communityId"
+          class="my-content">
+          <div class="d-flex justify-content-between align-items-center px-5"
+            @click="moveToCommunity(community.communityId, community.userNickname)">
+            <span style="font-size: 18px">
+              제목: {{ community.title }}
+            </span>
+            <span style="font-size: 10px">
+              {{ community.regTime }}
+            </span>
+          </div>
+        </div>
+    </div>
+    <div class="text-center">
+      <button :disabled="pageNum === 0" @click="prevPage" class="btn">
+        이전
+      </button>
+      <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
+      <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="btn">
+        다음
+      </button>
+    </div>        
     </div>
   </div>  
 </template>
@@ -45,9 +61,9 @@ export default {
       pageNum: 0,
     }
   },
-  method: {
+  methods: {
     moveToCommunity(communityId, userNickname) {
-      this.$router.push({name: 'communityDetail', params: { coId: communityId, userN: userNickname }})
+      this.$emit('move-to-community', communityId, userNickname)
     },    
     nextPage () {
       this.pageNum += 1;
@@ -58,16 +74,16 @@ export default {
   },
   computed: {
     pageCount () {
-      let listLeng = this.comments.length,
-          listSize = this.pageSize,
-          page = Math.floor(listLeng / listSize);
+      let listLeng = this.communities.length
+      let listSize = this.pageSize
+      let page = Math.floor(listLeng / listSize);
       if (listLeng % listSize > 0) page += 1;
       return page;
     },
     paginatedData () {
       const start = this.pageNum * this.pageSize,
             end = start + this.pageSize;
-      return this.comments.slice(start, end);
+      return this.communities.slice(start, end);
     }
   },
 }

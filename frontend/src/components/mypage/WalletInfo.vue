@@ -62,20 +62,18 @@
                 <td class="text-right">{{ wallet.milkBalance }} MILK
                 </td>
                 <td colspan="2" class="text-left">
-                  <div class="input-group">
+                  <div class="input-group d-flex align-items-center">
                     <input
                       v-model="cashChargeAmount"
                       type="number"
                       step="0.001"
                       class="form-control"
                     />
-                    <div class="input-group-append mr-3">
-                      <span class="input-group-text">ETH</span>
-                    </div>
+                    <span class="input-group-text">ETH</span>
                     <div v-if="isAuthorized">
                       <button
                         type="button"
-                        class="btn btn-primary"
+                        class="btn btn-primary ms-3"
                         @click="chargeCash()"
                       >
                         {{ "MILK 충전" }}
