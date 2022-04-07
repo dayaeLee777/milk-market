@@ -187,7 +187,7 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
   width: 100%;
-  height: 140px;
+  height: 170px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
 }
@@ -207,7 +207,7 @@ export default {
   background-repeat: no-repeat;
   width: 100%;
   position: absolute;
-  height: 140px;
+  height: 170px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   top: 0;
@@ -264,7 +264,7 @@ export default {
 }
 
 .hotitemslide .card:hover .card__img--hover {
-  height: 160px;
+  height: 180px;
   opacity: 0.3;
 }
 
