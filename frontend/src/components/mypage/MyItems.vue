@@ -290,8 +290,6 @@ export default {
 .item-title {
   color: rgb(48, 47, 50);
   display: inline-block;
-  /* justify-content: center; */
-  /* align-items: center; */
   width: 240px;
   height: 38px;
   padding-top: 5px;

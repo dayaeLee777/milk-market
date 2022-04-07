@@ -190,11 +190,9 @@ export default {
 
 #kakaobtn:hover {
   color: rgb(80, 28, 28) !important;
-  /* background-color: #feec34; */
 
   box-shadow: 0px 25px 18px -6px rgba(0, 0, 0, 0.2);
   background-color: #faed63;
-  /* color: #fff; */
 }
 
 #btn_span {

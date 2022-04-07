@@ -45,43 +45,6 @@ export default {
   padding-top: 90px;
 }
 
-/* .mylanding .btn {
-  background-color: #3a9fff;
-  border-radius: 20px;
-  padding: 10px 25px;
-  color: #fff;
-  box-shadow: 0px 18px 13px -6px rgba(0, 0, 0, 0.2);
-  transition: all 0.4s;
-  -webkit-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-  -ms-transition: all 0.4s;
-  -o-transition: all 0.4s;
-}
-
-.mylanding .btn:hover {
-  box-shadow: 0px 25px 18px -6px rgba(0, 0, 0, 0.2);
-  background-color: #63b2fc;
-  color: #fff;
-}
-
-.mylanding .btn--revert {
-  background-color: transparent;
-  color: #8198ae;
-  box-shadow: none;
-  border: 1px solid #c9d9e9;
-}
-
-.mylanding .btn--revert:hover {
-  background-color: transparent;
-  color: #1f4568;
-  box-shadow: none;
-  border: 1px solid #8198ae;
-}
-
-.mylanding .btn--width {
-  width: 120px;
-} */
-
 .mylanding .site {
   text-align: center;
 }
