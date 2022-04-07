@@ -3,14 +3,22 @@
     <!-- <h-nav></h-nav>
     <h2>게시판 상세정보</h2> -->
 
-    <div id="main-overview" class="container">
+    <div
+      id="main-overview"
+      class="container"
+    >
       <!-- <a>{{$route.params.coId}}</a>
       <div></div>
       <a>{{$store.state.user.profileImage}}</a> -->
 
       <fieldset :disabled="$route.params.userN !== $store.state.user.userNickname">
         <div class="mb-3">
-          <label for="exampleFormControlInput1" class="form-label"><h4>제목</h4></label>
+          <label
+            for="exampleFormControlInput1"
+            class="form-label"
+          >
+            <h4>제목</h4>
+          </label>
           <input
             type="text"
             class="form-control"
@@ -20,7 +28,12 @@
           />
         </div>
         <div class="mb-3">
-          <label for="exampleFormControlTextarea1" class="form-label"><h5>내용</h5></label>
+          <label
+            for="exampleFormControlTextarea1"
+            class="form-label"
+          >
+            <h5>내용</h5>
+          </label>
           <textarea
             class="form-control"
             v-model="content"
@@ -31,7 +44,11 @@
         </div>
       </fieldset>
       <div class="row_buttons mb-4">
-        <button type="button" class="btn btn--width" @click="goCommunity">목록</button>
+        <button
+          type="button"
+          class="btn btn--width"
+          @click="goCommunity"
+        >목록</button>
         <button
           type="button"
           class="btn btn--width btn--pink"
@@ -62,23 +79,34 @@
                     class="form__field form__textarea"
                     placeholder="댓글를 작성해주세요"
                     v-model="commentContent"
+                    @keyup.enter="uploadComment"
                   >
                   </textarea>
-                  <button class="btn btn--revert" style="float: right" @click="uploadComment">
+                  <button
+                    class="btn btn--revert"
+                    style="float: right"
+                    @click="uploadComment"
+                  >
                     댓글 등록
                   </button>
                 </div>
               </div>
-              <div class="comment row">
+              <div
+                ref="comment"
+                class="comment row"
+              >
                 <div
                   v-for="(comment, idx) in comments"
                   :key="idx"
                   class="comment-area row d-flex mb-4 ml-4 mt-4"
                 >
-                  <div class="row" style="display: inline-block">
+                  <div
+                    class="row"
+                    style="display: inline-block"
+                  >
                     <img
                       class="rounded-circle"
-                      :src="comment.profileImage"
+                      :src="[comment.profileImage ? comment.profileImage : 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png']"
                       alt="..."
                       style="width: 80px"
                     />
@@ -94,7 +122,10 @@
                     >
                       삭제
                     </button>
-                    <div class="comment-text">
+                    <div
+                      class="comment-text"
+                      style="margin-left: 80px;"
+                    >
                       {{ comment.content }}
                     </div>
                     <hr class="comment-divider p-0 mt-2" />
@@ -117,7 +148,7 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 import { API_BASE_URL } from "@/config/index.js";
 
 export default {
-  data() {
+  data () {
     return {
       title: "",
       content: "",
@@ -127,17 +158,17 @@ export default {
       profileImage: "",
     };
   },
-  created() {
+  created () {
     this.getCommunityDetail();
     this.getCommunityComment();
   },
-  mounted() {
+  mounted () {
     // this.getCommunityDetail();
     // this.getCommunityComment();
   },
   methods: {
     //글 삭제하는 함수
-    deleteCommunity(coId) {
+    deleteCommunity (coId) {
       const token = this.$store.state.user.JWTToken;
       const headers = {
         Authorization: `Bearer ${token}`,
@@ -169,7 +200,7 @@ export default {
         });
     },
     //댓글 지우는 함수
-    deleteComment(commentId, userNickname) {
+    deleteComment (commentId, userNickname) {
       const token = this.$store.state.user.JWTToken;
       console.log(token + "community 내부의 댓글을 삭제할때 백엔드로 보내는 토큰입니다.");
       console.log(this.$route.params.coId);
@@ -224,10 +255,10 @@ export default {
         });
       }
     },
-    goCommunity() {
+    goCommunity () {
       this.$router.push("/community");
     },
-    uploadComment() {
+    uploadComment () {
       const token = this.$store.state.user.JWTToken;
       console.log(token + "community 내부의 댓글을 등록할때 백엔드로 보내는 토큰입니다.");
       console.log(this.$route.params.coId);
@@ -241,13 +272,14 @@ export default {
         // userNickname : this.comments.userNickname,
         userNickname: this.$store.state.user.userNickname, //이 부분을 스토어에 닉네임을 담아서 끌어오면됨
         content: this.commentContent,
-        profileImage: this.$store.state.user.profileImage,
+        profileImage: this.$store.state.user.profileImage ? this.$store.state.user.profileImage : 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png',
+        regTime: this.getCurrentdate()
       };
 
       const data = {
         communityId: this.$route.params.coId, //스토어
         content: this.commentContent,
-        profileImage: this.$store.state.user.profileImage, //이미지
+        profileImage: this.$store.state.user.profileImage ? this.$store.state.user.profileImage : 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png', //이미지
       };
 
       axios({
@@ -266,6 +298,8 @@ export default {
             timer: 1500,
           });
           this.comments.push(data1);
+          this.commentContent = ''
+
         })
         .catch((err) => {
           console.log(err);
@@ -273,7 +307,7 @@ export default {
         });
     },
     //댓글 가져오는 함수
-    getCommunityComment() {
+    getCommunityComment () {
       const token = this.$store.state.user.JWTToken;
       console.log(token + "community 내부의 댓글을 조회할때 백엔드로 보내는 토큰입니다.");
       console.log(this.$route.params.coId);
@@ -299,7 +333,7 @@ export default {
         });
     },
     //게시글 내용 가져오는 함수
-    getCommunityDetail() {
+    getCommunityDetail () {
       const token = this.$store.state.user.JWTToken;
       console.log(token + "community 세부정보를 조회할때 백엔드로 보내는 토큰입니다.");
       console.log(this.$route.params.coId);
@@ -324,7 +358,7 @@ export default {
         });
     },
     //게시글 수정 시 작동하는 함수
-    modifyCommunity() {
+    modifyCommunity () {
       const token = this.$store.state.user.JWTToken;
       console.log(token + "community 세부정보 수정하기 버튼을 누르면 나오는 토큰입니다.");
 
@@ -376,6 +410,27 @@ export default {
         alert("작성자가 아니라 수정 불가.");
       }
     },
+    getCurrentdate () {
+      var date = new Date()
+      var year = date.getFullYear().toString()
+
+      var month = date.getMonth() + 1
+      month = month < 10 ? '0' + month.toString() : month.toString()
+
+      var day = date.getDate()
+      day = day < 10 ? '0' + day.toString() : day.toString()
+
+      var hour = date.getHours()
+      hour = hour < 10 ? '0' + hour.toString() : hour.toString()
+
+      var minuties = date.getMinutes()
+      minuties = minuties < 10 ? '0' + minuties.toString() : minuties.toString()
+
+      var seconds = date.getSeconds()
+      seconds = seconds < 10 ? '0' + seconds.toString() : seconds.toString()
+
+      return year + '-' + month + '-' + day + ' ' + hour + ':' + minuties + ':' + seconds
+    },
   },
 };
 </script>
@@ -402,7 +457,6 @@ export default {
 .form__textarea {
   height: 100px !important;
 }
-
 .comment-area {
   min-height: 80px;
 }

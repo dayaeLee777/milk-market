@@ -17,7 +17,7 @@ export default new Vuex.Store({
       JWTToken: null,
       userNickname: null,
       bcode: 0,
-      profileImage: 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png',
+      profileImage: '',
     },
     interval: null,
     showModal: false,
@@ -50,13 +50,13 @@ export default new Vuex.Store({
       state.isSigned = false;
       state.showModal = false;
       state.chatRooms = [];
-      state.interval = 'null';
+      state.interval = null;
       state.user = {
         id: null,
         walletAddress: null,
         JWTToken: null,
         userNickname: null,
-        profileImage: 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png',
+        profileImage: '',
         bcode: null,
       };
     },
