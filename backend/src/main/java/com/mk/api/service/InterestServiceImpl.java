@@ -77,7 +77,7 @@ public class InterestServiceImpl implements InterestService {
 		User user = jwtTokenService.convertTokenToUser(accessToken);
 
 		DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
-		DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
+		DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 		// Interest를 조회, User와 false로 찾기
 		interestRepository.findByUserAndDelYn(user, false).forEach(interest -> {
@@ -122,7 +122,7 @@ public class InterestServiceImpl implements InterestService {
 		User user = jwtTokenService.convertTokenToUser(accessToken);
 
 		DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
-		DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
+		DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 		// Interest를 조회, User와 false로 찾기
 		Page<Interest> interests = interestRepository.findByUserAndDelYn(user, false, pageable);

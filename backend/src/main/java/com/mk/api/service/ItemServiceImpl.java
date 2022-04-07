@@ -91,7 +91,7 @@ public class ItemServiceImpl implements ItemService {
 			});
 
 			DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
-			DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
+			DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 			ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder()
 					.itemId(item.getId())
@@ -186,7 +186,7 @@ public class ItemServiceImpl implements ItemService {
 			});
 
 			DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
-			DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
+			DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 			ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder()
 					.itemId(item.getId())
@@ -233,7 +233,7 @@ public class ItemServiceImpl implements ItemService {
 		});
 
 		DateTimeFormatter regDateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
-		DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
+		DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		
 		ItemGetResponseDto itemGetResponseDto = ItemGetResponseDto.builder()
 				.itemId(itemId)
