@@ -117,7 +117,6 @@ export default {
           .then((res) => {
             console.log("글 삭제 성공");
             console.log(res);
-            // this.$router.go('/community');
             const idx = this.items.findIndex((content) => content.communityId === communityId);
             this.items.splice(idx, 1);
           })

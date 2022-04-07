@@ -116,7 +116,7 @@ export default {
             timer: 1500,
           });
           setTimeout(() => {
-            this.$router.go();
+            this.$router.push({ name: "mypage.wallet.info" });
           }, 1500);
         })
         .catch((err) => {
@@ -151,7 +151,7 @@ export default {
             timer: 1500,
           });
           setTimeout(() => {
-            this.$router.go();
+            this.$router.push({ name: "mypage.wallet.info" });
           }, 1500);
         })
         .catch((err) => {
@@ -251,7 +251,7 @@ export default {
             timer: 1500,
           });
           setTimeout(() => {
-            this.$router.go();
+            this.$router.push({ name: "mypage.wallet.info" });
           }, 1500);
         })
         .catch((err) => {
