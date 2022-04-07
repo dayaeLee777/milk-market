@@ -135,7 +135,7 @@ function getSearchItemByBcode (
   console.log("division in js : ", division);
   console.log("");
   const ItemList = {
-    bcode: bcode,
+    bcode: store.state.user.bcode,
     category: category,
     division: division,
     sortBy: sortBy,
