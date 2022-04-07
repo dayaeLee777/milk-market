@@ -1,82 +1,62 @@
 <template>
-  <div
-    id="main-overview"
-    class="container"
-  >
+  <div id="main-overview" class="container">
     <!-- 검색 -->
 
+    <div class="row row--center">
+      <h1 class="row__title">우유마켓 상품검색</h1>
+      <h2 class="row__sub">다양한 조건과 키워드를 활용하여 검색하세요</h2>
+    </div>
     <div class="card-body row no-gutters align-items-center justify-content-md-center">
       <div class="col-auto">
         <i class="fas fa-search h4 text-body"></i>
       </div>
-      <div class="col-4 center">
-        <input
-          class="form-control form-control-lg form-control-borderless"
-          type="search"
-          v-model="keyword"
-          @keyup.enter="fnSearch"
-          placeholder="Search topics or keywords"
-        />
-      </div>
-      <div class="col-auto">
-        <button
-          class="btn btn-lg btn-success"
-          type="submit"
-          @click="fnSearch"
-        >Search</button>
+
+      <div class="row row--center">
+        <div class="search-form">
+          <div class="form-group input_search">
+            <input
+              class="form-control form__field form__text"
+              type="search"
+              v-model="keyword"
+              @keyup.enter="fnSearch"
+              placeholder="원하는 상품을 검색해보세요"
+            />
+          </div>
+
+          <div class="form-group btn_search">
+            <button class="btn" type="submit" @click="fnSearch">Search</button>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="body">
       <!-- 탭 -->
       <div id="myBtnContainer">
-        <button
-          class="btn active"
-          @click="init"
-        >Show all</button>
-        <select
-          @change="filterSelection2($event)"
-          class="btn"
-          id="division"
-        >
-          <option
-            value="0"
-            selected
-          >상태</option>
+        <button class="btn btn_filter btn--violet active" @click="init">Show all</button>
+        <select @change="filterSelection2($event)" class="btn btn--violet btn_filter" id="division">
+          <option value="0" selected>상태</option>
           <option value="A01">대여</option>
           <option value="A02">판매</option>
         </select>
 
-        <select
-          @change="filterSelection3($event)"
-          class="btn"
-          id="category"
-        >
-          <option
-            value="0"
-            selected
-          >카테고리</option>
-          <option
-            v-for="(name, value) in categorys"
-            :key="value"
-          >
+        <select @change="filterSelection3($event)" class="btn btn--violet btn_filter" id="category">
+          <option value="0" selected>카테고리</option>
+          <option v-for="(name, value) in categorys" :key="value">
             {{ name }}
           </option>
         </select>
 
-        <button
-          class="btn"
-          @click="filterSelection4"
-        >우리동네</button>
+        <button class="btn btn--violet btn_filter" @click="filterSelection4">우리동네</button>
+
+        <button type="button" class="btn btn_filter" @click="itemWrite" style="float: right">
+          상품등록
+        </button>
       </div>
       <div class="row">
-        <div class="row row-cols-2 row-cols-md-4 g-5">
+        <div class="row row-cols-2 row-cols-md-4">
           <div v-if="contents.length === 0">등록된 상품이 없습니다.</div>
-          <div
-            class="col"
-            v-for="(content, index) in lists"
-            :key="index"
-          >
+          <div class="col" v-for="(content, index) in lists" :key="index">
             <item-each :content="content"></item-each>
           </div>
         </div>
@@ -89,19 +69,6 @@
         :per-page="perPage"
         style="justify-content: center"
       ></b-pagination>
-    </div>
-    <!--상품 등록-->
-    <div class="row">
-      <div id="footer">
-        <button
-          type="button"
-          class="btn btn-primary"
-          @click="itemWrite"
-          style="float: right"
-        >
-          상품등록
-        </button>
-      </div>
     </div>
   </div>
 </template>
@@ -158,7 +125,7 @@ export default {
       B16: "유아침구",
     },
   }),
-  mounted () {
+  mounted() {
     var category = this.$route.query.category;
     console.log(category);
     if (category !== undefined) {
@@ -171,25 +138,25 @@ export default {
     this.getTotalPage();
   },
   computed: {
-    rows () {
+    rows() {
       console.log("computed : " + this.contents.length);
       return this.contents.length;
     },
-    lists () {
+    lists() {
       const items = this.contents;
       // Return just page of items needed
       return items.slice((this.currentPage - 1) * this.perPage, this.currentPage * this.perPage);
     },
   },
-  updated () {
+  updated() {
     console.log("업데이트", this.contents);
   },
 
   methods: {
     //초기 목록 불러오기, 전체 목록 불러오기
-    init () {
-      document.getElementById("division").value = "0"
-      document.getElementById("category").value = "0"
+    init() {
+      document.getElementById("division").value = "0";
+      document.getElementById("category").value = "0";
       var vm = this;
       this.changeCategory = null;
       this.bcode = null;
@@ -202,7 +169,7 @@ export default {
     },
 
     // 검색,
-    fnSearch (arg) {
+    fnSearch(arg) {
       getSearchItem(
         arg,
         this.bcode,
@@ -221,7 +188,7 @@ export default {
     },
 
     //판매유무
-    filterSelection2 (event) {
+    filterSelection2(event) {
       var vm = this;
       this.division = event.target.value;
       if (this.division === "0") {
@@ -245,7 +212,7 @@ export default {
       );
     },
     //카테고리
-    filterSelection3 (event) {
+    filterSelection3(event) {
       var vm = this;
       var category = event.target.value;
       console.log(category);
@@ -279,7 +246,7 @@ export default {
     },
 
     //우리동네 찾기
-    filterSelection4 () {
+    filterSelection4() {
       var vm = this;
       console.log("우리동네찾기 호출합니다.");
       console.log(this.changeCategory);
@@ -305,7 +272,7 @@ export default {
         }
       );
     },
-    filterSelection5 (category) {
+    filterSelection5(category) {
       var vm = this;
       console.log(category);
       this.changeCategory = Object.keys(vm.categorys).find((key) => vm.categorys[key] === category);
@@ -330,7 +297,7 @@ export default {
     },
 
     allList,
-    fnSearch () {
+    fnSearch() {
       // this.paging.page = 1;
       var vm = this;
       getSearchItem(
@@ -350,7 +317,7 @@ export default {
       );
     },
 
-    getTotalPage () {
+    getTotalPage() {
       var vm = this;
       getTotalPage(
         function (success) {
@@ -368,7 +335,7 @@ export default {
     },
 
     //아이템 등록
-    itemWrite () {
+    itemWrite() {
       this.$router.push({ name: "item.create" });
     },
   },
@@ -388,6 +355,7 @@ div #footer {
   background-color: #f1f1f1;
   padding: 20px;
   font-family: Arial;
+  margin-bottom: 100px;
 }
 
 /* Center website */
@@ -405,10 +373,24 @@ h1 {
   margin: 8px -16px;
 }
 
+.row--center {
+  max-width: 100% !important;
+}
+
 /* Add padding BETWEEN each column (if you want) */
 .row,
 .row > .column {
   padding: 8px;
+}
+
+.row__title {
+  font-size: 30px;
+  margin-bottom: 20px !important;
+}
+
+.row__sub {
+  font-size: 20px;
+  margin-bottom: 10px !important;
 }
 
 /* Create three equal columns that floats next to each other */
@@ -429,10 +411,56 @@ h1 {
 .content {
   background-color: white;
   padding: 10px;
+  margin: 10px;
 }
 
 /* The "show" class is added to the filtered elements */
 .show {
   display: block;
+}
+
+.btn_filter {
+  border-radius: 0px !important;
+}
+
+.btn--white {
+  background-color: #fff !important;
+  border: 1px solid #ededed;
+  color: #8198ae !important;
+}
+
+.btn--white:hover {
+  background-color: #fff !important;
+  color: #8198ae !important;
+}
+
+.btn--violet {
+  background-color: #6f79ff !important;
+}
+.btn--violet:hover {
+  background-color: #878ef3 !important;
+}
+
+.form-group {
+  text-align: center;
+}
+
+.input_search {
+  width: 85%;
+  float: left;
+  margin-right: 10px;
+}
+
+.form__text {
+  margin-left: 15px;
+  border-radius: 20px;
+}
+
+.search_form {
+  display: inline-block;
+}
+
+.btn_search {
+  width: 120px;
 }
 </style>

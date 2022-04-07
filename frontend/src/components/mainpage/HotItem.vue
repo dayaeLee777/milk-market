@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<script>
+<script scoped>
 import { Carousel3d, Slide } from "vue-carousel-3d";
 import HotItemSlide from "./HotItemSlide.vue";
 import { getHotItem } from "@/api/interest.js";

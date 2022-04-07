@@ -1,13 +1,8 @@
 <template>
-  <div class="hotitemslide">
+  <div class="itemslide">
     <section class="cards" @click="itemDetail(content.id)">
       <article class="card card--2">
-        <img
-          v-if="!contentImage()"
-          :src="item_img"
-          class="card__img"
-          alt="사진없음"
-        />
+        <img v-if="!contentImage()" :src="item_img" class="card__img" alt="사진없음" />
         <img v-else :src="content.fileNameList[key]" class="card__img" alt="" />
 
         <div class="card_link" @click="itemDetail(content.id)">
@@ -72,10 +67,7 @@
             >
           </div>
           <span class="card__by"
-            ><a href="#" class="card__author" title="author">{{
-              content.price
-            }}</a>
-            Milk</span
+            ><a href="#" class="card__author" title="author">{{ content.price }}</a> Milk</span
           >
         </div>
       </article>
@@ -100,11 +92,13 @@ export default {
   },
   methods: {
     itemDetail(itemId) {
-      this.$router.push({
-        // name: "item.detail",
-        name: "item.detail",
-        params: { id: itemId },
-      }).catch(() => {});
+      this.$router
+        .push({
+          // name: "item.detail",
+          name: "item.detail",
+          params: { id: itemId },
+        })
+        .catch(() => {});
     },
     contentImage() {
       this.key = Object.keys(this.content.fileNameList)[0];
@@ -130,25 +124,25 @@ export default {
 @import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
 @import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
-.hotitemslide * {
+.itemslide * {
   box-sizing: border-box;
 }
-.hotitemslide.cards {
+.itemslide.cards {
   color: black;
   font-family: "Roboto Slab", serif;
-  width: 100%;
+  width: 10%;
   display: flex;
   display: -webkit-flex;
   justify-content: center;
   -webkit-justify-content: center;
   /* max-width: 820px; */
-  margin-left: 50px;
+  margin-left: 20px;
 }
 section.cards {
   width: 100%;
   margin: 0;
 }
-.hotitemslide .card__like {
+.itemslide .card__like {
   width: 18px;
   font-family: "Noto Sans KR", sans-serif;
   font-size: 13px;
@@ -156,24 +150,24 @@ section.cards {
   margin-left: 5px;
 }
 
-.hotitemslide .card__clock {
+.itemslide .card__clock {
   width: 15px;
   vertical-align: middle;
   fill: #ad7d52;
 }
-.hotitemslide .card__time {
+.itemslide .card__time {
   font-size: 12px;
   color: #ad7d52;
   vertical-align: middle;
   margin-left: 5px;
 }
 
-.hotitemslide .card__clock-info {
+.itemslide .card__clock-info {
   font-family: "Noto Sans KR", sans-serif;
   float: right;
 }
 
-.hotitemslide .card__img {
+.itemslide .card__img {
   visibility: hidden;
   background-size: cover;
   background-position: center;
@@ -184,7 +178,7 @@ section.cards {
   border-top-right-radius: 12px;
 }
 
-.hotitemslide .card__info-hover {
+.itemslide .card__info-hover {
   position: absolute;
   padding: 16px;
   width: 100%;
@@ -192,7 +186,7 @@ section.cards {
   top: 0;
 }
 
-.hotitemslide .card__img--hover {
+.itemslide .card__img--hover {
   transition: 0.2s all ease-out;
   background-size: cover;
   background-position: center;
@@ -204,22 +198,22 @@ section.cards {
   border-top-right-radius: 12px;
   top: 0;
 }
-.hotitemslide .card {
-  margin: 25px;
+.itemslide .card {
+  margin: 15px;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0, 1);
   background-color: #fff;
-  width: 80%;
+  width: 100%;
   position: relative;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0px 13px 10px -7px rgba(0, 0, 0, 0.1);
 }
-.hotitemslide .card:hover {
+.itemslide .card:hover {
   box-shadow: 0px 30px 18px -8px rgba(0, 0, 0, 0.1);
   transform: scale(1.1, 1.1);
 }
 
-.hotitemslide .card__info {
+.itemslide .card__info {
   z-index: 2;
   background-color: #fff;
   border-bottom-left-radius: 12px;
@@ -227,7 +221,7 @@ section.cards {
   padding: 16px 24px 24px 24px;
 }
 
-.hotitemslide .card__category {
+.itemslide .card__category {
   /* font-family: "Noto Sans KR", sans-serif; */
   font-family: "Jua", sans-serif;
   font-size: 13px;
@@ -236,35 +230,35 @@ section.cards {
   color: #868686;
 }
 
-.hotitemslide .card__title {
+.itemslide .card__title {
   margin-top: 5px;
   margin-bottom: 10px;
   font-family: "Black Han Sans", sans-serif;
 }
 
-.hotitemslide .card__by {
+.itemslide .card__by {
   font-size: 12px;
   font-family: "Raleway", sans-serif;
   font-weight: 500;
 }
 
-.hotitemslide .card__author {
+.itemslide .card__author {
   font-weight: 600;
   text-decoration: none;
   color: #ad7d52;
 }
 
-.hotitemslide .card:hover .card__img--hover {
+.itemslide .card:hover .card__img--hover {
   height: 100%;
   opacity: 0.3;
 }
 
-.hotitemslide .card:hover .card__info {
+.itemslide .card:hover .card__info {
   background-color: transparent;
   position: relative;
 }
 
-.hotitemslide .card:hover .card__info-hover {
+.itemslide .card:hover .card__info-hover {
   opacity: 1;
 }
 
