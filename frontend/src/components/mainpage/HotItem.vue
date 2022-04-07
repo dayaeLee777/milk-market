@@ -2,7 +2,7 @@
   <div class="sect sect--padding-bottom">
     <div class="container">
       <div class="row row--center">
-        <h1 class="row__title">우리동네 인기상품</h1>
+        <h1 class="row__title">우유마켓 인기상품</h1>
         <h2 class="row__sub">관심등록이 많은 Top5 상품을 확인하세요</h2>
       </div>
       <carousel-3d :width="500" :height="500">
