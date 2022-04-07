@@ -68,7 +68,7 @@ public class Itemsearch {
 	}
 	
 	public void modifyItemSearch(ItemModifyRequestDto itemModifyRequestDto) {
-		DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
+		DateTimeFormatter rentDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		
 		this.division = itemModifyRequestDto.getDivision();
 		this.itemName = itemModifyRequestDto.getItemName();

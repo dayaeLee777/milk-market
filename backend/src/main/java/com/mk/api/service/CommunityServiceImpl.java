@@ -56,7 +56,7 @@ public class CommunityServiceImpl implements CommunityService {
 		if(community == null)
 			return null;
 		
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm:ss");
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		
 		community.plusCommunityHit();
 		

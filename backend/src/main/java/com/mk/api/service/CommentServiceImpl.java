@@ -60,7 +60,7 @@ public class CommentServiceImpl implements CommentService {
 		if(comment == null)
 			return null;
 		
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm:ss");
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		
 		CommentGetResponseDto commentGetResponseDto = CommentGetResponseDto.builder()
 				.commentId(commentId)
@@ -82,7 +82,7 @@ public class CommentServiceImpl implements CommentService {
 		if(community == null)
 			return null;
 		
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm:ss");
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		
 		List<CommentGetResponseDto> commentList = new ArrayList<CommentGetResponseDto>();
 		
