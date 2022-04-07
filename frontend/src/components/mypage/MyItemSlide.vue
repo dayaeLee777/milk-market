@@ -94,7 +94,7 @@ export default {
             showConfirmButton: false,
             timer: 1500,
           });
-          this.$router.go();
+          this.$router.push({ name: "mypage.wallet.info" });
         })
         .catch((err) => {
           Swal.fire({

@@ -21,7 +21,8 @@
     </div>
 
     <div class="row row-cols-2 row-cols-md-4 g-5">
-      <div class="col" v-for="(content, index) in contents" :key="index">
+      <div class="col" v-for="(content, index) in contents" :key="index"
+        style="cursor: pointer">
         <item-each :content="content"></item-each>
       </div>
     </div>
