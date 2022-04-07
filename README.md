@@ -44,42 +44,47 @@
 
 <details><summary> <b> 상세 기술스택 및 버전</b> </summary>
 
-| 구분     | 기술스택        | 상세내용                | 버전        |
-| -------- | --------------- | ----------------------- | ----------- |
-| 공통     | 형상관리        | Gitlab                  | \-          |
-|          | 이슈관리        | Jira                    | \-          |
-|          | 커뮤니케이션    | Mattermost, Notion      | \-          |
-| BackEnd  | DB              | MySQL                   | 5.7         |
-|          |                 | JPA                     | \-          |
-|          |                 | QueryDSL                | \-          |
-|          | Java            | Zulu                    | 8.33.0.1    |
-|          | Spring          | Spring                  | 5.3.6       |
-|          |                 | Spring Boot             | 2.4.5       |
-|          | IDE             | Eclipse                 | JEE 2020-06 |
-|          | Cloud Storage   | AWS S3                  | \-          |
-|          | Build           | Gradle                  | 7.3.2       |
-|          | WebRTC          | Kurento Media Server    | 6.16        |
-|          | WebRTC          | Kurento                 | \-          |
-|          | API Docs        | Swagger2                | 3.0.0       |
-| FrontEnd | HTML5           |                         | \-          |
-|          | CSS3            |                         | \-          |
-|          | JavaScript(ES6) |                         | \-          |
-|          | React           | React                   | 17.0.2      |
-|          | React           | Redux                   | 7.2.6       |
-|          | React           | Redux-thunk             | 2.4.1       |
-|          |                 | styled-components       | 5.3.3       |
-|          |                 | framer-motion           | 6.0.0       |
-|          |                 | apexcharts              | 3.33.0      |
-|          |                 | toast-ui/react-editor   | 3.1.2       |
-|          |                 | toast-ui/react-calendar | 1.0.6       |
-|          | WebSocket       | @stomp/stompjs          | 6.1.2       |
-|          | WebSocket       | stompjs                 | 2.3.3       |
-|          | WebSocket       | sockjs-client           | 1.5.2       |
-|          | IDE             | Visual Studio Code      | 1.63.2      |
-| Server   | 서버            | AWS EC2                 | \-          |
-|          | 플랫폼          | Ubuntu                  | 20.04.3 LTS |
-|          | 배포            | Docker                  | 20.10.12    |
-|          | 배포            | Jenkins                 | 2.319.2     |
+| 구분       | 기술스택        | 상세내용                | 버전        |
+| ---------- | --------------- | ----------------------- | ----------- |
+| 공통       | 형상관리        | Gitlab                  | \-          |
+|            | 이슈관리        | Jira                    | \-          |
+|            | 커뮤니케이션    | Mattermost, Notion      | \-          |
+| BackEnd    | DB              | MySQL                   | 5.7         |
+|            |                 | JPA                     | \-          |
+|            |                 | QueryDSL                | \-          |
+|            | Java            | Zulu                    | 8.33.0.1    |
+|            | Spring          | Spring                  | 5.3.6       |
+|            |                 | Spring Boot             | 2.4.5       |
+|            | IDE             | Eclipse                 | JEE 2020-06 |
+|            | Cloud Storage   | AWS S3                  | \-          |
+|            | Build           | Gradle                  | 7.3.2       |
+|            | WebRTC          | Kurento Media Server    | 6.16        |
+|            | WebRTC          | Kurento                 | \-          |
+|            | API Docs        | Swagger2                | 3.0.0       |
+| FrontEnd   | HTML5           |                         | \-          |
+|            | CSS3            |                         | \-          |
+|            | JavaScript(ES6) |                         | \-          |
+|            | React           | React                   | 17.0.2      |
+|            | React           | Redux                   | 7.2.6       |
+|            | React           | Redux-thunk             | 2.4.1       |
+|            |                 | styled-components       | 5.3.3       |
+|            |                 | framer-motion           | 6.0.0       |
+|            |                 | apexcharts              | 3.33.0      |
+|            |                 | toast-ui/react-editor   | 3.1.2       |
+|            |                 | toast-ui/react-calendar | 1.0.6       |
+|            | WebSocket       | @stomp/stompjs          | 6.1.2       |
+|            | WebSocket       | stompjs                 | 2.3.3       |
+|            | WebSocket       | sockjs-client           | 1.5.2       |
+|            | IDE             | Visual Studio Code      | 1.63.2      |
+| BlockChain | Web3            | Solidity                | 0.8.12      |
+|            |                 | Web3.js                 | 1.5.3       |
+|            |                 | truffle                 | 5.5.5       |
+|            |                 | Ganache                 | 7.0.3       |
+|            |                 | openzeppelin            | 4.5.0       |
+| Server     | 서버            | AWS EC2                 | \-          |
+|            | 플랫폼          | Ubuntu                  | 20.04.3 LTS |
+|            | 배포            | Docker                  | 20.10.12    |
+|            | 배포            | Jenkins                 | 2.319.2     |
 
 </details>
 
@@ -117,6 +122,8 @@
   | <img src="./readme_assets/onlineclass.gif" alt="온라인수업" /> |
 
 <br/>
+
+
 
 <div id="5"></div>
 
@@ -163,7 +170,6 @@
         <td align="center">REST API<br/>Server<br/>ElasticSearch<br/>UI/UX</td>
     </tr>
 </table>
-
 <br />
 
 <div id="8"></div>
