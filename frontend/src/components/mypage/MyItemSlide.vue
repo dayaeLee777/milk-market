@@ -27,37 +27,30 @@
                   d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"
                 />
               </svg>
-            <span v-if="slide.status === `C01`">
-              판매 중
-            </span>
-            <span v-if="slide.status === `C02`">
-              결제 완료
-            </span>
-            <span v-if="slide.status === `C03`">
-              구매자 수령 완료
-            </span>            
+              <span v-if="slide.status === `C01`"> 판매 중 </span>
+              <span v-if="slide.status === `C02`"> 결제 완료 </span>
+              <span v-if="slide.status === `C03`"> 구매자 수령 완료 </span>
             </span>
             <span
-              v-if="slide.status === `C01` || slide.status === `C02`" 
+              v-if="slide.status === `C01` || slide.status === `C02`"
               class="badge badge-error py-1"
-              @click="deleteItem(slide.itemId)">
+              @click="deleteItem(slide.itemId)"
+            >
               판매 취소
             </span>
             <span
               v-if="slide.status === `C03`"
               class="badge badge-success py-1"
               @click="endEscrow(slide.itemId, slide.price)"
-              >
-            판매자 확인
+            >
+              판매자 확인
             </span>
           </div>
-          <span
-            class="badges"
-            v-if="slide.status === `C03`">
+          <span class="badges" v-if="slide.status === `C03`">
             <span class="badge badge-warn text-danger">
               ※확인처리를 통해 판매금 수령이 가능합니다.
             </span>
-          </span>            
+          </span>
         </div>
       </article>
     </section>
@@ -65,9 +58,9 @@
 </template>
 
 <script>
-import axios from "axios"
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js"
+import axios from "axios";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import { API_BASE_URL, BLOCKCHAIN_URL, CASH_CONTRACT_ADDRESS } from "@/config/index.js";
 
 export default {
   name: "MyItemSlide",
@@ -90,32 +83,31 @@ export default {
 
       axios({
         url: `${API_BASE_URL}/api/item/delete/${itemId}`,
-        method: 'put',
+        method: "put",
         headers,
       })
-      .then( res => {
+        .then((res) => {
           Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "판매 취소 처리 완료",
-          showConfirmButton: false,
-          timer: 1500,
-        });   
-        this.$router.go();
-      })
-      .catch( err => {
+            position: "center",
+            icon: "success",
+            title: "판매 취소 처리 완료",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          this.$router.go();
+        })
+        .catch((err) => {
           Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "다시 시도해주세요",
-          showConfirmButton: false,
-          timer: 1500,
+            position: "center",
+            icon: "error",
+            title: "다시 시도해주세요",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         });
-      })
-
     },
     endEscrow(itemId, price) {
-      this.$emit('end-escrow', itemId, price);
+      this.$emit("end-escrow", itemId, price);
     },
     itemDetail(itemId) {
       this.$router.push({
@@ -127,7 +119,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
