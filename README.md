@@ -146,8 +146,8 @@
     <tr>
         <td height="140px" align="center"> <a href="https://github.com/-in">
             <img src="https://avatars.githubusercontent.com/" width="140px" /> <br><br> 윤희영 <br>(Front-End) </a> <br></td>
-        <td height="140px" align="center"> <a href="https://github.com/">
-            <img src="https://avatars.githubusercontent.com/" width="140px" /> <br><br> 이상훈 <br>(Front-End) </a> <br></td>
+        <td height="140px" align="center"> <a href="https://github.com/sahngrhee">
+            <img src="https://avatars.githubusercontent.com/sahngrhee" width="140px" /> <br><br> 이상훈 <br>(Front-End) </a> <br></td>
         <td height="140px" align="center"> <a href="https://github.com/sangwooYi">
             <img src="https://avatars.githubusercontent.com/sangwooYi" width="140px" /> <br><br> 이상우 <br>(Full-stack) </a> <br></td>
         <td height="140px" align="center"> <a href="https://github.com/KwonDoHyuk">
