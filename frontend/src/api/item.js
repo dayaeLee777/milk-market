@@ -130,10 +130,6 @@ function getSearchItemByBcode (
   success,
   fail
 ) {
-  console.log("bcode in getSearchItemByBcode" + bcode);
-  console.log("category in js : ", category);
-  console.log("division in js : ", division);
-  console.log("");
   const ItemList = {
     bcode: store.state.user.bcode,
     category: category,
@@ -195,7 +191,7 @@ function findItemsByOwner (userId, success, fail) {
     .catch(fail);
 }
 
-function findById(itemId, success, success2, fail) {
+function findById (itemId, success, success2, fail) {
   instance
     .get("/api/item/" + itemId, {
       headers: {

@@ -1,5 +1,8 @@
 <template>
-  <div id="main-overview" class="container">
+  <div
+    id="main-overview"
+    class="container"
+  >
     <!-- 검색 -->
 
     <div class="card-body row no-gutters align-items-center justify-content-md-center">
@@ -16,33 +19,64 @@
         />
       </div>
       <div class="col-auto">
-        <button class="btn btn-lg btn-success" type="submit" @click="fnSearch">Search</button>
+        <button
+          class="btn btn-lg btn-success"
+          type="submit"
+          @click="fnSearch"
+        >Search</button>
       </div>
     </div>
 
     <div class="body">
       <!-- 탭 -->
       <div id="myBtnContainer">
-        <button class="btn active" @click="init">Show all</button>
-        <select @change="filterSelection2($event)" class="btn">
-          <option value="0" selected>상태</option>
+        <button
+          class="btn active"
+          @click="init"
+        >Show all</button>
+        <select
+          @change="filterSelection2($event)"
+          class="btn"
+          id="division"
+        >
+          <option
+            value="0"
+            selected
+          >상태</option>
           <option value="A01">대여</option>
           <option value="A02">판매</option>
         </select>
 
-        <select @change="filterSelection3($event)" class="btn">
-          <option value="0" selected>카테고리</option>
-          <option v-for="(name, value) in categorys" :key="value">
+        <select
+          @change="filterSelection3($event)"
+          class="btn"
+          id="category"
+        >
+          <option
+            value="0"
+            selected
+          >카테고리</option>
+          <option
+            v-for="(name, value) in categorys"
+            :key="value"
+          >
             {{ name }}
           </option>
         </select>
 
-        <button class="btn" @click="filterSelection4">우리동네</button>
+        <button
+          class="btn"
+          @click="filterSelection4"
+        >우리동네</button>
       </div>
       <div class="row">
         <div class="row row-cols-2 row-cols-md-4 g-5">
           <div v-if="contents.length === 0">등록된 상품이 없습니다.</div>
-          <div class="col" v-for="(content, index) in lists" :key="index">
+          <div
+            class="col"
+            v-for="(content, index) in lists"
+            :key="index"
+          >
             <item-each :content="content"></item-each>
           </div>
         </div>
@@ -59,7 +93,12 @@
     <!--상품 등록-->
     <div class="row">
       <div id="footer">
-        <button type="button" class="btn btn-primary" @click="itemWrite" style="float: right">
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click="itemWrite"
+          style="float: right"
+        >
           상품등록
         </button>
       </div>
@@ -119,7 +158,7 @@ export default {
       B16: "유아침구",
     },
   }),
-  mounted() {
+  mounted () {
     var category = this.$route.query.category;
     console.log(category);
     if (category !== undefined) {
@@ -132,23 +171,25 @@ export default {
     this.getTotalPage();
   },
   computed: {
-    rows() {
+    rows () {
       console.log("computed : " + this.contents.length);
       return this.contents.length;
     },
-    lists() {
+    lists () {
       const items = this.contents;
       // Return just page of items needed
       return items.slice((this.currentPage - 1) * this.perPage, this.currentPage * this.perPage);
     },
   },
-  updated() {
+  updated () {
     console.log("업데이트", this.contents);
   },
 
   methods: {
     //초기 목록 불러오기, 전체 목록 불러오기
-    init() {
+    init () {
+      document.getElementById("division").value = "0"
+      document.getElementById("category").value = "0"
       var vm = this;
       this.changeCategory = null;
       this.bcode = null;
@@ -161,7 +202,7 @@ export default {
     },
 
     // 검색,
-    fnSearch(arg) {
+    fnSearch (arg) {
       getSearchItem(
         arg,
         this.bcode,
@@ -180,7 +221,7 @@ export default {
     },
 
     //판매유무
-    filterSelection2(event) {
+    filterSelection2 (event) {
       var vm = this;
       this.division = event.target.value;
       if (this.division === "0") {
@@ -204,7 +245,7 @@ export default {
       );
     },
     //카테고리
-    filterSelection3(event) {
+    filterSelection3 (event) {
       var vm = this;
       var category = event.target.value;
       console.log(category);
@@ -238,7 +279,7 @@ export default {
     },
 
     //우리동네 찾기
-    filterSelection4() {
+    filterSelection4 () {
       var vm = this;
       console.log("우리동네찾기 호출합니다.");
       console.log(this.changeCategory);
@@ -264,7 +305,7 @@ export default {
         }
       );
     },
-    filterSelection5(category) {
+    filterSelection5 (category) {
       var vm = this;
       console.log(category);
       this.changeCategory = Object.keys(vm.categorys).find((key) => vm.categorys[key] === category);
@@ -289,7 +330,7 @@ export default {
     },
 
     allList,
-    fnSearch() {
+    fnSearch () {
       // this.paging.page = 1;
       var vm = this;
       getSearchItem(
@@ -309,7 +350,7 @@ export default {
       );
     },
 
-    getTotalPage() {
+    getTotalPage () {
       var vm = this;
       getTotalPage(
         function (success) {
@@ -327,7 +368,7 @@ export default {
     },
 
     //아이템 등록
-    itemWrite() {
+    itemWrite () {
       this.$router.push({ name: "item.create" });
     },
   },
