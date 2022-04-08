@@ -41,11 +41,10 @@
                 </h5>
                 <p>비밀번호 입력</p>
                 <input type="password" class="form-control" v-model="pw">
-                <a
-                  href="#"
-                  v-on:click="createWallet"
+                <button
+                  @click="createWallet"
                   class="btn btn-lg btn-outline-primary mt-3"
-                  >지갑생성하기</a
+                  >지갑생성하기</button
                 >
               </div>
             </div>

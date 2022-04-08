@@ -67,7 +67,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -91,7 +92,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -134,7 +136,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -147,7 +150,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -208,7 +212,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -221,7 +226,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -234,7 +240,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -8571,9 +8578,23 @@
     "name": "solc",
     "version": "0.8.12+commit.f00d7308.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "1649382557076": {
+      "events": {},
+      "links": {},
+      "address": "0xA11BA461cA032C471BC0fc4b42D06809259Ff64C",
+      "transactionHash": "0x06b9ef6ce70eb30c9d80aad015a292151e236d6b8584e55162d4a92a224fbdfb"
+    },
+    "1649383550709": {
+      "events": {},
+      "links": {},
+      "address": "0x9a8Ab3e3bf530de9596334b912C71993d2d178b6",
+      "transactionHash": "0xfdf5575637d6be0e04d8d00ac898eb89be4d509b7a5797515e922bcb1614b7cd"
+    }
+  },
   "schemaVersion": "3.4.6",
-  "updatedAt": "2022-04-08T01:49:48.774Z",
+  "updatedAt": "2022-04-08T02:06:33.485Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {
