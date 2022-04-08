@@ -158,7 +158,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 			itemImageList.put(originFilename, itemImageService.getImagePath(newFilename));
 		});
 		
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd KK:mm");
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 		Date date = Date.from(item.getRegDate().atZone(ZoneId.systemDefault()).toInstant());
 
