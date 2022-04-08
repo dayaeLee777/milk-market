@@ -21,7 +21,14 @@
         >
           <div class="chat-avatar">
             <div class="avatar">
-              <img :src="[message.author === $store.state.user.userNickname ? user.profileImage : $route.params.profileImage]">
+              <img
+                v-if="user.profileImage"
+                :src="[message.author === $store.state.user.userNickname ? user.profileImage : $route.params.profileImage]"
+              >
+              <img
+                v-else
+                :src="[message.author === $store.state.user.userNickname ? 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png' : $route.params.profileImage]"
+              >
             </div>
           </div>
           <div class="chat-body">

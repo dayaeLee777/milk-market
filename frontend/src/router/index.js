@@ -41,7 +41,7 @@ const routes = [
     component: () => import("@/components/community/CommunityWrite.vue"),
   },
   {
-    path: "/commnunity/detail",
+    path: "/commnunity/:userN/:coId",
     name: "communityDetail",
     component: () => import("@/components/community/CommunityDetail.vue"),
   },
@@ -63,7 +63,7 @@ const routes = [
   {
     path: "/logout",
     name: "logout",
-    beforeEnter(to, from, next) {
+    beforeEnter (to, from, next) {
       store.commit("logout");
       const Swal = require("sweetalert2");
       Swal.fire({

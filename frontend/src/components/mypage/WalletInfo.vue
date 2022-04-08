@@ -13,7 +13,7 @@
             </div>
             <div class="modal-body">
               <p>지갑 비밀번호 입력</p>
-              <input type="text" class="form-control" v-model="wallet.privateKey">
+              <input type="password" class="form-control" v-model="wallet.privateKey">
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" @click="checkPrivateKey" data-bs-dismiss="modal">확인</button>
@@ -62,20 +62,18 @@
                 <td class="text-right">{{ wallet.milkBalance }} MILK
                 </td>
                 <td colspan="2" class="text-left">
-                  <div class="input-group">
+                  <div class="input-group d-flex align-items-center">
                     <input
                       v-model="cashChargeAmount"
                       type="number"
                       step="0.001"
                       class="form-control"
                     />
-                    <div class="input-group-append mr-3">
-                      <span class="input-group-text">ETH</span>
-                    </div>
+                    <span class="input-group-text">ETH</span>
                     <div v-if="isAuthorized">
                       <button
                         type="button"
-                        class="btn btn-primary"
+                        class="btn btn-primary ms-3"
                         @click="chargeCash()"
                       >
                         {{ "MILK 충전" }}

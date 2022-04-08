@@ -1,7 +1,11 @@
 <template>
-  <div class="container" style="margin-top: 80px">
+  <div class="container">
+    <div class="row row--center">
+      <h1 class="row__title">우유마켓 상품 상세조회</h1>
+      <h2 class="row__sub">상품을 확인하고 채팅, 관심상품 등록 등 다양한 서비스를 이용하세요</h2>
+    </div>
     <div class="col-lg-8 border p-3 main-section bg-white">
-      <div class="row m-0">
+      <div class="row mb-6">
         <div class="col-lg-4 left-side-product-box pb-3">
           <img
             :src="getImg(item.files[item.keys[0]])"
@@ -9,7 +13,10 @@
             style="max-width: 100%"
             class="border p-3"
           />
-          <span class="sub-img" v-if="item.keys.length > 1">
+          <span
+            class="sub-img"
+            v-if="item.keys.length > 1"
+          >
             <img
               v-for="imgName in item.keys.slice(1)"
               :key="imgName"
@@ -22,72 +29,83 @@
           <div class="right-side-pro-detail border p-3 m-0">
             <div class="row">
               <div class="col-lg-12">
-                <span>Title</span>
-                <p class="m-0 p-0">{{ item.itemName }}</p>
+                <span class="tag-section">Product Name</span>
+                <span class="m-0 p-0 contents-section"> {{ item.itemName }}</span>
+                <hr class="p-0 mt-2" />
               </div>
               <div class="col-lg-12">
-                <span class="m-0 p-0 price-pro">MILK</span>
-                <p class="m-0 p-0">{{ item.price }}</p>
-                <hr class="p-0 m-0" />
+                <span class="tag-section"> Price </span>
+                <span class="m-0 p-0 contents-section">{{ item.price }}</span>
+                <span class="m-0 p-0 price-pro">milk</span>
+                <hr class="p-0 mt-2" />
               </div>
               <div class="col-lg-12 pt-2">
-                <span>Product Detail</span>
+                <span class="tag-section">Product Detail</span>
                 <span>
-                  <p v-if="item.description.length > 0">
+                  <p
+                    class="contents-section"
+                    v-if="item.description.length > 0"
+                  >
                     {{ item.description }}
                   </p>
                   <p v-else>-</p>
                 </span>
-                <hr class="m-0 pt-2 mt-2" />
+                <hr class="p-0 mt-2" />
+                <!-- <hr class="m-0 pt-2 mt-2" /> -->
               </div>
               <div class="col-lg-12">
-                <p class="tag-section">
-                  <span>Category : </span>
-                  <router-link
-                    :to="{
-                      name: 'shop',
-                      query: { category: `${item.category}` },
-                    }"
-                    ><p>{{ item.category }}</p></router-link
-                  >
-                </p>
+                <span class="tag-section">Category </span>
+                <router-link
+                  class="contents-section-router"
+                  :to="{
+                    name: 'shop',
+                    query: { category: `${item.category}` },
+                  }"
+                ><a class="contents-section">{{ item.category }} </a></router-link>
+                <hr class="p-0 mt-2" />
               </div>
               <div class="col-lg-12">
-                <span>판매자 :</span>
-                <p>
+                <span class="tag-section">판매자</span>
+                <span class="contents-section">
                   {{ item.userNickname }}
-                </p>
+                </span>
+                <hr class="p-0 mt-2" />
               </div>
-              <div class="col-lg-12 mt-3" v-if="userId !== item.userId">
-                <div class="row">
-                  <div class="pb-2">
-                    <button @click="goChatting" class="btn btn-sm btn-primary">채팅하기</button>
-  
-                        <span v-if="item.division === 'A01'">
-                          <button class="btn btn-sm btn-primary" @click="registInterest">
-                            관심상품 등록
-                          </button>
-                          <button
-                            class="btn btn-sm btn-primary"
-                            data-bs-toggle="modal"
-                            data-bs-target="#rentModal"
-                          >
-                            대여하기
-                          </button>
-                        </span>
-                        <span v-else>
-                        <button class="btn btn-sm btn-primary" @click="registInterest">
-                          관심상품 등록
-                        </button>
-                        <button
-                          class="btn btn-sm btn-primary"
-                          @click="checkMilk()"
-                          data-bs-toggle="modal"
-                          data-bs-target="#purchaseModal"
-                        >
-                          구매하기
-                        </button>
-                        </span>
+              <div v-if="userId !== item.userId">
+                <!-- <div class="row"> -->
+                <div class="btn-group">
+                  <button
+                    @click="goChatting"
+                    class="btn btn--purple"
+                  >채팅하기</button>
+                  <div v-if="item.division === 'A01'">
+                    <button
+                      class="btn btn--violet"
+                      @click="registInterest"
+                    >관심상품 등록</button>
+                    <button
+                      class="btn btn--blue"
+                      data-bs-toggle="modal"
+                      data-bs-target="#rentModal"
+                      @click="checkMilk()"
+                    >
+                      대여하기
+                    </button>
+                  </div>
+                  <div v-else>
+                    <button
+                      class="btn btn--violet"
+                      @click="registInterest"
+                    >관심상품 등록</button>
+                    <button
+                      class="btn btn--blue btn--width"
+                      @click="checkMilk()"
+                      data-bs-toggle="modal"
+                      data-bs-target="#purchaseModal"
+                    >
+                      구매하기
+                    </button>
+                    <!-- </div> -->
                   </div>
                 </div>
               </div>
@@ -97,12 +115,19 @@
       </div>
       <div class="row">
         <div class=".right-side-pro-detail col-lg-12 text-center pt-3">
-          <span>More Product</span>
+          <span class="row__sub">동일한 카테고리의 다른 상품을 확인해보세요</span>
         </div>
       </div>
-      <div class="row mt-3 p-0 text-center pro-box-section">
-        <div class="col-lg-3 pb-2" v-for="(sitem, index) in suggest" :key="index">
-          <div class="pro-box border p-0 m-0" @click="itemDetail(sitem.id)">
+      <div class="row mt-5 mb-5 p-0 text-center pro-box-section">
+        <div
+          class="col-lg-3 pb-2"
+          v-for="(sitem, index) in suggest"
+          :key="index"
+        >
+          <div
+            class="pro-box border p-0 m-0"
+            @click="itemDetail(sitem.id)"
+          >
             <img :src="sitem.files[sitem.keys[0]]" />
           </div>
         </div>
@@ -118,7 +143,10 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="rentModalLabel">결제</h5>
+            <h5
+              class="modal-title"
+              id="rentModalLabel"
+            >결제</h5>
             <button
               type="button"
               class="btn-close"
@@ -138,7 +166,7 @@
             <div v-else>
               <p calss="text-danger">MILK 잔액이 부족합니다!</p>
               <button
-                class="btn btn-secondary btn-sm ms-2"
+                class="btn btn--revert btn--width"
                 data-bs-dismiss="modal"
                 @click="moveToWallet"
               >
@@ -148,10 +176,21 @@
           </div>
           <div class="modal-body"></div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="doPay">
+            <button
+              type="button"
+              class="btn btn--width"
+              data-bs-dismiss="modal"
+              @click="doPay"
+            >
               결제하기
             </button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            <button
+              type="button"
+              class="btn btn--revert btn--width"
+              data-bs-dismiss="modal"
+            >
+              취소
+            </button>
           </div>
         </div>
       </div>
@@ -166,7 +205,10 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="purchaseModalLabel">결제</h5>
+            <h5
+              class="modal-title"
+              id="purchaseModalLabel"
+            >결제</h5>
             <button
               type="button"
               class="btn-close"
@@ -196,10 +238,19 @@
           </div>
           <div class="modal-body"></div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="doPay">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+              @click="doPay"
+            >
               결제하기
             </button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >취소</button>
           </div>
         </div>
       </div>
@@ -218,7 +269,7 @@ import MilkToken from "@/config/contract/MilkToken.json";
 import { mapState } from "vuex";
 export default {
   name: "ItemDetail",
-  data() {
+  data () {
     return {
       item: {
         id: "",
@@ -245,7 +296,7 @@ export default {
     };
   },
   methods: {
-    itemDetail(itemId) {
+    itemDetail (itemId) {
       console.log("이동 : ");
       console.log("sitem.id : " + itemId);
       this.$router
@@ -254,9 +305,9 @@ export default {
           name: "item.detail",
           params: { id: itemId },
         })
-        .catch(() => {});
+        .catch(() => { });
     },
-    makeContract() {
+    makeContract () {
       const Web3 = require("web3");
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
 
@@ -268,23 +319,23 @@ export default {
         this.coinbaseAddress = res[0];
       });
     },
-    async checkMilk() {
+    async checkMilk () {
       const milk = await this.contract.methods
         .balanceOf(this.$store.state.user.walletAddress)
         .call();
 
       this.milkBalance = milk / 10 ** 15;
     },
-    moveToWallet() {
+    moveToWallet () {
       this.$router.push("/mypage/wallet_info");
     },
-    getImg(name) {
+    getImg (name) {
       if (name) {
         return name;
       }
       return null;
     },
-    registInterest() {
+    registInterest () {
       const token = this.$store.state.user.JWTToken;
 
       const headers = {
@@ -316,7 +367,7 @@ export default {
           });
         });
     },
-    purchase() {
+    purchase () {
       const token = this.$store.state.user.JWTToken;
 
       const headers = {
@@ -350,7 +401,7 @@ export default {
         });
     },
     // 코인 베이스로 이동
-    async doPay() {
+    async doPay () {
       const Web3 = require("web3");
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
       const from = this.$store.state.user.walletAddress;
@@ -365,7 +416,7 @@ export default {
       this.purchase();
       this.$router.push({ name: "shop" });
     },
-    goChatting() {
+    goChatting () {
       const A =
         this.item.userNickname > this.$store.state.user.userNickname
           ? this.$store.state.user.userNickname
@@ -383,7 +434,7 @@ export default {
             itemName: this.item.itemName,
             userNickname: this.user.userNickname,
             sessionId: A + "1" + B,
-            profileImage: this.user.profileImage,
+            profileImage: this.user.profileImage ? this.user.profileImage : 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png'
           }),
         })
         .then(() => {
@@ -394,7 +445,7 @@ export default {
         name: "room",
         params: {
           sessionId: A + "1" + B,
-          profileImage: this.item.profileImage,
+          profileImage: this.item.profileImage ? this.item.profileImage : 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png',
         },
       });
     },
@@ -402,7 +453,7 @@ export default {
   computed: {
     ...mapState(["user"]),
   },
-  created() {
+  created () {
     console.log("created");
     this.item.id = this.$route.params.id;
     console.log(this.item.id);
@@ -484,12 +535,6 @@ export default {
 </script>
 
 <style scoped>
-body {
-  font-family: "Roboto Condensed", sans-serif;
-  /* font-family: "Black Han Sans", sans-serif; */
-  /* font-family: "Noto Sans KR", sans-serif; */
-  background-color: #f5f5f5;
-}
 button .chatting {
   float: left;
   margin-right: 0px;
@@ -516,24 +561,36 @@ button .chatting {
   height: 100px;
 }
 
-.right-side-pro-detail span {
-  font-family: "Black Han Sans", sans-serif;
-  font-size: 15px;
-}
-
-.right-side-pro-detail p {
-  font-size: 25px;
-  color: #070707;
-}
-
 .right-side-pro-detail .price-pro {
-  color: #e45641;
+  color: #ad7d52;
 }
 
 .right-side-pro-detail .tag-section {
   font-family: "Noto Sans KR", sans-serif;
-  font-size: 18px;
-  color: #5d4c46;
+  font-size: 15px;
+  color: #8198ae;
+  margin-right: 10px;
+}
+
+.contents-section {
+  /* font-family: "Noto Sans KR", sans-serif; */
+  font-family: "Jua", sans-serif;
+  font-size: 20px;
+  color: rgb(33, 33, 33);
+  text-decoration-line: none;
+  text-decoration: none;
+}
+.contents-section-router {
+  /* font-family: "Noto Sans KR", sans-serif; */
+  color: rgb(33, 33, 33);
+  text-decoration-line: none;
+  text-decoration: none;
+}
+.contents-section-router:hover {
+  /* font-family: "Noto Sans KR", sans-serif; */
+  color: #3a9fff;
+  text-decoration-line: none;
+  text-decoration: none;
 }
 
 .pro-box-section .pro-box img {
@@ -545,5 +602,58 @@ button .chatting {
   .pro-box-section .pro-box img {
     height: auto;
   }
+}
+
+.row--center {
+  max-width: 100% !important;
+}
+
+.row__title {
+  font-size: 30px;
+  margin-bottom: 20px !important;
+}
+
+.row__sub {
+  font-size: 20px;
+  margin-bottom: 10px !important;
+}
+
+.btn--purple {
+  background-color: #8a3aff !important;
+}
+
+.btn--purple:hover {
+  background-color: #b284f6 !important;
+}
+
+.btn--violet {
+  background-color: #6f79ff !important;
+}
+.btn--violet:hover {
+  background-color: #878ef3 !important;
+}
+
+.btn--blue {
+  background-color: #3a9fff !important;
+}
+.btn--blue:hover {
+  background-color: #63b2fc !important;
+}
+.btn--revert {
+  background-color: transparent !important;
+  color: #8198ae !important;
+  box-shadow: none;
+  border: 1px solid #c9d9e9;
+}
+
+.btn--revert:hover {
+  background-color: transparent !important;
+  color: #1f4568 !important;
+  box-shadow: none;
+  border: 1px solid #8198ae;
+}
+
+.btn-group {
+  float: right;
 }
 </style>

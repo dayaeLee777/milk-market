@@ -17,7 +17,7 @@ export default {};
 
 .myPage {
   font-family: "Noto Sans KR", sans-serif;
-  height: 115vh;
+  height: 118vh;
   /* background-image: linear-gradient(
     rgba(147, 124, 154, 0.3),
     rgba(117, 76, 121, 0.3)),
