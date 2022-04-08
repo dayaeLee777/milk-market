@@ -17,9 +17,6 @@ export default {
   components: { Hearder, FNav, InvitationModal },
   name: "App",
 };
-<<<<<<< HEAD
-</script>
-=======
 </script>
 <style>
 /* body {

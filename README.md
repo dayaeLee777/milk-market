@@ -190,7 +190,7 @@
 
 <div id="6"></div>
 
-## 🎥 [UCC 보러가기]()
+## 🎥 [UCC 보러가기](https://youtu.be/t1jL26PPLHM)
 
 <br />
 
@@ -214,8 +214,8 @@
 
 <table>
     <tr>
-        <td height="140px" align="center"> <a href="https://github.com/-in">
-            <img src="https://avatars.githubusercontent.com/" width="140px" /> <br><br> 윤희영 <br>(Front-End) </a> <br></td>
+        <td height="140px" align="center"> <a href="https://github.com/dev-yunhy96">
+            <img src="https://avatars.githubusercontent.com/dev-yunhy96" width="140px" /> <br><br> 윤희영 <br>(Front-End) </a> <br></td>
         <td height="140px" align="center"> <a href="https://github.com/sahngrhee">
             <img src="https://avatars.githubusercontent.com/sahngrhee" width="140px" /> <br><br> 이상훈 <br>(Front-End) </a> <br></td>
         <td height="140px" align="center"> <a href="https://github.com/sangwooYi">
