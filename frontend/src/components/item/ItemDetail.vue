@@ -13,10 +13,7 @@
             style="max-width: 100%"
             class="border p-3"
           />
-          <span
-            class="sub-img"
-            v-if="item.keys.length > 1"
-          >
+          <span class="sub-img" v-if="item.keys.length > 1">
             <img
               v-for="imgName in item.keys.slice(1)"
               :key="imgName"
@@ -42,10 +39,7 @@
               <div class="col-lg-12 pt-2">
                 <span class="tag-section">Product Detail</span>
                 <span>
-                  <p
-                    class="contents-section"
-                    v-if="item.description.length > 0"
-                  >
+                  <p class="contents-section" v-if="item.description.length > 0">
                     {{ item.description }}
                   </p>
                   <p v-else>-</p>
@@ -61,7 +55,8 @@
                     name: 'shop',
                     query: { category: `${item.category}` },
                   }"
-                ><a class="contents-section">{{ item.category }} </a></router-link>
+                  ><a class="contents-section">{{ item.category }} </a></router-link
+                >
                 <hr class="p-0 mt-2" />
               </div>
               <div class="col-lg-12">
@@ -74,15 +69,9 @@
               <div v-if="userId !== item.userId">
                 <!-- <div class="row"> -->
                 <div class="btn-group">
-                  <button
-                    @click="goChatting"
-                    class="btn btn--purple"
-                  >채팅하기</button>
+                  <button @click="goChatting" class="btn btn--purple">채팅하기</button>
                   <div v-if="item.division === 'A01'">
-                    <button
-                      class="btn btn--violet"
-                      @click="registInterest"
-                    >관심상품 등록</button>
+                    <button class="btn btn--violet" @click="registInterest">관심상품 등록</button>
                     <button
                       class="btn btn--blue"
                       data-bs-toggle="modal"
@@ -93,10 +82,7 @@
                     </button>
                   </div>
                   <div v-else>
-                    <button
-                      class="btn btn--violet"
-                      @click="registInterest"
-                    >관심상품 등록</button>
+                    <button class="btn btn--violet" @click="registInterest">관심상품 등록</button>
                     <button
                       class="btn btn--blue btn--width"
                       @click="checkMilk()"
@@ -115,19 +101,12 @@
       </div>
       <div class="row">
         <div class=".right-side-pro-detail col-lg-12 text-center pt-3">
-          <span class="row__sub">동일한 카테고리의 다른 상품을 확인해보세요</span>
+          <span class="row__sub">우리동네에서 동일한 카테고리의 상품을 확인해보세요</span>
         </div>
       </div>
       <div class="row mt-5 mb-5 p-0 text-center pro-box-section">
-        <div
-          class="col-lg-3 pb-2"
-          v-for="(sitem, index) in suggest"
-          :key="index"
-        >
-          <div
-            class="pro-box border p-0 m-0"
-            @click="itemDetail(sitem.id)"
-          >
+        <div class="col-lg-3 pb-2" v-for="(sitem, index) in suggest" :key="index">
+          <div class="pro-box border p-0 m-0" @click="itemDetail(sitem.id)">
             <img :src="sitem.files[sitem.keys[0]]" />
           </div>
         </div>
@@ -143,10 +122,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5
-              class="modal-title"
-              id="rentModalLabel"
-            >결제</h5>
+            <h5 class="modal-title" id="rentModalLabel">결제</h5>
             <button
               type="button"
               class="btn-close"
@@ -176,19 +152,10 @@
           </div>
           <div class="modal-body"></div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn--width"
-              data-bs-dismiss="modal"
-              @click="doPay"
-            >
+            <button type="button" class="btn btn--width" data-bs-dismiss="modal" @click="doPay">
               결제하기
             </button>
-            <button
-              type="button"
-              class="btn btn--revert btn--width"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn--revert btn--width" data-bs-dismiss="modal">
               취소
             </button>
           </div>
@@ -205,10 +172,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5
-              class="modal-title"
-              id="purchaseModalLabel"
-            >결제</h5>
+            <h5 class="modal-title" id="purchaseModalLabel">결제</h5>
             <button
               type="button"
               class="btn-close"
@@ -238,19 +202,10 @@
           </div>
           <div class="modal-body"></div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-primary"
-              data-bs-dismiss="modal"
-              @click="doPay"
-            >
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="doPay">
               결제하기
             </button>
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >취소</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
           </div>
         </div>
       </div>
@@ -269,7 +224,7 @@ import MilkToken from "@/config/contract/MilkToken.json";
 import { mapState } from "vuex";
 export default {
   name: "ItemDetail",
-  data () {
+  data() {
     return {
       item: {
         id: "",
@@ -296,7 +251,7 @@ export default {
     };
   },
   methods: {
-    itemDetail (itemId) {
+    itemDetail(itemId) {
       console.log("이동 : ");
       console.log("sitem.id : " + itemId);
       this.$router
@@ -305,9 +260,9 @@ export default {
           name: "item.detail",
           params: { id: itemId },
         })
-        .catch(() => { });
+        .catch(() => {});
     },
-    makeContract () {
+    makeContract() {
       const Web3 = require("web3");
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
 
@@ -319,23 +274,23 @@ export default {
         this.coinbaseAddress = res[0];
       });
     },
-    async checkMilk () {
+    async checkMilk() {
       const milk = await this.contract.methods
         .balanceOf(this.$store.state.user.walletAddress)
         .call();
 
       this.milkBalance = milk / 10 ** 15;
     },
-    moveToWallet () {
+    moveToWallet() {
       this.$router.push("/mypage/wallet_info");
     },
-    getImg (name) {
+    getImg(name) {
       if (name) {
         return name;
       }
       return null;
     },
-    registInterest () {
+    registInterest() {
       const token = this.$store.state.user.JWTToken;
 
       const headers = {
@@ -367,7 +322,7 @@ export default {
           });
         });
     },
-    purchase () {
+    purchase() {
       const token = this.$store.state.user.JWTToken;
 
       const headers = {
@@ -401,7 +356,7 @@ export default {
         });
     },
     // 코인 베이스로 이동
-    async doPay () {
+    async doPay() {
       const Web3 = require("web3");
       const web3 = new Web3(new Web3.providers.HttpProvider(BLOCKCHAIN_URL));
       const from = this.$store.state.user.walletAddress;
@@ -416,7 +371,7 @@ export default {
       this.purchase();
       this.$router.push({ name: "shop" });
     },
-    goChatting () {
+    goChatting() {
       const A =
         this.item.userNickname > this.$store.state.user.userNickname
           ? this.$store.state.user.userNickname
@@ -434,7 +389,9 @@ export default {
             itemName: this.item.itemName,
             userNickname: this.user.userNickname,
             sessionId: A + "1" + B,
-            profileImage: this.user.profileImage ? this.user.profileImage : 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png'
+            profileImage: this.user.profileImage
+              ? this.user.profileImage
+              : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
           }),
         })
         .then(() => {
@@ -445,7 +402,9 @@ export default {
         name: "room",
         params: {
           sessionId: A + "1" + B,
-          profileImage: this.item.profileImage ? this.item.profileImage : 'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png',
+          profileImage: this.item.profileImage
+            ? this.item.profileImage
+            : "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png",
         },
       });
     },
@@ -453,7 +412,7 @@ export default {
   computed: {
     ...mapState(["user"]),
   },
-  created () {
+  created() {
     console.log("created");
     this.item.id = this.$route.params.id;
     console.log(this.item.id);
